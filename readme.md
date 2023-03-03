@@ -26,4 +26,8 @@
 ![img_1.png](assets/erd_2.png)
 
 # API 명세서
-![img_3.png](img_3.png)
+![img_3.png](assets/img_3.png)
+
+# 와이어프레임
+
+![img.png](assets/wireframe.png)
