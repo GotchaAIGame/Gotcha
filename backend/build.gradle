@@ -25,6 +25,11 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
 
+    // 스웨거 설정
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.14'
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.14'
+
+
 }
 
 tasks.named('test') {
