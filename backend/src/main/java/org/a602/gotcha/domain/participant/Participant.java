@@ -1,6 +1,6 @@
 package org.a602.gotcha.domain.participant;
 
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
 import java.time.Duration;

@@ -1,6 +1,6 @@
 package org.a602.gotcha.domain.reward;
 
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
 

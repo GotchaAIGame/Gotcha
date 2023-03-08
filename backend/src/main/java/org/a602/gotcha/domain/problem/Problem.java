@@ -1,7 +1,7 @@
 package org.a602.gotcha.domain.problem;
 
 import org.a602.gotcha.domain.problemimage.ProblemImage;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
