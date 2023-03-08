@@ -1,5 +1,8 @@
-package org.a602.gotcha.domain.room;
+package org.a602.gotcha.domain.room.entity;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.member.Member;
 import org.a602.gotcha.domain.participant.Participant;
 import org.a602.gotcha.domain.problem.Problem;
@@ -13,6 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "room")
 public class Room {
     @Id
