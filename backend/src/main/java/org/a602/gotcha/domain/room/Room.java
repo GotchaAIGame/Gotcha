@@ -35,11 +35,17 @@ public class Room {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "code", length = 20)
+    private String code;
+
     @Column(name = "start_time")
     private LocalDateTime start_time;
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
+    @Column(name = "has_reward")
+    private Boolean hasReward;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -53,5 +59,6 @@ public class Room {
 
     @OneToMany(mappedBy = "room", orphanRemoval = true)
     private Set<Problem> problems = new LinkedHashSet<>();
+
 
 }
