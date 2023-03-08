@@ -47,4 +47,8 @@ public class RoomController {
         return new BaseResponse<>(rewardList);
     }
 
+    @PostMapping("/set/room")
+    public void createRoom(@RequestBody CreateRoomRequest request) {
+        roomService.createRoom(request);
+
 }

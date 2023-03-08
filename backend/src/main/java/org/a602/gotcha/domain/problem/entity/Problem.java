@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "problem")
 public class Problem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

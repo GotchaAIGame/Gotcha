@@ -20,10 +20,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class RoomService {
-    
+
     private final RoomRepository roomRepository;
 
     private final RewardRepository rewardRepository;
+    private final AmazonS3Client s3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Transactional(readOnly = true)
     public GameInfoResponse getRoomInfo(String roomCode) {
@@ -54,5 +57,45 @@ public class RoomService {
                                 .grade(reward.getGrade())
                                 .rewardName(reward.getName())
                                 .build()).collect(Collectors.toList());
+    }
+
+
+    public void createRoom(CreateRoomRequest request) {
+        List<CreateProblemRequest> problems = request.getProblems();
+        List<Problem> problemList = new ArrayList<>();
+        Room room = Room.builder()
+                .color(request.getBrandColor())
+                .title(request.getTitle())
+                .endTime(request.getEndTime())
+                .logoUrl(request.getLogoUrl())
+                .eventUrl(request.getEventUrl())
+                .startTime(request.getStartTime())
+                .description(request.getDescription())
+                .build();
+        for (CreateProblemRequest problem : problems) {
+            Problem build = Problem.builder()
+                    .hint(problem.getHint())
+                    .name(problem.getName())
+                    .room(room)
+                    .description(problem.getDescription()).build();
+
+            problemList.add(build);
+            for (String image : problem.getImages()) {
+                byte[] decode = Base64.getDecoder().decode(image);
+                try (ByteArrayInputStream inputStream = new ByteArrayInputStream(decode)) {
+                    String key = UUID.randomUUID().toString();
+                    s3Client.putObject(new PutObjectRequest(bucket, key, inputStream, null));
+                    String url = s3Client.getUrl(bucket, key).toString();
+                    build.getProblemImages().add(new ProblemImage(url, build));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            room.getProblems().addAll(problemList);
+
+        }
+
+        roomRepository.save(room);
     }
 }

@@ -133,5 +133,36 @@ class RoomServiceTest {
         }
 
     }
+    @Test
+    @DisplayName("방을 만들자")
+    void createRoomTest(@TempDir Path path) throws IOException {
+        Path resolve = path.resolve("image.jpg");
+        File file = resolve.toFile();
+        String str = "Hello world!";
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(str);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        String encode = Base64.getEncoder().encodeToString(bytes);
+        CreateRoomRequest request;
+        List<CreateProblemRequest> createProblemRequests = new ArrayList<>();
+        for (int i = 0; i < NUMS_OF_PROBLEM; i++) {
+            createProblemRequests.add(new CreateProblemRequest(List.of(encode, encode, encode, encode, encode), "name " + i, "description " + i, "hint " + i));
+        }
+
+        request = new CreateRoomRequest("색깔", "로고 경로", "제목", "이벤트 경로", "코드", "설명", false, LocalDateTime.now(), LocalDateTime.now(), createProblemRequests);
+        roomService.createRoom(request);
+
+        for (ProblemImage problemImage : problemImageRepository.findAll()) {
+            s3Client.deleteObject(bucket, problemImage.getFilePath());
+        }
+
+        assertEquals(NUMS_OF_PROBLEM, problemRepository.count());
+        assertEquals((long) NUMS_OF_PROBLEM * request.getProblems().size(), problemImageRepository.count());
+    }
 
 }
