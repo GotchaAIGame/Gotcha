@@ -32,6 +32,7 @@ public class RoomController {
     @Operation(description = "Code 통해 게임 입장", summary = "Code 통해 게임 입장")
     @ApiResponse(responseCode = "200", description = "입장 성공", content = @Content(schema = @Schema(implementation = Long.class)))
     @ApiResponse(responseCode = "404", description = "방 정보를 찾을 수 없음")
+    @ApiResponse(responseCode = "403", description = "해당 방에 접근할 수 없음(유효기간 만료)")
     public BaseResponse<Long> enterRoom(@NotNull @RequestParam String roomCode) {
         Long roomId = roomService.findRoom(roomCode);
         return new BaseResponse<>(roomId);
