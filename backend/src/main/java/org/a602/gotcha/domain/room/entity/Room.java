@@ -1,9 +1,10 @@
 package org.a602.gotcha.domain.room.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.a602.gotcha.domain.member.Member;
+import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.participant.Participant;
 import org.a602.gotcha.domain.problem.Problem;
 import org.a602.gotcha.domain.reward.Reward;
@@ -44,7 +45,7 @@ public class Room {
     private String code;
 
     @Column(name = "start_time")
-    private LocalDateTime start_time;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
@@ -64,6 +65,20 @@ public class Room {
 
     @OneToMany(mappedBy = "room", orphanRemoval = true)
     private Set<Problem> problems = new LinkedHashSet<>();
+
+    @Builder
+    public Room(String color, String logoUrl, String title, String eventUrl, String description, String code, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, Member member) {
+        this.color = color;
+        this.logoUrl = logoUrl;
+        this.title = title;
+        this.eventUrl = eventUrl;
+        this.description = description;
+        this.code = code;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.hasReward = hasReward;
+        this.member = member;
+    }
 
 
 }
