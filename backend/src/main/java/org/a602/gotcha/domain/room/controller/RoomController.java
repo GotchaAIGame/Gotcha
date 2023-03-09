@@ -28,7 +28,7 @@ public class RoomController {
     /**
      * 게임 방 입장
      */
-    @GetMapping("/enter/room")
+    @GetMapping("/game/enter")
     @Operation(description = "Code 통해 게임 입장", summary = "Code 통해 게임 입장")
     @ApiResponse(responseCode = "200", description = "입장 성공", content = @Content(schema = @Schema(implementation = Long.class)))
     @ApiResponse(responseCode = "404", description = "방 정보를 찾을 수 없음")
