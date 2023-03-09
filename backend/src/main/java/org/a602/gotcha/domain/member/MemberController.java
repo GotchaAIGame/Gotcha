@@ -27,11 +27,10 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/duplicateNickname")
-	public BaseResponse<Boolean> login(@Valid @RequestParam String nickName) {
+	public BaseResponse<Boolean> isDuplicateNickName(@Valid @RequestParam String nickName) {
 		final Boolean isDuplicate = memberService.isDuplicateNickName(nickName);
 
 		return new BaseResponse<>(isDuplicate);
 	}
-
 
 }
