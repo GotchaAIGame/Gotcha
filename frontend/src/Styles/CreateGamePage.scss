@@ -1,0 +1,70 @@
+@import "../styles/colors.scss";
+
+// InputQuizInfo.tsx
+
+.input-game-info-container {
+  // grid-auto-rows: minmax(100px, auto);
+}
+
+.game-title-input {
+  position: relative;
+  top: -33px;
+  height: 66px;
+  width: 60%;
+  min-width: 300px;
+  border: 3px solid $gray-1;
+  border-radius: 15px;
+  padding: 0 5px;
+}
+
+.duration-inputs-container {
+  display: flex;
+  margin: 0.5rem auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  h5 {
+    display: flex;
+    margin: 0 5px;
+  }
+
+  input {
+    width: 250px;
+    min-width: 250px;
+    border-radius: 8px;
+    padding: 3px 5px;
+    margin: 0 5px;
+  }
+}
+
+.game-inputs-container {
+  display: flex;
+  margin: 0.5rem auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+
+  h5 {
+    display: flex;
+    margin: 0 5px;
+  }
+
+  .temp {
+    width: 600px;
+    min-width: 300px;
+    height: 150px;
+  }
+
+  textarea {
+    display: flex;
+    width: 95%;
+    height: 95%;
+    resize: none;
+    padding: 3px 5px;
+    border: 1px solid $gray-1;
+    border-radius: 8px;
+  }
+}

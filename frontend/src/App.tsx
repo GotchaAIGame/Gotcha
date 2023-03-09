@@ -1,21 +1,23 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import Routers from "./Pages/Routers";
-import "./App.css";
+import Navbar from "./Components/common/Navbar";
+import Footbar from "./Components/common/Footbar";
+import "./Styles/App.scss";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <div>
-          <p>Nav영역</p>
+        <div className="app-main-container">
+          <Navbar />
           <div>
             <Routers />
           </div>
         </div>
-        <div>
-          <p>풋바영역</p>
-        </div>
+        <footer className="app-main-footer">
+          <Footbar />
+        </footer>
       </BrowserRouter>
     </div>
   );
