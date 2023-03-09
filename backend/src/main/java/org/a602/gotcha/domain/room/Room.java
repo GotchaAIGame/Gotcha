@@ -9,6 +9,9 @@ import org.a602.gotcha.domain.problem.Problem;
 import org.a602.gotcha.domain.reward.Reward;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -45,6 +48,11 @@ public class Room {
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
+    @Max(message = "6자리 코드", value = 999999)
+    @Min(message = "6자리 코드", value = 100000)
+    @Positive
+    @Column(name = "code", unique = true)
+    private Integer code;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -56,8 +64,9 @@ public class Room {
     @OneToMany(mappedBy = "room", orphanRemoval = true)
     private List<Reward> rewards = new ArrayList<>();
 
+
     @Builder
-    public Room(String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+    public Room(String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime, Integer code) {
         this.color = color;
         this.logoUrl = logoUrl;
         this.title = title;
@@ -65,9 +74,10 @@ public class Room {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.code = code;
     }
-
     @OneToMany(mappedBy = "room", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private Set<Problem> problems = new LinkedHashSet<>();
+
 
 }

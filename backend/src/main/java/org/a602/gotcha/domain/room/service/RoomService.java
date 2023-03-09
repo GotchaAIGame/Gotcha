@@ -17,16 +17,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+
 @Service
+@RequiredArgsConstructor
 public class RoomService {
-
     private final RoomRepository roomRepository;
-
-    private final RewardRepository rewardRepository;
     private final AmazonS3Client s3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+    private Random random = new Random();
+
 
     @Transactional(readOnly = true)
     public GameInfoResponse getRoomInfo(String roomCode) {
@@ -63,6 +63,8 @@ public class RoomService {
     public void createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
+
+        int code = random.nextInt(100_0000);
         Room room = Room.builder()
                 .color(request.getBrandColor())
                 .title(request.getTitle())
@@ -71,6 +73,7 @@ public class RoomService {
                 .eventUrl(request.getEventUrl())
                 .startTime(request.getStartTime())
                 .description(request.getDescription())
+                .code(code)
                 .build();
         for (CreateProblemRequest problem : problems) {
             Problem build = Problem.builder()

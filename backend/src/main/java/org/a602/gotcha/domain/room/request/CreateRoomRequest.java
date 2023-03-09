@@ -16,7 +16,6 @@ public class CreateRoomRequest {
     String logoUrl;
     String title;
     String eventUrl;
-    String code;
     String description;
     boolean hasReward;
 

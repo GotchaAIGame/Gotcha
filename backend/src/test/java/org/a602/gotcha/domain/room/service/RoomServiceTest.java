@@ -154,7 +154,7 @@ class RoomServiceTest {
             createProblemRequests.add(new CreateProblemRequest(List.of(encode, encode, encode, encode, encode), "name " + i, "description " + i, "hint " + i));
         }
 
-        request = new CreateRoomRequest("색깔", "로고 경로", "제목", "이벤트 경로", "코드", "설명", false, LocalDateTime.now(), LocalDateTime.now(), createProblemRequests);
+        request = new CreateRoomRequest("색깔", "로고 경로", "제목", "이벤트 경로", "설명", false, LocalDateTime.now(), LocalDateTime.now(), createProblemRequests);
         roomService.createRoom(request);
 
         for (ProblemImage problemImage : problemImageRepository.findAll()) {
