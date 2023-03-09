@@ -1,19 +1,14 @@
 package org.a602.gotcha.domain.room.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.a602.gotcha.domain.room.response.GameInfoResponse;
-import org.a602.gotcha.domain.room.response.RewardListResponse;
+import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.a602.gotcha.global.error.GlobalErrorCode;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
@@ -54,5 +49,10 @@ public class RoomController {
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
-
+    @DeleteMapping("/set/room")
+    @ApiResponse(description = "방 종료 성공", responseCode = "200")
+    public BaseResponse<Void> closeRoom(@RequestBody CloseRoomRequest request) {
+        roomService.closeRoom(request.getRoomId());
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
 }

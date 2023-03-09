@@ -103,4 +103,7 @@ public class RoomService {
     }
 
 
+    public void closeRoom(Long roomId) {
+        roomRepository.deleteById(roomId);
+    }
 }
