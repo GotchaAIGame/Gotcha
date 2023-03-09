@@ -30,8 +30,8 @@ public class MemberService {
 			member.getEmail(), member.getRegistrationId(), token);
 	}
 
-	public Boolean isDuplicateNickName(final String nickName) {
-		return memberRepository.existsMemberByNickname(nickName);
+	public Boolean isDuplicateNickname(final String nickname) {
+		return memberRepository.existsMemberByNickname(nickname);
 	}
 
 	public Boolean isDuplicateEmail(final String email) {

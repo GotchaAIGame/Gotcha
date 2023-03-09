@@ -27,8 +27,8 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/duplicateNickname")
-	public BaseResponse<Boolean> isDuplicateNickName(@Valid @RequestParam String nickName) {
-		final Boolean isDuplicate = memberService.isDuplicateNickName(nickName);
+	public BaseResponse<Boolean> isDuplicateNickname(@Valid @RequestParam String nickname) {
+		final Boolean isDuplicate = memberService.isDuplicateNickname(nickname);
 
 		return new BaseResponse<>(isDuplicate);
 	}
