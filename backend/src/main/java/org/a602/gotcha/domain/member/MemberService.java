@@ -22,7 +22,6 @@ public class MemberService {
 	@Transactional
 	public MemberSignupResponse signup(final MemberSignupRequest memberSignupRequest) {
 		isDuplicateEmail(memberSignupRequest);
-		isDuplicateNickName(memberSignupRequest);
 
 		final Member member = memberRepository.save(memberSignupRequest.toEntity());
 		member.encodePassword(passwordEncoder);
@@ -34,11 +33,8 @@ public class MemberService {
 			member.getEmail(), member.getRegistrationId(), token);
 	}
 
-	private void isDuplicateNickName(final MemberSignupRequest memberSignupRequest) {
-		if (memberRepository.existsMemberByNickname(memberSignupRequest.getNickname())) {
-			throw new IllegalArgumentException(GlobalErrorCode.DUPLICATE_NICKNAME.getMessage());
-		}
-
+	public Boolean isDuplicateNickName(final String nickName) {
+		return memberRepository.existsMemberByNickname(nickName);
 	}
 
 	private void isDuplicateEmail(final MemberSignupRequest memberSignupRequest) {
