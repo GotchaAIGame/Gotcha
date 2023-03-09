@@ -39,9 +39,9 @@ public enum GlobalErrorCode {
 	private final String message;
 	private final int status;
 
-	GlobalErrorCode(final int status, final String code, final String message) {
-		this.status = status;
-		this.code = code;
-		this.message = message;
-	}
+    GlobalErrorCode(final int status, final String code, final String message) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+    }
 }

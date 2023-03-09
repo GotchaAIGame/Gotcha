@@ -48,7 +48,11 @@ public class RoomController {
     }
 
     @PostMapping("/set/room")
-    public void createRoom(@RequestBody CreateRoomRequest request) {
+    @ApiResponse(description = "방 생성 성공", responseCode = "200")
+    public BaseResponse<Void> createRoom(@RequestBody CreateRoomRequest request) {
         roomService.createRoom(request);
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
 
 }
