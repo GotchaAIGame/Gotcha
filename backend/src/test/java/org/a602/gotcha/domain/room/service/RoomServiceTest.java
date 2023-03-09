@@ -5,7 +5,7 @@ import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
-import org.a602.gotcha.domain.room.response.RoomRepository;
+import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

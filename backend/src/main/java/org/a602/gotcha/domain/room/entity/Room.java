@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.member.entity.Member;
-import org.a602.gotcha.domain.participant.Participant;
+import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.problem.Problem;
 import org.a602.gotcha.domain.reward.Reward;
 
