@@ -33,4 +33,11 @@ public class MemberController {
 		return new BaseResponse<>(isDuplicate);
 	}
 
+	@GetMapping("/member/duplicateEmail")
+	public BaseResponse<Boolean> isDuplicateEmail(@Valid @RequestParam String email) {
+		final Boolean isDuplicate = memberService.isDuplicateEmail(email);
+
+		return new BaseResponse<>(isDuplicate);
+	}
+
 }

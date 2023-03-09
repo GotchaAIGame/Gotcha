@@ -2,7 +2,6 @@ package org.a602.gotcha.domain.member;
 
 import java.util.List;
 
-import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.JwtTokenProvider;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,8 +20,6 @@ public class MemberService {
 
 	@Transactional
 	public MemberSignupResponse signup(final MemberSignupRequest memberSignupRequest) {
-		isDuplicateEmail(memberSignupRequest);
-
 		final Member member = memberRepository.save(memberSignupRequest.toEntity());
 		member.encodePassword(passwordEncoder);
 
@@ -37,11 +34,8 @@ public class MemberService {
 		return memberRepository.existsMemberByNickname(nickName);
 	}
 
-	private void isDuplicateEmail(final MemberSignupRequest memberSignupRequest) {
-		if (memberRepository.existsMemberByEmail(memberSignupRequest.getEmail())) {
-			throw new IllegalArgumentException(GlobalErrorCode.DUPLICATE_EMAIL.getMessage());
-		}
-
+	public Boolean isDuplicateEmail(final String email) {
+		return memberRepository.existsMemberByEmail(email);
 	}
 
 }
