@@ -1,0 +1,47 @@
+body {
+  font-family: "Noto Sans KR", sans-serif;
+
+  h1 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h5 {
+    font-size: 1.125rem;
+  }
+  p {
+    font-size: 0.875rem;
+  }
+
+  input,
+  textarea,
+  button {
+    padding: 5px 10px;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+.app-main-header {
+  height: 140px;
+  background-image: url("../assets/TopBanner.svg");
+  background-size: fill;
+  margin: auto;
+}
+
+.app-main-container {
+  // min-height: calc(90vh + 55px);
+}
+
+.app-main-footer {
+  // position: fixed;
+  // bottom: 0;
+  // left: calc(62% - 200px);
+  // height: 55px;
+  margin-top: 55px;
+  text-align: center;
+}

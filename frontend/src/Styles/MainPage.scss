@@ -1,0 +1,64 @@
+@import "../styles/colors.scss";
+
+
+// 임시 바로가기 버튼 모음 (추후 제거 예정)
+.temps-container {
+  width: 60%;
+  margin: 10px auto;
+  padding: 10px;
+  min-height: 150px;
+  justify-content: center;
+  border: 2px dotted $gray-3;
+  border-radius: 15px;
+
+  button {
+    margin: 5px;
+    background-color: $blue-2;
+    border-radius: 8px;
+  }
+  button:hover {
+    background-color: $blue-1;
+    cursor: pointer;
+  }
+}
+
+// InputPinNum
+.input-pin-num-container {
+  margin: 5% auto;
+  input {
+    border-width: 3px;
+    border-color: $blue-1;
+    border-radius: 12px;
+    padding: 5px 10px;
+    font-family: "Noto Sans KR";
+    font-size: 2rem;
+    text-align: center;
+
+    // transition-property: border-color;
+    // transition-duration: 2s;
+  }
+  input:focus {
+    // background-color: aqua;
+    // border-color: $orange;
+    outline: none;
+    animation: border-changing 3s infinite;
+  }
+}
+
+@keyframes border-changing {
+  0% {
+    border-color: $blue-2;
+  }
+  25% {
+    border-color: $green;
+  }
+  50% {
+    border-color: $orange;
+  }
+  75% {
+    border-color: $purple-2;
+  }
+  100% {
+    border-color: $blue-2;
+  }
+}

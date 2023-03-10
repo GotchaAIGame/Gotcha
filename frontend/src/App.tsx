@@ -1,10 +1,24 @@
 import React from "react";
-import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Routers from "./Pages/Routers";
+import Navbar from "./Components/common/Navbar";
+import Footbar from "./Components/common/Footbar";
+import "./Styles/App.scss";
 
 function App() {
   return (
     <div className="App">
-      <p>같은 것을 찾아라, Gotcha!</p>
+      <BrowserRouter>
+        <div className="app-main-container">
+          <Navbar />
+          <div>
+            <Routers />
+          </div>
+        </div>
+        <footer className="app-main-footer">
+          <Footbar />
+        </footer>
+      </BrowserRouter>
     </div>
   );
 }
