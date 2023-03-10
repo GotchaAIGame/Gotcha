@@ -3,10 +3,12 @@ package org.a602.gotcha.domain.participant.service;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
+import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
 import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
 import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.springframework.stereotype.Service;
@@ -24,20 +26,35 @@ public class ParticipantService {
 
     @Transactional
     public Participant registerUser(ParticipantCheckRequest request) {
-
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
-        if(participants.size() == 0) {
+        if (participants.size() == 0) {
             return participantRepository.save(
                     Participant.builder()
                             .nickname(request.getNickname())
                             .password(request.getPassword())
                             .room(room)
+                            .isFinished(false)
                             .build()
             );
         } else {
             throw new DuplicateNicknameException();
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkUserInfo(ParticipantCheckRequest request) {
+        Room room = roomRepository.findById(request.getRoomId())
+                .orElseThrow(RoomNotFoundException::new);
+        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
+        if (participants.size() == 0) {
+            throw new ParticipantNotFoundException();
+        } else {
+            Participant user = participants.get(0);
+            if (user.getPassword().equals(request.getPassword())) {
+                return user.getIsFinished();
+            } else throw new ParticipantLoginFailedException();
         }
     }
 }

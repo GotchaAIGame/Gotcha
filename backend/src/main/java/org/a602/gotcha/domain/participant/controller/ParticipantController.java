@@ -34,4 +34,15 @@ public class ParticipantController {
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
+    @Operation(description = "기존 참여자 접속하기", summary = "기존 참여자 접속하기")
+    @ApiResponse(responseCode = "200", description = "참여자 정보 확인 성공")
+    @ApiResponse(responseCode = "401", description = "참여자 정보 일치하지 않음")
+    @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
+    @ApiResponse(responseCode = "")
+    @PostMapping("/login")
+    public BaseResponse<Boolean> doLogin(@Valid ParticipantCheckRequest request) {
+        Boolean isFinished = participantService.checkUserInfo(request);
+        return new BaseResponse<>(isFinished);
+    }
+
 }

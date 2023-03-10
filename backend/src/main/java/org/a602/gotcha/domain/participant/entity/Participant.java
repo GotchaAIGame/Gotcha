@@ -49,10 +49,11 @@ public class Participant {
     private Room room;
 
     @Builder
-    public Participant(String nickname, String password, Room room) {
+    public Participant(String nickname, String password, Room room, Boolean isFinished) {
         this.nickname = nickname;
         this.password = password;
         this.room = room;
+        this.isFinished = isFinished;
     }
 
 }
