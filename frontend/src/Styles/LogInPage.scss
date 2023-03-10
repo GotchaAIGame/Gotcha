@@ -1,0 +1,14 @@
+@import "../styles/colors.scss";
+
+.login-page-container {
+  background-image: url("../assets/tempBg.svg");
+  background-size: contain;
+  height: 100vh;
+
+  .logo-img {
+    width: 50%;
+    min-width: 200px;
+    margin-top: 20%;
+    margin-bottom: 10%;
+  }
+}

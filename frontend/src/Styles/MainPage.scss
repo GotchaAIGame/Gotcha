@@ -1,5 +1,7 @@
 @import "../styles/colors.scss";
 
+
+// 임시 바로가기 버튼 모음 (추후 제거 예정)
 .temps-container {
   width: 60%;
   margin: 10px auto;
@@ -16,9 +18,11 @@
   }
   button:hover {
     background-color: $blue-1;
+    cursor: pointer;
   }
 }
 
+// InputPinNum
 .input-pin-num-container {
   margin: 5% auto;
   input {
@@ -29,5 +33,32 @@
     font-family: "Noto Sans KR";
     font-size: 2rem;
     text-align: center;
+
+    // transition-property: border-color;
+    // transition-duration: 2s;
+  }
+  input:focus {
+    // background-color: aqua;
+    // border-color: $orange;
+    outline: none;
+    animation: border-changing 3s infinite;
+  }
+}
+
+@keyframes border-changing {
+  0% {
+    border-color: $blue-2;
+  }
+  25% {
+    border-color: $green;
+  }
+  50% {
+    border-color: $orange;
+  }
+  75% {
+    border-color: $purple-2;
+  }
+  100% {
+    border-color: $blue-2;
   }
 }

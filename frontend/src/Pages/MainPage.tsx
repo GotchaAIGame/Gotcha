@@ -20,6 +20,12 @@ export default function MainPage() {
         <Link to="/create/game">
           <button type="button">문제 출제하기</button>
         </Link>
+        <Link to="/signup">
+          <button type="button">회원가입</button>
+        </Link>
+        <Link to="/login">
+          <button type="button">로그인</button>
+        </Link>
       </div>
     </div>
   );

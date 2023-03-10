@@ -34,13 +34,14 @@ body {
 }
 
 .app-main-container {
-  min-height: calc(90vh + 55px);
+  // min-height: calc(90vh + 55px);
 }
 
 .app-main-footer {
-  position: fixed;
-  bottom: 0;
-  left: calc(62% - 200px);
-  height: 55px;
+  // position: fixed;
+  // bottom: 0;
+  // left: calc(62% - 200px);
+  // height: 55px;
+  margin-top: 55px;
   text-align: center;
 }
