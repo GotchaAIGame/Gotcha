@@ -1,5 +1,8 @@
 package org.a602.gotcha.domain.room.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import org.a602.gotcha.domain.problem.Problem;
+import org.a602.gotcha.domain.problem.repository.ProblemRepository;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
@@ -40,7 +43,8 @@ class RoomServiceTest {
     String INVALID_ROOM_CODE = "EFGH";
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
-
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
     @Nested
     @DisplayName("getRoomInfo 메소드는")
     class GetRoomInfo {
@@ -151,14 +155,15 @@ class RoomServiceTest {
         CreateRoomRequest request;
         List<CreateProblemRequest> createProblemRequests = new ArrayList<>();
         for (int i = 0; i < NUMS_OF_PROBLEM; i++) {
-            createProblemRequests.add(new CreateProblemRequest(List.of(encode, encode, encode, encode, encode), "name " + i, "description " + i, "hint " + i));
+            createProblemRequests.add(new CreateProblemRequest(encode, "name " + i, "description " + i, "hint " + i));
         }
 
         request = new CreateRoomRequest("색깔", "로고 경로", "제목", "이벤트 경로", "설명", false, LocalDateTime.now(), LocalDateTime.now(), createProblemRequests);
         roomService.createRoom(request);
 
-        for (ProblemImage problemImage : problemImageRepository.findAll()) {
-            s3Client.deleteObject(bucket, problemImage.getFilePath());
+        for (Problem problem : problemRepository.findAll()) {
+            s3Client.deleteObject(bucket, problem.getImageUrl());
+
         }
 
         assertEquals(NUMS_OF_PROBLEM, problemRepository.count());

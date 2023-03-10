@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +32,7 @@ public class Problem {
     private Room room;
 
     @Column(name = "image_url")
+    @Setter
     private String imageUrl;
 
     @Builder

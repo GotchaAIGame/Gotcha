@@ -1,6 +1,8 @@
 package org.a602.gotcha.domain.room.service;
 
 import lombok.RequiredArgsConstructor;
+import org.a602.gotcha.domain.problem.Problem;
+import org.a602.gotcha.domain.room.Room;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
@@ -76,25 +78,25 @@ public class RoomService {
                 .code(code)
                 .build();
         for (CreateProblemRequest problem : problems) {
-            Problem build = Problem.builder()
-                    .hint(problem.getHint())
-                    .name(problem.getName())
-                    .room(room)
-                    .description(problem.getDescription()).build();
 
-            problemList.add(build);
-            for (String image : problem.getImages()) {
-                byte[] decode = Base64.getDecoder().decode(image);
-                try (ByteArrayInputStream inputStream = new ByteArrayInputStream(decode)) {
-                    String key = UUID.randomUUID().toString();
-                    s3Client.putObject(new PutObjectRequest(bucket, key, inputStream, null));
-                    String url = s3Client.getUrl(bucket, key).toString();
-                    build.getProblemImages().add(new ProblemImage(url, build));
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            String image = problem.getImage();
+            byte[] decode = Base64.getDecoder().decode(image);
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(decode)) {
+                String key = UUID.randomUUID().toString();
+                s3Client.putObject(new PutObjectRequest(bucket, key, inputStream, null));
+                String url = s3Client.getUrl(bucket, key).toString();
+                Problem build = Problem.builder()
+                        .hint(problem.getHint())
+                        .name(problem.getName())
+                        .room(room)
+                        .imageUrl(url)
+                        .description(problem.getDescription()).build();
+                problemList.add(build);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
             room.getProblems().addAll(problemList);
 
         }
