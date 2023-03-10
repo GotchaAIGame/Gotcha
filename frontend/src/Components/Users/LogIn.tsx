@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "../../stores/users/userSlice";
 
@@ -42,8 +42,29 @@ export default function LogIn() {
           value={inputText}
         />
         <input type="password" placeholder="비밀번호" />
-        <button type="submit">로그인</button>
+        <button type="submit">로그인하기</button>
       </form>
+      <div className="social-logins-container">
+        <button type="button" className="kakao-btn">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2111/2111466.png"
+            alt=""
+          />
+          <p>카카오톡</p>
+        </button>
+        <button type="button" className="google-btn">
+          <img
+            src="https://img.icons8.com/color/512/google-logo.png"
+            alt=""
+          />
+          <p>GOOGLE</p>
+        </button>
+      </div>
+      <div className="signup-btn-wrapper">
+        <Link to="/signup">
+          <button type="button">회원가입</button>
+        </Link>
+      </div>
     </div>
   );
 }
