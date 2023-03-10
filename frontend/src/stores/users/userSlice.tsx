@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-  nickName: string;
+  userId: string;
   isLogin: boolean;
 }
 
 const initialState: UserState = {
-  nickName: "",
+  userId: "",
   isLogin: false,
 };
 
@@ -17,24 +17,24 @@ export const userSlice = createSlice({
     // 로그인
     setLogin: (
       state,
-      action: PayloadAction<{ nickname: string }>
+      action: PayloadAction<{ userId: string }>
     ) => {
       return{
         ...state,
-        nickName: action.payload.nickname,
+        userId: action.payload.userId,
         isLogin: true,
       };
     },
     // 로그아웃
-    logOut: (state) => {
+    setLogout: (state) => {
       return{
         ...state,
-        nickName: "",
-        isLogin: true,
+        userId: "",
+        isLogin: false,
       };
     },
   },
 });
 
-export const { setLogin, logOut } = userSlice.actions;
+export const { setLogin, setLogout } = userSlice.actions;
 export default userSlice.reducer;

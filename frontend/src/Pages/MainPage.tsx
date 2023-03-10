@@ -1,16 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Grid, Container } from "@mui/material";
+import { useSelector } from "react-redux";
+// import store from "../stores/store";
 import InputPinNum from "../Components/MainPage/InputPinNum";
+import LogOut from "../Components/Users/LogOut";
 import "../Styles/MainPage.scss";
 
 export default function MainPage() {
+  const userId = useSelector((state: any) => state.users.userId);
+
   return (
     // 그리드 테스트 용입니다.
     <div>
       <h3>Main</h3>
+      {userId && <p>{userId}님, 어서오세요!</p>}
       <InputPinNum />
-
       {/* 임시 바로가기 모음 */}
       <div className="temps-container">
         <p>🚀 임시 바로가기 모음 🚀</p>
@@ -23,9 +27,13 @@ export default function MainPage() {
         <Link to="/signup">
           <button type="button">회원가입</button>
         </Link>
-        <Link to="/login">
-          <button type="button">로그인</button>
-        </Link>
+        {userId ? (
+          <LogOut />
+        ) : (
+          <Link to="/login">
+            <button type="button">로그인</button>
+          </Link>
+        )}
       </div>
     </div>
   );

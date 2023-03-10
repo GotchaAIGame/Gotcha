@@ -1,29 +1,20 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/Gotcha.png";
+import { Link } from "react-router-dom";
+import LogIn from "../Components/Users/LogIn";
 import "../Styles/LogInPage.scss";
+import banner from "../assets/TopBanner.svg";
+import logo from "../assets/Gotcha.png";
 
 export default function LogInPage() {
-  // 추후 유효성 검사 이후 페이지 이동되게 수정 예정
-
-  const navigate = useNavigate();
-
-  const loginHandler = () => {
-    navigate("/creator");
-  };
-
   return (
     <div className="login-page-container">
-      <Link to="/">
-        <img src={logo} alt="logo" className="logo-img" />
-      </Link>
-      <div className="login-inputs-container">
-        <form action="submit" onSubmit={loginHandler}>
-          <input type="text" placeholder="ID" />
-          <input type="password" placeholder="PW" />
-          <button type="submit">로그인</button>
-        </form>
+      <div className="top-banner">
+        <img src={banner} alt="" />
       </div>
+      <Link to="/">
+        <img src={logo} alt="" className="login-banner" />
+      </Link>
+      <LogIn />
     </div>
   );
 }

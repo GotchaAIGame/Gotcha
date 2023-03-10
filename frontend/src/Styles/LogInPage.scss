@@ -1,14 +1,37 @@
 @import "../styles/colors.scss";
 
 .login-page-container {
-  background-image: url("../assets/tempBg.svg");
-  background-size: contain;
+  // background-image: url("../assets/tempBg.svg");
+  // background-size: contain;
   height: 100vh;
 
-  .logo-img {
-    width: 50%;
-    min-width: 200px;
-    margin-top: 20%;
-    margin-bottom: 10%;
+  .top-banner {
+    overflow: hidden;
+  }
+  .login-banner {
+    position: relative;
+    top: -50px;
+    // height: 90px;
+    width: 325px;
+  }
+}
+
+// LogIn.tsx
+.login-inputs-container {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    display: flex;
+    margin: 0.5rem auto;
+    width: 305px;
+    height: 53px;
+    border-radius: 10px;
+  }
+
+  button {
+    width: 330px;
+    height: 63px;
+    border-radius: 10px;
   }
 }
