@@ -1,11 +1,8 @@
 package org.a602.gotcha.domain.problem;
 
-import org.a602.gotcha.domain.problemimage.ProblemImage;
 import org.a602.gotcha.domain.room.Room;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "problem")
@@ -28,7 +25,5 @@ public class Problem {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<ProblemImage> problemImages = new LinkedHashSet<>();
 
 }
