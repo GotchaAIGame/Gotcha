@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
+import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.participant.service.ParticipantService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
@@ -40,9 +41,9 @@ public class ParticipantController {
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
     @ApiResponse(responseCode = "")
     @PostMapping("/login")
-    public BaseResponse<Boolean> doLogin(@Valid ParticipantCheckRequest request) {
-        Boolean isFinished = participantService.checkUserInfo(request);
-        return new BaseResponse<>(isFinished);
+    public BaseResponse<ParticipantInfoResponse> doLogin(@Valid ParticipantCheckRequest request) {
+        ParticipantInfoResponse response = participantService.checkUserInfo(request);
+        return new BaseResponse<>(response);
     }
 
 }

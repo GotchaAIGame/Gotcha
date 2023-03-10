@@ -8,6 +8,7 @@ import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedExcept
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
+import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
@@ -156,7 +157,7 @@ class ParticipantServiceTest {
         }
 
         @Test
-        @DisplayName("모든 검증이 끝나면 유저가 해당게임을 끝냈는지에 대한 정보 리턴")
+        @DisplayName("모든 검증이 끝나면 유저가 해당게임에 대한 정보 리턴")
         void loginSuccess() {
             // given
             ParticipantCheckRequest request = ParticipantCheckRequest.builder()
@@ -165,9 +166,9 @@ class ParticipantServiceTest {
                     .password(USER_PWD)
                     .build();
             // when
-            Boolean result = participantService.checkUserInfo(request);
+            ParticipantInfoResponse response = participantService.checkUserInfo(request);
             // then
-            assertEquals(USER_IS_FINISHED, result);
+            assertEquals(USER_IS_FINISHED, response.getIsFinished());
         }
 
     }

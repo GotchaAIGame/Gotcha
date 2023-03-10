@@ -7,6 +7,7 @@ import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException
 import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
+import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
@@ -44,7 +45,7 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
-    public Boolean checkUserInfo(ParticipantCheckRequest request) {
+    public ParticipantInfoResponse checkUserInfo(ParticipantCheckRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
@@ -53,7 +54,10 @@ public class ParticipantService {
         } else {
             Participant user = participants.get(0);
             if (user.getPassword().equals(request.getPassword())) {
-                return user.getIsFinished();
+                return ParticipantInfoResponse.builder()
+                        .isFinished(user.getIsFinished())
+                        .startTime(user.getStartTime())
+                        .build();
             } else throw new ParticipantLoginFailedException();
         }
     }
