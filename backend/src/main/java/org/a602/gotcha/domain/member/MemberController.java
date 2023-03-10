@@ -20,10 +20,10 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping("/member/signup")
-	public BaseResponse<MemberSignupResponse> signup(@Valid @RequestBody MemberSignupRequest memberSignupRequest) {
-		final MemberSignupResponse memberSignupResponse = memberService.signup(memberSignupRequest);
+	public BaseResponse<Long> signup(@Valid @RequestBody MemberSignupRequest memberSignupRequest) {
+		final Long memberId = memberService.signup(memberSignupRequest);
 
-		return new BaseResponse<>(memberSignupResponse);
+		return new BaseResponse<>(memberId);
 	}
 
 	@GetMapping("/member/duplicateNickname")
