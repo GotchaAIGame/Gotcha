@@ -4,6 +4,8 @@ import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
+import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
+import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
 import org.a602.gotcha.domain.room.entity.Room;
@@ -37,6 +39,7 @@ class ParticipantServiceTest {
     Long ROOM_ID;
     String USER_NICKNAME = "yezi";
     String USER_PWD = "1234";
+    Boolean USER_IS_FINISHED = false;
 
     @BeforeEach
     void setGameRoom() {
@@ -64,13 +67,14 @@ class ParticipantServiceTest {
                 .nickname(USER_NICKNAME)
                 .password(USER_PWD)
                 .room(room)
+                .isFinished(USER_IS_FINISHED)
                 .build();
         participantRepository.save(participant);
 
     }
 
     @Nested
-    @DisplayName("유저 등록하기 서비스 메소드는")
+    @DisplayName("참여자 등록하기 메소드는")
     class registerUser {
 
         @Test
@@ -115,6 +119,55 @@ class ParticipantServiceTest {
             // then
             assertEquals("Taegyu", savedUser.getNickname());
             assertEquals("1234", savedUser.getPassword());
+        }
+
+    }
+
+    @Nested
+    @DisplayName("기존 참여자 재접속 메소드는")
+    class loginUser {
+
+        @Test
+        @DisplayName("해당 방에 찾는 닉네임이 없을 경우 ParticipantNotFound 예외 발생")
+        void loginWithInvalidNickname() {
+            // given
+            ParticipantCheckRequest request = ParticipantCheckRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname("Taegyu")
+                    .password("1234")
+                    .build();
+            // then
+            assertThrows(ParticipantNotFoundException.class, ()
+            -> participantService.checkUserInfo(request));
+        }
+
+        @Test
+        @DisplayName("닉네임과 비밀번호가 불일치하면 ParticipantLoginFailed 예외 발생")
+        void loginFailed() {
+            // given
+            ParticipantCheckRequest request = ParticipantCheckRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .password("111111111")
+                    .build();
+            // then
+            assertThrows(ParticipantLoginFailedException.class, ()
+            -> participantService.checkUserInfo(request));
+        }
+
+        @Test
+        @DisplayName("모든 검증이 끝나면 유저가 해당게임을 끝냈는지에 대한 정보 리턴")
+        void loginSuccess() {
+            // given
+            ParticipantCheckRequest request = ParticipantCheckRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .password(USER_PWD)
+                    .build();
+            // when
+            Boolean result = participantService.checkUserInfo(request);
+            // then
+            assertEquals(USER_IS_FINISHED, result);
         }
 
     }
