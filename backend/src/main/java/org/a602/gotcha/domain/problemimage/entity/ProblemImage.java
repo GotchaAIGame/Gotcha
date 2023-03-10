@@ -1,6 +1,6 @@
-package org.a602.gotcha.domain.problemimage;
+package org.a602.gotcha.domain.problemimage.entity;
 
-import org.a602.gotcha.domain.problem.Problem;
+import org.a602.gotcha.domain.problem.entity.Problem;
 
 import javax.persistence.*;
 

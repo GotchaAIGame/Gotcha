@@ -1,4 +1,4 @@
-package org.a602.gotcha.domain.reward;
+package org.a602.gotcha.domain.reward.entity;
 
 import org.a602.gotcha.domain.room.entity.Room;
 

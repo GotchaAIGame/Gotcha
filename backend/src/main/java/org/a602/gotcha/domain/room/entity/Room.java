@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.participant.entity.Participant;
-import org.a602.gotcha.domain.problem.Problem;
-import org.a602.gotcha.domain.reward.Reward;
+import org.a602.gotcha.domain.problem.entity.Problem;
+import org.a602.gotcha.domain.reward.entity.Reward;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
