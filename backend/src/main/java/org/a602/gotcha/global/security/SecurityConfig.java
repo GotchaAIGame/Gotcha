@@ -32,7 +32,10 @@ public class SecurityConfig {
 		"/v3/api-docs/**",
 		"/swagger-ui/**",
 		/*회원가입*/
-		"/api/member/*"
+		"/api/member/signup",
+		"/api/member/login",
+		"/api/member/duplicateNickname",
+		"/api/member/duplicateEmail"
 	};
 
 	@Bean
@@ -51,7 +54,7 @@ public class SecurityConfig {
 			.hasRole("USER") // 인증된 회원만 접근가능.
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-			// jwt token Filter를 id/password 인증필터 전에 넣는다.
+			// 커스텀 필터를 ID/PW 기반으로 인증하는 기본 필터 앞에 넣어서 먼저 인증을 시도하게 한다.
 
 		return httpSecurity.build();
 	}
