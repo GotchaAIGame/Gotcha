@@ -4,34 +4,51 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	public static final String BEARER = "Bearer";
+	public static final String AUTHORIZATION = "Authorization";
 	private final JwtTokenProvider jwtTokenProvider;
 
-	// Reqeust로 들어오는 Jwt Token의 유효성을 검증 (jwtTokenProvider.validateToken)하는 filter를 filterChain에 등록한다.
 	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws
+	public void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+		final FilterChain chain) throws
 		IOException,
 		ServletException {
-		final String token = jwtTokenProvider.resolveToken((HttpServletRequest)request);
+
+		// 헤더에서 토큰부분을 분리
+		String token = resolveTokenFromRequest(request);
 
 		if (token != null && jwtTokenProvider.validToken(token)) {
+			// Authentication 객체 받아오기.
 			final Authentication authentication = jwtTokenProvider.getAuthentication(token);
+			// SecurityContextHolder에 저장.
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 
 		chain.doFilter(request, response);
+	}
+
+	private static String resolveTokenFromRequest(final HttpServletRequest request) {
+		final String header = request.getHeader(AUTHORIZATION);
+		String token = null;
+
+		// 키에 해당하는 헤더가 존재하고 그 값이 BEARER로 시작한다면 (JWT가 있다면)
+		if (header != null && header.startsWith(BEARER)) {
+			// prefix부분을 날리고 JWT만 token에 할당한다.
+			token = header.substring(BEARER.length());
+		}
+		return token;
 	}
 
 }

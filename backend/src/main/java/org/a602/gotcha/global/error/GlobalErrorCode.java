@@ -23,7 +23,8 @@ public enum GlobalErrorCode {
 	/*member 관련 에러코드*/
 	EMAIL_NOT_FOUND(400, "M300", "존재하지 않는 이메일입니다."),
 	DUPLICATE_NICKNAME(400, "M300", "이미 존재하는 닉네임입니다."),
-	DUPLICATE_EMAIL(400, "M300", "이미 존재하는 이메일입니다.");
+	DUPLICATE_EMAIL(400, "M300", "이미 존재하는 이메일입니다."),
+	MISMATCH_PASSWORD(400, "M300", "비밀번호가 다릅니다.");
 
 	private final String code;
 	private final String message;

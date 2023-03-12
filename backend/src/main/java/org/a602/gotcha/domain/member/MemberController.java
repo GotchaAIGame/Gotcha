@@ -40,4 +40,11 @@ public class MemberController {
 		return new BaseResponse<>(isDuplicate);
 	}
 
+	@PostMapping("/member/login")
+	public BaseResponse<MemberLoginResponse> login(@Valid @RequestBody MemberLoginRequest memberLoginRequest) {
+		final MemberLoginResponse loginUser = memberService.login(memberLoginRequest);
+
+		return new BaseResponse<>(loginUser);
+	}
+
 }
