@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
@@ -12,12 +14,15 @@ import lombok.NoArgsConstructor;
 public class CreateProblemRequest {
 
     @Schema(description = "Base64 인코딩된 이미지")
+    @NotBlank
     String image;
 
     @Schema(description = "문제 이름")
+    @NotBlank
     String name;
 
     @Schema(description = "문제 설명")
+    @NotBlank
     String description;
 
     @Schema(description = "힌트")

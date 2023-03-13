@@ -5,24 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class UpdateProblemRequest {
 
     @Schema(description = "Base64 인코딩된 이미지")
+    @NotBlank
     private String image;
 
     @Schema(description = "이름")
+    @NotBlank
     private String name;
 
     @Schema(description = "설명")
+    @NotBlank
     private String description;
 
     @Schema(description = "힌트")
+    @NotBlank
     private String hint;
 
     @Schema(description = "문제 Id")
+    @NotNull
+    @Positive
     private Long problemId;
 
 }

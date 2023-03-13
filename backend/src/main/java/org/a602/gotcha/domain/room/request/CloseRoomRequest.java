@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,5 +15,7 @@ import lombok.NoArgsConstructor;
 public class CloseRoomRequest {
 
     @Schema(description = "방 ID")
+    @Positive
+    @NotNull
     private Long roomId;
 }

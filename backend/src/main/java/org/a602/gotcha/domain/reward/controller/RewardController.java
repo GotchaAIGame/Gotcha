@@ -1,5 +1,6 @@
 package org.a602.gotcha.domain.reward.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest;
@@ -20,6 +21,7 @@ public class RewardController {
 
     @PostMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 설정", responseCode = "200")
+    @Operation(description = "게임에 리워드 설정", summary = "게임에 리워드 설정")
     public BaseResponse<Void> setReward(@RequestBody SetRewardRequest request) {
 
         rewardService.setReward(request.getRewards(), request.getRoomId());
