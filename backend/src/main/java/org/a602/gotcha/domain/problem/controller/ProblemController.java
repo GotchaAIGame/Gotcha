@@ -22,6 +22,8 @@ import org.a602.gotcha.domain.problem.service.ProblemService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -34,7 +36,7 @@ public class ProblemController {
     @PutMapping("/set/problem")
     @ApiResponse(responseCode = "200", description = "수정 성공")
     @Operation(description = "문제 수정 API", summary = "문제 수정 API")
-    public BaseResponse<Void> updateProblem(@RequestBody UpdateProblemRequest request) {
+    public BaseResponse<Void> updateProblem(@Valid @RequestBody UpdateProblemRequest request) {
         problemService.updateProblem(request);
 
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
@@ -43,7 +45,7 @@ public class ProblemController {
     @DeleteMapping("/set/problem")
     @ApiResponse(responseCode = "200", description = "삭제 성공")
     @Operation(description = "문제 삭제 API", summary = "문제 삭제 API")
-    public BaseResponse<Void> deleteProblem(@RequestBody DeleteProblemRequest request) {
+    public BaseResponse<Void> deleteProblem(@Valid @RequestBody DeleteProblemRequest request) {
         problemService.deleteProblem(request.getProblemId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }

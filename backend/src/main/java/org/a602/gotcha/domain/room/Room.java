@@ -49,7 +49,7 @@ public class Room {
     @Column(name = "end_time")
     private LocalDateTime endTime;
     @Max(message = "6자리 코드", value = 999999)
-    @Min(message = "6자리 코드", value = 100000)
+    @Min(message = "6자리 코드", value = 1)
     @Positive
     @Column(name = "code", unique = true)
     private Integer code;

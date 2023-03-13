@@ -44,9 +44,14 @@ public class Problem {
         this.room = room;
     }
 
-    public String updateImageUrl(String newImageUrl) {
+    public String updateProblem(String newImageUrl, String description, String name, String hint) {
         String prevImage = this.imageUrl;
-        this.imageUrl = newImageUrl;
+        if (newImageUrl != null) {
+            this.imageUrl = newImageUrl;
+        }
+        this.description = description;
+        this.name = name;
+        this.hint = hint;
         return prevImage;
     }
 }

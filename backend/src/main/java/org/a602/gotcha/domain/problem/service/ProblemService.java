@@ -30,9 +30,15 @@ public class ProblemService {
             throw new ProlbemNotFoundException();
         });
         String image = request.getImage();
-        String uploadImageUrl = s3Service.uploadImage(image);
-        String prevImageUrl = problem.updateImageUrl(uploadImageUrl);
-        s3Service.deleteImage(prevImageUrl);
+        String uploadImageUrl = null;
+        if (image != null) {
+            uploadImageUrl = s3Service.uploadImage(image);
+        }
+        String prevImageUrl = problem.updateProblem(uploadImageUrl, request.getDescription(), request.getName(), request.getHint());
+        if (image != null) {
+            s3Service.deleteImage(prevImageUrl);
+        }
+
     }
 
     public void deleteProblem(Long problemId) {
