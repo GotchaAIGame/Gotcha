@@ -63,6 +63,7 @@ public class ParticipantService {
         }
     }
 
+    @Transactional(readOnly = true)
     public void updateStartTime(ParticipantGameStartRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
@@ -73,5 +74,13 @@ public class ParticipantService {
             Participant user = participants.get(0);
             user.updateStartTime(request.getStartTime());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkUserValidation(Long roomId, String nickname) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
+        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, nickname);
+        return !participants.isEmpty();
     }
 }
