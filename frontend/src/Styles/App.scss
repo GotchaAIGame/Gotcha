@@ -30,8 +30,18 @@ body {
 .app-main-header {
   height: 140px;
   background-image: url("../assets/TopBanner.svg");
-  background-size: fill;
+  background-size: cover;
+  // 이미지 중앙 정렬
+  background-position: 50%;
   margin: auto;
+  margin-bottom: 40px;
+
+  // 로고 이미지
+  img {
+    position: relative;
+    width: 325px;
+    top: 95px;
+  }
 }
 
 .app-main-container {
