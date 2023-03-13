@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
@@ -32,7 +33,6 @@ public class Problem {
     private Room room;
 
     @Column(name = "image_url")
-    @Setter
     private String imageUrl;
 
     @Builder
@@ -44,4 +44,9 @@ public class Problem {
         this.room = room;
     }
 
+    public String updateImageUrl(String newImageUrl) {
+        String prevImage = this.imageUrl;
+        this.imageUrl = newImageUrl;
+        return prevImage;
+    }
 }

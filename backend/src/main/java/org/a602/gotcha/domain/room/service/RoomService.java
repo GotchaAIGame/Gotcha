@@ -1,22 +1,25 @@
 package org.a602.gotcha.domain.room.service;
 
 import lombok.RequiredArgsConstructor;
-import org.a602.gotcha.domain.problem.Problem;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
-import org.a602.gotcha.domain.reward.repository.RewardRepository;
-import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.domain.room.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.a602.gotcha.domain.room.request.CreateProblemRequest;
+import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
+import org.a602.gotcha.global.common.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -24,10 +27,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final AmazonS3Client s3Client;
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+
     private Random random = new Random();
+    private final S3Service s3Service;
 
 
     @Transactional(readOnly = true)
@@ -79,24 +81,15 @@ public class RoomService {
                 .build();
         for (CreateProblemRequest problem : problems) {
 
+            String uploadImageUrl = s3Service.uploadImage(problem.getImage());
 
-            String image = problem.getImage();
-            byte[] decode = Base64.getDecoder().decode(image);
-            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(decode)) {
-                String key = UUID.randomUUID().toString();
-                s3Client.putObject(new PutObjectRequest(bucket, key, inputStream, null));
-                String url = s3Client.getUrl(bucket, key).toString();
-                Problem build = Problem.builder()
-                        .hint(problem.getHint())
-                        .name(problem.getName())
-                        .room(room)
-                        .imageUrl(url)
-                        .description(problem.getDescription()).build();
-                problemList.add(build);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            Problem build = Problem.builder()
+                    .hint(problem.getHint())
+                    .name(problem.getName())
+                    .room(room)
+                    .imageUrl(uploadImageUrl)
+                    .description(problem.getDescription()).build();
+            problemList.add(build);
             room.getProblems().addAll(problemList);
 
         }
