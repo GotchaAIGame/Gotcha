@@ -1,5 +1,7 @@
 package org.a602.gotcha.domain.problem.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.problem.request.DeleteProblemRequest;
 import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
@@ -30,6 +32,8 @@ public class ProblemController {
 
 
     @PutMapping("/set/problem")
+    @ApiResponse(responseCode = "200", description = "수정 성공")
+    @Operation(description = "문제 수정 API", summary = "문제 수정 API")
     public BaseResponse<Void> updateProblem(@RequestBody UpdateProblemRequest request) {
         problemService.updateProblem(request);
 
@@ -37,6 +41,8 @@ public class ProblemController {
     }
 
     @DeleteMapping("/set/problem")
+    @ApiResponse(responseCode = "200", description = "삭제 성공")
+    @Operation(description = "문제 삭제 API", summary = "문제 삭제 API")
     public BaseResponse<Void> deleteProblem(@RequestBody DeleteProblemRequest request) {
         problemService.deleteProblem(request.getProblemId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);

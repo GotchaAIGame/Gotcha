@@ -1,5 +1,6 @@
 package org.a602.gotcha.domain.room.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
@@ -20,7 +21,6 @@ import java.util.List;
 @RequestMapping("/api")
 @Slf4j
 public class RoomController {
-
     private final RoomService roomService;
 
     @Operation(description = "코드 통해 게임 입장하는 API", summary = "코드 통해 게임 입장하는 API")
@@ -44,13 +44,16 @@ public class RoomController {
 
     @PostMapping("/set/room")
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
+    @Operation(description = "방 만드는 API", summary = "방 만드는 API")
     public BaseResponse<Void> createRoom(@RequestBody CreateRoomRequest request) {
+
         roomService.createRoom(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
     @DeleteMapping("/set/room")
     @ApiResponse(description = "방 종료 성공", responseCode = "200")
+    @Operation(description = "방 종료 API", summary = "방 종료 API")
     public BaseResponse<Void> closeRoom(@RequestBody CloseRoomRequest request) {
         roomService.closeRoom(request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
