@@ -8,6 +8,7 @@ import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedExcept
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
+import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
@@ -38,6 +39,7 @@ class ParticipantServiceTest {
     private RoomRepository roomRepository;
 
     Long ROOM_ID;
+    Long PARTICIPANT_ID;
     String USER_NICKNAME = "yezi";
     String USER_PWD = "1234";
     Boolean USER_IS_FINISHED = false;
@@ -71,13 +73,14 @@ class ParticipantServiceTest {
                 .room(room)
                 .isFinished(USER_IS_FINISHED)
                 .build();
-        participantRepository.save(participant);
+        Participant savedParticipant = participantRepository.save(participant);
+        PARTICIPANT_ID = savedParticipant.getId();
 
     }
 
     @Nested
     @DisplayName("참여자 등록하기 메소드는")
-    class registerUser {
+    class RegisterUser {
 
         @Test
         @DisplayName("찾는 방이 없으면 RoomNotFound 예외 발생")
@@ -126,8 +129,8 @@ class ParticipantServiceTest {
     }
 
     @Nested
-    @DisplayName("기존 참여자 재접속 메소드는")
-    class loginUser {
+    @DisplayName("기존 참여자 로그인 메소드는")
+    class LoginUser {
 
         @Test
         @DisplayName("해당 방에 찾는 닉네임이 없을 경우 ParticipantNotFound 예외 발생")
@@ -140,7 +143,7 @@ class ParticipantServiceTest {
                     .build();
             // then
             assertThrows(ParticipantNotFoundException.class, ()
-            -> participantService.getUserInfo(request));
+                    -> participantService.getUserInfo(request));
         }
 
         @Test
@@ -154,7 +157,7 @@ class ParticipantServiceTest {
                     .build();
             // then
             assertThrows(ParticipantLoginFailedException.class, ()
-            -> participantService.getUserInfo(request));
+                    -> participantService.getUserInfo(request));
         }
 
         @Test
@@ -170,6 +173,55 @@ class ParticipantServiceTest {
             ParticipantInfoResponse response = participantService.getUserInfo(request);
             // then
             assertEquals(USER_IS_FINISHED, response.getIsFinished());
+        }
+
+    }
+
+    @Nested
+    @DisplayName("시작 시간 업데이트 메소드는")
+    class UpdateStartTime {
+
+        @Test
+        @DisplayName("방, 닉네임이 일치하면 제공 받은 시간으로 업데이트 한다.")
+        void updateStartInfo() {
+            // given
+            LocalDateTime startTime = LocalDateTime.of(2023, 3, 13, 10, 2, 30);
+            ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .startTime(startTime)
+                    .build();
+            // when
+            participantService.updateStartTime(request);
+            Participant user = participantRepository.findById(PARTICIPANT_ID)
+                    .orElseThrow(ParticipantNotFoundException::new);
+            // then
+            assertEquals(startTime, user.getStartTime());
+        }
+    }
+
+    @Nested
+    @DisplayName("유저 유효성 체크 메소드는")
+    class CheckUserValidation {
+
+        @Test
+        @DisplayName("방에 해당하는 유저가 없으면 false 반환")
+        void userNotFound() {
+            // given
+            String nickname = "Taegyu";
+            // when
+            boolean result = participantService.checkUserValidation(ROOM_ID, nickname);
+            // then
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("방에 해당하는 유저가 있으면 true 반환")
+        void validUser() {
+            // when
+            boolean result = participantService.checkUserValidation(ROOM_ID, USER_NICKNAME);
+            // then
+            assertTrue(result);
         }
 
     }
