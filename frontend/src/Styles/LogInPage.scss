@@ -33,5 +33,58 @@
     width: 330px;
     height: 63px;
     border-radius: 10px;
+    cursor: pointer;
+    background-color: $gray-5;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  button:hover {
+    background-color: #dff93e;
+  }
+}
+
+.social-logins-container {
+  display: flex;
+  margin: 10px auto;
+  width: 328px;
+  justify-content: space-between;
+  button {
+    margin-top: 10%;
+    width: 155px;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  .kakao-btn,
+  .kakao-btn:hover {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #ffe812;
+    align-items: center;
+    img {
+      width: 35px;
+      margin-right: 15px;
+      margin-left: 5px;
+    }
+  }
+  .google-btn,
+  .google-btn:hover {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #fff;
+    align-items: center;
+    img {
+      width: 35px;
+      margin-right: 15px;
+      margin-left: 3px;
+    }
+  }
+}
+
+.signup-btn-wrapper {
+  button {
+    background-color: $blue-1;
+    color: #fff;
   }
 }
