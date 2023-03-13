@@ -7,6 +7,7 @@ import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException
 import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
+import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
@@ -45,7 +46,7 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
-    public ParticipantInfoResponse checkUserInfo(ParticipantCheckRequest request) {
+    public ParticipantInfoResponse getUserInfo(ParticipantCheckRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
@@ -59,6 +60,18 @@ public class ParticipantService {
                         .startTime(user.getStartTime())
                         .build();
             } else throw new ParticipantLoginFailedException();
+        }
+    }
+
+    public void updateStartTime(ParticipantGameStartRequest request) {
+        Room room = roomRepository.findById(request.getRoomId())
+                .orElseThrow(RoomNotFoundException::new);
+        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
+        if (participants.size() == 0) {
+            throw new ParticipantNotFoundException();
+        } else {
+            Participant user = participants.get(0);
+            user.updateStartTime(request.getStartTime());
         }
     }
 }

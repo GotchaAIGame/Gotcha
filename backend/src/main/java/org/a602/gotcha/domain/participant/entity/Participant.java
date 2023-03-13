@@ -56,4 +56,8 @@ public class Participant {
         this.isFinished = isFinished;
     }
 
+    public void updateStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
 }

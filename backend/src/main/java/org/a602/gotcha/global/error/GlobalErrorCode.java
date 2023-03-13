@@ -24,6 +24,7 @@ public enum GlobalErrorCode {
     ROOM_EXPIRED(403, "R200", "해당 게임방에 접근할 수 없습니다."),
     DUPLICATED_PARTICIPANT(400, "P100", "닉네임이 일치하는 참가자가 있습니다."),
     PARTICIPANT_NOT_FOUND(404, "P200", "해당하는 유저가 없습니다"),
+    PROBLEM_NOT_FOUND(404, "PR100", "룸에 해당하는 문제가 없습니다"),
     ;
     private final String code;
     private final String message;
