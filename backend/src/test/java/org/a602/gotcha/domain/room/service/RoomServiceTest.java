@@ -43,10 +43,11 @@ class RoomServiceTest {
                 .logoUrl("ssafy.com")
                 .eventUrl("ssafy.com")
                 .title("새로운 게임입니다.")
-                .description("연습용 게임입니다")
+                .eventDesc("연습용 게임입니다")
                 .startTime(LocalDateTime.parse("2023-03-01T09:00:00"))
                 .endTime(LocalDateTime.parse("2023-03-07T18:00:00"))
                 .hasReward(false)
+                .rewardDesc("보상 설명")
                 .member(member).build();
 
         Room progressingRoom = Room.builder()
@@ -55,10 +56,11 @@ class RoomServiceTest {
                 .logoUrl("ssafy.com")
                 .eventUrl("ssafy.com")
                 .title("새로운 게임입니다.")
-                .description("연습용 게임입니다")
+                .eventDesc("연습용 게임입니다")
                 .startTime(LocalDateTime.parse("2023-03-01T09:00:00"))
                 .endTime(LocalDateTime.now().plusDays(1))
                 .hasReward(false)
+                .rewardDesc("보상 설명")
                 .member(member).build();
 
         Room saveExpiredRoom = roomRepository.save(expiredRoom);

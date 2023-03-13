@@ -56,10 +56,11 @@ class ParticipantServiceTest {
                 .logoUrl("ssafy.com")
                 .eventUrl("ssafy.com")
                 .title("새로운 게임입니다.")
-                .description("연습용 게임입니다")
+                .eventDesc("연습용 게임입니다")
                 .startTime(LocalDateTime.parse("2023-03-01T09:00:00"))
                 .endTime(LocalDateTime.parse("2023-03-07T18:00:00"))
                 .hasReward(false)
+                .rewardDesc("보상 설명")
                 .member(member).build();
         Room savedRoom = roomRepository.save(room);
         ROOM_ID = savedRoom.getId();
@@ -139,7 +140,7 @@ class ParticipantServiceTest {
                     .build();
             // then
             assertThrows(ParticipantNotFoundException.class, ()
-            -> participantService.checkUserInfo(request));
+            -> participantService.getUserInfo(request));
         }
 
         @Test
@@ -153,7 +154,7 @@ class ParticipantServiceTest {
                     .build();
             // then
             assertThrows(ParticipantLoginFailedException.class, ()
-            -> participantService.checkUserInfo(request));
+            -> participantService.getUserInfo(request));
         }
 
         @Test
@@ -166,7 +167,7 @@ class ParticipantServiceTest {
                     .password(USER_PWD)
                     .build();
             // when
-            ParticipantInfoResponse response = participantService.checkUserInfo(request);
+            ParticipantInfoResponse response = participantService.getUserInfo(request);
             // then
             assertEquals(USER_IS_FINISHED, response.getIsFinished());
         }

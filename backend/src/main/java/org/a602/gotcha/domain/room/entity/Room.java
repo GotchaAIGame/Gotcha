@@ -38,8 +38,8 @@ public class Room {
     @Column(name = "event_url")
     private String eventUrl;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "event_desc")
+    private String eventDesc;
 
     @Column(name = "code", length = 20)
     private String code;
@@ -52,6 +52,9 @@ public class Room {
 
     @Column(name = "has_reward")
     private Boolean hasReward;
+
+    @Column(name = "reward_desc")
+    private String rewardDesc;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -67,16 +70,17 @@ public class Room {
     private Set<Problem> problems = new LinkedHashSet<>();
 
     @Builder
-    public Room(String color, String logoUrl, String title, String eventUrl, String description, String code, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, Member member) {
+    public Room(String color, String logoUrl, String title, String eventUrl, String eventDesc, String code, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, String rewardDesc, Member member) {
         this.color = color;
         this.logoUrl = logoUrl;
         this.title = title;
         this.eventUrl = eventUrl;
-        this.description = description;
+        this.eventDesc = eventDesc;
         this.code = code;
         this.startTime = startTime;
         this.endTime = endTime;
         this.hasReward = hasReward;
+        this.rewardDesc = rewardDesc;
         this.member = member;
     }
 
