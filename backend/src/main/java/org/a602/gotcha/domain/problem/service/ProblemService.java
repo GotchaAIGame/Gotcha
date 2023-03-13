@@ -33,4 +33,10 @@ public class ProblemService {
                                 .build()).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public String findHint(Long problemId) {
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(ProblemNotFoundException::new);
+        return problem.getHint();
+    }
 }
