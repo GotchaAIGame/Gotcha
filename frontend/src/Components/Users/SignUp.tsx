@@ -11,6 +11,8 @@ export default function SignUp(props: Props) {
   const signupHandler = () => {
     setIsSuccess(true);
   };
+
+
   return (
     <div className="singup-page-container">
       <h3>환영합니다!</h3>
