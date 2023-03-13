@@ -1,10 +1,12 @@
 package org.a602.gotcha.domain.problem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.a602.gotcha.domain.problem.request.DeleteProblemRequest;
 import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
 import org.a602.gotcha.domain.problem.service.ProblemService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,12 @@ public class ProblemController {
     public BaseResponse<Void> updateProblem(@RequestBody UpdateProblemRequest request) {
         problemService.updateProblem(request);
 
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    @DeleteMapping("/set/problem")
+    public BaseResponse<Void> deleteProblem(@RequestBody DeleteProblemRequest request) {
+        problemService.deleteProblem(request.getProblemId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 

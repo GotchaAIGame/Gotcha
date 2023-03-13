@@ -34,6 +34,10 @@ public class ProblemService {
         String prevImageUrl = problem.updateImageUrl(uploadImageUrl);
         s3Service.deleteImage(prevImageUrl);
     }
+
+    public void deleteProblem(Long problemId) {
+        problemRepository.deleteById(problemId);
+    }
     @Transactional(readOnly = true)
     public List<ProblemListResponse> getProblemList(Long roomId) {
         List<Problem> problems = problemRepository.findProblemsByRoomId(roomId);
