@@ -38,9 +38,11 @@ class ProblemServiceTest {
     private RoomRepository roomRepository;
 
     Long ROOM_ID;
+    Long PROBLEM_ID;
     String USER_NICKNAME = "yezi";
     String USER_PWD = "1234";
     Boolean USER_IS_FINISHED = false;
+    String HINT = "이건 특별한 힌트";
 
     @BeforeEach
     void setGameRoom() {
@@ -76,7 +78,7 @@ class ProblemServiceTest {
         Problem problemA = Problem.builder()
                 .name("문제1")
                 .description("설명")
-                .hint("힌트")
+                .hint(HINT)
                 .S3URL("주소")
                 .room(room)
                 .build();
@@ -97,11 +99,12 @@ class ProblemServiceTest {
         problemRepository.save(problemA);
         problemRepository.save(problemB);
         problemRepository.save(problemC);
+        PROBLEM_ID = problemA.getId();
     }
 
     @Nested
     @DisplayName("문제 가져오기 메소드는")
-    class getProblemList {
+    class GetProblemList {
 
         @Test
         @DisplayName("해당 방의 문제를 찾지 못할 경우 ProblemNotFound 예외 발생")
@@ -120,6 +123,30 @@ class ProblemServiceTest {
             List<ProblemListResponse> problemList = problemService.getProblemList(ROOM_ID);
             // then
             assertEquals(3, problemList.size());
+        }
+    }
+
+    @Nested
+    @DisplayName("힌트 가져오기 메소드는")
+    class GetHint {
+
+        @Test
+        @DisplayName("문제를 찾을 수 없을 경우 ProblemNotFound 예외 발생")
+        void problemNotFounded() {
+            // given
+            Long problemId = 100000L;
+            // then
+            assertThrows(ProblemNotFoundException.class, ()
+            -> problemService.findHint(problemId));
+        }
+
+        @Test
+        @DisplayName("문제가 있으면 힌트 값을 반환")
+        void getHintSuccessfully() {
+            // when
+            String hint = problemService.findHint(PROBLEM_ID);
+            // then
+            assertEquals(HINT, hint);
         }
 
     }
