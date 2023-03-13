@@ -16,7 +16,6 @@ export default function Navbar() {
         <img
           src={logo}
           alt="logo"
-          style={{ marginTop: "40px", width: "220px" }}
         />
       </Link>
     </header>
