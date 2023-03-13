@@ -79,21 +79,21 @@ class ProblemServiceTest {
                 .name("문제1")
                 .description("설명")
                 .hint(HINT)
-                .S3URL("주소")
+                .imageUrl("주소")
                 .room(room)
                 .build();
         Problem problemB = Problem.builder()
                 .name("문제2")
                 .description("설명")
                 .hint("힌트")
-                .S3URL("주소")
+                .imageUrl("주소")
                 .room(room)
                 .build();
         Problem problemC = Problem.builder()
                 .name("문제3")
                 .description("설명")
                 .hint("힌트")
-                .S3URL("주소")
+                .imageUrl("주소")
                 .room(room)
                 .build();
         problemRepository.save(problemA);

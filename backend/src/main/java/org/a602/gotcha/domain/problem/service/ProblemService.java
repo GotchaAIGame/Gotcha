@@ -29,7 +29,7 @@ public class ProblemService {
                                 .problemId(problem.getId())
                                 .problemName(problem.getName())
                                 .problemDesc(problem.getDescription())
-                                .problemImgURL(problem.getS3URL())
+                                .problemImgURL(problem.getImageUrl())
                                 .build()).collect(Collectors.toList());
     }
 
