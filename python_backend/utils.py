@@ -1,16 +1,18 @@
+"""
+utility functions for python backends
+Recent update : 2023.03.14 15:19
+"""
+
 import torch
 import os
 from SuperGlueModels.matching import Matching
 
-"""
-call back function to implement the life cycle of FastAPI application
-It will load the AI model when the server starts, and remove when the server is down
-"""
 
 model = None
 
 async def lifespan(app):
     # set lifespan of the main application
+    # it loads model when the server is on, and remove it when the server is down
 
     global model
 
