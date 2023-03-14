@@ -1,5 +1,5 @@
 import React from "react";
-import "../../Styles/SignUpPage.scss";
+import "@styles/SignUpPage.scss";
 
 type Props = {
   setIsSuccess: (value: boolean) => void;

@@ -1,7 +1,7 @@
 import React from "react";
-import InputGameInfo from "../Components/CreateGame/InputGameInfo";
-import GameCardCarousel from "../Components/CreateGame/GameCardCarousel";
-import "../Styles/CreateGamePage.scss";
+import InputGameInfo from "@components/CreateGame/InputGameInfo";
+import GameCardCarousel from "@components/CreateGame/GameCardCarousel";
+import "@styles/CreateGamePage.scss";
 
 export default function CreateGamePage() {
   return (

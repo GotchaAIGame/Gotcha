@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import store from "../stores/store";
-import InputPinNum from "../Components/MainPage/InputPinNum";
-import LogOut from "../Components/Users/LogOut";
-import "../Styles/MainPage.scss";
+import InputPinNum from "@components/MainPage/InputPinNum";
+import LogOut from "@components/Users/LogOut";
+import "@styles/MainPage.scss";
 
 export default function MainPage() {
   const userId = useSelector((state: any) => state.users.userId);
