@@ -47,4 +47,12 @@ public class MemberController {
 		return new BaseResponse<>(loginUser);
 	}
 
+	@PostMapping("/member/reCreate")
+	public BaseResponse<?> reCreateAccessToken(@Valid @RequestBody ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
+		final ReCreateAccessTokenResponse reCreateAccessTokenResponse = memberService.reIssueAccessToken(
+			reCreateAccessTokenRequest);
+
+		return new BaseResponse<>(reCreateAccessTokenResponse);
+	}
+
 }

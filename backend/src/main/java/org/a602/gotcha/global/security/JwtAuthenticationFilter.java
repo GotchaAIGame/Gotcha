@@ -27,9 +27,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		ServletException {
 
 		// 헤더에서 토큰부분을 분리
-		String token = resolveTokenFromRequest(request);
+		final String token = resolveTokenFromRequest(request);
 
-		if (token != null && jwtTokenProvider.validToken(token)) {
+		if (token != null && jwtTokenProvider.validAccessToken(token)) {
 			// Authentication 객체 받아오기.
 			final Authentication authentication = jwtTokenProvider.getAuthentication(token);
 			// SecurityContextHolder에 저장.
@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// prefix부분을 날리고 JWT만 token에 할당한다.
 			token = header.substring(BEARER.length());
 		}
+
 		return token;
 	}
 

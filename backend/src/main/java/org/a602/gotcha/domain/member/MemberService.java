@@ -45,7 +45,7 @@ public class MemberService {
 
 		if (passwordEncoder.matches(memberLoginRequest.getPassword(), member.getPassword())) {
 			accessToken = jwtTokenProvider.createAccessToken(member);
-			refreshToken = jwtTokenProvider.generateRefreshToken(accessToken);
+			refreshToken = jwtTokenProvider.createRefreshToken(accessToken);
 		} else {
 			throw new IllegalArgumentException(GlobalErrorCode.MISMATCH_PASSWORD.getMessage());
 		}
@@ -58,6 +58,23 @@ public class MemberService {
 			.registrationId(member.getRegistrationId())
 			.accessToken(accessToken)
 			.refreshToken(refreshToken.getRefreshToken())
+			.build();
+	}
+
+	public ReCreateAccessTokenResponse reIssueAccessToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
+		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
+			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+
+		String newAccessToken;
+
+		if (jwtTokenProvider.validAccessToken(reCreateAccessTokenRequest.getAccessToken())) {
+			newAccessToken = reCreateAccessTokenRequest.getAccessToken();
+		} else {
+			newAccessToken = jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(), member);
+		}
+
+		return ReCreateAccessTokenResponse.builder()
+			.accessToken(newAccessToken)
 			.build();
 	}
 
