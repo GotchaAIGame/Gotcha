@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      // 아래 부분들을 자유롭게 추가 수정하여 자신만의 절대경로 생성 가능
-      "@assets/*": ["src/assets/*"],
-      // "@action/*": ["src/_actions/*"],
-      // "@reducer/*": ["src/reducers/*"],
-      "@store/*": ["src/stores/*"],
-      "@model/*": ["src/model/*"],
-      "@page/*": ["src/Pages/*"]
+      // "@hooks/*": ["./hooks/*"],
+      "@pages/*": ["./Pages/*"],
+      "@components/*": ["./Components/*"],
+      "@assets/*": ["./assets/*"],
+      "@stores/*": ["./stores/*"],
+      "@styles/*": ["./Styles/*"]
     }
   }
 }
