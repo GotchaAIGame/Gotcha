@@ -70,7 +70,7 @@ public class Member implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Stream.of("USER")
+		return Stream.of("ROLE_USER")
 			.map(SimpleGrantedAuthority::new)
 			.collect(Collectors.toList());
 	}
