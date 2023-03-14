@@ -54,6 +54,9 @@ public class Member implements UserDetails {
 	@Column(name = "registration_id", length = 20)
 	private String registrationId;
 
+	@Column(name = "profile_image", length = 100)
+	private String profileImage;
+
 	@OneToMany(mappedBy = "member", orphanRemoval = true)
 	private List<Room> rooms = new ArrayList<>();
 
