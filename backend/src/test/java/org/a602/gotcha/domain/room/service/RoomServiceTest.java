@@ -83,7 +83,7 @@ class RoomServiceTest {
             String enterCode = "INVALIDCODE";
             //then
             assertThrows(RoomNotFoundException.class, () -> {
-                roomService.findRoom(enterCode);
+                roomService.getRoomId(enterCode);
             });
         }
 
@@ -92,7 +92,7 @@ class RoomServiceTest {
         void getRoomAfterEndTime() {
             String enterCode = "EXPIRED";
             assertThrows(RoomExpiredException.class, () -> {
-                roomService.findRoom(enterCode);
+                roomService.getRoomId(enterCode);
             });
         }
 
@@ -100,7 +100,7 @@ class RoomServiceTest {
         @DisplayName("방을 성공적으로 찾으면 Id 반환")
         void getRoomId() {
             String enterCode = "PROGRESSING";
-            Long roomId = roomService.findRoom(enterCode);
+            Long roomId = roomService.getRoomId(enterCode);
             assertEquals(roomIds.get(1), roomId);
 
         }

@@ -18,7 +18,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     @Transactional(readOnly = true)
-    public Long findRoom(String roomCode) {
+    public Long getRoomId(String roomCode) {
         Room gameRoom = Optional.ofNullable(roomRepository.findByCode(roomCode))
                 .orElseThrow(RoomNotFoundException::new);
         if(gameRoom.getEndTime().isBefore(LocalDateTime.now())){
