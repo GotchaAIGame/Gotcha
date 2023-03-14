@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogIn from "../Components/Users/LogIn";
-import "../Styles/LogInPage.scss";
-import banner from "../assets/TopBanner.svg";
-import logo from "../assets/Gotcha.png";
+import LogIn from "@components/Users/LogIn";
+import "@styles/LogInPage.scss";
+import banner from "@assets/TopBanner.svg";
+import logo from "@assets/Gotcha.png";
 
 export default function LogInPage() {
   return (

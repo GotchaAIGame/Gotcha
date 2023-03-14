@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "../../stores/users/userSlice";
+import { setLogin } from "@stores/users/userSlice";
 
 export default function LogIn() {
   // 추후 유효성 검사 이후 페이지 이동되게 수정 예정

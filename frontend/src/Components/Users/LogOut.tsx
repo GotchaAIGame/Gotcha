@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setLogout } from "../../stores/users/userSlice";
+import { setLogout } from "@stores/users/userSlice";
 
 export default function LogOut() {
   const dispatch = useDispatch();

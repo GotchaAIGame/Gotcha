@@ -1,6 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
-import SignUp from "../Components/Users/SignUp";
-import SignUpSuccess from "../Components/Users/SignUpSuccess";
+import SignUp from "@components/Users/SignUp";
+import SignUpSuccess from "@components/Users/SignUpSuccess";
 
 type Props = {
   setIsSuccess: Dispatch<SetStateAction<boolean>>;

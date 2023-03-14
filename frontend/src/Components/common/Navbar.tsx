@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/Gotcha.png";
+import logo from "@assets/Gotcha.png";
 
 export default function Navbar() {
   // nav 가릴 주소
