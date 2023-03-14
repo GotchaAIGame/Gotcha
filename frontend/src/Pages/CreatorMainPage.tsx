@@ -1,17 +1,21 @@
 import React from "react";
-import { useSelector } from "react-redux";
+
+import { Grid } from "@mui/material";
+import Profile from "../Components/CreatorMain/Profile";
+import GameListTap from "../Components/CreatorMain/GameListTap";
+import "../Styles/CreatorMainPage.scss";
 
 export default function CreatorMainPage() {
-  const userId = useSelector((state: any) => state.users.userId);
-
   return (
-    <div>
-      {userId ? (
-        <p>{userId}님, 어서오세요!</p>
-      ) : (
-        <p>로그인이 필요한 서비스 입니다.</p>
-      )}
-      <p>출제자 페이지입니다</p>
-    </div>
+    <Grid container className="creator-main-container">
+      <Grid container className="creator-main-items-container" xs={11} md={9}>
+        <Grid item xs={12} md={4}>
+          <Profile />
+        </Grid>
+        <Grid item xs={12} md={8} style={{ backgroundColor: "bisque" }}>
+          <GameListTap />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }
