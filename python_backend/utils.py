@@ -12,6 +12,7 @@ model = None
 
 async def lifespan(app):
     # set lifespan of the main application
+
     # it loads model when the server is on, and remove it when the server is down
 
     global model
