@@ -8,6 +8,7 @@ import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
 import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
+import org.a602.gotcha.domain.participant.request.ProblemFinishRequest;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
@@ -16,6 +17,7 @@ import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -83,4 +85,20 @@ public class ParticipantService {
         List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, nickname);
         return !participants.isEmpty();
     }
+
+    @Transactional
+    public void updateGameRecord(ProblemFinishRequest request) {
+        Room room = roomRepository.findById(request.getRoomId())
+                .orElseThrow(RoomNotFoundException::new);
+        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
+        if (participants.size() == 0) {
+            throw new ParticipantNotFoundException();
+        } else {
+            Participant user = participants.get(0);
+            // Duration 계산
+            Duration duration = Duration.between(user.getStartTime(), request.getEndTime());
+            user.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
+        }
+    }
+
 }

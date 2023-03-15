@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
 import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
+import org.a602.gotcha.domain.participant.request.ProblemFinishRequest;
 import org.a602.gotcha.domain.participant.request.RejoinGameRequest;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.participant.service.ParticipantService;
@@ -78,6 +79,14 @@ public class ParticipantController {
         // 문제 탐색
         List<ProblemListResponse> problemList = problemService.getProblemList(request.getRoomId());
         return new BaseResponse<>(problemList);
+    }
+
+    @Operation(description = "최종 제출 기록 등록하기", summary = "최종 제출 기록 등록하기")
+    @ApiResponse(responseCode = "200", description = "기록 등록 성공")
+    @PostMapping("/clear")
+    public BaseResponse<Object> registerGameRecord(@Valid ProblemFinishRequest request) {
+        participantService.updateGameRecord(request);
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
 }

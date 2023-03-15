@@ -60,4 +60,11 @@ public class Participant {
         this.startTime = startTime;
     }
 
+    public void registerRecord(Integer solvedCnt, LocalDateTime endTime, Duration duration, Boolean isFinished) {
+        this.solvedCnt = solvedCnt;
+        this.endTime = endTime;
+        this.duration = duration;
+        this.isFinished = isFinished;
+    }
+
 }
