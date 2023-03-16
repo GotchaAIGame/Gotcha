@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import "./Button.scss";
+import "./styles/Button.scss";
 
 interface BtnProps {
   text?: string;

@@ -34,6 +34,9 @@ export default function MainPage() {
             <button type="button">로그인</button>
           </Link>
         )}
+        <Link to="/newgame">
+          <button type="button">새 게임 페이지</button>
+        </Link>
       </div>
     </div>
   );
