@@ -1,7 +1,11 @@
-import React from 'react'
+import React from "react";
+import GameCard from "./GameCard";
 
 export default function EntireGames() {
   return (
-    <div>EntireGames</div>
-  )
+    <div>
+      <GameCard />
+      <GameCard />
+    </div>
+  );
 }

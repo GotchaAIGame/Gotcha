@@ -12,7 +12,7 @@ export default function CreatorMainPage() {
         <Grid item xs={12} md={4}>
           <Profile />
         </Grid>
-        <Grid item xs={12} md={8} style={{ backgroundColor: "bisque" }}>
+        <Grid item xs={12} md={8}>
           <GameListTap />
         </Grid>
       </Grid>

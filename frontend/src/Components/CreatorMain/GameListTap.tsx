@@ -28,17 +28,37 @@ export default function GameListTap() {
   return (
     <div className="game-tabs-container">
       <h5>내가 만든 게임</h5>
-      <div>
-        <button type="button" onClick={tabHandler} id="entire">
+      <div className="game-tab-buttons-container">
+        <button
+          type="button"
+          onClick={tabHandler}
+          id="entire"
+          className={isOpen.entire ? "button-active" : ""}
+        >
           전체보기
         </button>
-        <button type="button" onClick={tabHandler} id="ongoing">
+        <button
+          type="button"
+          onClick={tabHandler}
+          id="ongoing"
+          className={isOpen.ongoing ? "button-active" : ""}
+        >
           진행중
         </button>
-        <button type="button" onClick={tabHandler} id="before">
+        <button
+          type="button"
+          onClick={tabHandler}
+          id="before"
+          className={isOpen.before ? "button-active" : ""}
+        >
           시작전
         </button>
-        <button type="button" onClick={tabHandler} id="finished">
+        <button
+          type="button"
+          onClick={tabHandler}
+          id="finished"
+          className={isOpen.finished ? "button-active" : ""}
+        >
           종료
         </button>
       </div>
