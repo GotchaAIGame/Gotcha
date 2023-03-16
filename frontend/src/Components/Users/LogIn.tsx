@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "@stores/users/userSlice";
+import InputBox from "@components/common/InputBox";
+import Button from "@components/common/Button";
 
 export default function LogIn() {
   // 추후 유효성 검사 이후 페이지 이동되게 수정 예정
@@ -34,36 +36,31 @@ export default function LogIn() {
   return (
     <div className="login-inputs-container">
       <form action="submit" onSubmit={loginHandler}>
-        <input
+        <InputBox
           type="text"
-          placeholder="아이디"
-          id="userId"
+          txt="아이디"
           onChange={idTypingHandler}
           value={inputText}
         />
-        <input type="password" placeholder="비밀번호" />
-        <button type="submit">로그인하기</button>
+        <InputBox type="password" txt="비밀번호" />
+        <Button text="로그인하기" type="submit" />
       </form>
+
+      
+      {/* <Button> color랑 이미지 수정할 것!!! */}
       <div className="social-logins-container">
-        <button type="button" className="kakao-btn">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2111/2111466.png"
-            alt=""
-          />
-          <p>카카오톡</p>
-        </button>
-        <button type="button" className="google-btn">
-          <img
-            src="https://img.icons8.com/color/512/google-logo.png"
-            alt=""
-          />
-          <p>GOOGLE</p>
-        </button>
-      </div>
-      <div className="signup-btn-wrapper">
-        <Link to="/signup">
-          <button type="button">회원가입</button>
-        </Link>
+        <div className="social-login-title">
+          <hr />
+          <p>SNS 로그인 / 회원가입</p>
+          <hr />
+        </div>
+        <Button text="Google 로그인" />
+        <Button text="카카오톡 로그인" />
+        <div className="signup-btn-wrapper">
+          <Link to="/signup">
+            <Button text="회원가입" color="skyblue" />
+          </Link>
+        </div>
       </div>
     </div>
   );

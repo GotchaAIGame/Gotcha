@@ -1,22 +1,23 @@
+/* eslint-disable react/button-has-type */
 import React from "react";
 import classNames from "classnames";
 import "./styles/Button.scss";
 
 interface BtnProps {
   text?: string;
+  type?: "button" | "submit" | "reset";
   size?: string;
   color?: string;
-  onClick?: any; // 함수 인자 및 return 값 특정 불가
 }
 
-function Button({ text, size, color, onClick }: BtnProps) {
-  const handleClick = () => onClick();
-
+function Button({ text, type, size, color, ...rest }: BtnProps) {
   return (
+    // eslint-disable-next-line react/button-has-type 
+    // type땜에 넣었음
     <button
-      type="button"
+      type={type}
       className={classNames("commonButton", size, color)}
-      onClick={onClick && handleClick}
+      {...rest}
     >
       {text}
     </button>
@@ -25,11 +26,9 @@ function Button({ text, size, color, onClick }: BtnProps) {
 
 Button.defaultProps = {
   text: "",
+  type: "button",
   size: "large",
   color: "lime",
-  onClick: () => {
-    return null;
-  },
 };
 
 export default Button;
