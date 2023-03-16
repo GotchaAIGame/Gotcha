@@ -2,16 +2,41 @@
 APIs to be used in python backend server
 Recent update : 2023.03.14 15:20
 """
-from fastapi import FastAPI
-from models import SolveRequest
+from fastapi import FastAPI, Form, UploadFile, File
+from PIL import Image, ImageOps
+from io import BytesIO
+import requests
+from utils import infer
 
 api = FastAPI()
 
-@api.post("/solve")
-def solve(solve_request : SolveRequest):
+@api.post("/predict")
+async def predict(original_url : str = Form(...), input_image : UploadFile = File(...)):
+
     """
     get datas required to calculate the similarities between two images and return the similarities between
     """
-    pass
+
+    # get target image through the original image url
+    response = requests.get(original_url)
+    original_image = Image.open(BytesIO(response.content))
+    original_image = ImageOps.exif_transpose(original_image)
+
+    # get input image
+    input_image = Image.open(BytesIO(input_image.file.read()))
+    input_image = ImageOps.exif_transpose(input_image)
+
+    result, similarity = infer(original_image, input_image)
+    
+    return {
+        'result' : result,
+        'similarity' : similarity
+    }
+
+
+
+
+
+
 
 
