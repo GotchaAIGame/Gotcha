@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 // import store from "../stores/store";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
+import { EnterRoomAPI } from "../APIs/apis";
 import "@styles/MainPage.scss";
 
 export default function MainPage() {
@@ -26,6 +27,9 @@ export default function MainPage() {
         </Link>
         <Link to="/signup">
           <button type="button">회원가입</button>
+        </Link>
+        <Link to="/game/1">
+          <button type="button">게임 방</button>
         </Link>
         {userId ? (
           <LogOut />
