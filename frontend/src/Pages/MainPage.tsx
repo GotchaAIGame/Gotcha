@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 // import store from "../stores/store";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
+import { EnterRoomAPI } from "../APIs/apis";
 import "@styles/MainPage.scss";
 
 export default function MainPage() {
