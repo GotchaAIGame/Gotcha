@@ -14,6 +14,7 @@ import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class ParticipantService {
     private final ParticipantQueryRepository participantQueryRepository;
     private final ParticipantRepository participantRepository;
     private final RoomRepository roomRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
     public Participant registerUser(ParticipantCheckRequest request) {
@@ -34,10 +36,11 @@ public class ParticipantService {
                 .orElseThrow(RoomNotFoundException::new);
         List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
         if (participants.size() == 0) {
+            String hashPassword = bCryptPasswordEncoder.encode(request.getPassword());
             return participantRepository.save(
                     Participant.builder()
                             .nickname(request.getNickname())
-                            .password(request.getPassword())
+                            .password(hashPassword)
                             .room(room)
                             .isFinished(false)
                             .build()
@@ -56,7 +59,7 @@ public class ParticipantService {
             throw new ParticipantNotFoundException();
         } else {
             Participant user = participants.get(0);
-            if (user.getPassword().equals(request.getPassword())) {
+            if (bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
                 return ParticipantInfoResponse.builder()
                         .isFinished(user.getIsFinished())
                         .startTime(user.getStartTime())
