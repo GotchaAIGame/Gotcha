@@ -6,6 +6,7 @@ import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -83,7 +84,7 @@ class RoomServiceTest {
             String enterCode = "INVALIDCODE";
             //then
             assertThrows(RoomNotFoundException.class, () -> {
-                roomService.getRoomId(enterCode);
+                roomService.getRoomInfo(enterCode);
             });
         }
 
@@ -92,16 +93,16 @@ class RoomServiceTest {
         void getRoomAfterEndTime() {
             String enterCode = "EXPIRED";
             assertThrows(RoomExpiredException.class, () -> {
-                roomService.getRoomId(enterCode);
+                roomService.getRoomInfo(enterCode);
             });
         }
 
         @Test
-        @DisplayName("방을 성공적으로 찾으면 Id 반환")
+        @DisplayName("방을 성공적으로 찾으면 정보 반환")
         void getRoomId() {
             String enterCode = "PROGRESSING";
-            Long roomId = roomService.getRoomId(enterCode);
-            assertEquals(roomIds.get(1), roomId);
+            GameInfoResponse result = roomService.getRoomInfo(enterCode);
+            assertEquals(roomIds.get(1), result.getRoomId());
 
         }
         

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +34,9 @@ public class RoomController {
     @ApiResponse(responseCode = "200", description = "입장 성공", content = @Content(schema = @Schema(implementation = Long.class)))
     @ApiResponse(responseCode = "404", description = "방 정보를 찾을 수 없음")
     @ApiResponse(responseCode = "403", description = "해당 방에 접근할 수 없음(유효기간 만료)")
-    public BaseResponse<Long> enterRoom(@NotNull @RequestParam String roomCode) {
-        Long roomId = roomService.getRoomId(roomCode);
-        return new BaseResponse<>(roomId);
+    public BaseResponse<GameInfoResponse> enterRoom(@NotNull @RequestParam String roomCode) {
+        GameInfoResponse gameInfoResponse = roomService.getRoomInfo(roomCode);
+        return new BaseResponse<>(gameInfoResponse);
     }
 
 }
