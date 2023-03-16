@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
-import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
 import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
@@ -19,13 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ParticipantService {
 
-    private final ParticipantQueryRepository participantQueryRepository;
     private final ParticipantRepository participantRepository;
     private final RoomRepository roomRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -34,8 +31,8 @@ public class ParticipantService {
     public Participant registerUser(ParticipantCheckRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
-        if (participants.size() == 0) {
+        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
+        if (participant == null) {
             String hashPassword = bCryptPasswordEncoder.encode(request.getPassword());
             return participantRepository.save(
                     Participant.builder()
@@ -54,15 +51,14 @@ public class ParticipantService {
     public ParticipantInfoResponse getUserInfo(ParticipantCheckRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
-        if (participants.size() == 0) {
+        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
+        if (participant == null) {
             throw new ParticipantNotFoundException();
         } else {
-            Participant user = participants.get(0);
-            if (bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
+            if (bCryptPasswordEncoder.matches(request.getPassword(), participant.getPassword())) {
                 return ParticipantInfoResponse.builder()
-                        .isFinished(user.getIsFinished())
-                        .startTime(user.getStartTime())
+                        .isFinished(participant.getIsFinished())
+                        .startTime(participant.getStartTime())
                         .build();
             } else throw new ParticipantLoginFailedException();
         }
@@ -72,12 +68,11 @@ public class ParticipantService {
     public void updateStartTime(ParticipantGameStartRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
-        if (participants.size() == 0) {
+        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
+        if (participant == null) {
             throw new ParticipantNotFoundException();
         } else {
-            Participant user = participants.get(0);
-            user.updateStartTime(request.getStartTime());
+            participant.updateStartTime(request.getStartTime());
         }
     }
 
@@ -85,22 +80,21 @@ public class ParticipantService {
     public boolean checkUserValidation(Long roomId, String nickname) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(RoomNotFoundException::new);
-        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, nickname);
-        return !participants.isEmpty();
+        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), nickname);
+        return !(participant == null);
     }
 
     @Transactional
     public void updateGameRecord(ProblemFinishRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        List<Participant> participants = participantQueryRepository.searchByRoomAndNickname(room, request.getNickname());
-        if (participants.size() == 0) {
+        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
+        if (participant == null) {
             throw new ParticipantNotFoundException();
         } else {
-            Participant user = participants.get(0);
             // Duration 계산
-            Duration duration = Duration.between(user.getStartTime(), request.getEndTime());
-            user.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
+            Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
+            participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
         }
     }
 
