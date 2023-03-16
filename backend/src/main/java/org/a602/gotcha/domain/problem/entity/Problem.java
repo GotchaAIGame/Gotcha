@@ -27,7 +27,7 @@ public class Problem {
     @Column(name = "hint")
     private String hint;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 

@@ -18,7 +18,7 @@ public class Reward {
     @Column(name = "grade")
     private Integer grade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 

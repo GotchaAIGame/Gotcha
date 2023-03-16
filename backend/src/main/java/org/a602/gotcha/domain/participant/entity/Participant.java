@@ -44,7 +44,7 @@ public class Participant {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
