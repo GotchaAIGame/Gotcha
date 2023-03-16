@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.participant.exception.InvalidPhoneNumberException;
 import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.participant.service.ParticipantService;
@@ -62,7 +63,7 @@ public class ParticipantController {
         return new BaseResponse<>(response);
     }
 
-    @Operation(description = "게임 신규로 시작하기", summary = "게임 신규로 시작하기")
+    @Operation(description = "게임 신규로 시작하기 API", summary = "게임 신규로 시작하기 API")
     @ApiResponse(responseCode = "200", description = "게임 신규 시작 성공", content = @Content(schema = @Schema(implementation = ProblemListResponse.class)))
     @ApiResponse(responseCode = "404", description = "해당하는 방 없음")
     @ApiResponse(responseCode = "404", description = "해당하는 유저 없음")
@@ -76,7 +77,7 @@ public class ParticipantController {
         return new BaseResponse<>(problemList);
     }
 
-    @Operation(description = "게임 재참여하기", summary = "게임 재참여하기")
+    @Operation(description = "게임 재참여하기 API", summary = "게임 재참여하기 API API")
     @ApiResponse(responseCode = "200", description = "게임 재참여 성공", content = @Content(schema = @Schema(implementation = ProblemListResponse.class)))
     @ApiResponse(responseCode = "404", description = "해당하는 방 없음")
     @ApiResponse(responseCode = "404", description = "해당하는 유저 없음")
@@ -90,11 +91,22 @@ public class ParticipantController {
         return new BaseResponse<>(problemList);
     }
 
-    @Operation(description = "최종 제출 기록 등록하기", summary = "최종 제출 기록 등록하기")
+    @Operation(description = "최종 제출 기록 등록하기 API", summary = "최종 제출 기록 등록하기 API")
     @ApiResponse(responseCode = "200", description = "기록 등록 성공")
     @PostMapping("/clear")
     public BaseResponse<Object> registerGameRecord(@Valid @RequestBody ProblemFinishRequest request) {
         participantService.updateGameRecord(request);
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    @Operation(description = "휴대폰 번호 입력하기 API", summary = "휴대폰 번호 입력하기 API")
+    @ApiResponse(responseCode = "200", description = "휴대폰 번호 등록 성공")
+    @PostMapping("/phonenumber")
+    public BaseResponse<Object> registerPhoneNumber(@Valid @RequestBody RegisterPhonenumberRequest request) {
+        if(!request.getPhoneNumber().matches("^01(?:0|1|[6-9])[.-]?(\\\\d{3}|\\\\d{4})[.-]?(\\\\d{4})$")) {
+            throw new InvalidPhoneNumberException();
+        }
+        participantService.updatePhoneNumber(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 

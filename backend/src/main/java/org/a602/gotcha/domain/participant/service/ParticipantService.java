@@ -5,10 +5,7 @@ import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
-import org.a602.gotcha.domain.participant.request.DuplicateNicknameRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantCheckRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
-import org.a602.gotcha.domain.participant.request.ProblemFinishRequest;
+import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
@@ -108,6 +105,18 @@ public class ParticipantService {
             // Duration 계산
             Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
             participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
+        }
+    }
+
+    @Transactional
+    public void updatePhoneNumber(RegisterPhonenumberRequest request) {
+        Room room = roomRepository.findById(request.getRoomId())
+                .orElseThrow(RoomNotFoundException::new);
+        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
+        if (participant == null) {
+            throw new ParticipantNotFoundException();
+        } else {
+            participant.updatePhoneNumber(request.getPhoneNumber());
         }
     }
 }

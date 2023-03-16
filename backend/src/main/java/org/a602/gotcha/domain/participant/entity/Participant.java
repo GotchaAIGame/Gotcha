@@ -67,4 +67,8 @@ public class Participant {
         this.isFinished = isFinished;
     }
 
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 }
