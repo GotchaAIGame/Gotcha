@@ -1,6 +1,7 @@
 package org.a602.gotcha.domain.member.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.room.entity.Room;
@@ -37,11 +38,12 @@ public class Member {
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Room> rooms = new ArrayList<>();
 
-public Member(String nickname, String password, String organization, String email, String registrationId){
-this.nickname = nickname;
-this.password = password;
-this.organization = organization;
-this.registrationId = registrationId;
-}
+    @Builder
+    public Member(String nickname, String password, String organization, String email, String registrationId) {
+        this.nickname = nickname;
+        this.password = password;
+        this.organization = organization;
+        this.registrationId = registrationId;
+    }
 
 }
