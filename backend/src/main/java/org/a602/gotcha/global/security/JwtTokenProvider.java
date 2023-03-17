@@ -66,7 +66,7 @@ public class JwtTokenProvider {
 		final long refreshTokenValidSecond = Duration.ofDays(7).toMillis(); //refresh  토큰 유효시간 7일
 		final Date now = new Date();
 
-		final String refreshToken = Jwts.builder()
+		final String refreshToken = BEARER + Jwts.builder()
 			.setSubject(email)
 			.setIssuedAt(now)  // 토큰 발행 일자
 			.setExpiration(new Date(now.getTime() + refreshTokenValidSecond)) // 토큰 만료시간 설정.
