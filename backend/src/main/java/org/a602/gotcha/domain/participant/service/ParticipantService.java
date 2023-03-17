@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,11 +27,11 @@ public class ParticipantService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Transactional(readOnly = true)
-    public Boolean duplicateNickname(DuplicateNicknameRequest request) {
-        Room room = roomRepository.findById(request.getRoomId())
+    public Boolean existDuplicateNickname(DuplicateNicknameRequest request) {
+        roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
-        if (participant == null) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
+        if (participant.isEmpty()) {
             return false;
         } else {
             throw new DuplicateNicknameException();
@@ -41,8 +42,8 @@ public class ParticipantService {
     public Participant registerUser(ParticipantCheckRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
-        if (participant == null) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
+        if (participant.isEmpty()) {
             String hashPassword = bCryptPasswordEncoder.encode(request.getPassword());
             return participantRepository.save(
                     Participant.builder()
@@ -61,14 +62,14 @@ public class ParticipantService {
     public ParticipantInfoResponse getUserInfo(ParticipantCheckRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
-        if (participant == null) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
+        if (participant.isEmpty()) {
             throw new ParticipantNotFoundException();
         } else {
-            if (bCryptPasswordEncoder.matches(request.getPassword(), participant.getPassword())) {
+            if (bCryptPasswordEncoder.matches(request.getPassword(), participant.get().getPassword())) {
                 return ParticipantInfoResponse.builder()
-                        .isFinished(participant.getIsFinished())
-                        .startTime(participant.getStartTime())
+                        .isFinished(participant.get().getIsFinished())
+                        .startTime(participant.get().getStartTime())
                         .build();
             } else throw new ParticipantLoginFailedException();
         }
@@ -78,11 +79,11 @@ public class ParticipantService {
     public void updateStartTime(ParticipantGameStartRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
-        if (participant == null) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
+        if (participant.isEmpty()) {
             throw new ParticipantNotFoundException();
         } else {
-            participant.updateStartTime(request.getStartTime());
+            participant.get().updateStartTime(request.getStartTime());
         }
     }
 
@@ -90,21 +91,21 @@ public class ParticipantService {
     public boolean checkUserValidation(Long roomId, String nickname) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), nickname);
-        return !(participant == null);
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
+        return !(participant.isEmpty());
     }
 
     @Transactional
     public void updateGameRecord(ProblemFinishRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
-        if (participant == null) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
+        if (participant.isEmpty()) {
             throw new ParticipantNotFoundException();
         } else {
             // Duration 계산
-            Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
-            participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
+            Duration duration = Duration.between(participant.get().getStartTime(), request.getEndTime());
+            participant.get().registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
         }
     }
 
@@ -112,11 +113,11 @@ public class ParticipantService {
     public void updatePhoneNumber(RegisterPhonenumberRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        Participant participant = participantRepository.findParticipantByRoomIdAndNickname(room.getId(), request.getNickname());
-        if (participant == null) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
+        if (participant.isEmpty()) {
             throw new ParticipantNotFoundException();
         } else {
-            participant.updatePhoneNumber(request.getPhoneNumber());
+            participant.get().updatePhoneNumber(request.getPhoneNumber());
         }
     }
 }

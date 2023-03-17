@@ -38,7 +38,7 @@ public class ParticipantController {
     @ApiResponse(responseCode = "400", description = "닉네임 중복 검사 실패")
     @PostMapping("/duplicate")
     public BaseResponse<Boolean> duplicateNickname(@Valid @RequestBody DuplicateNicknameRequest request) {
-        Boolean isDuplicate = participantService.duplicateNickname(request);
+        Boolean isDuplicate = participantService.existDuplicateNickname(request);
         return new BaseResponse<>(isDuplicate);
     }
 
@@ -101,6 +101,7 @@ public class ParticipantController {
 
     @Operation(description = "휴대폰 번호 입력하기 API", summary = "휴대폰 번호 입력하기 API")
     @ApiResponse(responseCode = "200", description = "휴대폰 번호 등록 성공")
+    @ApiResponse(responseCode = "400", description = "휴대폰 번호 등록 실패")
     @PostMapping("/phonenumber")
     public BaseResponse<Object> registerPhoneNumber(@Valid @RequestBody RegisterPhonenumberRequest request) {
         if(!request.getPhoneNumber().matches("^01(?:0|1|[6-9])[.-]?(\\\\d{3}|\\\\d{4})[.-]?(\\\\d{4})$")) {
