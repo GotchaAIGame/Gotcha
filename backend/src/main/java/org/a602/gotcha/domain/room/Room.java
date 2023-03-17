@@ -76,8 +76,18 @@ public class Room {
         this.endTime = endTime;
         this.code = code;
     }
+
     @OneToMany(mappedBy = "room", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private Set<Problem> problems = new LinkedHashSet<>();
 
 
+    public void updateRoom(String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+        this.color = color;
+        this.logoUrl = logoUrl;
+        this.title = title;
+        this.eventUrl = eventUrl;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

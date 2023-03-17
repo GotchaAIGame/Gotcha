@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
+import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
@@ -57,5 +58,22 @@ public class RoomController {
     public BaseResponse<Void> closeRoom(@RequestBody CloseRoomRequest request) {
         roomService.closeRoom(request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+
+    @PutMapping("/set/room")
+    @ApiResponse(description = "방 수정 성공", responseCode = "200")
+    @Operation(description = "방 수정 API", summary = "방 수정 API")
+    public BaseResponse<Void> updateRoom(@RequestBody UpdateRoomRequest request) {
+        roomService.updateRoom(
+                request.getId(),
+                request.getColor(),
+                request.getLogoUrl(),
+                request.getTitle(),
+                request.getEventUrl(),
+                request.getDescription(),
+                request.getStartTime(),
+                request.getEndTime());
+        return null;
     }
 }

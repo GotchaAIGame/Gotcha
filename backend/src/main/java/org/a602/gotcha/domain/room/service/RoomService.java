@@ -101,4 +101,12 @@ public class RoomService {
     public void closeRoom(Long roomId) {
         roomRepository.deleteById(roomId);
     }
+
+    public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> {
+            throw new RoomNotFoundException();
+        });
+        room.updateRoom(color, logoUrl, title, eventUrl, description, startTime, endTime);
+
+    }
 }
