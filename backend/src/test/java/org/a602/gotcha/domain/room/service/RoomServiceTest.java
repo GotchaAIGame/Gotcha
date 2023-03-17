@@ -90,6 +90,12 @@ class RoomServiceTest {
             assertEquals(logoUrl, roomInfo.getLogoUrl());
             assertEquals(title, roomInfo.getTitle());
         }
+    Room room;
+
+    @BeforeEach
+    void setUp() {
+        room = new Room();
+        em.persist(room);
     }
 
     @Nested
@@ -168,6 +174,17 @@ class RoomServiceTest {
 
         assertEquals(NUMS_OF_PROBLEM, problemRepository.count());
         assertEquals((long) NUMS_OF_PROBLEM * request.getProblems().size(), problemImageRepository.count());
+
+    }
+
+    @Test
+    @DisplayName("방을 닫자")
+    void closeRoomTest() {
+        Long roomId = room.getId();
+        roomService.closeRoom(roomId);
+        em.flush();
+        em.clear();
+        assertTrue(roomRepository.findById(roomId).isEmpty());
     }
 
 }
