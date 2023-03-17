@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.JwtTokenProvider;
-import org.a602.gotcha.global.security.RefreshToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,11 +40,11 @@ public class MemberService {
 
 		final Member member = memberByEmail.get();
 		String accessToken;
-		RefreshToken refreshToken;
+		String refreshToken;
 
 		if (passwordEncoder.matches(memberLoginRequest.getPassword(), member.getPassword())) {
 			accessToken = jwtTokenProvider.createAccessToken(member);
-			refreshToken = jwtTokenProvider.createRefreshToken(accessToken);
+			refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
 		} else {
 			throw new IllegalArgumentException(GlobalErrorCode.MISMATCH_PASSWORD.getMessage());
 		}
@@ -57,25 +56,29 @@ public class MemberService {
 			.organization(member.getOrganization())
 			.registrationId(member.getRegistrationId())
 			.accessToken(accessToken)
-			.refreshToken(refreshToken.getRefreshToken())
+			.refreshToken(refreshToken)
 			.build();
 	}
 
-	public ReCreateAccessTokenResponse reIssueAccessToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
+	public String reCreateToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
 		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
 			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
 
-		String newAccessToken;
+		return jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(),
+			member);
+	}
 
-		if (jwtTokenProvider.validAccessToken(reCreateAccessTokenRequest.getAccessToken())) {
-			newAccessToken = reCreateAccessTokenRequest.getAccessToken();
-		} else {
-			newAccessToken = jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(), member);
+	public String logout(final MemberLogoutRequest memberLogoutRequest) {
+		// logout유저가 새로 로그인 할 시 토큰을 새로 만들어서 로그인.
+		// 기존 logout처리했던 토큰은 유효시간 지나면 자동으로 삭제됌.
+		String logoutUser = null;
+
+		if (jwtTokenProvider.isLoginUser(memberLogoutRequest.getRefreshToken())) {
+			logoutUser = jwtTokenProvider.registerBlackList(memberLogoutRequest.getAccessToken(),
+				memberLogoutRequest.getRefreshToken());
 		}
 
-		return ReCreateAccessTokenResponse.builder()
-			.accessToken(newAccessToken)
-			.build();
+		return logoutUser;
 	}
 
 }

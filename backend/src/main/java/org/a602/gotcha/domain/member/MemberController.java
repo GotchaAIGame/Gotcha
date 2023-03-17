@@ -19,6 +19,11 @@ public class MemberController {
 
 	private final MemberService memberService;
 
+	@PostMapping("/test")
+	public String test() {
+		return "<h1>test 통과</h1>";
+	}
+
 	@PostMapping("/member/signup")
 	public BaseResponse<Long> signup(@Valid @RequestBody MemberSignupRequest memberSignupRequest) {
 		final Long memberId = memberService.signup(memberSignupRequest);
@@ -48,12 +53,18 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/reCreate")
-	public BaseResponse<ReCreateAccessTokenResponse> reCreateAccessToken(
+	public BaseResponse<String> reCreateTokens(
 		@Valid @RequestBody ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
-		final ReCreateAccessTokenResponse reCreateAccessTokenResponse = memberService.reIssueAccessToken(
-			reCreateAccessTokenRequest);
+		final String newAccessToken = memberService.reCreateToken(reCreateAccessTokenRequest);
 
-		return new BaseResponse<>(reCreateAccessTokenResponse);
+		return new BaseResponse<>(newAccessToken);
+	}
+
+	@PostMapping("/member/logout")
+	public BaseResponse<String> logout(@Valid @RequestBody MemberLogoutRequest memberLogoutRequest) {
+		final String logoutUser = memberService.logout(memberLogoutRequest);
+
+		return new BaseResponse<>(logoutUser);
 	}
 
 }
