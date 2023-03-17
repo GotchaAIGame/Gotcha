@@ -4,13 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest;
+import org.a602.gotcha.domain.reward.request.UpdateRewardRequest;
 import org.a602.gotcha.domain.reward.service.RewardService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +23,15 @@ public class RewardController {
     public BaseResponse<Void> setReward(@RequestBody SetRewardRequest request) {
 
         rewardService.setReward(request.getRewards(), request.getRoomId());
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    @PutMapping("/set/reward")
+    @ApiResponse(description = "방에 리워드 수정", responseCode = "200")
+    @Operation(description = "게임에 리워드 수정", summary = "게임에 리워드 수정")
+    public BaseResponse<Void> updateReward(@RequestBody UpdateRewardRequest request) {
+
+        rewardService.updateReward(request.getRewards(), request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 }
