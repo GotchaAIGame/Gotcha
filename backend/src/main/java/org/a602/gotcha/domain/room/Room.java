@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.member.Member;
 import org.a602.gotcha.domain.participant.Participant;
 import org.a602.gotcha.domain.problem.Problem;
-import org.a602.gotcha.domain.reward.Reward;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -61,8 +60,6 @@ public class Room {
     @OneToMany(mappedBy = "room", orphanRemoval = true)
     private List<Participant> participants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room", orphanRemoval = true)
-    private List<Reward> rewards = new ArrayList<>();
 
 
     @Builder

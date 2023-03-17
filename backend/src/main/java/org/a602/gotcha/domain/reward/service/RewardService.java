@@ -60,5 +60,9 @@ public class RewardService {
         }
         return null;
     }
+
+    public void deleteReward(Long rewardId) {
+        rewardRepository.deleteById(rewardId);
+    }
 }
 
