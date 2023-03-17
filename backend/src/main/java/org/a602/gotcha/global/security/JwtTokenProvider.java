@@ -97,7 +97,7 @@ public class JwtTokenProvider {
 
 	// Jwt 토큰에서 회원 구별 정보 추출(email).
 	public String getUserEmail(final String token) {
-		return BEARER + Jwts.parser()
+		return Jwts.parser()
 			.setSigningKey(secretKey)
 			.parseClaimsJws(token)
 			.getBody()
