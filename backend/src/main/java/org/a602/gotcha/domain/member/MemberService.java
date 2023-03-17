@@ -81,4 +81,23 @@ public class MemberService {
 		return logoutUser;
 	}
 
+	public MemberInformationResponse findMemberInformation(final Long id) {
+		final Optional<Member> byId = memberRepository.findById(id);
+		MemberInformationResponse memberInformationResponse = null;
+
+		if (byId.isPresent()) {
+			final Member member = byId.get();
+
+			memberInformationResponse = MemberInformationResponse.builder()
+				.nickname(member.getNickname())
+				.email(member.getEmail())
+				.organization(member.getOrganization())
+				.registrationId(member.getRegistrationId())
+				.profileImage(member.getProfileImage())
+				.build();
+		}
+
+		return memberInformationResponse;
+	}
+
 }

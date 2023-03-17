@@ -67,4 +67,11 @@ public class MemberController {
 		return new BaseResponse<>(logoutUser);
 	}
 
+	@GetMapping("/member")
+	public BaseResponse<MemberInformationResponse> findMemberInfo(@Valid @RequestParam Long id) {
+		final MemberInformationResponse memberInformation = memberService.findMemberInformation(id);
+
+		return new BaseResponse<>(memberInformation);
+	}
+
 }
