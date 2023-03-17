@@ -1,10 +1,15 @@
 package org.a602.gotcha.domain.reward.entity;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "reward")
 public class Reward {
     @Id

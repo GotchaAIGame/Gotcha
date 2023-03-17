@@ -26,6 +26,8 @@ public enum GlobalErrorCode {
     PARTICIPANT_NOT_FOUND(404, "P200", "해당하는 유저가 없습니다"),
     INVALID_PHONE_NUMBER(400, "P300", "잘못된 형태의 휴대폰 입력입니다"),
     PROBLEM_NOT_FOUND(404, "PR100", "룸에 해당하는 문제가 없습니다"),
+    REWARD_NOT_FOUND(404, "RW100", "리워드를 찾을 수 없습니다"),
+
     ;
     private final String code;
     private final String message;
