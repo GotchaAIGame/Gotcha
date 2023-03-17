@@ -1,5 +1,7 @@
 package org.a602.gotcha.global.redis;
 
+import static org.springframework.security.config.Elements.*;
+
 import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class RedisRefreshTokenRepository {
-	public static final String LOGOUT = "logout";
 	private final RedisTemplate<String, String> redisTemplate;
 
 	public String save(final String accessToken, final String refreshToken) {
