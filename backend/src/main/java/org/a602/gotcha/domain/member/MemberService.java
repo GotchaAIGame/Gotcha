@@ -100,4 +100,10 @@ public class MemberService {
 		return memberInformationResponse;
 	}
 
+	public Long deleteMemberById(final Long id) {
+		memberRepository.deleteById(id);
+
+		return id;
+	}
+
 }

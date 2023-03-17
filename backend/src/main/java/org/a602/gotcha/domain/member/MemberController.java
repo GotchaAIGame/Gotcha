@@ -3,6 +3,7 @@ package org.a602.gotcha.domain.member;
 import javax.validation.Valid;
 
 import org.a602.gotcha.global.common.BaseResponse;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,6 +73,13 @@ public class MemberController {
 		final MemberInformationResponse memberInformation = memberService.findMemberInformation(id);
 
 		return new BaseResponse<>(memberInformation);
+	}
+
+	@DeleteMapping("/member")
+	public BaseResponse<Long> deleteMember(@Valid @RequestParam Long id) {
+		final Long deleteId = memberService.deleteMemberById(id);
+
+		return new BaseResponse<>(deleteId);
 	}
 
 }
