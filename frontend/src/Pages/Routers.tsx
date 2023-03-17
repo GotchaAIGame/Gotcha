@@ -5,6 +5,7 @@ import SignUpPage from "./SignUpPage";
 import LogInPage from "./LogInPage";
 import CreatorMainPage from "./CreatorMainPage";
 import CreateGamePage from "./CreateGamePage";
+import PlayerNewGamePage from "./PlayerNewGamePage";
 
 export default function Routers() {
   return (
@@ -15,6 +16,7 @@ export default function Routers() {
 
       <Route path="/creator" element={<CreatorMainPage />} />
       <Route path="/create/game" element={<CreateGamePage />} />
+      <Route path="/newgame" element={<PlayerNewGamePage />} />
     </Routes>
   );
 }

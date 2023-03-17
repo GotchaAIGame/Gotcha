@@ -1,0 +1,16 @@
+@import "@styles/colors.scss";
+
+.player-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  img {
+    // position: relative;
+    // margin-top: 50%;
+    width: 100%;
+    max-width: 400px;
+  }
+}

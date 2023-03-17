@@ -11,7 +11,7 @@ export default function MainPage() {
 
   return (
     // 그리드 테스트 용입니다.
-    <div>
+    <>
       <h3>Main</h3>
       {userId && <p>{userId}님, 어서오세요!</p>}
       <InputPinNum />
@@ -38,6 +38,6 @@ export default function MainPage() {
           <button type="button">새 게임 페이지</button>
         </Link>
       </div>
-    </div>
+    </>
   );
 }

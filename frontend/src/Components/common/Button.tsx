@@ -8,15 +8,18 @@ interface BtnProps {
   type?: "button" | "submit" | "reset";
   size?: string;
   color?: string;
+  onClick?: any; // 함수 인자 및 return 값 특정 불가
 }
 
-function Button({ text, type, size, color, ...rest }: BtnProps) {
+function Button({ text, type, size, color, onClick, ...rest }: BtnProps) {
+  const handleClick = () => onClick();
+
   return (
-    // eslint-disable-next-line react/button-has-type 
-    // type땜에 넣었음
+    // eslint-disable-next-line react/button-has-type
     <button
       type={type}
       className={classNames("commonButton", size, color)}
+      onClick={onClick && handleClick}
       {...rest}
     >
       {text}
@@ -29,6 +32,9 @@ Button.defaultProps = {
   type: "button",
   size: "large",
   color: "lime",
+  onClick: () => {
+    return null;
+  },
 };
 
 export default Button;

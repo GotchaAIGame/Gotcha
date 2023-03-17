@@ -38,11 +38,11 @@ export default function LogIn() {
       <form action="submit" onSubmit={loginHandler}>
         <InputBox
           type="text"
-          txt="아이디"
+          text="아이디"
           onChange={idTypingHandler}
           value={inputText}
         />
-        <InputBox type="password" txt="비밀번호" />
+        <InputBox type="password" text="비밀번호" />
         <Button text="로그인하기" type="submit" />
       </form>
 

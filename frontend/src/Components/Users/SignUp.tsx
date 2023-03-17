@@ -1,5 +1,6 @@
 import React from "react";
 import "@styles/SignUpPage.scss";
+import Button from "@components/common/Button";
 
 type Props = {
   setIsSuccess: (value: boolean) => void;
@@ -64,9 +65,7 @@ export default function SignUp(props: Props) {
           />
         </label>
       </form>
-      <button type="submit" onClick={signupHandler}>
-        다음
-      </button>
+      <Button text="다음" type="submit" onClick={signupHandler} />
     </div>
   );
 }

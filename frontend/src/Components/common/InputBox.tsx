@@ -3,22 +3,22 @@ import "./styles/InputBox.scss";
 import classNames from "classnames";
 
 interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  txt?: string;
+  text?: string;
   type?: string;
 }
 
-export default function InputBox({ txt, type, ...rest }: InputBoxProps) {
+export default function InputBox({ text, type, ...rest }: InputBoxProps) {
   return (
     <input
       className={classNames("inputBoxWrapper")}
       type={type}
-      placeholder={txt}
+      placeholder={text}
       {...rest}
     />
   );
 }
 
 InputBox.defaultProps = {
-  txt: "",
+  text: "",
   type: "text",
 };
