@@ -5,7 +5,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  // height: calc(80vh + 55px); // 수정할 수 있으면 %로 수정할 것
+  height: 100vh; // 수정할 수 있으면 %로 수정할 것
+  background-image: url("../assets/tempBg.svg");
 
   img {
     // position: relative;

@@ -17,7 +17,7 @@ function App() {
             <Routers />
           </div>
         </div>
-        <footer className="app-main-footer">
+        <footer>
           <Footbar />
         </footer>
       </BrowserRouter>
