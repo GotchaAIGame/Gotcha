@@ -69,7 +69,7 @@ class RewardControllerTest {
     @Test
     @DisplayName("리워드 저장 테스트")
     void setReward() throws Exception {
-
+        long beforeCreateRewardCount = rewardRepository.count();
         SetRewardRequest setRewardRequest = new SetRewardRequest(List.of(
                 new SetRewardRequest.RewardDTO("리워드 이름1", 1, null),
                 new SetRewardRequest.RewardDTO("리워드 이름2", 2, null)),
@@ -79,7 +79,7 @@ class RewardControllerTest {
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        Assertions.assertEquals(3, rewardRepository.count());
+        Assertions.assertEquals(beforeCreateRewardCount + setRewardRequest.getRewards().size(), rewardRepository.count());
 
     }
 
