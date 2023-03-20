@@ -19,6 +19,9 @@ public class S3Service {
     private String bucket;
 
     public String uploadImage(String base64EncodedStringImage) {
+        if (base64EncodedStringImage == null) {
+            return null;
+        }
         byte[] decode = Base64.getDecoder().decode(base64EncodedStringImage);
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(decode)) {
             String key = UUID.randomUUID().toString();

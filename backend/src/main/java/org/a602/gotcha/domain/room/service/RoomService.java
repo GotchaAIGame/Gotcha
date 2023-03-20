@@ -109,4 +109,10 @@ public class RoomService {
         room.updateRoom(color, logoUrl, title, eventUrl, description, startTime, endTime);
 
     }
+
+    public Room findById(Long roomId) {
+        return roomRepository.findById(roomId).orElseThrow(() -> {
+            throw new RoomNotFoundException();
+        });
+    }
 }

@@ -7,8 +7,7 @@ import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest.RewardDTO;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
 import org.a602.gotcha.domain.room.Room;
-import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
-import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RewardService {
     private final RewardRepository rewardRepository;
-    private final RoomRepository roomRepository;
-
+    private final RoomService roomService;
     private final S3Service s3Service;
 
     public void setReward(List<RewardDTO> rewards, Long roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> {
-            throw new RoomNotFoundException();
-        });
-
-
+        Room room = roomService.findById(roomId);
         List<Reward> rewardEntityList = new ArrayList<>();
         for (RewardDTO rewardDTO : rewards) {
             Reward reward = new Reward(rewardDTO.getName(), rewardDTO.getGrade(), room, rewardDTO.getImage());
@@ -39,26 +33,28 @@ public class RewardService {
         rewardRepository.saveAll(rewardEntityList);
     }
 
+
     @Transactional
     public void updateReward(List<UpdateRewardDTO> rewardDTOList, Long roomId) {
 
         rewardRepository.findByRoomId(roomId);
-
+        Room room = roomService.findById(roomId);
+        List<Reward> newRewardList = new ArrayList<>();
         for (UpdateRewardDTO updateRewardDTO : rewardDTOList) {
             Long rewardId = updateRewardDTO.getRewardId();
-            Reward reward = rewardRepository.findById(rewardId).orElseThrow(() -> {
-                throw new RewardNotFoundException();
-            });
-            String uploadImage = uploadImageIfPresent(updateRewardDTO.getImage());
-            reward.update(updateRewardDTO.getGrade(), updateRewardDTO.getName(), uploadImage);
+            Reward reward;
+            String uploadImage = s3Service.uploadImage(updateRewardDTO.getImage());
+            if (rewardId != null) {
+                reward = rewardRepository.findById(rewardId).orElseThrow(() -> {
+                    throw new RewardNotFoundException();
+                });
+                reward.update(updateRewardDTO.getGrade(), updateRewardDTO.getName(), uploadImage);
+            } else {
+                Reward newReward = new Reward(updateRewardDTO.getName(), updateRewardDTO.getGrade(), room, uploadImage);
+                newRewardList.add(newReward);
+            }
         }
-    }
-
-    private String uploadImageIfPresent(String image) {
-        if (image != null) {
-            return s3Service.uploadImage(image);
-        }
-        return null;
+        rewardRepository.saveAll(newRewardList);
     }
 
     public void deleteReward(Long rewardId) {
