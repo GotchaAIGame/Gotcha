@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import Hammer from "hammerjs";
+// import Hammer from "hammerjs";
 import ProblemCard from "./ProblemCard";
 
 function ProblemCardList() {

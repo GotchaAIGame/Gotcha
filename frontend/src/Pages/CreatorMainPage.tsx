@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import Profile from "../Components/CreatorMain/Profile";
-import GameListTap from "../Components/CreatorMain/GameListTap";
-import "../Styles/CreatorMainPage.scss";
+import Profile from "@components/CreatorMain/Profile";
+import GameListTap from "@components/CreatorMain/GameListTap";
+import "@styles/CreatorMainPage.scss";
 
 export default function CreatorMainPage() {
   return (
