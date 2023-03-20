@@ -56,7 +56,8 @@
   // 색상 관리
   &.lime {
     background: $lime;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background: rgba(223, 249, 62, 0.5);
       border: 1px solid $lime;
       box-shadow: 1.5px 2px 1px rgba(223, 249, 62, 0.5);
@@ -66,7 +67,8 @@
   &.darkblue {
     background: $blue-1;
     color: white;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background: rgba(85, 81, 255, 0.5);
       border: 1px solid $blue-1;
       box-shadow: 1.5px 2px 1px rgb(85, 81, 255);
@@ -75,23 +77,26 @@
 
   &.skyblue {
     background: $blue-3;
-    &:hover, &:active {
-      background: rgba(207,226,255, 0.5);
+    &:hover,
+    &:active {
+      background: rgba(207, 226, 255, 0.5);
       border: 1px solid $blue-3;
-      box-shadow: 1.5px 2px 1px rgb(207,226,255);
+      box-shadow: 1.5px 2px 1px rgb(207, 226, 255);
     }
   }
 
   &.gray-lime {
     background: $gray-5;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background: $lime;
     }
   }
 
   &.gray-blue {
     background: $gray-5;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background: $blue-1;
       color: white;
     }
