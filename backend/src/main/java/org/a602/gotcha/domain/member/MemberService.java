@@ -3,6 +3,8 @@ package org.a602.gotcha.domain.member;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +19,7 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final EntityManagerFactory entityManagerFactory;
 
 	@Transactional
 	public Long signup(final MemberSignupRequest memberSignupRequest) {
@@ -104,6 +107,23 @@ public class MemberService {
 		memberRepository.deleteById(id);
 
 		return id;
+	}
+
+	@Transactional
+	public MemberUpdateResponse updateMember(final MemberUpdateRequest memberUpdateRequest) {
+		final Member member = memberRepository.findById(memberUpdateRequest.getId())
+			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+
+		member.updateMember(memberUpdateRequest.toEntity());
+
+		return MemberUpdateResponse.builder()
+			.id(member.getId())
+			.email(member.getEmail())
+			.registrationId(member.getRegistrationId())
+			.organization(member.getOrganization())
+			.nickname(member.getNickname())
+			.profileImage(member.getProfileImage())
+			.build();
 	}
 
 }

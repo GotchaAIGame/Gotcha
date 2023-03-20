@@ -6,6 +6,7 @@ import org.a602.gotcha.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +81,14 @@ public class MemberController {
 		final Long deleteId = memberService.deleteMemberById(id);
 
 		return new BaseResponse<>(deleteId);
+	}
+
+	@PutMapping("/member")
+	public BaseResponse<MemberUpdateResponse> updateMember(
+		@Valid @RequestBody MemberUpdateRequest memberUpdateRequest) {
+		final MemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberUpdateRequest);
+
+		return new BaseResponse<>(memberUpdateResponse);
 	}
 
 }

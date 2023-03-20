@@ -26,10 +26,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Entity
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
@@ -66,6 +68,15 @@ public class Member implements UserDetails {
 
 	public void encodePassword(final PasswordEncoder passwordEncoder) {
 		this.password = passwordEncoder.encode(password);
+	}
+
+	public void updateMember(final Member member) {
+		this.id = member.getId();
+		this.nickname = member.getNickname();
+		this.organization = member.getOrganization();
+		this.registrationId = member.getRegistrationId();
+		this.profileImage = member.getProfileImage();
+		this.email = member.getEmail();
 	}
 
 	@Override
