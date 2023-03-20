@@ -1,5 +1,7 @@
 package org.a602.gotcha.domain.member;
 
+import static org.a602.gotcha.global.security.JwtTokenProvider.*;
+
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -46,8 +48,8 @@ public class MemberService {
 		String refreshToken;
 
 		if (passwordEncoder.matches(memberLoginRequest.getPassword(), member.getPassword())) {
-			accessToken = jwtTokenProvider.createAccessToken(member);
-			refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+			accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
+			refreshToken = BEARER + jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
 		} else {
 			throw new IllegalArgumentException(GlobalErrorCode.MISMATCH_PASSWORD.getMessage());
 		}
@@ -67,7 +69,7 @@ public class MemberService {
 		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
 			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
 
-		return jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(),
+		return BEARER + jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(),
 			member);
 	}
 
