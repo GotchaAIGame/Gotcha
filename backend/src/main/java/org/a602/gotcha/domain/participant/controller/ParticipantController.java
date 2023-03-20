@@ -47,8 +47,8 @@ public class ParticipantController {
     @ApiResponse(responseCode = "400", description = "중복된 닉네임 있음")
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
     @PostMapping("/register")
-    public BaseResponse<Object> getParticipantInfo(@Valid @RequestBody ParticipantCheckRequest request) {
-        participantService.registerUser(request);
+    public BaseResponse<Object> getParticipantInfo(@Valid @RequestBody ParticipantRegisterRequest request) {
+        participantService.registerParticipant(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
@@ -58,7 +58,7 @@ public class ParticipantController {
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
     @ApiResponse(responseCode = "")
     @PostMapping("/login")
-    public BaseResponse<ParticipantInfoResponse> doLogin(@Valid @RequestBody ParticipantCheckRequest request) {
+    public BaseResponse<ParticipantInfoResponse> doLogin(@Valid @RequestBody ParticipantRegisterRequest request) {
         ParticipantInfoResponse response = participantService.getUserInfo(request);
         return new BaseResponse<>(response);
     }

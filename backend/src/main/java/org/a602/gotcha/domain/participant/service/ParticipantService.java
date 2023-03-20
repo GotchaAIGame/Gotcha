@@ -39,12 +39,12 @@ public class ParticipantService {
     }
 
     @Transactional
-    public Participant registerUser(ParticipantCheckRequest request) {
+    public Participant registerParticipant (ParticipantRegisterRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
         if (participant.isEmpty()) {
-            String hashPassword = bCryptPasswordEncoder.encode(request.getPassword());
+            final String hashPassword = bCryptPasswordEncoder.encode(request.getPassword());
             return participantRepository.save(
                     Participant.builder()
                             .nickname(request.getNickname())
@@ -59,7 +59,7 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
-    public ParticipantInfoResponse getUserInfo(ParticipantCheckRequest request) {
+    public ParticipantInfoResponse getUserInfo(ParticipantRegisterRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());

@@ -12,8 +12,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "유저 정보를 확인하는 요청")
-public class ParticipantCheckRequest {
+@Schema(description = "유저 등록 요청")
+public class ParticipantRegisterRequest {
 
     @NotNull
     @Schema(description = "게임 방 Id")
