@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "@components/common/Button";
 import EntireGames from "./EntireGames";
 import OnGoingGames from "./OnGoingGames";
@@ -67,9 +68,9 @@ export default function GameListTap() {
       {isOpen.ongoing && <OnGoingGames />}
       {isOpen.before && <BeforeStartedGames />}
       {isOpen.finished && <FinishedGames />}
-      <div className="create-button-wrapper">
+      <Link to="/create/game" className="create-button-wrapper">
         <Button color="gray" size="small" text="생성하기" />
-      </div>
+      </Link>
     </div>
   );
 }
