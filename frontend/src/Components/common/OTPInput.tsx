@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+// 참고: https://dominicarrojado.com/posts/how-to-create-your-own-otp-input-in-react-and-typescript-with-tests-part-1/
 import React, { useMemo } from "react";
 import "./styles/OTPInput.scss";
 
@@ -40,24 +41,39 @@ export default function OTPInput({
     idx: number
   ): void => {
     const { target } = e;
-    const tagetValue = target.value;
-    
-    
-    if (!digitRegExp.test(tagetValue)) {
-      // targetValue가 유효하지 않다면 종료
+    let targetValue = target.value;
+    const isTargetValue = digitRegExp.test(targetValue); // 유효성검사
+    // 유효하지 않거나 빈값이면 종료
+    if (!isTargetValue && targetValue !== "") {
       return;
     }
+    targetValue = isTargetValue ? targetValue : " ";
     const newValue =
-      value.substring(0, idx) + tagetValue + value.substring(idx + 1);
+      value.substring(0, idx) + targetValue + value.substring(idx + 1);
     onChange(newValue);
-    
-
+    // 유효하지 않다면 종료
+    if (!isTargetValue) {
+      return;
+    }
     // input 받은 다음 요소에 focus
     const nextElement = target.nextElementSibling as HTMLInputElement | null;
-    if (nextElement) { 
+    if (nextElement) {
       nextElement.focus();
     }
-    
+  };
+
+  // 비밀번호 삭제
+  const deleteElement = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (e.key !== "Backspace" || target.value !== "") {
+      return;
+    }
+    // 삭제되면 이전 요소로 focus
+    const prevElement =
+      target.previousElementSibling as HTMLInputElement | null;
+    if (prevElement) {
+      prevElement.focus();
+    }
   };
 
   return (
@@ -66,13 +82,14 @@ export default function OTPInput({
         <input
           className="otp-input"
           key={idx}
-          type="text"
+          type="password"
           inputMode="numeric"
           autoComplete="one-time-code"
           pattern="\d{1}"
           maxLength={valueLength}
           value={digit}
           onChange={(e) => inputOnChange(e, idx)}
+          onKeyDown={deleteElement}
         />
       ))}
     </div>

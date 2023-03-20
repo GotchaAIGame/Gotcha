@@ -22,7 +22,6 @@ export default function PlayerInfo() {
   return (
     <div>
       <InputValidBox text="닉네임" type="text" onClick={handleValidation} />
-      <InputBox text="비밀번호" type="password" />
       <OTPInput value={otp} valueLength={4} onChange={changeHandler} />
       <div className="enter-button">
         <Button
