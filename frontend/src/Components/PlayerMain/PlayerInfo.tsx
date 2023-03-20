@@ -18,14 +18,15 @@ export default function PlayerInfo() {
   return (
     <div>
       <InputValidBox text="닉네임" type="text" onClick={handleValidation} />
-      <InputBox text="닉네임" type="text" />
       <InputBox text="비밀번호" type="password" />
-      <Button
-        text="입장하기"
-        type="button"
-        color="gray-blue"
-        onClick={joinGameHandler}
-      />
+      <div className="enter-button">
+        <Button
+          text="입장하기"
+          type="button"
+          color="gray-blue"
+          onClick={joinGameHandler}
+        />
+      </div>
     </div>
   );
 }
