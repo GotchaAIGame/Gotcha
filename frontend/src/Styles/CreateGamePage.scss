@@ -76,7 +76,18 @@
 }
 
 // GameCardCarousel
+.add-img-button {
+  width: 40px;
+  height: 40px;
+  background-color: $purple-2;
+  border-radius: 40px;
+  border: 1px solid $gray-1;
+  display: flex;
+  align-items: center;
+  font-size: xx-large;
+}
 
+// Game Card
 .game-card-outline {
   border: 1px solid $gray-1;
   width: 255px;
@@ -120,6 +131,16 @@
     border: 1px $gray-1 dashed;
   }
 
+  .upload-img-wrapper {
+    // display: flex;
+    margin: 20px auto;
+    img {
+      height: 200px;
+      width: 200px;
+      object-fit: fill;
+    }
+  }
+
   .hint-text-box {
     margin: 5px 28px;
     display: flex;
@@ -139,8 +160,8 @@
     background-color: $lime;
   }
 
-  .hint-input-wrapper{
-    input{
+  .hint-input-wrapper {
+    input {
       border-radius: 8px;
     }
   }
