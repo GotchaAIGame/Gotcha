@@ -1,6 +1,5 @@
 package org.a602.gotcha.global.security;
 
-import static org.a602.gotcha.global.security.JwtAuthenticationFilter.*;
 import static org.springframework.http.HttpHeaders.*;
 
 import java.time.Duration;
@@ -33,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 // AuthenticationProvider 역할도 겸임.
 public class JwtTokenProvider {
 	private String secretKey = "gotcha";
+	public static final String BEARER = "Bearer";
 
 	private final MemberDetailService memberDetailService;
 	private final RedisRefreshTokenRepository redisRefreshTokenRepository;
@@ -128,8 +128,7 @@ public class JwtTokenProvider {
 			return refreshTokenOptional.get().getAccessToken();
 		} else {
 			final String newAccessToken = BEARER + createAccessToken(member);
-			final String newRefreshToken = BEARER + createRefreshToken(createAccessToken(member), member.getEmail());
-			redisRefreshTokenRepository.save(newRefreshToken, newAccessToken);
+			redisRefreshTokenRepository.update(refreshToken, newAccessToken);
 
 			return newAccessToken;
 		}

@@ -37,14 +37,15 @@ public class RedisRefreshTokenRepository {
 		return Optional.of(new RefreshToken(refreshToken, accessToken));
 	}
 
-	public void update(final RefreshToken refreshToken) {
+	public void update(final String refreshToken, final String accessToken) {
 		final ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
-		final Long expire = redisTemplate.getExpire(refreshToken.getRefreshToken());
+		final Long expire = redisTemplate.getExpire(refreshToken);
 
 		if (expire != null) {
-			stringStringValueOperations.set(refreshToken.getRefreshToken(), refreshToken.getAccessToken(), expire,
+			stringStringValueOperations.set(refreshToken, accessToken, expire,
 				TimeUnit.MILLISECONDS);
 		}
+
 	}
 
 	public void deleteById(final RefreshToken refreshToken) {
