@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
 import "@styles/MainPage.scss";
+import Button from "@components/common/Button";
 
 export default function MainPage() {
   const userId = useSelector((state: any) => state.users.userId);
@@ -38,6 +39,11 @@ export default function MainPage() {
           <button type="button">새 게임 페이지</button>
         </Link>
       </div>
+        <Button color="lime" text="버튼"/>
+        <Button color="darkblue" text="버튼"/>
+        <Button color="skyblue" text="버튼"/>
+        <Button color="gray-lime" text="버튼"/>
+        <Button color="gray-blue" text="버튼"/>
     </>
   );
 }
