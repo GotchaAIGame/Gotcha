@@ -44,7 +44,7 @@ public class ParticipantService {
                 .orElseThrow(RoomNotFoundException::new);
         Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
         if (participant.isEmpty()) {
-            final String hashPassword = bCryptPasswordEncoder.encode(request.getPassword());
+            final String hashPassword = encodePassword(request.getPassword());
             return participantRepository.save(
                     Participant.builder()
                             .nickname(request.getNickname())
@@ -59,14 +59,14 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
-    public ParticipantInfoResponse getUserInfo(ParticipantRegisterRequest request) {
+    public ParticipantInfoResponse getParticipantInfo(ParticipantLoginRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
         if (participant.isEmpty()) {
             throw new ParticipantNotFoundException();
         } else {
-            if (bCryptPasswordEncoder.matches(request.getPassword(), participant.get().getPassword())) {
+            if (matchPassword(request.getPassword(), participant.get().getPassword())) {
                 return ParticipantInfoResponse.builder()
                         .isFinished(participant.get().getIsFinished())
                         .startTime(participant.get().getStartTime())
@@ -120,4 +120,15 @@ public class ParticipantService {
             participant.get().updatePhoneNumber(request.getPhoneNumber());
         }
     }
+
+    private String encodePassword(String password) {
+        return bCryptPasswordEncoder.encode(password);
+    }
+
+    private boolean matchPassword(String rawPassword, String encodePassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, encodePassword);
+    }
+
+
+
 }

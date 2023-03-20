@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.global.common.BaseTime;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "participant")
-public class Participant {
+public class Participant extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

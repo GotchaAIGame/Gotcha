@@ -58,8 +58,8 @@ public class ParticipantController {
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
     @ApiResponse(responseCode = "")
     @PostMapping("/login")
-    public BaseResponse<ParticipantInfoResponse> doLogin(@Valid @RequestBody ParticipantRegisterRequest request) {
-        ParticipantInfoResponse response = participantService.getUserInfo(request);
+    public BaseResponse<ParticipantInfoResponse> doLogin(@Valid @RequestBody ParticipantLoginRequest request) {
+        ParticipantInfoResponse response = participantService.getParticipantInfo(request);
         return new BaseResponse<>(response);
     }
 
