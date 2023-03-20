@@ -1,20 +1,28 @@
 import React from "react";
 
-function ProblemCard() {
-  const problemTitle = "문제 1";
+interface problemProps {
+  problem: {
+    problemId: number;
+    problemName: string;
+    problemDesc: string;
+    problemImgURL: string;
+  };
+}
+
+function ProblemCard(props: problemProps) {
+  const { problem } = props;
+  const { problemId, problemName, problemDesc, problemImgURL } = problem;
+
   const hasImage = false;
 
   return (
     <div className="outer-card-wrapper">
       <div className="problem-title-container">
-        <h5>{problemTitle}</h5>
+        <h5>{problemName}</h5>
       </div>
       <div className="inner-card-container">
         <div className="original-image-container">
-          <img
-            src="https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png"
-            alt="yuegui"
-          />
+          <img src={problemImgURL} alt={problemName} />
         </div>
         <div className="input-image-container">
           {hasImage ? (

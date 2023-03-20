@@ -8,7 +8,7 @@ export default function GamePage() {
   const roomTitle = "같은 것을 찾아라 같챠!";
 
   return (
-    <div>
+    <div className="gamepage">
       <ProblemTitle />
       <Timer />
       <ProblemCardList />

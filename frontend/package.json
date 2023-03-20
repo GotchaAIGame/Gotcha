@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/hammerjs": "^2.0.41",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "eslint": "^8.35.0",
