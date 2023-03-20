@@ -1,6 +1,7 @@
 package org.a602.gotcha.global.security;
 
 import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.security.config.Elements.*;
 
 import java.time.Duration;
 import java.util.Base64;
@@ -52,7 +53,7 @@ public class JwtTokenProvider {
 		final long accessTokenValidSecond = Duration.ofMinutes(15).toMillis(); //access  토큰 유효시간 15분
 		final Date now = new Date();
 
-		return BEARER + Jwts.builder()
+		return Jwts.builder()
 			.setClaims(claims) // 데이터
 			.setIssuedAt(now)  // 토큰 발행 일자
 			.setExpiration(new Date(now.getTime() + accessTokenValidSecond)) // 토큰 만료시간 설정.
@@ -66,7 +67,7 @@ public class JwtTokenProvider {
 		final long refreshTokenValidSecond = Duration.ofDays(7).toMillis(); //refresh  토큰 유효시간 7일
 		final Date now = new Date();
 
-		final String refreshToken = BEARER + Jwts.builder()
+		final String refreshToken = Jwts.builder()
 			.setSubject(email)
 			.setIssuedAt(now)  // 토큰 발행 일자
 			.setExpiration(new Date(now.getTime() + refreshTokenValidSecond)) // 토큰 만료시간 설정.
@@ -127,7 +128,7 @@ public class JwtTokenProvider {
 			// 기존 accessToken 토큰정보가 있을경우 그대로 반환.
 			return refreshTokenOptional.get().getAccessToken();
 		} else {
-			final String newAccessToken = BEARER + createAccessToken(member);
+			final String newAccessToken = createAccessToken(member);
 			redisRefreshTokenRepository.update(refreshToken, newAccessToken);
 
 			return newAccessToken;
@@ -175,6 +176,13 @@ public class JwtTokenProvider {
 
 	public boolean isLoginUser(final String refreshToken) {
 		return redisRefreshTokenRepository.findById(splitToken(refreshToken)).isPresent();
+	}
+
+	public boolean isLogoutUser(final String accessToken) {
+		final Optional<RefreshToken> refreshTokenOptional = redisRefreshTokenRepository.findById(
+			splitToken(accessToken));
+
+		return refreshTokenOptional.isPresent() && refreshTokenOptional.get().getRefreshToken().equals(LOGOUT);
 	}
 
 }
