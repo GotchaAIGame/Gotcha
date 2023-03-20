@@ -9,25 +9,31 @@ export default function GameCard() {
       </header>
       <article>
         <div className="logo-image-wrapper">
-          <Button size="xxsmall" color="lime" text="로고" />
+          <div className="card-content-title-wrapper">로고</div>
           <img
             src="https://bespokehomemeta.com/images/bespoke-logo.png"
             alt=""
           />
         </div>
-        <div>
-          <Button size="xxsmall" color="lime" text="PIN" />
-          <span>123456</span>
+        <div className="card-content-wrapper">
+          <div className="card-content-title-wrapper">PIN</div>
+          <p>123456</p>
         </div>
-        <div>
-          <Button size="xxsmall" color="lime" text="기간" />
-          <p>시작 23.03.12 10:00</p>
-          <p>종료 23.03.12 10:30</p>
+        <div className="card-content-wrapper">
+          <div className="card-content-title-wrapper">기간</div>
+          <div className="card-aside-wrapper">
+            <p>시작 23.03.12 10:00</p>
+            <p>종료 23.03.12 10:30</p>
+          </div>
         </div>
-        <Button size="xxsmall" color="lime" text="문제" />
-        <p>5개</p>
-        <Button size="xxsmall" color="lime" text="문제" />
-        <p>23년 상반기, 강남역에 비스포크가 떴다!</p>
+        <div className="card-content-wrapper">
+          <div className="card-content-title-wrapper">문제</div>
+          <p>5개</p>
+        </div>
+        <div className="card-content-wrapper">
+          <div className="card-content-title-wrapper">설명</div>
+          <p>23년 상반기, 강남역에 비스포크가 떴다! 어쩌구 저쩌구 방가방가</p>
+        </div>
       </article>
       <footer>
         <Button text="조기종료" size="small" color="gray" />
