@@ -4,6 +4,7 @@ import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.DuplicateNicknameRequest;
+import org.a602.gotcha.domain.participant.request.ParticipantRegisterRequest;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import java.util.Optional;
@@ -28,15 +30,16 @@ class ParticipantServiceTest {
 
     @InjectMocks
     private ParticipantService participantService;
-
     @Mock
     private ParticipantRepository participantRepository;
     @Mock
     private RoomRepository roomRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
     String USER_NICKNAME = "YEZI";
+    String USER_PASSWORD = "1234";
     String NOT_REGISTERED_NICKNAME = "TAEGYU";
 
     @Nested
@@ -65,10 +68,11 @@ class ParticipantServiceTest {
                     .roomId(ROOM_ID)
                     .nickname(USER_NICKNAME)
                     .build();
-            //when
+            // when
             when(roomRepository.findById(any(Long.class))).thenReturn(Optional.of(Room.builder().build()));
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
                     .thenReturn(Optional.of(Participant.builder().build()));
+            // then
             assertThrows(DuplicateNicknameException.class, () -> participantService.existDuplicateNickname(request));
         }
 
@@ -84,10 +88,72 @@ class ParticipantServiceTest {
             when(roomRepository.findById(any(Long.class))).thenReturn(Optional.of(Room.builder().build()));
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
                     .thenReturn(Optional.empty());
+            // then
             assertFalse(participantService.existDuplicateNickname(request));
         }
-
     }
+
+    @Nested
+    @DisplayName("참여자 등록 메소드는")
+    class RegisterParticipant {
+
+        @Test
+        @DisplayName("방 정보가 없을 경우 RoomNotFound 예외 발생")
+        void notValidRoomId() {
+            // given
+            ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
+                    .roomId(INVALID_ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .password(USER_PASSWORD)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(INVALID_ROOM_ID))).thenReturn(Optional.empty());
+            // then
+            assertThrows(RoomNotFoundException.class, () -> participantService.registerParticipant(request));      }
+
+        @Test
+        @DisplayName("이미 해당 닉네임이 있을 경우 DuplicateNickname 예외 발생")
+        void existDuplicatedNickname() {
+            // given
+            ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .password(USER_PASSWORD)
+                    .build();
+            // when
+            when(roomRepository.findById(any(Long.class))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(Optional.of(Participant.builder().build()));
+            // then
+            assertThrows(DuplicateNicknameException.class, () -> participantService.registerParticipant(request));
+        }
+
+        @Test
+        @DisplayName("존재하는 방에 해당 닉네임이 없을 경우 신규 유저로 등록")
+        void registerSuccessfully() {
+            // given
+            ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(NOT_REGISTERED_NICKNAME)
+                    .password(USER_PASSWORD)
+                    .build();
+            String hashPassword = bCryptPasswordEncoder.encode(USER_PASSWORD);
+            // when
+            when(roomRepository.findById(any(Long.class))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(Optional.empty());
+            when(participantRepository.save(any())).thenReturn(Participant.builder()
+                    .room(Room.builder().build())
+                    .nickname(NOT_REGISTERED_NICKNAME)
+                    .password(hashPassword)
+                    .build());
+            // then
+            Participant participant = participantService.registerParticipant(request);
+            assertEquals(NOT_REGISTERED_NICKNAME, participant.getNickname());
+            assertEquals(hashPassword, participant.getPassword());
+        }
+    }
+
 
 
 }
