@@ -1,12 +1,11 @@
 import React from "react";
+import GameCard from "./GameCard";
 
 export default function GameCardCarousel() {
   return (
     <div>
-      <p>게임카드</p>
-      <div className="game-card-outline">
-        <input type="file" />
-      </div>
+      <GameCard />
+      <GameCard />
     </div>
   );
 }
