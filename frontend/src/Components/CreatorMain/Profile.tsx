@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Grid } from "@mui/material";
-import Button from "../common/Button";
+import Button from "@components/common/Button";
+
 
 export default function Profile() {
   const userId = useSelector((state: any) => state.users.userId);
