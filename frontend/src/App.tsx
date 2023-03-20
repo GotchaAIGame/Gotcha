@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import Routers from "./Pages/Routers";
-import Navbar from "./Components/common/Navbar";
-import Footbar from "./Components/common/Footbar";
-import AutoToTop from "./Components/common/AutoToTop";
-import "./Styles/App.scss";
+import Routers from "./pages/Routers";
+import Navbar from "./components/common/Navbar";
+import Footbar from "./components/common/Footbar";
+import AutoToTop from "./components/common/AutoToTop";
+import "./styles/App.scss";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
             <Routers />
           </div>
         </div>
-        <footer className="app-main-footer">
+        <footer>
           <Footbar />
         </footer>
       </BrowserRouter>

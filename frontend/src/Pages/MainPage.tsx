@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
 import "@styles/MainPage.scss";
+import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 
 export default function MainPage() {
@@ -12,7 +13,7 @@ export default function MainPage() {
 
   return (
     // 그리드 테스트 용입니다.
-    <div>
+    <>
       <h3>Main</h3>
       {userId && <p>{userId}님, 어서오세요!</p>}
       <InputPinNum />
@@ -41,8 +42,16 @@ export default function MainPage() {
             <button type="button">로그인</button>
           </Link>
         )}
+        <Link to="/newgame">
+          <button type="button">새 게임 페이지</button>
+        </Link>
         <button type="button">실험</button>
       </div>
-    </div>
+        <Button color="lime" text="버튼"/>
+        <Button color="darkblue" text="버튼"/>
+        <Button color="skyblue" text="버튼"/>
+        <Button color="gray-lime" text="버튼"/>
+        <Button color="gray-blue" text="버튼"/>
+    </>
   );
 }

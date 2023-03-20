@@ -9,11 +9,11 @@ module.exports = {
   webpack: {
     alias: {
       // "@hooks": path.resolve(__dirname, "src/hooks"),
-      "@pages": path.resolve(__dirname, "src/Pages"),
-      "@components": path.resolve(__dirname, "src/Components"),
+      "@pages": path.resolve(__dirname, "src/pages"),
+      "@components": path.resolve(__dirname, "src/components"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@stores": path.resolve(__dirname, "src/stores"),
-      "@styles": path.resolve(__dirname, "src/Styles"),
+      "@styles": path.resolve(__dirname, "src/styles"),
     },
   },
 };

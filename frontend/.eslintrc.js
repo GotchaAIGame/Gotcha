@@ -23,5 +23,6 @@ module.exports = {
       { extensions: [".js", ".jsx", ".ts", ".tsx"] },
     ],
     "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "react/jsx-props-no-spreading": ["off"], // props로 받은 것 바로 props로 넘기기 허용
   },
 };

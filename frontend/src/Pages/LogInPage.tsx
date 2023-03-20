@@ -11,6 +11,8 @@ export default function LogInPage() {
       <div className="top-banner">
         <img src={banner} alt="" />
       </div>
+
+      {/* 로고 이미지는 차후 커스텀 이미지로 변경할 예정 */}
       <Link to="/">
         <img src={logo} alt="" className="login-banner" />
       </Link>
