@@ -1,7 +1,13 @@
+@import "@styles/colors.scss";
+
 .inputBoxWrapper {
   display: flex;
   margin: 0.5rem auto;
   width: 305px;
   height: 53px;
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: $gray-1;
   border-radius: 10px;
 }
