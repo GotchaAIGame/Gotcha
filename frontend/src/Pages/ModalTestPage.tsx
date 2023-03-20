@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 
 export default function ModalTestPage() {
@@ -41,6 +42,7 @@ export default function ModalTestPage() {
         >
           모달 1
         </button>
+
         <p>modal 2 : {String(modalTwoOpen)}</p>
         <button
           className="modal-one"
@@ -94,10 +96,43 @@ export default function ModalTestPage() {
             modalHandler(2);
           }}
           className="modal-two"
-          exclamationType="outside"
-          overlay={false}
+          btnType="right-one"
         >
-          <h5 style={{ margin: 0 }}>PIN 번호를 입력해주세요!</h5>
+          <h5 style={{ margin: "2rem" }}>
+            게임에 입장하시면 [게임종료] 버튼을 누르기 전까지 시간이 흐릅니다.
+            !!!!! 여기 내용 수정 필요 !!!!!
+          </h5>
+        </Modal>
+
+        <Modal
+          open={modalThreeOpen}
+          modalHandler={() => {
+            modalHandler(3);
+          }}
+          mainBtnHandler={() => {
+            modalHandler(3);
+          }}
+          className="modal-three"
+          btnType="right-two"
+        >
+          <h3 style={{ margin: "2rem" }}>정말 종료하시겠습니까?</h3>
+          <h5>게임이 종료되면 다시 접속할 수 없습니다</h5>
+        </Modal>
+
+        <Modal
+          open={modalFourOpen}
+          modalHandler={() => {
+            modalHandler(4);
+          }}
+          mainBtnHandler={() => {
+            modalHandler(4);
+          }}
+          className="modal-four"
+          btnType="center"
+          closeType
+        >
+          <h3 style={{ margin: "2rem" }}>정말 종료하시겠습니까?</h3>
+          <h5>게임이 종료되면 다시 접속할 수 없습니다</h5>
         </Modal>
       </div>
     </div>

@@ -16,6 +16,7 @@
 }
 
 .modal-content {
+  max-width: 320px;
   position: absolute;
   top: 33%;
   left: 50%;
@@ -26,13 +27,22 @@
   box-shadow: 5px 5px 3px $gray-2;
 }
 
-.exclamation {
+.small-image {
   display: flex;
-  margin-bottom: 10px;
 }
 
 .outside {
   position: absolute;
   left: -10px;
   top: -10px;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
 }
