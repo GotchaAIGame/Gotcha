@@ -6,6 +6,7 @@ import LogInPage from "./LogInPage";
 import CreatorMainPage from "./CreatorMainPage";
 import CreateGamePage from "./CreateGamePage";
 import GamePage from "./GamePage";
+import ModalTestPage from "./ModalTestPage";
 
 export default function Routers() {
   return (
@@ -16,6 +17,7 @@ export default function Routers() {
       <Route path="/creator" element={<CreatorMainPage />} />
       <Route path="/create/game" element={<CreateGamePage />} />
       <Route path="/game/:roomId" element={<GamePage />} />
+      <Route path="/modalTest" element={<ModalTestPage />} />
     </Routes>
   );
 }

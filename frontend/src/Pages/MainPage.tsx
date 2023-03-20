@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
 import "@styles/MainPage.scss";
+import Modal from "@components/common/Modal";
 
 export default function MainPage() {
   const userId = useSelector((state: any) => state.users.userId);
@@ -29,6 +30,9 @@ export default function MainPage() {
         </Link>
         <Link to="/game/1">
           <button type="button">게임 방</button>
+        </Link>
+        <Link to="/modalTest">
+          <button type="button"> 모달 테스트 페이지 </button>
         </Link>
         {userId ? (
           <LogOut />
