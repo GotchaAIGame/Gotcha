@@ -75,7 +75,7 @@ public class ParticipantService {
         }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void updateStartTime(ParticipantGameStartRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
