@@ -4,8 +4,14 @@
   justify-content: center;
 
   .creator-main-items-container {
-    border: 1px solid $gray-1;
-    padding: 5% 0;
+    border-radius: 30px;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
+    padding: 1% 0;
+  }
+
+  .profile-wrapper {
+    // 수직 중앙정렬
+    margin: auto;
   }
 }
 
@@ -56,7 +62,17 @@
 
 // GameListTap.tsx
 .game-tabs-container {
-  min-height: 300px;
+  min-height: 560px;
+
+  h3 {
+    text-align: left;
+    margin-left: 2%;
+  }
+
+  .create-button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
 
   .game-tab-buttons-container {
     display: flex;
@@ -108,20 +124,59 @@
   }
 
   article {
-    Button {
-      // margin-top: auto;
-    }
     text-align: left;
     padding: 5px;
 
+    p {
+      margin: 5px;
+    }
+
     .logo-image-wrapper {
+      margin: 5px;
       img {
         max-height: 30px;
+        margin: 5px;
       }
+    }
+
+    .card-content-wrapper {
+      display: flex;
+      align-items: baseline;
+      margin: 5px;
+      // flex-wrap: wrap;
+    }
+
+    .card-content-title-wrapper {
+      margin: 5px;
+      display: flex;
+      white-space: nowrap;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-right: 5px;
+      color: $gray-2;
+      border: 1px solid $gray-2;
+      width: 42px;
+      min-width: 42px;
+      height: 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      background-color: $lime;
+    }
+
+    .card-aside-wrapper {
+      flex-wrap: wrap;
     }
   }
 
   footer {
     display: inline-flex;
+    justify-content: center;
+
+    Button {
+      width: 100px !important;
+      height: 40px !important;
+    }
   }
 }

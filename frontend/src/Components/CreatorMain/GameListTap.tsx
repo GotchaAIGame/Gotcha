@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@components/common/Button";
 import EntireGames from "./EntireGames";
 import OnGoingGames from "./OnGoingGames";
 import BeforeStartedGames from "./BeforeStartedGames";
@@ -27,7 +28,7 @@ export default function GameListTap() {
 
   return (
     <div className="game-tabs-container">
-      <h5>내가 만든 게임</h5>
+      <h3>내가 만든 게임</h3>
       <div className="game-tab-buttons-container">
         <button
           type="button"
@@ -66,6 +67,9 @@ export default function GameListTap() {
       {isOpen.ongoing && <OnGoingGames />}
       {isOpen.before && <BeforeStartedGames />}
       {isOpen.finished && <FinishedGames />}
+      <div className="create-button-wrapper">
+        <Button color="gray" size="small" text="생성하기" />
+      </div>
     </div>
   );
 }

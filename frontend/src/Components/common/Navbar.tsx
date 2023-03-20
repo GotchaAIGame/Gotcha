@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "@assets/Gotcha.png";
+import logo from "@assets/logo.svg";
 
 export default function Navbar() {
   // nav 가릴 주소
@@ -13,10 +13,7 @@ export default function Navbar() {
   return (
     <header className="app-main-header">
       <Link to="/">
-        <img
-          src={logo}
-          alt="logo"
-        />
+        <img src={logo} alt="logo" />
       </Link>
     </header>
   );
