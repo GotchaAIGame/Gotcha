@@ -22,12 +22,13 @@ public class RewardService {
     private final RoomService roomService;
     private final S3Service s3Service;
 
+    @Transactional
     public void setReward(List<RewardDTO> rewards, Long roomId) {
         Room room = roomService.findById(roomId);
         List<Reward> rewardEntityList = new ArrayList<>();
         for (RewardDTO rewardDTO : rewards) {
-            Reward reward = new Reward(rewardDTO.getName(), rewardDTO.getGrade(), room, rewardDTO.getImage());
-
+            String uploadImage = s3Service.uploadImage(rewardDTO.getImage());
+            Reward reward = new Reward(rewardDTO.getName(), rewardDTO.getGrade(), room, uploadImage);
             rewardEntityList.add(reward);
         }
         rewardRepository.saveAll(rewardEntityList);

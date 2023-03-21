@@ -9,10 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -37,23 +37,26 @@ class RewardServiceTest {
     Room room;
 
 
-    @Mock
+    @MockBean
     S3Service s3Service;
 
     @BeforeEach
     void setUp() {
         room = new Room();
         entityManager.persist(room);
-        when(s3Service.uploadImage(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
 
     }
 
     @Test
     @DisplayName("리워드 저장 테스트")
     void setReward() {
+        when(s3Service.uploadImage(anyString())).thenAnswer(invocation -> {
+            String argument = invocation.getArgument(0);
+            return argument == null ? "default.jpg" : argument;
+        });
         SetRewardRequest setRewardRequest = new SetRewardRequest(List.of(
                 new SetRewardRequest.RewardDTO("이름1", 1, null),
-                new SetRewardRequest.RewardDTO("리워드 이름2", 2, null)),
+                new SetRewardRequest.RewardDTO("리워드 이름2", 2, "dfdhethsdf233sd1")),
                 room.getId());
         rewardService.setReward(setRewardRequest.getRewards(), setRewardRequest.getRoomId());
         Assertions.assertEquals(2, rewardRepository.count());
