@@ -17,6 +17,10 @@ export default function MainPage() {
       <h3>Main</h3>
       {userId && <p>{userId}님, 어서오세요!</p>}
       <InputPinNum />
+      <Link to="/rejoin" className="rejoin-link">
+        <h3>게임에 이미 참여하신 적이 있나요?</h3>
+      </Link>
+
       {/* 임시 바로가기 모음 */}
       <div className="temps-container">
         <p>🚀 임시 바로가기 모음 🚀</p>
@@ -47,11 +51,6 @@ export default function MainPage() {
         </Link>
         <button type="button">실험</button>
       </div>
-        <Button color="lime" text="버튼"/>
-        <Button color="darkblue" text="버튼"/>
-        <Button color="skyblue" text="버튼"/>
-        <Button color="gray-lime" text="버튼"/>
-        <Button color="gray-blue" text="버튼"/>
     </>
   );
 }

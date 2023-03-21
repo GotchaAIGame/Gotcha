@@ -10,9 +10,12 @@ export default function Navbar() {
   if (location.pathname === "/login") {
     return null;
   }
-    if (location.pathname === "/newgame") {
-      return null;
-    }
+  if (location.pathname === "/newgame") {
+    return null;
+  }
+  if (location.pathname === "/rejoin") {
+    return null;
+  }
   return (
     <header className="app-main-header">
       <Link to="/">
