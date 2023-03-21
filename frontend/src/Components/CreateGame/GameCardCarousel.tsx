@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import GameCard from "./GameCard";
+import UploadTest from "./UploadTest";
 
 export default function GameCardCarousel() {
   const [problemCount, setProblemCount] = useState<number>(1);
@@ -12,8 +13,12 @@ export default function GameCardCarousel() {
 
   return (
     <div>
+      <UploadTest />
       {problemCountArr.map((index) => (
-        <GameCard key={index} />
+        <div key={index}>
+          <p>{index}</p>
+          <GameCard key={index} />
+        </div>
       ))}
       <button
         type="button"

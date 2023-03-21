@@ -1,29 +1,43 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-export default function GameCard() {
+export default function GameCard(Props: any) {
+  const key = Props;
+  console.log(key);
+
   const [inputImage, setInputImage] = useState<string>("");
   const uploadImage = useRef<HTMLInputElement>(null);
 
+  // 이미지를 업로드 했을 때 실행
   const uploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    console.log(target.value);
     const files = uploadImage.current?.files;
+
     if (files && files.length > 0) {
+      // useStateValue Update
       setInputImage(URL.createObjectURL(files[0]));
-      const reader = new FileReader();
-      console.log(reader.readAsDataURL(files[0]));
-      localStorage.setItem("image", target.value);
-      console.log(URL.createObjectURL(files[0]));
+
+      // Local 저장, 화면 반영
+      const reader: FileReader = new FileReader();
+
+      reader.onload = function (e: ProgressEvent<FileReader>): void {
+        addImage(e.target?.result as string);
+      };
+
+      reader.readAsDataURL(files[0]);
     }
   };
 
-  const checkLocal = () => {
-    const localImg = localStorage.getItem("image");
-    console.log(localImg);
-    if (localImg) {
-      setInputImage(localImg);
-    }
-  };
+  const imagesObject: string[] = [];
+
+  // Local Storage 저장 함수
+  function addImage(imgData: string): void {
+    imagesObject.push(imgData);
+
+    localStorage.setItem("images", JSON.stringify(imagesObject));
+  }
+
+  useEffect(() => {
+    console.log("렌더링!");
+  });
 
   return (
     <div className="card-wrapper">
@@ -37,6 +51,7 @@ export default function GameCard() {
       ) : (
         <div className="file-input-wrapper">
           <input
+            id="upload"
             type="file"
             accept="image/*"
             onChange={uploadHandler}
