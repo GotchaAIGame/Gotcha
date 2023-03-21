@@ -16,6 +16,9 @@ export default function Navbar() {
   if (location.pathname === "/rejoin") {
     return null;
   }
+  if (location.pathname === "/game/1/rank") {
+    return null;
+  }
   return (
     <header className="app-main-header">
       <Link to="/">

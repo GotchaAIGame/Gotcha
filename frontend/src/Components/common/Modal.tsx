@@ -1,6 +1,6 @@
 import React, { useState, ReactElement } from "react";
 import Button from "@components/common/Button";
-import "./Modal.scss";
+import "./styles/Modal.scss";
 import exclamation from "@assets/exclamation.svg";
 import closeButton from "@assets/closeButton.svg";
 
