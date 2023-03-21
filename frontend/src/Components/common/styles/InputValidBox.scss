@@ -16,13 +16,13 @@
     padding: 5px 10px;
     border: 0;
     background-color: transparent;
-    
+    outline-style: none;
   }
   button {
     padding: 5px 10px;
     border: 0;
     background-color: transparent;
     color: $green;
-
+    cursor: pointer;
   }
 }

@@ -33,6 +33,7 @@
   margin: 5px auto;
   box-shadow: 1.5px 2px 1px #000;
   border: 1px solid #000;
+  gap: 40px;
 
   /** 사이즈 관리 */
   &.large {
@@ -93,52 +94,19 @@
     @include button-gray($blue-1);
   }
 
+  &.google {
+    background: $white;
+    &:hover,
+    &:active {
+      background-color: $gray-5;
+    }
+  }
+  &.kakao {
+    background: $kakao;
+    &:hover,
+    &:active {
+      background-color: lighten($kakao, 20%);
+    }
+  }
 
-
-  // &.lime {
-  //   background: $lime;
-  //   &:hover,
-  //   &:active {
-  //     background: rgba(223, 249, 62, 0.5);
-  //     border: 1px solid $lime;
-  //     box-shadow: 1.5px 2px 1px rgba(223, 249, 62, 0.5);
-  //   }
-  // }
-  // &.darkblue {
-  //   background: $blue-1;
-  //   color: white;
-  //   &:hover,
-  //   &:active {
-  //     background: rgba(85, 81, 255, 0.5);
-  //     border: 1px solid $blue-1;
-  //     box-shadow: 1.5px 2px 1px rgb(85, 81, 255);
-  //   }
-  // }
-  // &.skyblue {
-  //   background: $blue-3;
-  //   color: $gray-1;
-  //   &:hover,
-  //   &:active {
-  //     background: rgba(207, 226, 255, 0.5);
-  //     border: 1px solid $blue-3;
-  //     box-shadow: 1.5px 2px 1px rgb(207, 226, 255);
-  //   }
-  // }
-
-  // &.gray-lime {
-  //   background: $gray-5;
-  //   &:hover,
-  //   &:active {
-  //     background: $lime;
-  //   }
-  // }
-
-  // &.gray-blue {
-  //   background: $gray-5;
-  //   &:hover,
-  //   &:active {
-  //     background: $blue-1;
-  //     color: white;
-  //   }
-  // }
 }

@@ -46,14 +46,15 @@
     align-items: center;
     justify-content: space-between;
     hr {
-      width: 40%;
+      width: 35%;
       height: 1px;
       border: 0;
       background: $gray-3;
     }
-    p {
+    h5 {
       width: 320px;
       color: $gray-2;
+      font-weight: 400;
     }
   }
 
@@ -61,11 +62,8 @@
     display: inline-flex;
     margin: 5px auto;
   }
-}
 
-.signup-btn-wrapper {
-  button {
-    background-color: $blue-1;
-    color: #fff;
+  a {
+    text-decoration: none;
   }
 }

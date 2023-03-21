@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LogIn from "@components/Users/LogIn";
 import "@styles/LogInPage.scss";
 import banner from "@assets/TopBanner.svg";
-import logo from "@assets/Gotcha.png";
+import logo from "@assets/logo.svg";
 
 export default function LogInPage() {
   return (

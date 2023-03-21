@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import NewPlayerInfo from "@components/PlayerMain/NewPlayerInfo";
 import logo from "@assets/logo.svg";
+import RejoinPlayerInfo from "@components/PlayerMain/RejoinPlayerInfo";
 import "@styles/PlayerNewGamePage.scss";
 
-export default function PlayerNewGamePage() {
+export default function PlayerRejoinPage() {
   return (
     <div className="player-info-container">
       <header>
@@ -12,7 +12,7 @@ export default function PlayerNewGamePage() {
           <img src={logo} alt="로고" />
         </Link>
       </header>
-      <NewPlayerInfo />
+      <RejoinPlayerInfo />
     </div>
   );
 }
