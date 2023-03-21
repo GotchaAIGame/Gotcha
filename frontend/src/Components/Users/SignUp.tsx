@@ -3,7 +3,7 @@ import React from "react";
 import "@styles/SignUpPage.scss";
 import Button from "@components/common/Button";
 import InputValidBox from "@components/common/InputValidBox";
-import InputBox from "../common/InputBox";
+import InputBox from "@components/common/InputBox";
 
 type Props = {
   setIsSuccess: (value: boolean) => void;
@@ -47,7 +47,9 @@ export default function SignUp(props: Props) {
           <h5>닉네임</h5>
           <InputValidBox type="text" text="닉네임" />
           <p className="nickname-intro">
-            ※ 닉네임은 특수문자와 공백 없이 2~10자로<br/>입력해주세요.
+            ※ 닉네임은 특수문자와 공백 없이 2~10자로
+            <br />
+            입력해주세요.
           </p>
         </label>
       </form>
