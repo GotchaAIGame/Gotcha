@@ -13,3 +13,7 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+notification:
+  mattermost:
+    enabled: false # mmSender를 사용할 지 여부, false면 알림이 오지 않는다
+    webhook-url: ${MM_WEBHOOK_URL} # 위의 Webhook URL을 기입
