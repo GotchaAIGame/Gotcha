@@ -8,42 +8,22 @@
     margin-top: 10px;
     font-weight: 400;
   }
-  button {
-    width: 330px;
-    height: 63px;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: $gray-5;
-    font-size: 1.125rem;
-    font-weight: 700;
-    margin-top: 20px;
-    display: inline-flex;
-  }
-}
 
-.signup-page-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px auto;
-  h5 {
-    margin: 0 auto;
-    text-align: left;
-    color: $blue-1;
-    font-weight: 700;
-  }
-  input {
+  .signup-page-form {
     display: flex;
-    margin: 0.5rem auto;
-    width: 305px;
-    height: 53px;
-    border-radius: 10px;
-  }
-  .check-text {
-    position: relative;
-    left: 125px;
-    bottom: 55px;
-    font-size: 0.875rem;
-    color: $green;
+    justify-content: center;
+    margin: 10px auto;
+    h5 {
+      margin: 0 auto;
+      text-align: left;
+      color: $blue-1;
+      font-weight: 700;
+    }
+    .nickname-intro,
+    .passwod-intro {
+      color: $green;
+      width: 325px;
+      text-align: left;
+    }
   }
 }
