@@ -2,6 +2,8 @@
 import React from "react";
 import classNames from "classnames";
 import "./styles/Button.scss";
+import googleImg from "@assets/google.svg";
+import kakaoImg from "@assets/kakao.svg";
 
 interface BtnProps {
   text?: string;
@@ -14,14 +16,21 @@ interface BtnProps {
 function Button({ text, type, size, color, onClick, ...rest }: BtnProps) {
   const handleClick = () => onClick();
 
+  let imgSrc = null;
+  if (color === "google") {
+    imgSrc = googleImg;
+  } else if (color === "kakao") {
+    imgSrc = kakaoImg;
+  }
+
   return (
-    // eslint-disable-next-line react/button-has-type
     <button
       type={type}
       className={classNames("commonButton", size, color)}
       onClick={onClick && handleClick}
       {...rest}
     >
+      {imgSrc && <img src={imgSrc} alt="로고" />}
       {text}
     </button>
   );
