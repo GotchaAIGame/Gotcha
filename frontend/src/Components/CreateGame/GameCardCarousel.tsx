@@ -12,11 +12,11 @@ export default function GameCardCarousel() {
   };
 
   return (
-    <div>
-      <UploadTest />
+    <div className="cards-and-plusbutton-container">
+      {/* <UploadTest /> */}
       {problemCountArr.map((index) => (
         <div key={index}>
-          <p>{index}</p>
+          {/* <p>{index}</p> */}
           <GameCard key={index} />
         </div>
       ))}

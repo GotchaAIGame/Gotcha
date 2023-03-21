@@ -15,7 +15,7 @@ export default function GameCard(Props: any) {
       // useStateValue Update
       setInputImage(URL.createObjectURL(files[0]));
 
-      // Local 저장, 화면 반영
+      // Local 저장, 화면 반영 (마지막 것만 저장됨)
       const reader: FileReader = new FileReader();
 
       reader.onload = function (e: ProgressEvent<FileReader>): void {

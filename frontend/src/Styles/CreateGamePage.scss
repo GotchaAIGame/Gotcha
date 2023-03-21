@@ -76,15 +76,23 @@
 }
 
 // GameCardCarousel
-.add-img-button {
-  width: 40px;
-  height: 40px;
-  background-color: $purple-2;
-  border-radius: 40px;
-  border: 1px solid $gray-1;
-  display: flex;
-  align-items: center;
-  font-size: xx-large;
+
+.cards-and-plusbutton-container {
+  display: inline-flex;
+  .add-img-button {
+    width: 40px;
+    height: 40px;
+    background-color: $purple-2;
+    border-radius: 40px;
+    border: 1px solid $gray-1;
+    display: inline-flex;
+    align-items: center;
+    font-size: xx-large;
+    margin: auto 20px;
+  }
+  .card-wrapper {
+    margin: 10px;
+  }
 }
 
 // Game Card
