@@ -1,9 +1,11 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.a602.gotcha.domain.member.repository.MemberRepository;
+import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

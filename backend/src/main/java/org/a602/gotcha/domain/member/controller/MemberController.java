@@ -1,7 +1,16 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.controller;
 
 import javax.validation.Valid;
 
+import org.a602.gotcha.domain.member.response.MemberInformationResponse;
+import org.a602.gotcha.domain.member.response.MemberLoginResponse;
+import org.a602.gotcha.domain.member.service.MemberService;
+import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
+import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
+import org.a602.gotcha.domain.member.request.MemberLoginRequest;
+import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
+import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

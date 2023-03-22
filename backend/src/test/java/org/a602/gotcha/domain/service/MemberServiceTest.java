@@ -1,9 +1,9 @@
 package org.a602.gotcha.domain.service;
 
-import org.a602.gotcha.domain.member.Member;
-import org.a602.gotcha.domain.member.MemberRepository;
-import org.a602.gotcha.domain.member.MemberService;
-import org.a602.gotcha.domain.member.MemberSignupRequest;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.repository.MemberRepository;
+import org.a602.gotcha.domain.member.service.MemberService;
+import org.a602.gotcha.domain.member.request.MemberSignupRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

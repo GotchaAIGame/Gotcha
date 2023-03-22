@@ -10,8 +10,8 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
-import org.a602.gotcha.domain.member.Member;
-import org.a602.gotcha.domain.member.MemberDetailService;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.service.MemberDetailService;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.redis.RedisRefreshTokenRepository;
 import org.springframework.security.access.AccessDeniedException;

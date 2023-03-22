@@ -1,6 +1,6 @@
 package org.a602.gotcha.domain.room;
 
-import org.a602.gotcha.domain.member.Member;
+import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.participant.Participant;
 import org.a602.gotcha.domain.problem.Problem;
 import org.a602.gotcha.domain.reward.Reward;

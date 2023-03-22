@@ -1,4 +1,4 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;

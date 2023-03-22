@@ -1,4 +1,4 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.response;
 
 import lombok.Builder;
 import lombok.Getter;

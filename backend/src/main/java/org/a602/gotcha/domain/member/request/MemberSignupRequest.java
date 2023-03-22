@@ -1,4 +1,6 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.request;
+
+import org.a602.gotcha.domain.member.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,8 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.repository;
 
 import java.util.Optional;
 
+import org.a602.gotcha.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

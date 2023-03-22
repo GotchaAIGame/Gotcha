@@ -1,4 +1,4 @@
-package org.a602.gotcha.domain.member;
+package org.a602.gotcha.domain.member.service;
 
 import static org.a602.gotcha.global.security.JwtTokenProvider.*;
 
@@ -7,6 +7,16 @@ import java.util.Optional;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.a602.gotcha.domain.member.response.MemberInformationResponse;
+import org.a602.gotcha.domain.member.response.MemberLoginResponse;
+import org.a602.gotcha.domain.member.repository.MemberRepository;
+import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.request.MemberLoginRequest;
+import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
+import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
+import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
