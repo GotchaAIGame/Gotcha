@@ -1,76 +1,176 @@
 @import "@styles/colors.scss";
 
+.create-game-main-container {
+  justify-content: center;
+}
+
 // InputQuizInfo.tsx
 
 .input-game-info-container {
   // grid-auto-rows: minmax(100px, auto);
-}
 
-.game-title-input {
-  position: relative;
-  top: -33px;
-  height: 55px;
-  width: 60%;
-  min-width: 300px;
-  border: 3px solid $gray-1;
-  border-radius: 15px;
-}
-
-.duration-inputs-container {
-  display: flex;
-  margin: 0.5rem auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
-  h5 {
-    display: flex;
-    margin: 0 5px;
-  }
-
-  input {
-    width: 250px;
-    min-width: 250px;
-    border-radius: 8px;
-    margin: 0 5px;
-  }
-}
-
-.game-inputs-container {
-  display: flex;
-  margin: 0.5rem auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-
-  h5 {
-    display: flex;
-    margin: 0 5px;
-  }
-
-  .temp {
-    width: 600px;
+  .game-title-input {
+    position: relative;
+    top: -75px;
+    height: 55px;
+    width: 60%;
     min-width: 300px;
-    height: 150px;
+    border: 1px solid $gray-1;
+    border-radius: 15px;
   }
 
-  textarea {
-    display: flex;
-    width: 95%;
-    height: 95%;
-    resize: none;
-    border: 1px solid $gray-1;
-    border-radius: 8px;
+  .game-info-inputs-container {
+    // border: 3px solid black;
+    max-width: 800px;
+    margin: auto;
+
+    h5 {
+      margin: 0;
+      min-width: 80px;
+      margin-right: 20px;
+    }
+
+    .duration-inputs-container {
+      display: flex;
+      margin: 0.5rem auto;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+
+      input {
+        min-width: 180px;
+        height: auto;
+        border-radius: 8px;
+        margin: 0;
+        margin-bottom: 5px;
+      }
+    }
+
+    .game-inputs-container {
+      display: flex;
+      margin: 0.5rem auto;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: baseline;
+    }
+
+    .right-inputs-container {
+      width: 75%;
+      max-width: 500px;
+      flex-wrap: wrap;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      textarea {
+        display: flex;
+        width: 99%;
+        min-height: 100px;
+        resize: none;
+        border: 1px solid $gray-1;
+        border-radius: 8px;
+      }
+    }
   }
 }
 
 // GameCardCarousel
 
+.cards-and-plusbutton-container {
+  display: inline-flex;
+  .add-img-button {
+    width: 40px;
+    height: 40px;
+    background-color: $purple-2;
+    border-radius: 40px;
+    border: 1px solid $gray-1;
+    display: inline-flex;
+    align-items: center;
+    font-size: xx-large;
+    margin: auto 20px;
+  }
+  .card-wrapper {
+    margin: 10px;
+  }
+}
+
+// Game Card
 .game-card-outline {
   border: 1px solid $gray-1;
   width: 255px;
   height: 450px;
   margin: 5px auto;
+}
+
+.card-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  width: 255px;
+  min-height: 405px;
+  border: 1px solid $gray-1;
+  border-radius: 15px;
+  margin: 2%;
+  justify-content: flex-start;
+
+  header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: #c2c4e3;
+    width: 100%;
+    height: 43px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input {
+      background-color: inherit;
+      border: none;
+      text-align: center;
+      font-size: 1.125rem;
+      width: 80%;
+    }
+  }
+
+  .file-input-wrapper {
+    height: 200px;
+    width: 200px;
+    margin: 20px auto;
+    border: 1px $gray-1 dashed;
+  }
+
+  .upload-img-wrapper {
+    // display: flex;
+    margin: 20px auto;
+    img {
+      height: 200px;
+      width: 200px;
+      object-fit: fill;
+    }
+  }
+
+  .hint-text-box {
+    margin: 5px 28px;
+    display: flex;
+    white-space: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    color: $gray-2;
+    border: 1px solid $gray-2;
+    width: 42px;
+    min-width: 42px;
+    height: 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    background-color: $lime;
+  }
+
+  .hint-input-wrapper {
+    input {
+      border-radius: 8px;
+    }
+  }
 }

@@ -3846,6 +3846,11 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
+cropperjs@^1.5.13:
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.13.tgz#eb1682f01d17c70ed5244317091d745c9a249ef8"
+  integrity sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==
+
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
@@ -8563,6 +8568,13 @@ react-cookie@^4.1.1:
     "@types/hoist-non-react-statics" "^3.0.1"
     hoist-non-react-statics "^3.0.0"
     universal-cookie "^4.0.0"
+
+react-cropper@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-2.3.2.tgz#5fbacd1ad39ed8ca60dec4a5767f76ca0ee3b0a7"
+  integrity sha512-1ug25ZC8d8/49KkEnv4HZiyZL1yJ90JEIVvjRpt1FoIn5/SAatOd8QMaPRN6f/fPFwWL3hwTdZV5GsC6Wz6QSg==
+  dependencies:
+    cropperjs "^1.5.13"
 
 react-dev-utils@^12.0.1:
   version "12.0.1"
