@@ -22,6 +22,7 @@ public class RewardService {
     private final RoomService roomService;
     private final S3Service s3Service;
 
+
     @Transactional
     public void setReward(List<RewardDTO> rewards, Long roomId) {
         Room room = roomService.findById(roomId);

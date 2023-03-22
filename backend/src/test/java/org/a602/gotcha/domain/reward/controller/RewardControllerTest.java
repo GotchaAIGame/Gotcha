@@ -191,7 +191,7 @@ class RewardControllerTest {
     @Test
     @DisplayName("리워드 수정 테스트")
     void updateReward() throws Exception {
-//        when(s3Service.uploadImage(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(s3Service.uploadImage(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
 
 
         List<Reward> beforeUpdate = rewardRepository.findByRoomId(room.getId());
