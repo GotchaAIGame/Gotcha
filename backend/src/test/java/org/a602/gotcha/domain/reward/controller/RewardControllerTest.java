@@ -12,6 +12,7 @@ import org.a602.gotcha.domain.room.Room;
 import org.a602.gotcha.global.common.S3Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -129,6 +130,64 @@ class RewardControllerTest {
         }
     }
 
+    @Nested
+    @DisplayName("리워드 저장 유효성 검사")
+    class rewardValid {
+
+
+        @Test
+        @DisplayName("리워드 이름은 값이 있어야 한다.")
+        void nameRequired() throws Exception {
+            SetRewardRequest setRewardRequest = new SetRewardRequest(List.of(
+                    new SetRewardRequest.RewardDTO("", 1, null)),
+                    saveRoom.getId());
+            mockMvc.perform(post(url + "/set/reward")
+                            .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @DisplayName("리워드 등급은 양수이어야 안된다")
+        void nameRequired2() throws Exception {
+            SetRewardRequest setRewardRequest = new SetRewardRequest(List.of(
+                    new SetRewardRequest.RewardDTO("123 ", 0, null)),
+                    saveRoom.getId());
+            mockMvc.perform(post(url + "/set/reward")
+                            .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @DisplayName("리워드 등급은 널이면 안된다.")
+        void gradeRequired() throws Exception {
+            SetRewardRequest setRewardRequest = new SetRewardRequest(List.of(
+                    new SetRewardRequest.RewardDTO("이름", null, null)),
+                    saveRoom.getId());
+            mockMvc.perform(post(url + "/set/reward")
+                            .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @DisplayName("리워드 이름은 띄어쓰기가 있으면 안된다")
+        void gradeeRequired2() throws Exception {
+            SetRewardRequest setRewardRequest = new SetRewardRequest(List.of(
+                    new SetRewardRequest.RewardDTO(" ", 1, null)),
+                    saveRoom.getId());
+            mockMvc.perform(post(url + "/set/reward")
+                            .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                    .andExpect(status().isBadRequest());
+        }
+    }
+
     @Test
     @DisplayName("리워드 수정 테스트")
     void updateReward() throws Exception {
@@ -186,11 +245,5 @@ class RewardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
                 .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("방에 있는 모든 리워드를 조회하기")
-    void getRewards() throws Exception {
-
     }
 }
