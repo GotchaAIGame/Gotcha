@@ -11,6 +11,8 @@ import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -21,7 +23,7 @@ public class RewardController {
     @PostMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 설정", responseCode = "200")
     @Operation(description = "게임에 리워드 설정", summary = "게임에 리워드 설정")
-    public BaseResponse<Void> setReward(@RequestBody SetRewardRequest request) {
+    public BaseResponse<Void> setReward(@Valid @RequestBody SetRewardRequest request) {
 
         rewardService.setReward(request.getRewards(), request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
@@ -30,7 +32,7 @@ public class RewardController {
     @PutMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 수정", responseCode = "200")
     @Operation(description = "게임에 리워드 수정", summary = "게임에 리워드 수정")
-    public BaseResponse<Void> updateReward(@RequestBody UpdateRewardRequest request) {
+    public BaseResponse<Void> updateReward(@Valid @RequestBody UpdateRewardRequest request) {
 
         rewardService.updateReward(request.getRewards(), request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
@@ -39,7 +41,7 @@ public class RewardController {
     @DeleteMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 삭제", responseCode = "200")
     @Operation(description = "게임에 리워드 삭제", summary = "게임에 리워드 삭제")
-    public BaseResponse<Void> deleteReward(@RequestBody DeleteRewardRequest request) {
+    public BaseResponse<Void> deleteReward(@Valid @RequestBody DeleteRewardRequest request) {
 
         rewardService.deleteReward(request.getRewardId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);

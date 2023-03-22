@@ -3,6 +3,7 @@ package org.a602.gotcha.domain.reward.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.a602.gotcha.domain.reward.Reward;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
+import org.a602.gotcha.domain.reward.request.DeleteRewardRequest;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -30,8 +32,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -69,8 +71,6 @@ class RewardControllerTest {
         Reward reward2 = new Reward("리워드 2", 4, room, null);
         entityManager.persist(reward1);
         entityManager.persist(reward2);
-
-
     }
 
     @Test
@@ -164,5 +164,33 @@ class RewardControllerTest {
         }
     }
 
+    @Test
+    @DisplayName("리워드 삭제 테스트")
+    void removeRewardTest() throws Exception {
+        List<Reward> rewardList = rewardRepository.findByRoomId(room.getId());
+        int removeBeforeSize = rewardList.size();
+        assertFalse(rewardList.isEmpty());
+        Reward reward = rewardList.get(0);
+        mockMvc.perform(delete(url + "/set/reward")
+                .content(objectMapper.writeValueAsString(new DeleteRewardRequest(reward.getId())))
+                .contentType(MediaType.APPLICATION_JSON));
+        int removeAfterSize = rewardRepository.findByRoomId(room.getId()).size();
+        assertEquals(removeBeforeSize - 1, removeAfterSize);
+    }
 
+    @Test
+    @DisplayName("리워드 삭제 할때 id는 필수 값임")
+    void validRemoveRequest() throws Exception {
+        mockMvc.perform(delete(url + "/set/reward")
+                        .content(objectMapper.writeValueAsString(new DeleteRewardRequest()))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("방에 있는 모든 리워드를 조회하기")
+    void getRewards() throws Exception {
+
+    }
 }
