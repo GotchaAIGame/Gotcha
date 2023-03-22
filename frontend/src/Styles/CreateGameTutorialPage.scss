@@ -1,0 +1,44 @@
+@import "@styles/colors.scss";
+
+// TutorialTab
+
+.tutorial-tab-buttons-container {
+  position: relative;
+  top: -35px;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid $gray-1;
+
+  button {
+    background-color: inherit;
+    border: none;
+    font-size: 1rem;
+    padding-bottom: 10px;
+  }
+  button:hover,
+  .button-active {
+    cursor: pointer;
+    background-color: $lime;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+  }
+}
+
+.tutotial-contents-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    padding: 0;
+  }
+}
+
+// TutorialContent
+.tutorial-content-container {
+  width: 80%;
+}
