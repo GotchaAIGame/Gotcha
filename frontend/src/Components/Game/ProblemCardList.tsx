@@ -1,107 +1,80 @@
-import React, { useState, useRef, useEffect } from "react";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-// import Hammer from "hammerjs";
+import React, { useRef, useEffect, useCallback } from "react";
+import Hammer from "hammerjs";
 import ProblemCard from "./ProblemCard";
+import temporaryData from "./temporarydata";
 
 function ProblemCardList() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const updateIndex = (curIndex: number) => {
-    let newIndex: number;
-
-    if (curIndex < 0) {
-      newIndex = 0;
-    } else if (curIndex >= problems.length) {
-      newIndex = problems.length - 1;
-    } else {
-      newIndex = curIndex;
-    }
-
-    setActiveIndex(newIndex);
-  };
+  const xOffset = useRef<number>(0);
+  const cardList = useRef<HTMLDivElement>(null);
 
   // temporary data
-  const problems = [
-    {
-      problemId: 1,
-      problemName: "귀여운 월계 1",
-      problemDesc: "귀여운 월계입니다.",
-      problemImgURL:
-        "https://user-images.githubusercontent.com/47023884/226226873-86a3c30d-3ed3-4cea-ab13-6e43dbddb0d2.png",
+  const problems = temporaryData;
+
+  // when button is clicked
+  const buttonHandler = useCallback(
+    (direction: "left" | "right") => {
+      if (cardList.current && cardList.current.parentElement) {
+        const offset = cardList.current.offsetWidth;
+
+        if (direction === "left") {
+          cardList.current.parentElement.scrollBy({
+            left: -offset,
+            behavior: "smooth",
+          });
+        } else {
+          cardList.current.parentElement.scrollBy({
+            left: offset,
+            behavior: "smooth",
+          });
+        }
+      }
     },
-    {
-      problemId: 2,
-      problemName: "귀여운 월계 2",
-      problemDesc: "귀여운 월계 2입니다.",
-      problemImgURL:
-        "https://user-images.githubusercontent.com/47023884/226226873-86a3c30d-3ed3-4cea-ab13-6e43dbddb0d2.png",
-    },
-    {
-      problemId: 3,
-      problemName: "귀여운 월계 3",
-      problemDesc: "귀여운 월계 3입니다.",
-      problemImgURL:
-        "https://user-images.githubusercontent.com/47023884/226226873-86a3c30d-3ed3-4cea-ab13-6e43dbddb0d2.png",
-    },
-    {
-      problemId: 4,
-      problemName: "귀여운 월계 4",
-      problemDesc: "귀여운 월계 4입니다.",
-      problemImgURL:
-        "https://user-images.githubusercontent.com/47023884/226226873-86a3c30d-3ed3-4cea-ab13-6e43dbddb0d2.png",
-    },
-    {
-      problemId: 5,
-      problemName: "귀여운 월계 5",
-      problemDesc: "귀여운 월계 5입니다.",
-      problemImgURL:
-        "https://user-images.githubusercontent.com/47023884/226226873-86a3c30d-3ed3-4cea-ab13-6e43dbddb0d2.png",
-    },
-    {
-      problemId: 6,
-      problemName: "귀여운 월계 6",
-      problemDesc: "귀여운 월계 6입니다.",
-      problemImgURL:
-        "https://user-images.githubusercontent.com/47023884/226226873-86a3c30d-3ed3-4cea-ab13-6e43dbddb0d2.png",
-    },
-  ];
+    [cardList.current?.offsetWidth]
+  );
+
+  // swipe
+  useEffect(() => {
+    const manager = new Hammer.Manager(cardList.current as HTMLElement);
+    manager.add(new Hammer.Swipe());
+    manager.on("swipe", function (e) {
+      const { deltaX } = e;
+
+      if (cardList.current && cardList.current.parentElement) {
+        cardList.current.parentElement.scrollBy({
+          left: -deltaX,
+          behavior: "smooth",
+        });
+      }
+    });
+  }, []);
 
   return (
-    <div className="problem-carousel">
-      <div
-        className="carousel-inner-container"
-        style={{
-          transform: `translateX(-${activeIndex * 296}px)`,
-          // transform: "translate(-100%)",
-          border: "1px",
-        }}
-      >
-        {problems.map((item) => {
-          return <ProblemCard problem={item} key={item.problemId} />;
-        })}
+    <div className="problem-carousel-wrapper">
+      <div className="problem-carousel">
+        <div className="carousel-inner-container" ref={cardList}>
+          {problems.map((item, idx) => {
+            return <ProblemCard problem={item} key={item.problemId} />;
+          })}
+        </div>
       </div>
-      <div className="button-container">
+      <div className="problem-button-container">
         <button
-          className="button-arrow left"
           type="button"
+          className="problem-button left"
           onClick={() => {
-            updateIndex(activeIndex - 1);
-            console.log(activeIndex);
+            buttonHandler("left");
           }}
         >
-          <KeyboardArrowLeft />
+          <h1>◀</h1>
         </button>
-        <div className="indicators">{}</div>
         <button
-          className="button-arrow right"
           type="button"
+          className="problem-button right"
           onClick={() => {
-            updateIndex(activeIndex + 1);
-            console.log(activeIndex);
+            buttonHandler("right");
           }}
         >
-          <KeyboardArrowRight />
+          <h1>▶</h1>
         </button>
       </div>
     </div>

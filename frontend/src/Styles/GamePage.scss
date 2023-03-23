@@ -1,20 +1,65 @@
 @import "@styles/colors.scss";
 
-.gamepage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.gamepage-container {
+  justify-content: center;
+}
+
+// problem Title
+.problem-title-wrapper {
+  position: relative;
+  border: 3px solid $gray-1;
+  border-radius: 15px;
+
+  h5 {
+    font-weight: bold;
+  }
+
+  img {
+    position: absolute;
+    right: 10px;
+    top: -10px;
+  }
 }
 
 //problem card carousel
-.problem-carousel {
-  overflow: hidden;
-  width: 50%;
-  min-width: 287px; // 255 + margin 16px
+
+.problem-carousel-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  // border: 1px solid black;
+  align-items: center;
+  position: relative;
+
+  .problem-button-container {
+    position: absolute;
+    width: 120%;
+    top: 40%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    border: transparent;
+    background-color: transparent;
+    color: $blue-1;
+
+    :hover {
+      cursor: pointer;
+    }
+
+    :active {
+      color: $blue-2;
+    }
+  }
+}
+
+.problem-carousel {
+  overflow: auto;
+  width: 100%;
+  min-width: 287px; // 255 + margin 16px
+  display: flex;
+  flex-direction: row;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 
   .carousel-inner-container {
     display: inline-flex;
@@ -29,7 +74,33 @@
   }
 }
 
+//scroll bar
+.problem-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+// timer
+.timer-wrapper {
+  width: 255px;
+  height: 89px;
+  border: 3px solid $gray-1;
+  border-radius: 15px;
+  background-color: $blue-1;
+
+  margin-left: auto;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 200px;
+
+  h5 {
+    color: white;
+    -webkit-text-stroke: 1px black;
+    font-weight: bold;
+  }
+}
+
 //Problem Card
+
 .outer-card-wrapper {
   border: 3px solid $gray-3;
   border-radius: 15px;
@@ -38,6 +109,8 @@
   width: 100%;
   height: 542px;
   margin: 0 1rem;
+
+  // about scroll
   overflow: hidden;
 
   div > h5 {
@@ -65,6 +138,10 @@
       height: 218px;
       border: 1px solid black;
       overflow: hidden;
+
+      img {
+        -webkit-user-drag: none;
+      }
     }
 
     .input-image-container {
