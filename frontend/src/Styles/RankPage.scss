@@ -36,5 +36,35 @@
         padding: 20px;
       }
     }
+
+    .rank-header {
+      justify-content: space-around;
+
+      .rank-box1,
+      .rank-box2,
+      .rank-box3 {
+        border-radius: 10px;
+        border: 1px solid $gray-1;
+        background-color: $gray-5;
+        height: 30px;
+        margin: auto;
+        padding: 5px;
+        max-width: 50px;
+
+      }
+    }
+    .rank-info-wrapper {
+      justify-content: space-around;
+      align-items: center;
+      img {
+        width: 45px;
+        margin: 10px;
+      }
+      h5, p {
+        // height: 100%;
+        justify-content: center;
+        margin: 10px;
+      }
+    }
   }
 }
