@@ -22,13 +22,42 @@
 }
 
 //problem card carousel
+
+.problem-carousel-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .problem-button-container {
+    position: absolute;
+    width: 120%;
+    top: 40%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    border: transparent;
+    background-color: transparent;
+    color: $blue-1;
+
+    :hover {
+      cursor: pointer;
+    }
+
+    :active {
+      color: $blue-2;
+    }
+  }
+}
+
 .problem-carousel {
   overflow: auto;
   width: 100%;
   min-width: 287px; // 255 + margin 16px
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 
@@ -46,29 +75,9 @@
 }
 
 //scroll bar
-
-/* width */
 .problem-carousel::-webkit-scrollbar {
   display: none;
 }
-
-/* Track */
-// .problem-carousel::-webkit-scrollbar-track {
-//   background: white;
-// }
-
-// /* Handle */
-// .problem-carousel::-webkit-scrollbar-thumb {
-//   background: $gray-3;
-//   background-clip: padding-box;
-//   border: 3px solid transparent;
-//   border-radius: 15px;
-// }
-
-// /* Handle on hover */
-// .problem-carousel::-webkit-scrollbar-thumb:hover {
-//   background: $gray-2;
-// }
 
 // timer
 .timer-wrapper {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import Hammer from "hammerjs";
 import ProblemCard from "./ProblemCard";
 import temporaryData from "./temporarydata";
@@ -9,6 +9,28 @@ function ProblemCardList() {
 
   // temporary data
   const problems = temporaryData;
+
+  // when button is clicked
+  const buttonHandler = useCallback(
+    (direction: "left" | "right") => {
+      if (cardList.current && cardList.current.parentElement) {
+        const offset = cardList.current.offsetWidth;
+
+        if (direction === "left") {
+          cardList.current.parentElement.scrollBy({
+            left: -offset,
+            behavior: "smooth",
+          });
+        } else {
+          cardList.current.parentElement.scrollBy({
+            left: offset,
+            behavior: "smooth",
+          });
+        }
+      }
+    },
+    [cardList.current?.offsetWidth]
+  );
 
   // swipe
   useEffect(() => {
@@ -27,11 +49,33 @@ function ProblemCardList() {
   }, []);
 
   return (
-    <div className="problem-carousel">
-      <div className="carousel-inner-container" ref={cardList}>
-        {problems.map((item, idx) => {
-          return <ProblemCard problem={item} key={item.problemId} />;
-        })}
+    <div className="problem-carousel-wrapper">
+      <div className="problem-carousel">
+        <div className="carousel-inner-container" ref={cardList}>
+          {problems.map((item, idx) => {
+            return <ProblemCard problem={item} key={item.problemId} />;
+          })}
+        </div>
+      </div>
+      <div className="problem-button-container">
+        <button
+          type="button"
+          className="problem-button left"
+          onClick={() => {
+            buttonHandler("left");
+          }}
+        >
+          <h1>◀</h1>
+        </button>
+        <button
+          type="button"
+          className="problem-button right"
+          onClick={() => {
+            buttonHandler("right");
+          }}
+        >
+          <h1>▶</h1>
+        </button>
       </div>
     </div>
   );
