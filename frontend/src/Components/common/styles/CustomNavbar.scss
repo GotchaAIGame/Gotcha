@@ -1,4 +1,5 @@
-@import "@styles/colors.scss";
+@import "@styles/Colors";
+@import "@styles/mixin";
 
 .custom-nav-container {
   height: 140px;
@@ -17,8 +18,6 @@
   .custom-title-wrapper {
     border-radius: 20px;
     border: solid 1px $gray-1;
-    width: 80%;
-    height: 60px;
     position: absolute;
     top: 100px;
     background-color: white;
@@ -27,5 +26,15 @@
     align-items: center;
     margin: 0;
     padding: 10px;
+    height: 60px;
+
+    @include desktop {
+      width: 70%;
+    }
+    @include mobile {
+      width: 80%;
+      min-width: 250px;
+      font-size: 1.125rem;
+    }
   }
 }

@@ -1,0 +1,40 @@
+@import "@styles/Colors";
+@import "@styles/mixin";
+
+.rank-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .player-rank-wrapper {
+    border-radius: 30px;
+    border: 1px solid $gray-1;
+    margin: 100px;
+
+    @include desktop {
+      width: 70%;
+    }
+    @include mobile {
+      width: 80%;
+      font-size: 10px;
+    }
+
+    .ranking-title-flag {
+      background-image: url("../assets/RankingFlag.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      position: relative;
+      top: -44px;
+
+      h1 {
+        color: $blue-1;
+        font-weight: 900;
+        text-shadow: 3px 0px $gray-1;
+        -webkit-text-stroke: 1px $gray-1;
+        margin: 0;
+        padding: 20px;
+      }
+    }
+  }
+}
