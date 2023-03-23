@@ -24,10 +24,12 @@
   }
 }
 
-.tutotial-contents-slide {
+.tutorial-contents-carousel {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  width: 85%;
+  margin: 0 auto;
 
   button {
     background: none;
@@ -35,10 +37,55 @@
     font-size: 25px;
     cursor: pointer;
     padding: 0;
+    margin: 0 20px;
+  }
+
+  .tutotial-contents-slide {
+    display: flex;
+    overflow-x: hidden;
+    width: 100%;
+    transition: transform 0.5s ease-out;
   }
 }
+// .tutorial-contents-carousel button {
+//   background: none;
+//   border: none;
+//   font-size: 25px;
+//   cursor: pointer;
+//   padding: 0;
+//   position: absolute;
+//   top: 50%;
+//   transform: translateY(-50%);
+// }
+
+//   .tutorial-contents-carousel button:first-of-type {
+//     left: 0;
+//   }
+
+//   .tutorial-contents-carousel button:last-of-type {
+//     right: 0;
+//   }
+// }
 
 // TutorialContent
 .tutorial-content-container {
-  width: 80%;
+  width: 100%;
+  // min-width: 100%;
+  margin-right: 16px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .tutotial-contents-slide {
+      width: 85%;
+    }
+
+    .tutorial-content-container {
+      flex: 0 0 calc(85% / 3);
+      max-width: calc(85% / 3);
+    }
+  }
 }

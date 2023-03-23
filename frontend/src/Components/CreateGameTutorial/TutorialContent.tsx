@@ -1,22 +1,21 @@
 import React from "react";
 
 interface TutorialContentProps {
-  isOpen: Record<string, boolean>;
-  setIsOpen: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  contents: {
+    contentId: number;
+    title: string;
+    content: string;
+    imgSrc: string;
+  };
 }
 
-export default function TutorialContent({
-  isOpen,
-  setIsOpen,
-}: TutorialContentProps) {
+export default function TutorialContent({ contents }: TutorialContentProps) {
   return (
     <div className="tutorial-content-container">
-      <p>안녕하세요? 이곳에서 사용법을 배워보세요!</p>
+      <h3>{contents.title}</h3>
+      <p>{contents.content}</p>
       <div>
-        <p>이곳에 이미지가 들어가요</p>
-        {isOpen.page1 && <p>1번임</p>}
-        {isOpen.page2 && <p>2번임</p>}
-        {isOpen.page3 && <p>3번임</p>}
+        <img src={contents.imgSrc} alt="" />
       </div>
     </div>
   );
