@@ -175,3 +175,62 @@
     }
   }
 }
+
+// AIModal
+.AIModal-wrapper,
+.AIModal-overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.AIModal-overlay {
+  background: rgba(49, 49, 49, 0.8);
+}
+
+.AIModal-content-container {
+  max-width: 320px;
+  width: 300px;
+  height: 650px;
+  position: relative;
+  background-image: url("../assets/tempBg.svg");
+  border-radius: 5px;
+  padding: 14px 28px;
+  box-shadow: 5px 5px 3px $gray-2;
+  overflow: hidden;
+
+  .AIModal-content-description {
+    position: absolute;
+    background-color: white;
+    left: 50%;
+    bottom: 0px;
+    transform: translate(-50%, +30%);
+    border-radius: 300px / 160px;
+    width: 150%;
+    height: 50%;
+
+    h1 {
+      position: relative;
+      bottom: -20%;
+      -webkit-text-stroke: 1px $gray-1;
+    }
+    .green {
+      color: $green;
+    }
+    .orange {
+      color: $orange;
+    }
+    .blue {
+      color: $blue-1;
+    }
+  }
+}

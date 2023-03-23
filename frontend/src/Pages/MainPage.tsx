@@ -49,7 +49,10 @@ export default function MainPage() {
         <Link to="/newgame">
           <button type="button">새 게임 페이지</button>
         </Link>
-        <button type="button">실험</button>
+
+        <Link to="/modalTest/2">
+          <button type="button"> 모달 테스트 2 큭큭 </button>
+        </Link>
       </div>
     </>
   );
