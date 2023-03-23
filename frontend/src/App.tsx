@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <AutoToTop />
+        <AutoToTop />
         <div className="app-main-container">
           <Navbar />
           <div>

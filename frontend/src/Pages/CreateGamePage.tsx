@@ -26,7 +26,11 @@ export default function CreateGamePage() {
           </Grid>
         )}
       </Grid>
-      <button type="button" onClick={tempHelperHandler}>
+      <button
+        type="button"
+        onClick={tempHelperHandler}
+        style={{ marginTop: "50px" }}
+      >
         임시 도움말 버튼
       </button>
     </div>
