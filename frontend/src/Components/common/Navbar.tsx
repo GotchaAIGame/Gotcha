@@ -18,9 +18,12 @@ export default function Navbar() {
   }
   return (
     <header className="app-main-header">
-      <Link to="/">
-        <img src={logo} alt="logo" />
-      </Link>
+      {/* 게임 생성 페이지에서는 로고를 생략합니다. */}
+      {location.pathname !== "/create/game" && (
+        <Link to="/">
+          <img src={logo} alt="logo" />
+        </Link>
+      )}
     </header>
   );
 }

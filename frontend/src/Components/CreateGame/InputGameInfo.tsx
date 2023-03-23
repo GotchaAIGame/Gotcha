@@ -11,23 +11,24 @@ export default function InputGameInfo() {
         placeholder="문제 제목을 입력해 주세요"
       />
 
-      {/* 진행 기간 */}
-      <div>
+      {/* 기간, 정보  */}
+      <div className="game-info-inputs-container">
+        {/* 진행 기간 */}
         <div className="duration-inputs-container">
           <h5>진행 기간</h5>
-          <div>
+          <div className="right-inputs-container">
             <input type="datetime-local" />
-            <span>~</span>
+            <p>~</p>
             <input type="datetime-local" />
           </div>
         </div>
-      </div>
 
-      {/* 퀴즈 정보 */}
-      <div className="game-inputs-container">
-        <h5>게임 정보</h5>
-        <div className="temp">
-          <textarea placeholder="게임의 정보를 입력해 주세요. 정렬 안 맞아도 울지 않아요" />
+        {/* 퀴즈 정보 */}
+        <div className="game-inputs-container">
+          <h5>게임 정보</h5>
+          <div className="right-inputs-container">
+            <textarea placeholder="게임의 정보를 입력해 주세요. 정렬 안 맞아도 울지 않아요" />
+          </div>
         </div>
       </div>
     </div>
