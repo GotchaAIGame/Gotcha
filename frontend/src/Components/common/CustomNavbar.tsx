@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "./styles/CustomNavbar.scss";
-import classNames from "classnames";
 
 export default function CustomNavbar() {
   const themeColor = useSelector((state: any) => state.theme.themeColor);
