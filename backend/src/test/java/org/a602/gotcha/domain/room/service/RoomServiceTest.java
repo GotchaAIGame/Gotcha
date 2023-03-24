@@ -49,7 +49,7 @@ class RoomServiceTest {
         @DisplayName("방 정보가 없을 경우 RoomNotFoud 예외 발생")
         void notValidRoomId() {
             // when
-            when(roomRepository.findByCode(INVALID_ROOM_CODE)).thenReturn(null);
+            when(roomRepository.findByCode(INVALID_ROOM_CODE)).thenReturn(Optional.empty());
             // then
             assertThrows(RoomNotFoundException.class, () -> roomService.getRoomInfo(INVALID_ROOM_CODE));
         }
@@ -60,7 +60,7 @@ class RoomServiceTest {
             // given
             LocalDateTime endTime = LocalDateTime.of(2022,2, 24, 10, 0,0 );
             // when
-            when(roomRepository.findByCode(ROOM_CODE)).thenReturn(Room.builder().endTime(endTime).build());
+            when(roomRepository.findByCode(ROOM_CODE)).thenReturn(Optional.of(Room.builder().endTime(endTime).build()));
             // then
             assertThrows(RoomExpiredException.class, () -> roomService.getRoomInfo(ROOM_CODE));
         }
@@ -75,11 +75,11 @@ class RoomServiceTest {
             String title = "title";
             // when
             when(roomRepository.findByCode(ROOM_CODE))
-                    .thenReturn(Room.builder()
+                    .thenReturn(Optional.of(Room.builder()
                             .color(color)
                             .logoUrl(logoUrl)
                             .title(title)
-                            .endTime(endTime).build());
+                            .endTime(endTime).build()));
             GameInfoResponse roomInfo = roomService.getRoomInfo(ROOM_CODE);
             // then
             assertEquals(color, roomInfo.getColor());

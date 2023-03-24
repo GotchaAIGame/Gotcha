@@ -12,7 +12,7 @@ import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +25,7 @@ public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
     private final RoomRepository roomRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public Boolean existDuplicateNickname(DuplicateNicknameRequest request) {
@@ -35,7 +35,7 @@ public class ParticipantService {
 
     @Transactional
     public Participant registerParticipant(ParticipantRegisterRequest request) {
-        Room room = checkRoomValidation(request.getRoomId());
+        Room room = findRoom(request.getRoomId());
         checkDuplicateNickname(request.getRoomId(), request.getNickname());
         final String hashPassword = encodePassword(request.getPassword());
         return participantRepository.save(
@@ -50,7 +50,7 @@ public class ParticipantService {
     @Transactional(readOnly = true)
     public ParticipantInfoResponse getParticipantInfo(ParticipantLoginRequest request) {
         checkRoomValidation(request.getRoomId());
-        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        Participant participant = findParticipant(request.getRoomId(), request.getNickname());
         if (matchPassword(request.getPassword(), participant.getPassword())) {
             return ParticipantInfoResponse.builder()
                     .isFinished(participant.getIsFinished())
@@ -62,7 +62,7 @@ public class ParticipantService {
     @Transactional
     public boolean updateStartTime(ParticipantGameStartRequest request) {
         checkRoomValidation(request.getRoomId());
-        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        Participant participant = findParticipant(request.getRoomId(), request.getNickname());
         participant.updateStartTime(request.getStartTime());
         if (participant.getStartTime().equals(request.getStartTime())) {
             return true;
@@ -80,7 +80,7 @@ public class ParticipantService {
     @Transactional
     public boolean updateGameRecord(ProblemFinishRequest request) {
         checkRoomValidation(request.getRoomId());
-        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        Participant participant = findParticipant(request.getRoomId(), request.getNickname());
         // Duration 계산
         Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
         participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
@@ -98,7 +98,7 @@ public class ParticipantService {
     @Transactional
     public boolean updatePhoneNumber(RegisterPhonenumberRequest request) {
         checkRoomValidation(request.getRoomId());
-        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        Participant participant = findParticipant(request.getRoomId(), request.getNickname());
         participant.updatePhoneNumber(request.getPhoneNumber());
         if (participant.getPhoneNumber().equals(request.getPhoneNumber())) {
             return true;
@@ -107,15 +107,26 @@ public class ParticipantService {
         }
     }
 
-    private Room checkRoomValidation(Long roomID) {
-        return roomRepository.findById(roomID)
+    private void checkRoomValidation(Long roomID) {
+       roomRepository.findById(roomID)
                 .orElseThrow(RoomNotFoundException::new);
     }
 
-    private Participant checkParticipantValidation(Long roomId, String nickname) {
+    private void checkParticipantValidation(Long roomId, String nickname) {
+        participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname)
+                .orElseThrow(ParticipantNotFoundException::new);
+    }
+
+    private Room findRoom(Long roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
+    }
+
+    private Participant findParticipant(Long roomId, String nickname) {
         return participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname)
                 .orElseThrow(ParticipantNotFoundException::new);
     }
+
 
     private boolean checkDuplicateNickname(Long roomId, String nickname) {
         Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
@@ -127,11 +138,11 @@ public class ParticipantService {
     }
 
     private String encodePassword(String password) {
-        return bCryptPasswordEncoder.encode(password);
+        return passwordEncoder.encode(password);
     }
 
     private boolean matchPassword(String rawPassword, String encodePassword) {
-        return bCryptPasswordEncoder.matches(rawPassword, encodePassword);
+        return passwordEncoder.matches(rawPassword, encodePassword);
     }
 
 

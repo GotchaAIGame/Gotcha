@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public GameInfoResponse getRoomInfo(String roomCode) {
-        Room gameRoom = Optional.ofNullable(roomRepository.findByCode(roomCode))
+        Room gameRoom = roomRepository.findByCode(roomCode)
                 .orElseThrow(RoomNotFoundException::new);
         if(gameRoom.getEndTime().isBefore(LocalDateTime.now())){
             throw new RoomExpiredException();
