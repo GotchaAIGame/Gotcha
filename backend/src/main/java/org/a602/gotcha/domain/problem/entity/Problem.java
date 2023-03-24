@@ -36,7 +36,7 @@ public class Problem {
 
     @Builder
     public Problem(String name, String description, String hint, String imageUrl, Room room) {
-        this. name = name;
+        this.name = name;
         this.description = description;
         this.hint = hint;
         this.imageUrl = imageUrl;
