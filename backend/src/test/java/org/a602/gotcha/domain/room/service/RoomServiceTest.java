@@ -1,113 +1,137 @@
 package org.a602.gotcha.domain.room.service;
 
-import org.a602.gotcha.domain.member.entity.Member;
-import org.a602.gotcha.domain.member.repository.MemberRepository;
+import org.a602.gotcha.domain.reward.entity.Reward;
+import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
+import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
-import org.junit.jupiter.api.BeforeEach;
+import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-@Transactional
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class RoomServiceTest {
 
-    @Autowired
+    @InjectMocks
     private RoomService roomService;
-    @Autowired
+    @Mock
     private RoomRepository roomRepository;
-    @Autowired
-    private MemberRepository memberRepository;
+    @Mock
+    private RewardRepository rewardRepository;
 
-    private ArrayList<Long> roomIds;
+    String ROOM_CODE = "ABCD";
+    String INVALID_ROOM_CODE = "EFGH";
+    Long ROOM_ID = 1L;
+    Long INVALID_ROOM_ID = 10L;
 
-    @BeforeEach
-    void setGameRoom() {
-        // 멤버 생성
-        Member member = new Member("yezi", "1234", "SSAFY", "yezi@ssafy.com", "일반");
-        memberRepository.save(member);
-        // 게임방 생성
-        Room expiredRoom = Room.builder()
-                .color("Blue")
-                .code("EXPIRED")
-                .logoUrl("ssafy.com")
-                .eventUrl("ssafy.com")
-                .title("새로운 게임입니다.")
-                .eventDesc("연습용 게임입니다")
-                .startTime(LocalDateTime.parse("2023-03-01T09:00:00"))
-                .endTime(LocalDateTime.parse("2023-03-07T18:00:00"))
-                .hasReward(false)
-                .rewardDesc("보상 설명")
-                .member(member).build();
+    @Nested
+    @DisplayName("getRoomInfo 메소드는")
+    class GetRoomInfo {
 
-        Room progressingRoom = Room.builder()
-                .color("Blue")
-                .code("PROGRESSING")
-                .logoUrl("ssafy.com")
-                .eventUrl("ssafy.com")
-                .title("새로운 게임입니다.")
-                .eventDesc("연습용 게임입니다")
-                .startTime(LocalDateTime.parse("2023-03-01T09:00:00"))
-                .endTime(LocalDateTime.now().plusDays(1))
-                .hasReward(false)
-                .rewardDesc("보상 설명")
-                .member(member).build();
+        @Test
+        @DisplayName("방 정보가 없을 경우 RoomNotFoud 예외 발생")
+        void notValidRoomId() {
+            // when
+            when(roomRepository.findByCode(INVALID_ROOM_CODE)).thenReturn(null);
+            // then
+            assertThrows(RoomNotFoundException.class, () -> roomService.getRoomInfo(INVALID_ROOM_CODE));
+        }
 
-        Room saveExpiredRoom = roomRepository.save(expiredRoom);
-        Room saveProgressingRoom = roomRepository.save(progressingRoom);
+        @Test
+        @DisplayName("방 유효기간이 끝났을 경우 RoomExpired 예외 발생")
+        void expiredRoom() {
+            // given
+            LocalDateTime endTime = LocalDateTime.of(2022,2, 24, 10, 0,0 );
+            // when
+            when(roomRepository.findByCode(ROOM_CODE)).thenReturn(Room.builder().endTime(endTime).build());
+            // then
+            assertThrows(RoomExpiredException.class, () -> roomService.getRoomInfo(ROOM_CODE));
+        }
 
-        roomIds = new ArrayList<>();
-        roomIds.add(saveExpiredRoom.getId());
-        roomIds.add(saveProgressingRoom.getId());
-
+        @Test
+        @DisplayName("방이 유효할 경우 게임 정보 리턴")
+        void getRoomInfo() {
+            // given
+            LocalDateTime endTime = LocalDateTime.now().plusDays(3);
+            String color = "blue";
+            String logoUrl = "url";
+            String title = "title";
+            // when
+            when(roomRepository.findByCode(ROOM_CODE))
+                    .thenReturn(Room.builder()
+                            .color(color)
+                            .logoUrl(logoUrl)
+                            .title(title)
+                            .endTime(endTime).build());
+            GameInfoResponse roomInfo = roomService.getRoomInfo(ROOM_CODE);
+            // then
+            assertEquals(color, roomInfo.getColor());
+            assertEquals(logoUrl, roomInfo.getLogoUrl());
+            assertEquals(title, roomInfo.getTitle());
+        }
     }
 
     @Nested
-    @DisplayName("방 검색하기 서비스는")
-    class findRoom{
+    @DisplayName("getNameRewardList 메소드는")
+    class GetGameRewardList {
 
         @Test
-        @DisplayName("게임코드가 없으면 RoomNotFound 예외 발생")
-        void getRoomWithInvalidCode() {
-            //given
-            String enterCode = "INVALIDCODE";
-            //then
-            assertThrows(RoomNotFoundException.class, () -> {
-                roomService.getRoomInfo(enterCode);
-            });
+        @DisplayName("방 정보가 없을 경우 RoomNotFoud 예외 발생")
+        void notValidRoomId() {
+            // when
+            when(roomRepository.findById(eq(INVALID_ROOM_ID))).thenReturn(Optional.empty());
+            // then
+            assertThrows(RoomNotFoundException.class, () -> roomService.getGameRewardList(INVALID_ROOM_ID));
         }
 
         @Test
-        @DisplayName("현재 시간이 종료 시간 뒤면 RoomExpired예외 발생")
-        void getRoomAfterEndTime() {
-            String enterCode = "EXPIRED";
-            assertThrows(RoomExpiredException.class, () -> {
-                roomService.getRoomInfo(enterCode);
-            });
+        @DisplayName("리워드 정보가 없을 경우 RewardNotFound 예외 발생")
+        void rewardNotFounded() {
+            // given
+            List<Reward> emptyList = new ArrayList<>();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(rewardRepository.findRewardsByRoomId(ROOM_ID)).thenReturn(emptyList);
+            // then
+            assertThrows(RewardNotFoundException.class, () -> roomService.getGameRewardList(ROOM_ID));
         }
 
         @Test
-        @DisplayName("방을 성공적으로 찾으면 정보 반환")
-        void getRoomId() {
-            String enterCode = "PROGRESSING";
-            GameInfoResponse result = roomService.getRoomInfo(enterCode);
-            assertEquals(roomIds.get(1), result.getRoomId());
-
+        @DisplayName("리워드 정보가 있을 경우 정보 반환")
+        void getReward() {
+            // given
+            List<Reward> rewardList = new ArrayList<>();
+            for(int i = 0; i < 5; i++) {
+                rewardList.add(Reward.builder()
+                        .grade(i)
+                        .name("이름"+i)
+                        .build());
+            }
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(rewardRepository.findRewardsByRoomId(ROOM_ID)).thenReturn(rewardList);
+            List<RewardListResponse> gameRewardList = roomService.getGameRewardList(ROOM_ID);
+            // then
+            assertEquals(5, gameRewardList.size());
         }
-        
 
     }
-
 
 }
