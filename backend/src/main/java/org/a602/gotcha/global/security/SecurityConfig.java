@@ -31,6 +31,7 @@ public class SecurityConfig {
 		/* swagger v3 */
 		"/api/v3/api-docs/**",
 		"/api/swagger-ui/**",
+		"/api/post-docs/swagger-config/**",
 		/*회원가입*/
 		"/",
 		"/api/member/signup",
