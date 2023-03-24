@@ -5,10 +5,7 @@ import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
-import org.a602.gotcha.domain.participant.request.DuplicateNicknameRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantGameStartRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantLoginRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantRegisterRequest;
+import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
@@ -333,6 +330,130 @@ class ParticipantServiceTest {
                     .thenReturn(Optional.of(Participant.builder().build()));
             // then
             assertTrue(participantService.checkUserValidation(ROOM_ID, USER_NICKNAME));
+        }
+    }
+
+    @Nested
+    @DisplayName("updateGameRecord 메소드는")
+    class UpdateGameRecord {
+
+        LocalDateTime startTime = LocalDateTime.of(2023, 3, 24, 9, 0, 30);
+        LocalDateTime endTime = LocalDateTime.of(2023, 3, 24, 10, 3, 24);
+
+        Room room = Room.builder().build();
+
+        Participant participant = Participant.builder()
+                .nickname(USER_NICKNAME)
+                .password(HASH_PASSWORD)
+                .room(room)
+                .isFinished(false)
+                .startTime(startTime)
+                .build();
+
+        @Test
+        @DisplayName("방 정보가 없을 경우 RoomNotFound 예외 발생")
+        void notValidRoomId() {
+            // given
+            ProblemFinishRequest request = ProblemFinishRequest.builder()
+                    .roomId(INVALID_ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .solvedCnt(4)
+                    .endTime(endTime)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(INVALID_ROOM_ID))).thenReturn(Optional.empty());
+            // then
+            assertThrows(RoomNotFoundException.class, () -> participantService.updateGameRecord(request));
+        }
+
+        @Test
+        @DisplayName("해당하는 참여자가 없을 경우 ParticipantNotFound 예외 발생")
+        void notValidParticipant() {
+            // given
+            ProblemFinishRequest request = ProblemFinishRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(NOT_REGISTERED_NICKNAME)
+                    .solvedCnt(4)
+                    .endTime(endTime)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(room));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(Optional.empty());
+            // then
+            assertThrows(ParticipantNotFoundException.class, () -> participantService.updateGameRecord(request));
+        }
+
+        @Test
+        @DisplayName("방에 해당 참여자가 있다면 기록 업데이트")
+        void updateGameRecord() {
+            // given
+            ProblemFinishRequest request = ProblemFinishRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .solvedCnt(4)
+                    .endTime(endTime)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(room));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(Optional.of(participant));
+            // then
+            assertTrue(participantService.updateGameRecord(request));
+        }
+    }
+
+    @Nested
+    @DisplayName("updatePhoneNumber 메소드는")
+    class UpdatePhoneNumber {
+
+        @Test
+        @DisplayName("방 정보가 없을 경우 RoomNotFound 예외 발생")
+        void notValidRoomId() {
+            // given
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(INVALID_ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .phoneNumber("010-1111-1111")
+                    .build();
+            // when
+            when(roomRepository.findById(eq(INVALID_ROOM_ID))).thenReturn(Optional.empty());
+            // then
+            assertThrows(RoomNotFoundException.class, () -> participantService.updatePhoneNumber(request));
+        }
+
+        @Test
+        @DisplayName("해당하는 참여자가 없을 경우 ParticipantNotFound 예외 발생")
+        void notValidParticipant() {
+            // given
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(NOT_REGISTERED_NICKNAME)
+                    .phoneNumber("010-1111-1111")
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(Optional.empty());
+            // then
+            assertThrows(ParticipantNotFoundException.class, () -> participantService.updatePhoneNumber(request));
+        }
+
+        @Test
+        @DisplayName("해당하는 참여자가 있으면 휴대폰 번호 업데이트")
+        void updatePhoneNumber() {
+            // given
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .phoneNumber("010-1111-1111")
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(Optional.of(Participant.builder().build()));
+            // then
+            assertTrue(participantService.updatePhoneNumber(request));
         }
 
     }
