@@ -21,16 +21,16 @@ public class SecurityConfig {
 
 	private static final String[] PERMIT_URL_ARRAY = {
 		/* swagger v2 */
-		"/v2/api-docs",
-		"/swagger-resources",
-		"/swagger-resources/**",
-		"/configuration/ui",
-		"/configuration/security",
-		"/swagger-ui.html",
-		"/webjars/**",
+		"/api/v2/api-docs",
+		"/api/swagger-resources",
+		"/api/swagger-resources/**",
+		"/api/configuration/ui",
+		"/api/configuration/security",
+		"/api/swagger-ui.html",
+		"/api/webjars/**",
 		/* swagger v3 */
-		"/v3/api-docs/**",
-		"/swagger-ui/**",
+		"/api/v3/api-docs/**",
+		"/api/swagger-ui/**",
 		/*회원가입*/
 		"/",
 		"/api/member/signup",
