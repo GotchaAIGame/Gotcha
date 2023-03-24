@@ -1,6 +1,7 @@
 package org.a602.gotcha.domain.reward.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a602.gotcha.domain.room.entity.Room;
@@ -26,5 +27,12 @@ public class Reward {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @Builder
+    public Reward(String name, Integer grade, Room room) {
+        this.name = name;
+        this.grade = grade;
+        this.room = room;
+    }
 
 }

@@ -43,9 +43,9 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public List<RewardListResponse> getGameRewardList(Long roomId) {
-        Room room = roomRepository.findById(roomId)
+        roomRepository.findById(roomId)
                 .orElseThrow(RoomNotFoundException::new);
-        List<Reward> rewards = rewardRepository.findRewardsByRoomId(room.getId());
+        List<Reward> rewards = rewardRepository.findRewardsByRoomId(roomId);
         if(rewards.size() == 0) {
             throw new RewardNotFoundException();
         }
