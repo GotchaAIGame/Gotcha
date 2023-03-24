@@ -17,6 +17,7 @@ import org.a602.gotcha.domain.member.response.MemberLoginResponse;
 import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.JwtTokenProvider;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,14 +77,10 @@ public class MemberService {
 	public String logout(final MemberLogoutRequest memberLogoutRequest) {
 		// logout유저가 새로 로그인 할 시 토큰을 새로 만들어서 로그인.
 		// 기존 logout처리했던 토큰은 유효시간 지나면 자동으로 삭제됌.
-		String logoutUser = null;
+		jwtTokenProvider.registerLogoutUser(memberLogoutRequest)
+			.orElseThrow(() -> new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage()));
 
-		if (jwtTokenProvider.isLoginUser(memberLogoutRequest.getRefreshToken())) {
-			logoutUser = jwtTokenProvider.registerBlackList(memberLogoutRequest.getAccessToken(),
-				memberLogoutRequest.getRefreshToken());
-		}
-
-		return logoutUser;
+		return memberLogoutRequest.getRefreshToken();
 	}
 
 	public MemberInformationResponse findMemberInformation(final Long id) {

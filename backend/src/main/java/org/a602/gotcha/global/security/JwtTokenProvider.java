@@ -11,6 +11,7 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 
 import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
 import org.a602.gotcha.domain.member.service.MemberDetailService;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.redis.RedisRefreshTokenRepository;
@@ -84,11 +85,10 @@ public class JwtTokenProvider {
 		UserDetails userDetails;
 
 		if (userEmail == null) {
-			final Optional<RefreshToken> byId = redisRefreshTokenRepository.findById(token);
+			final RefreshToken refreshToken = redisRefreshTokenRepository.findById(token)
+				.orElseThrow(() -> new JwtException(GlobalErrorCode.TOKEN_EXPIRED.getMessage()));
 
-			if (byId.isPresent()) {
-				saveToken = byId.get().getAccessToken();
-			}
+			saveToken = refreshToken.getAccessToken();
 		}
 
 		userDetails = memberDetailService.loadUserByUsername(getUserEmail(saveToken));
@@ -135,39 +135,37 @@ public class JwtTokenProvider {
 		}
 	}
 
-	public String registerBlackList(final String accessToken, final String refreshToken) {
-		String newAccessToken = splitToken(accessToken);
-
+	public Optional<String> registerLogoutUser(final MemberLogoutRequest memberLogoutRequest) {
+		final String newAccessToken = splitToken(memberLogoutRequest.getAccessToken());
 		final Authentication authentication = getAuthentication(newAccessToken); // 유저 객체 가져옴.
-		Optional<RefreshToken> refreshTokenOptional;
 
-		if (isLoginUser(refreshToken)) { // 로그인 한 유저인지 확인.
-			refreshTokenOptional = redisRefreshTokenRepository.findById(newAccessToken);
+		if (isLoginUser(memberLogoutRequest.getRefreshToken())) {
+			final Optional<RefreshToken> refreshTokenOptional = redisRefreshTokenRepository.findById(newAccessToken);
 			refreshTokenOptional.ifPresent(redisRefreshTokenRepository::deleteById);
 		}
 
 		final Long expiration = getExpiration(newAccessToken);
 		redisRefreshTokenRepository.saveLogoutInfo(newAccessToken, expiration);
 
-		return authentication.getName();
+		return Optional.ofNullable(authentication.getName());
 	}
 
-	private static String splitToken(final String bearerToken) {
+	public String splitToken(final String bearerToken) {
 		String originToken = bearerToken;
 
+		// prefix부분을 날리고 JWT만 token에 할당한다.
 		if (bearerToken != null && bearerToken.startsWith(BEARER)) {
-			// prefix부분을 날리고 JWT만 token에 할당한다.
 			originToken = bearerToken.substring(BEARER.length());
 		} // token 확인.
 
 		return originToken;
 	}
 
-	public Long getExpiration(final String refreshToken) {
+	public Long getExpiration(final String token) {
 		final Date date = new Date();
 		final Date expiration = Jwts.parser()
 			.setSigningKey(secretKey)
-			.parseClaimsJws(refreshToken)
+			.parseClaimsJws(token)
 			.getBody()
 			.getExpiration();
 

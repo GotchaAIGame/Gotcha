@@ -73,9 +73,9 @@ public class MemberController {
 
 	@PostMapping("/member/logout")
 	public BaseResponse<String> logout(@Valid @RequestBody MemberLogoutRequest memberLogoutRequest) {
-		final String logoutUser = memberService.logout(memberLogoutRequest);
+		final String logoutRefreshToken = memberService.logout(memberLogoutRequest);
 
-		return new BaseResponse<>(logoutUser);
+		return new BaseResponse<>(logoutRefreshToken);
 	}
 
 	@GetMapping("/member")
