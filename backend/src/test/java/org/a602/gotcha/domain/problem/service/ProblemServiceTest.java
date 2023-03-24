@@ -1,154 +1,104 @@
 package org.a602.gotcha.domain.problem.service;
 
-import org.a602.gotcha.domain.member.entity.Member;
-import org.a602.gotcha.domain.member.repository.MemberRepository;
-import org.a602.gotcha.domain.participant.entity.Participant;
-import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.problem.exception.ProblemNotFoundException;
 import org.a602.gotcha.domain.problem.repository.ProblemRepository;
 import org.a602.gotcha.domain.problem.response.ProblemListResponse;
-import org.a602.gotcha.domain.room.entity.Room;
-import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-@Transactional
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class ProblemServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ProblemService problemService;
-    @Autowired
+    @Mock
     private ProblemRepository problemRepository;
-    @Autowired
-    private ParticipantRepository participantRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private RoomRepository roomRepository;
 
-    Long ROOM_ID;
-    Long PROBLEM_ID;
-    String USER_NICKNAME = "yezi";
-    String USER_PWD = "1234";
-    Boolean USER_IS_FINISHED = false;
-    String HINT = "이건 특별한 힌트";
+    Long ROOM_ID = 1L;
+    Long INVALID_ROOM_ID = 10L;
+    Long PROBLEM_ID = 1L;
+    Long INVALID_PROBLEM_ID = 10L;
+    List<Problem> emptyList = new ArrayList<>();
+    List<Problem> problemList = new ArrayList<>();
 
     @BeforeEach
-    void setGameRoom() {
-
-        // 멤버 생성
-        Member member = new Member("yezi", "1234", "SSAFY", "yezi@ssafy.com", "일반");
-        memberRepository.save(member);
-
-        // 게임방 생성
-        Room room = Room.builder()
-                .color("Blue")
-                .code("GAMEROOM")
-                .logoUrl("ssafy.com")
-                .eventUrl("ssafy.com")
-                .title("새로운 게임입니다.")
-                .eventDesc("연습용 게임입니다")
-                .startTime(LocalDateTime.parse("2023-03-01T09:00:00"))
-                .endTime(LocalDateTime.parse("2023-03-07T18:00:00"))
-                .hasReward(false)
-                .rewardDesc("보상 설명")
-                .member(member).build();
-        Room savedRoom = roomRepository.save(room);
-        ROOM_ID = savedRoom.getId();
-        // 참여자 생성
-        Participant participant = Participant.builder()
-                .nickname(USER_NICKNAME)
-                .password(USER_PWD)
-                .room(room)
-                .isFinished(USER_IS_FINISHED)
-                .build();
-        participantRepository.save(participant);
-        // 문제 생성
-        Problem problemA = Problem.builder()
-                .name("문제1")
-                .description("설명")
-                .hint(HINT)
-                .imageUrl("주소")
-                .room(room)
-                .build();
-        Problem problemB = Problem.builder()
-                .name("문제2")
-                .description("설명")
-                .hint("힌트")
-                .imageUrl("주소")
-                .room(room)
-                .build();
-        Problem problemC = Problem.builder()
-                .name("문제3")
-                .description("설명")
-                .hint("힌트")
-                .imageUrl("주소")
-                .room(room)
-                .build();
-        problemRepository.save(problemA);
-        problemRepository.save(problemB);
-        problemRepository.save(problemC);
-        PROBLEM_ID = problemA.getId();
+    void setup() {
+        for (int i = 0; i < 5; i++) {
+            problemList.add(Problem.builder()
+                    .name("이름" + i)
+                    .description("설명" + i)
+                    .imageUrl("imageUrl" + i)
+                    .hint("힌트" + i).build());
+        }
     }
 
     @Nested
-    @DisplayName("문제 가져오기 메소드는")
+    @DisplayName("getProblemList 메소드는")
     class GetProblemList {
 
         @Test
-        @DisplayName("해당 방의 문제를 찾지 못할 경우 ProblemNotFound 예외 발생")
-        void getListWithInvalidRoom() {
+        @DisplayName("해당 방id의 문제가 없을 경우 ProblemNotFound 예외 발생")
+        void invalidRoomId() {
             // when
-            Long roomId = 100000000L;
+            when(problemRepository.findProblemsByRoomId(INVALID_ROOM_ID)).thenReturn(emptyList);
             // then
-            assertThrows(ProblemNotFoundException.class, ()
-            -> problemService.getProblemList(roomId));
+            assertThrows(ProblemNotFoundException.class, () -> problemService.getProblemList(INVALID_ROOM_ID));
         }
 
         @Test
-        @DisplayName("오류 미발생시 ProblemList 반환")
-        void getList() {
+        @DisplayName("해당 방id 문제가 있을 경우 문제 목록 반환")
+        void getProblemList() {
             // when
-            List<ProblemListResponse> problemList = problemService.getProblemList(ROOM_ID);
+            when(problemRepository.findProblemsByRoomId(ROOM_ID)).thenReturn(problemList);
+            List<ProblemListResponse> problemListReponse = problemService.getProblemList(ROOM_ID);
             // then
-            assertEquals(3, problemList.size());
+            assertEquals(5, problemListReponse.size());
         }
     }
 
     @Nested
-    @DisplayName("힌트 가져오기 메소드는")
-    class GetHint {
+    @DisplayName("findHint 메소드는")
+    class FindHint {
 
         @Test
-        @DisplayName("문제를 찾을 수 없을 경우 ProblemNotFound 예외 발생")
-        void problemNotFounded() {
-            // given
-            Long problemId = 100000L;
+        @DisplayName("해당하는 문제가 없을 경우 ProblemNotFound 예외 발생")
+        void invalidProblemId() {
+            // when
+            when(problemRepository.findById(INVALID_PROBLEM_ID))
+                    .thenReturn(Optional.empty());
             // then
-            assertThrows(ProblemNotFoundException.class, ()
-            -> problemService.findHint(problemId));
+            assertThrows(ProblemNotFoundException.class, () -> problemService.findHint(INVALID_PROBLEM_ID));
         }
 
         @Test
-        @DisplayName("문제가 있으면 힌트 값을 반환")
-        void getHintSuccessfully() {
+        @DisplayName("해당하는 문제가 있으면 hint 값 반환")
+        void findHint() {
+            // given
+            String hint = "힌트입니다";
             // when
-            String hint = problemService.findHint(PROBLEM_ID);
+            when(problemRepository.findById(PROBLEM_ID))
+                    .thenReturn(Optional.of(Problem.builder()
+                            .hint(hint).build()));
             // then
-            assertEquals(HINT, hint);
+            assertEquals(hint, problemService.findHint(PROBLEM_ID));
         }
 
     }
+
 
 }
