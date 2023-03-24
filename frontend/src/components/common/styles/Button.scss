@@ -1,0 +1,112 @@
+@import "@styles/Colors.scss";
+
+// 1. button 공통되는 부분 @mixin으로 바꿔서 수정해놓을 것!
+// 2. color - white, yellow 추가하기
+// 3. 이미지 크기 40*40
+
+@mixin button-color($color) {
+  background: $color;
+  &:hover,
+  &:active {
+    background: lighten($color, 10%);
+    border: 1px solid $color;
+    box-shadow: 1.5px 2px 1px darken($color, 10%);
+  }
+}
+
+@mixin button-gray($color) {
+  background: $gray-5;
+  &:hover,
+  &:active {
+    background: $color;
+  }
+}
+
+.commonButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  color: $gray-1;
+  margin: 5px auto;
+  box-shadow: 1.5px 2px 1px #000;
+  border: 1px solid #000;
+  gap: 40px;
+
+  /** 사이즈 관리 */
+  &.large {
+    width: 325px;
+    height: 63px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  &.medium {
+    width: 237px;
+    height: 63px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  &.small {
+    width: 138px;
+    height: 50px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  &.xsmall {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  &.xxsmall {
+    width: 50px;
+    height: 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  // 색상 관리
+  &.lime {
+    @include button-color($lime);
+  }
+  &.darkblue {
+    color: $white;
+    @include button-color($blue-1);
+  }
+  &.skyblue {
+    @include button-color($blue-3);
+  }
+  &.gray-lime {
+    @include button-gray($lime);
+  }
+  &.gray-blue {
+    @include button-gray($blue-1);
+  }
+
+  &.google {
+    background: $white;
+    &:hover,
+    &:active {
+      background-color: $gray-5;
+    }
+  }
+  &.kakao {
+    background: $kakao;
+    &:hover,
+    &:active {
+      background-color: lighten($kakao, 20%);
+    }
+  }
+
+}

@@ -1,0 +1,69 @@
+@import "@styles/colors.scss";
+
+.login-page-container {
+  // background-image: url("../assets/tempBg.svg");
+  // background-size: contain;
+  height: 100vh;
+
+  .top-banner {
+    overflow: hidden;
+  }
+  .login-banner {
+    position: relative;
+    top: -50px;
+    // height: 90px;
+    width: 325px;
+  }
+}
+
+// LogIn.tsx
+.login-inputs-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  input {
+    display: flex;
+    margin: 0.5rem auto;
+    width: 305px;
+    height: 53px;
+    border-radius: 10px;
+  }
+
+  button {
+    display: inline-flex;
+  }
+}
+
+.social-logins-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+
+  .social-login-title {
+    display: flex;
+    margin: 0px auto;
+    align-items: center;
+    justify-content: space-between;
+    hr {
+      width: 35%;
+      height: 1px;
+      border: 0;
+      background: $gray-3;
+    }
+    h5 {
+      width: 320px;
+      color: $gray-2;
+      font-weight: 400;
+    }
+  }
+
+  button {
+    display: inline-flex;
+    margin: 5px auto;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
