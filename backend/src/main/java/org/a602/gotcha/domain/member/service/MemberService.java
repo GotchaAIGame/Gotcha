@@ -46,6 +46,7 @@ public class MemberService {
 		return memberRepository.existsMemberByEmail(email);
 	}
 
+	@Transactional(readOnly = true)
 	public MemberLoginResponse login(final MemberLoginRequest memberLoginRequest) {
 		final Optional<Member> memberByEmail = memberRepository.findMemberByEmail(memberLoginRequest.getEmail());
 		memberByEmail.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
