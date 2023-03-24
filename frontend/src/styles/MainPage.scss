@@ -23,15 +23,15 @@
 
 // InputPinNum
 .input-pin-num-container {
-  margin: 5% auto;
+  justify-content: center;
   input {
     border-width: 3px;
     border-color: $blue-1;
     border-radius: 12px;
-    padding: 5px 10px;
-    font-family: "Noto Sans KR";
     font-size: 2rem;
     text-align: center;
+    width: 90%;
+    margin: 5% auto;
 
     // transition-property: border-color;
     // transition-duration: 2s;
