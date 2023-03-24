@@ -16,6 +16,7 @@ export default function TutorialContent({ contents }: TutorialContentProps) {
       <p>{contents.content}</p>
       <div>
         <img src={contents.imgSrc} alt="" />
+        <p> 되냐? </p>
       </div>
     </div>
   );
