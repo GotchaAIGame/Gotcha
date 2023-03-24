@@ -1,7 +1,25 @@
-@import "@styles/colors.scss";
+@import "@styles/Colors.scss";
 
-.create-game-main-container {
+// margin: auto;
+.create-game-grid-container {
+  // margin: 0 auto;
   justify-content: center;
+  position: relative;
+}
+.helper-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  background-color: inherit;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: none;
+  img {
+    cursor: pointer;
+    width: 45px;
+  }
 }
 
 // InputQuizInfo.tsx
