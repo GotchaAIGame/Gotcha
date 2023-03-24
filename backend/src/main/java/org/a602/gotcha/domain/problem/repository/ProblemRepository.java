@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
-    List<Problem> findByRoomId(Long roomId);
+    List<Problem> findProblemsByRoomId(Long roomId);
 
 }

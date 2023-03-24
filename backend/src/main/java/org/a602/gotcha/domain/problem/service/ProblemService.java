@@ -19,7 +19,7 @@ public class ProblemService {
 
     @Transactional(readOnly = true)
     public List<ProblemListResponse> getProblemList(Long roomId) {
-        List<Problem> problems = problemRepository.findByRoomId(roomId);
+        List<Problem> problems = problemRepository.findProblemsByRoomId(roomId);
         if(problems.size() == 0) {
             throw new ProblemNotFoundException();
         }
