@@ -1,0 +1,48 @@
+@import "@styles/colors.scss";
+
+// .otp-container {
+//   display: flex;
+//   // justify-content: space-around;
+//   gap: 20px;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 0.5rem auto;
+//   width: 325px;
+//   height: 63px;
+//   border-radius: 10px;
+//   border: 2px solid $gray-1;
+//   background-color: white;
+
+//   .otp-input {
+//     padding: 0;
+//     width: 50px;
+//     height: 50px;
+//     border: 1px solid $gray-1;
+//     border-radius: 5px;
+//     text-align: center;
+//     font-size: 32px;
+//     font-weight: bold;
+//     -webkit-border-radius: 5px;
+//     -moz-border-radius: 5px;
+//     -ms-border-radius: 5px;
+//     -o-border-radius: 5px;
+// }
+// }
+
+.otp-container {
+  display: flex;
+  width: 100%;
+  max-width: 325px;
+  column-gap: 10px;
+
+  .otp-input {
+    width: 100%;
+    height: 60px;
+    border: 2px solid $gray-1;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1;
+  }
+}
