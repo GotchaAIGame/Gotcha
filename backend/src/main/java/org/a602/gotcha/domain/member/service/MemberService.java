@@ -64,6 +64,7 @@ public class MemberService {
 		return new MemberLoginResponse(member, accessToken, refreshToken);
 	}
 
+	@Transactional(readOnly = true)
 	public String reCreateToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
 		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
 			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
