@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
+import org.a602.gotcha.domain.participant.exception.UpdateStartTimeFailedException;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
@@ -76,7 +77,7 @@ public class ParticipantService {
     }
 
     @Transactional
-    public void updateStartTime(ParticipantGameStartRequest request) {
+    public boolean updateStartTime(ParticipantGameStartRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
@@ -84,6 +85,10 @@ public class ParticipantService {
             throw new ParticipantNotFoundException();
         } else {
             participant.get().updateStartTime(request.getStartTime());
+            if(participant.get().getStartTime().equals(request.getStartTime())) {
+                return true;
+            }
+            throw new UpdateStartTimeFailedException();
         }
     }
 
