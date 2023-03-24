@@ -85,14 +85,10 @@ public class MemberService {
 	}
 
 	public MemberInformationResponse findMemberInformation(final Long id) {
-		final Optional<Member> memberById = memberRepository.findById(id);
-		MemberInformationResponse memberInformationResponse = null;
+		final Member member = memberRepository.findById(id)
+			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
 
-		if (memberById.isPresent()) {
-			memberInformationResponse = new MemberInformationResponse(memberById.get());
-		}
-
-		return memberInformationResponse;
+		return new MemberInformationResponse(member);
 	}
 
 	public Long deleteMemberById(final Long id) {
