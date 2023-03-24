@@ -42,7 +42,7 @@ public class ParticipantController {
         return new BaseResponse<>(isDuplicate);
     }
 
-    @Operation(description = "유저 신규 등록하기 API", summary = "유저 신규 등록하기 API")
+    @Operation(description = "참여자 신규로 등록하기 API", summary = "참여자 신규로 등록하기 API")
     @ApiResponse(responseCode = "200", description = "유저 등록 성공")
     @ApiResponse(responseCode = "400", description = "중복된 닉네임 있음")
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
@@ -52,7 +52,7 @@ public class ParticipantController {
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
-    @Operation(description = "기존 참여자 접속하기 API", summary = "기존 참여자 접속하기 API")
+    @Operation(description = "기존 참여자 방에 로그인하기 API", summary = "기존 참여자 방에 로그인하기 API")
     @ApiResponse(responseCode = "200", description = "참여자 정보 확인 성공", content = @Content(schema = @Schema(implementation = ParticipantInfoResponse.class)))
     @ApiResponse(responseCode = "401", description = "참여자 정보 일치하지 않음")
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")

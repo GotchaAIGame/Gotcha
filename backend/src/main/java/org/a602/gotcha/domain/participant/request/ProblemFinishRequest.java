@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Builder
@@ -18,10 +20,11 @@ import java.time.LocalDateTime;
 public class ProblemFinishRequest {
 
     @NotNull
+    @Positive
     @Schema(description = "게임 방 Id")
     private Long roomId;
 
-    @NotNull
+    @NotBlank
     @Schema(description = "유저 닉네임")
     private String nickname;
 

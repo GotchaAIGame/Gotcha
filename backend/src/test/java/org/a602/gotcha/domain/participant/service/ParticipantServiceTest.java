@@ -36,14 +36,15 @@ class ParticipantServiceTest {
     private ParticipantRepository participantRepository;
     @Mock
     private RoomRepository roomRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    @Mock
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
     String USER_NICKNAME = "YEZI";
     String NOT_REGISTERED_NICKNAME = "TAEGYU";
     String USER_PASSWORD = "1234";
-    String HASH_PASSWORD = bCryptPasswordEncoder.encode(USER_PASSWORD);
+    String HASH_PASSWORD = "ENCODE_PASSWORD";
     String NOT_VALID_PASSWORD = "1111";
 
     @Nested
@@ -231,6 +232,7 @@ class ParticipantServiceTest {
                             .password(HASH_PASSWORD)
                             .isFinished(false)
                             .build()));
+            when(bCryptPasswordEncoder.matches(USER_PASSWORD, HASH_PASSWORD)).thenReturn(true);
             // then
             ParticipantInfoResponse participantInfo = participantService.getParticipantInfo(request);
             assertFalse(participantInfo.getIsFinished());

@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Builder
 @Getter
@@ -16,10 +18,11 @@ import javax.validation.constraints.NotNull;
 public class DuplicateNicknameRequest {
 
     @NotNull
+    @Positive
     @Schema(description = "게임 방 Id")
     private Long roomId;
 
-    @NotNull
+    @NotBlank
     @Schema(description = "유저 닉네임")
     private String nickname;
 

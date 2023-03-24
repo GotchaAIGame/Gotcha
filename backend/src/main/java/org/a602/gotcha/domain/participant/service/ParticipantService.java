@@ -25,122 +25,104 @@ public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
     private final RoomRepository roomRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional(readOnly = true)
     public Boolean existDuplicateNickname(DuplicateNicknameRequest request) {
-        roomRepository.findById(request.getRoomId())
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
-        if (participant.isEmpty()) {
-            return false;
-        } else {
-            throw new DuplicateNicknameException();
-        }
+        checkRoomValidation(request.getRoomId());
+        return checkDuplicateNickname(request.getRoomId(), request.getNickname());
     }
 
     @Transactional
     public Participant registerParticipant(ParticipantRegisterRequest request) {
-        Room room = roomRepository.findById(request.getRoomId())
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
-        if (participant.isEmpty()) {
-            final String hashPassword = encodePassword(request.getPassword());
-            return participantRepository.save(
-                    Participant.builder()
-                            .nickname(request.getNickname())
-                            .password(hashPassword)
-                            .room(room)
-                            .isFinished(false)
-                            .build()
-            );
-        } else {
-            throw new DuplicateNicknameException();
-        }
+        Room room = checkRoomValidation(request.getRoomId());
+        checkDuplicateNickname(request.getRoomId(), request.getNickname());
+        final String hashPassword = encodePassword(request.getPassword());
+        return participantRepository.save(
+               Participant.builder()
+                       .nickname(request.getNickname())
+                       .password(hashPassword)
+                       .room(room)
+                       .isFinished(false)
+                       .build());
     }
 
     @Transactional(readOnly = true)
     public ParticipantInfoResponse getParticipantInfo(ParticipantLoginRequest request) {
-        roomRepository.findById(request.getRoomId())
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
-        if (participant.isEmpty()) {
-            throw new ParticipantNotFoundException();
-        } else {
-            if (matchPassword(request.getPassword(), participant.get().getPassword())) {
-                return ParticipantInfoResponse.builder()
-                        .isFinished(participant.get().getIsFinished())
-                        .startTime(participant.get().getStartTime())
-                        .build();
-            } else throw new ParticipantLoginFailedException();
-        }
+        checkRoomValidation(request.getRoomId());
+        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        if (matchPassword(request.getPassword(), participant.getPassword())) {
+            return ParticipantInfoResponse.builder()
+                    .isFinished(participant.getIsFinished())
+                    .startTime(participant.getStartTime())
+                    .build();
+        } else throw new ParticipantLoginFailedException();
     }
 
     @Transactional
     public boolean updateStartTime(ParticipantGameStartRequest request) {
-        roomRepository.findById(request.getRoomId())
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
-        if (participant.isEmpty()) {
-            throw new ParticipantNotFoundException();
-        } else {
-            participant.get().updateStartTime(request.getStartTime());
-            if (participant.get().getStartTime().equals(request.getStartTime())) {
-                return true;
-            }
-            throw new UpdateParticipantFailedException();
+        checkRoomValidation(request.getRoomId());
+        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        participant.updateStartTime(request.getStartTime());
+        if (participant.getStartTime().equals(request.getStartTime())) {
+            return true;
         }
+        throw new UpdateParticipantFailedException();
     }
 
     @Transactional(readOnly = true)
     public boolean checkUserValidation(Long roomId, String nickname) {
-        roomRepository.findById(roomId)
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
-        if (participant.isEmpty()) {
-            throw new ParticipantNotFoundException();
-        } else {
-            return true;
-        }
+        checkRoomValidation(roomId);
+        checkParticipantValidation(roomId, nickname);
+        return true;
     }
 
     @Transactional
     public boolean updateGameRecord(ProblemFinishRequest request) {
-        roomRepository.findById(request.getRoomId())
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
-        if (participant.isEmpty()) {
-            throw new ParticipantNotFoundException();
+        checkRoomValidation(request.getRoomId());
+        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        // Duration 계산
+        Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
+        participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
+        // 잘 업데이트 되었는지 확인
+        if (participant.getIsFinished()
+                && participant.getEndTime().equals(request.getEndTime())
+                && participant.getDuration().equals(duration)
+                && participant.getSolvedCnt().equals(request.getSolvedCnt())) {
+            return true;
         } else {
-            // Duration 계산
-            Duration duration = Duration.between(participant.get().getStartTime(), request.getEndTime());
-            participant.get().registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
-            // 잘 업데이트 되었는지 확인
-            if (participant.get().getIsFinished()
-                    && participant.get().getEndTime().equals(request.getEndTime())
-                    && participant.get().getDuration().equals(duration)
-                    && participant.get().getSolvedCnt().equals(request.getSolvedCnt())) {
-                return true;
-            } else {
                 throw new UpdateParticipantFailedException();
-            }
         }
     }
 
     @Transactional
     public boolean updatePhoneNumber(RegisterPhonenumberRequest request) {
-        roomRepository.findById(request.getRoomId())
-                .orElseThrow(RoomNotFoundException::new);
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname());
-        if (participant.isEmpty()) {
-            throw new ParticipantNotFoundException();
+        checkRoomValidation(request.getRoomId());
+        Participant participant = checkParticipantValidation(request.getRoomId(), request.getNickname());
+        participant.updatePhoneNumber(request.getPhoneNumber());
+        if (participant.getPhoneNumber().equals(request.getPhoneNumber())) {
+            return true;
         } else {
-            participant.get().updatePhoneNumber(request.getPhoneNumber());
-            if (participant.get().getPhoneNumber().equals(request.getPhoneNumber())) {
-                return true;
-            } else {
-                throw new UpdateParticipantFailedException();
-            }
+            throw new UpdateParticipantFailedException();
+        }
+    }
+
+    private Room checkRoomValidation(Long roomID) {
+        return roomRepository.findById(roomID)
+                .orElseThrow(RoomNotFoundException::new);
+    }
+
+    private Participant checkParticipantValidation(Long roomId, String nickname) {
+        return participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname)
+                .orElseThrow(ParticipantNotFoundException::new);
+    }
+
+    private boolean checkDuplicateNickname(Long roomId, String nickname) {
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
+        if(participant.isEmpty()) {
+            return false;
+        } else {
+            throw new DuplicateNicknameException();
         }
     }
 
