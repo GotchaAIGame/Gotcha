@@ -1,10 +1,12 @@
 import React from "react";
-import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
 
 export default function InputPinNum() {
   return (
-    <Container className="input-pin-num-container">
-      <input type="text" placeholder="PIN번호" />
-    </Container>
+    <Grid container className="input-pin-num-container">
+      <Grid item md={9} sm={9}>
+        <input type="text" placeholder="PIN번호" />
+      </Grid>
+    </Grid>
   );
 }

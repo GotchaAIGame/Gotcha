@@ -35,9 +35,16 @@ body {
     animation: color-changing 2s infinite;
     animation-delay: 0.6s;
   }
-  h1 {
+  .sorry {
     animation: go-move 2s infinite;
     cursor: default;
+    padding-top: 20px;
+  }
+}
+
+.input-pin-num-container {
+  input {
+    max-width: 500px;
   }
 }
 
@@ -48,9 +55,8 @@ body {
 
 .gg:hover {
   background-color: $orange;
-  color: white
+  color: white;
 }
-
 
 @keyframes color-changing {
   0% {
@@ -62,7 +68,6 @@ body {
   50% {
     color: $orange;
     transform: translateY(30px);
-
   }
   75% {
     color: $purple-2;
@@ -73,10 +78,10 @@ body {
 }
 
 @keyframes go-move {
-  0%{
+  0% {
     transform: translateY(0);
   }
-  50%{
+  50% {
     transform: translateY(-30px);
   }
 }
