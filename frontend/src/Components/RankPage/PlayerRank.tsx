@@ -2,6 +2,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import RankInfo from "./RankInfo";
 import "@styles/RankPage.scss";
+import ShareButton from "./ShareButton";
 // import title from "@assets/RankingFlag.svg";
 
 export default function PlayerRank() {
@@ -27,6 +28,7 @@ export default function PlayerRank() {
         <RankInfo rank={3} nickname="냄궁민수" />
         <RankInfo rank={602} nickname="예지는꼴지" time="" />
       </div>
+      <ShareButton />
     </section>
   );
 }
