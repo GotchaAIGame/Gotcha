@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import "@styles/FakeMainPage.scss";
 
@@ -12,8 +12,13 @@ export default function FakeMainPage() {
   };
 
   return (
-    <div style={{ minHeight: "400px", padding: "30px" }}>
-      <h1 style={{ paddingTop: "20px" }}>
+    <div
+      style={{
+        minHeight: "400px",
+        padding: "30px 0",
+      }}
+    >
+      <h1 className="sorry">
         <span style={{ color: "#DFF93E" }}>❤</span>
         <span className="G">G</span>
         <span className="o">o</span>
@@ -24,21 +29,29 @@ export default function FakeMainPage() {
         <span className="nn">!</span>
         <span style={{ color: "#DFF93E" }}>❤</span>
       </h1>
-      <Container className="input-pin-num-container">
-        <input
-          type="text"
-          placeholder="PIN번호"
-          onChange={checkingMember}
-          value={inputPin}
-        />
-      </Container>
-      {inputPin === "602602" ? (
-        <Link to="/main">
-          <button className="gg" type="button" style={{ cursor: "pointer" }}>
-            2조만 들어와 ❤
-          </button>
-        </Link>
-      ) : null}
+      <Grid container style={{ justifyContent: "center" }}>
+        <Grid item sm={9} md={9} className="input-pin-num-container">
+          <input
+            type="text"
+            placeholder="PIN번호"
+            onChange={checkingMember}
+            value={inputPin}
+          />
+        </Grid>
+        <Grid item sm={9} md={9}>
+          {inputPin === "602602" ? (
+            <Link to="/main">
+              <button
+                className="gg"
+                type="button"
+                style={{ cursor: "pointer" }}
+              >
+                2조만 들어와 ❤
+              </button>
+            </Link>
+          ) : null}
+        </Grid>
+      </Grid>
     </div>
   );
 }
