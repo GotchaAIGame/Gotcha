@@ -11,7 +11,7 @@ interface TutorialContentProps {
 
 export default function TutorialContent({ contents }: TutorialContentProps) {
   return (
-    <div className="tutorial-content-container">
+    <div className="tutorial-content-container" key={contents.contentId}>
       <h3>{contents.title}</h3>
       <p>{contents.content}</p>
       <div>
