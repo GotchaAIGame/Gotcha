@@ -25,7 +25,7 @@ public enum GlobalErrorCode {
     DUPLICATED_PARTICIPANT(400, "P100", "닉네임이 일치하는 참가자가 있습니다."),
     PARTICIPANT_NOT_FOUND(404, "P200", "해당하는 유저가 없습니다"),
     INVALID_PHONE_NUMBER(400, "P300", "잘못된 형태의 휴대폰 입력입니다"),
-    UPDATE_FAILED(500, "P400", "시작 시간 업데이트에 실패했습니다."),
+    UPDATE_FAILED(500, "P400", "참여자 정보 업데이트에 실패했습니다."),
     PROBLEM_NOT_FOUND(404, "PR100", "룸에 해당하는 문제가 없습니다"),
     REWARD_NOT_FOUND(404, "RW100", "리워드를 찾을 수 없습니다"),
 
