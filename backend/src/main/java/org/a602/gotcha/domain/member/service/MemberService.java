@@ -5,18 +5,16 @@ import static org.a602.gotcha.global.security.JwtTokenProvider.*;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import javax.persistence.EntityManagerFactory;
-
-import org.a602.gotcha.domain.member.response.MemberInformationResponse;
-import org.a602.gotcha.domain.member.response.MemberLoginResponse;
-import org.a602.gotcha.domain.member.repository.MemberRepository;
-import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
 import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
 import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
+import org.a602.gotcha.domain.member.response.MemberInformationResponse;
+import org.a602.gotcha.domain.member.response.MemberLoginResponse;
+import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +29,6 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
-	private final EntityManagerFactory entityManagerFactory;
 
 	@Transactional
 	public Long signup(final MemberSignupRequest memberSignupRequest) {
@@ -64,23 +61,14 @@ public class MemberService {
 			throw new IllegalArgumentException(GlobalErrorCode.MISMATCH_PASSWORD.getMessage());
 		}
 
-		return MemberLoginResponse.builder()
-			.id(member.getId())
-			.email(member.getEmail())
-			.nickname(member.getNickname())
-			.organization(member.getOrganization())
-			.registrationId(member.getRegistrationId())
-			.accessToken(accessToken)
-			.refreshToken(refreshToken)
-			.build();
+		return new MemberLoginResponse(member, accessToken, refreshToken);
 	}
 
 	public String reCreateToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
 		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
 			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
 
-		return BEARER + jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(),
-			member);
+		return BEARER + jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(), member);
 	}
 
 	public String logout(final MemberLogoutRequest memberLogoutRequest) {
@@ -97,19 +85,11 @@ public class MemberService {
 	}
 
 	public MemberInformationResponse findMemberInformation(final Long id) {
-		final Optional<Member> byId = memberRepository.findById(id);
+		final Optional<Member> memberById = memberRepository.findById(id);
 		MemberInformationResponse memberInformationResponse = null;
 
-		if (byId.isPresent()) {
-			final Member member = byId.get();
-
-			memberInformationResponse = MemberInformationResponse.builder()
-				.nickname(member.getNickname())
-				.email(member.getEmail())
-				.organization(member.getOrganization())
-				.registrationId(member.getRegistrationId())
-				.profileImage(member.getProfileImage())
-				.build();
+		if (memberById.isPresent()) {
+			memberInformationResponse = new MemberInformationResponse(memberById.get());
 		}
 
 		return memberInformationResponse;
@@ -128,14 +108,7 @@ public class MemberService {
 
 		member.updateMember(memberUpdateRequest.toEntity());
 
-		return MemberUpdateResponse.builder()
-			.id(member.getId())
-			.email(member.getEmail())
-			.registrationId(member.getRegistrationId())
-			.organization(member.getOrganization())
-			.nickname(member.getNickname())
-			.profileImage(member.getProfileImage())
-			.build();
+		return new MemberUpdateResponse(member);
 	}
 
 }

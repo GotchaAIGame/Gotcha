@@ -1,6 +1,7 @@
 package org.a602.gotcha.domain.member.response;
 
-import lombok.Builder;
+import org.a602.gotcha.domain.member.entity.Member;
+
 import lombok.Getter;
 
 @Getter
@@ -14,18 +15,15 @@ public class MemberLoginResponse {
 	private final String refreshToken;
 	private final String profileImage;
 
-	@Builder
-	public MemberLoginResponse(final Long id, final String nickname, final String organization, final String email,
-		final String registrationId,
-		final String accessToken, final String refreshToken, final String profileImage) {
-		this.id = id;
-		this.nickname = nickname;
-		this.organization = organization;
-		this.email = email;
-		this.registrationId = registrationId;
+	public MemberLoginResponse(final Member member, final String accessToken, final String refreshToken) {
+		this.id = member.getId();
+		this.nickname = member.getNickname();
+		this.organization = member.getOrganization();
+		this.email = member.getEmail();
+		this.registrationId = member.getRegistrationId();
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
-		this.profileImage = profileImage;
+		this.profileImage = member.getProfileImage();
 	}
 
 }

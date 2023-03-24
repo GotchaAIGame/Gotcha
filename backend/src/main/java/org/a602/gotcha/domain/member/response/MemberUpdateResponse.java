@@ -1,27 +1,25 @@
 package org.a602.gotcha.domain.member.response;
 
-import lombok.Builder;
+import org.a602.gotcha.domain.member.entity.Member;
+
 import lombok.Getter;
 
 @Getter
 public class MemberUpdateResponse {
-	private Long id;
-	private String nickname;
-	private String organization;
-	private String email;
-	private String registrationId;
-	private String profileImage;
+	private final Long id;
+	private final String nickname;
+	private final String organization;
+	private final String email;
+	private final String registrationId;
+	private final String profileImage;
 
-	@Builder
-	public MemberUpdateResponse(final Long id, final String nickname, final String organization, final String email,
-		final String registrationId,
-		final String profileImage) {
-		this.id = id;
-		this.nickname = nickname;
-		this.organization = organization;
-		this.email = email;
-		this.registrationId = registrationId;
-		this.profileImage = profileImage;
+	public MemberUpdateResponse(final Member member) {
+		this.id = member.getId();
+		this.nickname = member.getNickname();
+		this.organization = member.getOrganization();
+		this.email = member.getEmail();
+		this.registrationId = member.getRegistrationId();
+		this.profileImage = member.getProfileImage();
 	}
 
 }
