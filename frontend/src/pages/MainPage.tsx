@@ -14,7 +14,6 @@ export default function MainPage() {
   return (
     // 그리드 테스트 용입니다.
     <>
-      <h3>Main</h3>
       {userId && <p>{userId}님, 어서오세요!</p>}
       <InputPinNum />
       <Link to="/rejoin" className="rejoin-link">

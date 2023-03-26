@@ -1,0 +1,23 @@
+@import "@styles/Colors.scss";
+
+.custom-page-main-container{
+  justify-content: center;
+  align-items: center;
+  
+  button {
+    background-color: inherit;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+
+// Modal
+.custom-modal-container {
+  position: relative;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  width: 200px;
+  border-left: 1px solid $gray-1;
+}

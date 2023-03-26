@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import InputGameInfo from "@components/CreateGame/InputGameInfo";
 import GameCardCarousel from "@components/CreateGame/GameCardCarousel";
 import helpButton from "@assets/helpButton.svg";
+import Button from "@components/common/Button";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
 import "@styles/CreateGamePage.scss";
 
@@ -38,6 +40,9 @@ export default function CreateGamePage() {
           />
         </button>
       </Grid>
+      <Link to="/custom/game">
+        <Button text="다음" />
+      </Link>
     </div>
   );
 }

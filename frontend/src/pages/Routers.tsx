@@ -6,6 +6,7 @@ import SignUpPage from "./SignUpPage";
 import LogInPage from "./LogInPage";
 import CreatorMainPage from "./CreatorMainPage";
 import CreateGamePage from "./CreateGamePage";
+import CustomGamePage from "./CustomGamePage";
 import PlayerNewGamePage from "./PlayerNewGamePage";
 import GamePage from "./GamePage";
 import ModalTestPage from "./ModalTestPage";
@@ -22,6 +23,7 @@ export default function Routers() {
       <Route path="/login" element={<LogInPage />} />
       <Route path="/creator" element={<CreatorMainPage />} />
       <Route path="/create/game" element={<CreateGamePage />} />
+      <Route path="/custom/game" element={<CustomGamePage />} />
       <Route path="/newgame" element={<PlayerNewGamePage />} />
       <Route path="/rejoin" element={<PlayerRejoinPage />} />
       <Route path="/game/:roomId" element={<GamePage />} />
