@@ -36,7 +36,7 @@ public class RoomService {
 
 
     @Transactional(readOnly = true)
-    public GameInfoResponse getRoomInfo(String roomCode) {
+    public GameInfoResponse getRoomInfo(int roomCode) {
         Room gameRoom = roomRepository.findByCode(roomCode)
                 .orElseThrow(RoomNotFoundException::new);
         if (gameRoom.getEndTime().isBefore(LocalDateTime.now())) {
