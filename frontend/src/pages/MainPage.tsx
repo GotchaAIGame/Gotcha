@@ -36,6 +36,9 @@ export default function MainPage() {
         <Link to="/game/1">
           <button type="button">게임 방</button>
         </Link>
+        <Link to="/game/1/rank">
+          <button type="button">랭킹 페이지</button>
+        </Link>
         <Link to="/modalTest">
           <button type="button"> 모달 테스트 페이지 </button>
         </Link>
