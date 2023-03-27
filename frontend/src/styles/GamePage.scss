@@ -213,11 +213,26 @@
     height: 250px;
 
     .circular-img {
+      position: relative;
       width: 250px;
       height: 250px;
       background: #fefcff;
       border-radius: 50%;
       border: 1px solid #cdcbd0;
+
+      .wrong {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .right {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
   }
 
@@ -274,7 +289,11 @@
   background-image: linear-gradient(to right, white, $blue-2);
   border-radius: 1em;
   padding: 1em;
-  animation: progressAnimation 3s;
+  animation: progressAnimation 1s;
+}
+
+.done::before {
+  width: 100%;
 }
 
 @keyframes progressAnimation {

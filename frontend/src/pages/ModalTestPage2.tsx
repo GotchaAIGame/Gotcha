@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ProgressBar from "@components/Game/ProgressBar";
+import right from "@assets/right.svg";
+import wrong from "@assets/wrong.svg";
 
 interface AIModalProps {
   open: boolean;
   openHandler: () => void;
+  resultStatus: number;
+  resultHandler: (status: number) => void;
 }
 
 function AIModal(props: AIModalProps) {
-  const { open, openHandler } = props;
-  const [onLoading, setOnLoading] = useState(true);
-  const [isCorrect, setisCorrect] = useState(false);
+  const { open, openHandler, resultStatus, resultHandler } = props;
 
   if (open) {
     return (
@@ -23,11 +25,26 @@ function AIModal(props: AIModalProps) {
           <div className="AIModal-content">
             <h2>Modal</h2>
             <div className="AIModal-evaluation">
-              <div className="circular-img"> 이미지 큭큭 </div>
-              <ProgressBar />
+              <div className="circular-img">
+                {resultStatus === 1 && (
+                  <img src={right} alt={right} className="right" />
+                )}
+                {resultStatus === 2 && (
+                  <img src={wrong} alt={wrong} className="wrong" />
+                )}
+              </div>
+              <ProgressBar
+                resultHandler={(status: number) => {
+                  resultHandler(status);
+                }}
+              />
             </div>
             <div className="AIModal-description">
-              {onLoading && <h1 className="blue"> AI 판독중 ... </h1>}
+              {resultStatus === 0 && <h1 className="blue"> AI 판독중 ... </h1>}
+              {resultStatus === 1 && <h1 className="green"> 맞았습니다! </h1>}
+              {resultStatus === 2 && (
+                <h1 className="orange"> 틀렸습니다! ㅋㅋ </h1>
+              )}
             </div>
           </div>
         </div>
@@ -39,15 +56,20 @@ function AIModal(props: AIModalProps) {
 
 export default function ModalTestPage2() {
   const [modalOpen1, setModalOpen1] = useState(false);
+  const [resultStatus, setResultStatus] = useState(0); // 0 : loading, 1 : correct, 2: wrong
 
   const modalHandler = () => {
     setModalOpen1(!modalOpen1);
+    setResultStatus(0);
+  };
+
+  const resultHandler = (status: number) => {
+    setResultStatus(status);
   };
 
   return (
     <>
       <div>
-        <ProgressBar />
         <h2> 모달 테스트2 </h2>
         <button type="button" onClick={modalHandler}>
           테스트 버튼
@@ -58,6 +80,8 @@ export default function ModalTestPage2() {
         openHandler={() => {
           modalHandler();
         }}
+        resultStatus={resultStatus}
+        resultHandler={resultHandler}
       />
     </>
   );
