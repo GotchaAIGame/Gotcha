@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
@@ -74,10 +73,6 @@ public class SecurityConfig {
 			.authorizeRequests() // HttpServletRequest를 사용하는 요청에 대한 권한체크
 			.antMatchers(PERMIT_URL_ARRAY)// 가입 및 로그인주소는 모두 접근 가능.
 			.permitAll() // 위에서 지정한 인증없이 권한 허가.
-			.and()
-			.authorizeRequests()
-			.requestMatchers(CorsUtils::isPreFlightRequest)
-			.permitAll()
 			.anyRequest() // 나머지 요청은
 			.hasRole(ROLE_USER) // 인증된 회원만 접근가능.
 			.and()
