@@ -62,7 +62,7 @@
 
 // GameListTap.tsx
 .game-tabs-container {
-  min-height: 560px;
+  min-height: 600px;
 
   h3 {
     text-align: left;
@@ -72,6 +72,7 @@
   .create-button-wrapper {
     display: flex;
     justify-content: center;
+    text-decoration: none;
   }
 
   .game-tab-buttons-container {
