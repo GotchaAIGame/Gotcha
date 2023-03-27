@@ -23,6 +23,7 @@
     "craco-alias": "^3.0.1",
     "hammerjs": "^2.0.8",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-material-ui-carousel": "^3.4.2",
     "react-redux": "^8.0.5",
