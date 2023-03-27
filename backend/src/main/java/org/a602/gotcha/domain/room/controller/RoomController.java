@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.domain.room.service.RoomService;
@@ -45,6 +46,15 @@ public class RoomController {
     public BaseResponse<List<RewardListResponse>> getGameRewardList(@RequestParam Long roomId) {
         List<RewardListResponse> rewardList = roomService.getGameRewardList(roomId);
         return new BaseResponse<>(rewardList);
+    }
+
+    @Operation(description = "이벤트 상세 내용 확인하기 API", summary = "이벤트 상세 내용 확인하기 API")
+    @ApiResponse(responseCode = "200", description = "이벤트 상세 내용 불러오기 성공", content = @Content(schema = @Schema(implementation = EventDetailResponse.class)))
+    @ApiResponse(responseCode = "404", description = "방 정보 찾기 실패")
+    @GetMapping("/game/detail")
+    public BaseResponse<EventDetailResponse> getEventDetail(@RequestParam Long roomId) {
+        EventDetailResponse eventDetail = roomService.getEventDetail(roomId);
+        return new BaseResponse<>(eventDetail);
     }
 
 }
