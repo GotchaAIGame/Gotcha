@@ -64,13 +64,33 @@
   .carousel-inner-container {
     display: inline-flex;
     white-space: nowrap;
-    // transform: translate(-100%);
     transition: transform 0.3s;
+    flex-direction: row;
   }
 
   .button-container {
     display: flex;
     justify-content: space-evenly;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .problem-carousel {
+    overflow: auto;
+    width: 100%;
+    min-width: 287px; // 255 + margin 16px
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    .carousel-inner-container {
+      display: inline-flex;
+      white-space: nowrap;
+      transition: transform 0.3s;
+      flex-direction: column;
+    }
   }
 }
 
@@ -108,7 +128,7 @@
   min-width: 255px;
   width: 100%;
   height: 542px;
-  margin: 0 1rem;
+  margin: 1rem;
 
   // about scroll
   overflow: hidden;

@@ -1,10 +1,19 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
 import Hammer from "hammerjs";
 import ProblemCard from "./ProblemCard";
 import temporaryData from "./temporarydata";
 
 function ProblemCardList() {
   const cardList = useRef<HTMLDivElement>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isDesktop = windowWidth >= 900;
 
   // temporary data
   const problems = temporaryData;
@@ -37,20 +46,21 @@ function ProblemCardList() {
   );
 
   // swipe
-  useEffect(() => {
-    const manager = new Hammer.Manager(cardList.current as HTMLElement);
-    manager.add(new Hammer.Swipe());
-    manager.on("swipe", function (e) {
-      const { deltaX } = e;
+  // useEffect(() => {
+  //   const manager = new Hammer.Manager(cardList.current as HTMLElement);
+  //   // manager.add(new Hammer.Swipe());
+  //   manager.on("swipe", function (e) {
+  //     console.log("하하");
+  //     const { deltaX } = e;
 
-      if (cardList.current && cardList.current.parentElement) {
-        cardList.current.parentElement.scrollBy({
-          left: -deltaX,
-          behavior: "smooth",
-        });
-      }
-    });
-  }, []);
+  //     if (cardList.current && cardList.current.parentElement) {
+  //       cardList.current.parentElement.scrollBy({
+  //         left: -deltaX,
+  //         behavior: "smooth",
+  //       });
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div className="problem-carousel-wrapper">
@@ -61,26 +71,28 @@ function ProblemCardList() {
           })}
         </div>
       </div>
-      <div className="problem-button-container">
-        <button
-          type="button"
-          className="problem-button left"
-          onClick={() => {
-            buttonHandler("left");
-          }}
-        >
-          <h1>◀</h1>
-        </button>
-        <button
-          type="button"
-          className="problem-button right"
-          onClick={() => {
-            buttonHandler("right");
-          }}
-        >
-          <h1>▶</h1>
-        </button>
-      </div>
+      {isDesktop && (
+        <div className="problem-button-container">
+          <button
+            type="button"
+            className="problem-button left"
+            onClick={() => {
+              buttonHandler("left");
+            }}
+          >
+            <h1>◀</h1>
+          </button>
+          <button
+            type="button"
+            className="problem-button right"
+            onClick={() => {
+              buttonHandler("right");
+            }}
+          >
+            <h1>▶</h1>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

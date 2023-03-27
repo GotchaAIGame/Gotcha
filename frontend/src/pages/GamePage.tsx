@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "@styles/GamePage.scss";
 import { Grid } from "@mui/material";
 import ProblemTitle from "@components/Game/ProblemTitle";
