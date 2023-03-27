@@ -4,7 +4,6 @@ import ProblemCard from "./ProblemCard";
 import temporaryData from "./temporarydata";
 
 function ProblemCardList() {
-  const xOffset = useRef<number>(0);
   const cardList = useRef<HTMLDivElement>(null);
 
   // temporary data
