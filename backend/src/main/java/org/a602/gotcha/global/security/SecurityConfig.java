@@ -36,17 +36,17 @@ public class SecurityConfig {
 	public static final String ROLE_USER = "USER";
 	private static final String[] PERMIT_URL_ARRAY = {
 		/* swagger v2 */
-		"/v2/api-docs",
-		"/swagger-resources",
-		"/swagger-resources/**",
-		"/configuration/ui",
-		"/configuration/security",
-		"swagger-ui.html",
-		"/webjars/**",
+		"/api/v2/api-docs",
+		"/api/swagger-resources",
+		"/api/swagger-resources/**",
+		"/api/configuration/ui",
+		"/api/configuration/security",
+		"/apiswagger-ui.html",
+		"/api/webjars/**",
 		/* swagger v3 */
-		"/v3/api-docs/**",
-		"/swagger-ui/**",
-		"/post-docs/**",
+		"/api/v3/api-docs/**",
+		"/api/swagger-ui/**",
+		"/api/post-docs/**",
 		/*회원가입*/
 		"/",
 		"/api/test",
