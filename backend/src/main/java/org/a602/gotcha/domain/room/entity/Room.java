@@ -41,8 +41,8 @@ public class Room {
     @Column(name = "event_desc")
     private String eventDesc;
 
-    @Column(name = "code", length = 20)
-    private String code;
+
+    private int code;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -55,6 +55,7 @@ public class Room {
 
     @Column(name = "reward_desc")
     private String rewardDesc;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -70,7 +71,7 @@ public class Room {
     private Set<Problem> problems = new LinkedHashSet<>();
 
     @Builder
-    public Room(String color, String logoUrl, String title, String eventUrl, String eventDesc, String code, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, String rewardDesc, Member member) {
+    public Room(String color, String logoUrl, String title, String eventUrl, String eventDesc, int code, String description, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, String rewardDesc, Member member) {
         this.color = color;
         this.logoUrl = logoUrl;
         this.title = title;
@@ -84,5 +85,13 @@ public class Room {
         this.member = member;
     }
 
-
+    public void updateRoom(String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+        this.color = color;
+        this.logoUrl = logoUrl;
+        this.title = title;
+        this.eventUrl = eventUrl;
+        this.eventDesc = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

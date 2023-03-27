@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.a602.gotcha.domain.room.entity.Room;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "problem")
 public class Problem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -43,4 +44,14 @@ public class Problem {
         this.room = room;
     }
 
+    public String updateProblem(String newImageUrl, String description, String name, String hint) {
+        String prevImage = this.imageUrl;
+        if (newImageUrl != null) {
+            this.imageUrl = newImageUrl;
+        }
+        this.description = description;
+        this.name = name;
+        this.hint = hint;
+        return prevImage;
+    }
 }

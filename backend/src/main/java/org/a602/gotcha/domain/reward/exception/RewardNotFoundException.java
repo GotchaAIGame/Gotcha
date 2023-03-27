@@ -8,5 +8,4 @@ public class RewardNotFoundException extends GlobalBaseException {
     public RewardNotFoundException() {
         super(GlobalErrorCode.REWARD_NOT_FOUND);
     }
-
 }
