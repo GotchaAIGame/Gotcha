@@ -3,13 +3,18 @@ import PlayerRank from "@components/RankPage/PlayerRank";
 import CustomNavbar from "@components/common/CustomNavbar";
 import RankButtons from "@components/RankPage/RankButtons";
 import Confetti from "react-confetti";
+import useWindowSize, { Size } from "@components/RankPage/useWindowSize";
 
 export default function RankPage() {
+  const size: Size = useWindowSize();
+
   return (
     <div>
       <CustomNavbar />
       <div className="rank-page-container">
         <Confetti
+          width={size.width}
+          height={size.height}
           numberOfPieces={100}
           gravity={0.01}
           colors={[
