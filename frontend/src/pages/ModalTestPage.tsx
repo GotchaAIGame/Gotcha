@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 // import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
+import InputBox from "@components/common/InputBox";
 
 export default function ModalTestPage() {
   const [modalOneOpen, setModalOneOpen] = useState(false);
   const [modalTwoOpen, setModalTwoOpen] = useState(false);
   const [modalThreeOpen, setModalThreeOpen] = useState(false);
   const [modalFourOpen, setModalFourOpen] = useState(false);
+  const [modalFiveOpen, setModalFiveOpen] = useState(false);
 
   const modalHandler = (modalNumber: number) => {
     const modalStates = [
@@ -14,12 +16,14 @@ export default function ModalTestPage() {
       modalTwoOpen,
       modalThreeOpen,
       modalFourOpen,
+      modalFiveOpen,
     ];
     const modalStatesHandler = [
       setModalOneOpen,
       setModalTwoOpen,
       setModalThreeOpen,
       setModalFourOpen,
+      setModalFiveOpen,
     ];
 
     modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
@@ -74,6 +78,16 @@ export default function ModalTestPage() {
           }}
         >
           모달 4
+        </button>
+        <p>modal 5: {String(modalFiveOpen)}</p>
+        <button
+          className="modal-five"
+          type="button"
+          onClick={() => {
+            modalHandler(5);
+          }}
+        >
+          모달 5
         </button>
       </div>
 
@@ -133,6 +147,26 @@ export default function ModalTestPage() {
         >
           <h3 style={{ margin: "2rem" }}>정말 종료하시겠습니까?</h3>
           <h5>게임이 종료되면 다시 접속할 수 없습니다</h5>
+        </Modal>
+        <Modal
+          open={modalFiveOpen}
+          modalHandler={() => {
+            modalHandler(5);
+          }}
+          mainBtnHandler={() => {
+            modalHandler(5);
+          }}
+          className="modal-five"
+          btnType="submit"
+          closeType
+        >
+          <h5>전화번호</h5>
+          <InputBox text="010-XXXX-XXXX" />
+          <p>
+            ※ 본인 명의의 휴대폰 정보를 정확히 입력해 주시기 바랍니다. ※ 타인의
+            명의를 도용하는 부정인증을 시도한 경우, 관련 법령에 따라 처벌(3년
+            이하의 징역 또는 1천만원 이하의 벌금)을 받을 수 있습니다.
+          </p>
         </Modal>
       </div>
     </div>

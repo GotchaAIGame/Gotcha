@@ -1,0 +1,128 @@
+@import "@styles/Colors";
+@import "@styles/mixin";
+
+.rank-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .player-rank-wrapper {
+    border-radius: 30px;
+    border: 1px solid $gray-1;
+    margin: 100px;
+
+    @include desktop {
+      width: 70%;
+    }
+    @include mobile {
+      width: 80%;
+      font-size: 10px;
+    }
+
+    //ShareButton.tsx
+    .rank-share-button {
+      background-image: url("../assets/shareButton.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: transparent;
+      background-size: 70px;
+      width: 70px;
+      height: 70px;
+      border: none;
+      position: relative;
+      left: 48%;
+      top: 25px;
+    }
+
+    .ranking-title-flag {
+      background-image: url("../assets/RankingFlag.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      position: relative;
+      top: -44px;
+      :hover {
+      }
+
+      h1 {
+        color: $blue-1;
+        font-weight: 900;
+        text-shadow: 3px 0px $gray-1;
+        -webkit-text-stroke: 1px $gray-1;
+        margin: 0;
+        padding: 20px;
+      }
+    }
+
+    // 랭킹 안에 내용
+    .rank-content {
+      @include desktop {
+        max-width: 75%;
+        margin: auto;
+      }
+      @include mobile {
+        max-width: 80%;
+        margin: auto;
+      }
+
+      // 등수, 닉네임, 시간
+      .rank-header {
+        justify-content: space-around;
+
+        .rank-box1,
+        .rank-box2,
+        .rank-box3 {
+          border-radius: 10px;
+          border: 1px solid $gray-1;
+          background-color: $gray-5;
+          height: 30px;
+          margin: auto;
+          padding: 5px;
+          max-width: 50px;
+        }
+      }
+      .rank-info-wrapper {
+        justify-content: space-around;
+        align-items: center;
+        img {
+          width: 45px;
+          margin: 10px;
+        }
+        h5,
+        p {
+          // height: 100%;
+          justify-content: center;
+          margin: 10px;
+        }
+
+        hr {
+          width: 376%;
+        }
+
+        .no-medal-wrapper {
+          position: relative;
+          .medal-txt {
+            font-size: 1.125rem;
+            padding: 10px;
+            text-align: center;
+            background-image: url("../assets/nomedal.png");
+            background-size: 45px;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+        }
+      }
+    }
+  }
+  .buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    @include desktop {
+      width: 60%;
+    }
+    @include mobile {
+      width: 60%;
+    }
+  }
+}

@@ -13,7 +13,8 @@ export default function MainPage() {
 
   return (
     // 그리드 테스트 용입니다.
-    <>
+    <div>
+      <h3>Main</h3>
       {userId && <p>{userId}님, 어서오세요!</p>}
       <InputPinNum />
       <Link to="/rejoin" className="rejoin-link">
@@ -35,6 +36,9 @@ export default function MainPage() {
         <Link to="/game/1">
           <button type="button">게임 방</button>
         </Link>
+        <Link to="/game/1/rank">
+          <button type="button">랭킹 페이지</button>
+        </Link>
         <Link to="/modalTest">
           <button type="button"> 모달 테스트 페이지 </button>
         </Link>
@@ -48,8 +52,10 @@ export default function MainPage() {
         <Link to="/newgame">
           <button type="button">새 게임 페이지</button>
         </Link>
-        <button type="button">실험</button>
+        <Link to="/modalTest/2">
+          <button type="button"> 모달 테스트 페이지 2 </button>
+        </Link>
       </div>
-    </>
+    </div>
   );
 }
