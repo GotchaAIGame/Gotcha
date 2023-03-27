@@ -6,13 +6,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
-  
+
   .player-rank-wrapper {
     border-radius: 30px;
     border: 1px solid $gray-1;
     margin: 100px;
-    
+
     @include desktop {
       width: 70%;
     }
@@ -35,7 +34,7 @@
       left: 48%;
       top: 25px;
     }
-    
+
     .ranking-title-flag {
       background-image: url("../assets/RankingFlag.svg");
       background-repeat: no-repeat;
@@ -43,7 +42,6 @@
       position: relative;
       top: -44px;
       :hover {
-        
       }
 
       h1 {
