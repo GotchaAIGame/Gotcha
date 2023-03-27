@@ -42,7 +42,7 @@ function ProblemCard(props: problemProps) {
           ) : (
             <form className="empty-image-container">
               <label htmlFor="upload">
-                <h1> + </h1>
+                <p className="plus"> + </p>
                 <h5 id="take-pic"> 사진 찍기 </h5>
                 <input
                   id="upload"
@@ -50,6 +50,7 @@ function ProblemCard(props: problemProps) {
                   accept="image/*"
                   ref={uploadImage}
                   onChange={uploadHandler}
+                  className="invisible"
                 />
               </label>
             </form>

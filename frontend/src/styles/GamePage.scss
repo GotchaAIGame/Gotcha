@@ -36,7 +36,11 @@
     display: flex;
     justify-content: space-between;
   }
-
+  @media screen and (max-width: 900px) {
+    .problem-button-container {
+      display: none;
+    }
+  }
   button {
     border: transparent;
     background-color: transparent;
@@ -90,6 +94,7 @@
       white-space: nowrap;
       transition: transform 0.3s;
       flex-direction: column;
+      align-items: center;
     }
   }
 }
@@ -116,6 +121,25 @@
     color: white;
     -webkit-text-stroke: 1px black;
     font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .timer-wrapper {
+    width: 255px;
+    height: 89px;
+    border: 3px solid $gray-1;
+    border-radius: 15px;
+    background-color: $blue-1;
+
+    margin: auto;
+    margin-top: 10px;
+
+    h5 {
+      color: white;
+      -webkit-text-stroke: 1px black;
+      font-weight: bold;
+    }
   }
 }
 
@@ -179,9 +203,9 @@
         justify-content: center;
         align-items: center;
 
-        h1 {
+        p {
           margin: 0px;
-          font-size: 50px;
+          font-size: 100px;
           color: $gray-2;
           font-weight: 400;
         }
@@ -196,12 +220,13 @@
   }
 }
 
-input {
+input.invisible {
   display: none;
 }
 
 .AIModal-wrapper,
-.AIModal-overlay {
+.AIModal-overlay,
+.dropdown-overlay {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -326,5 +351,65 @@ input {
   }
   to {
     width: 70%;
+  }
+}
+
+//scroller
+.scroller-wrapper {
+  position: fixed;
+  z-index: 1000;
+  top: 3rem;
+  right: 3rem;
+  // height: 100%;
+  // width: 100%;
+  display: flex;
+  justify-content: right;
+
+  .scroller-button {
+    height: 70px;
+    width: 70px;
+    border: 3px solid $gray-1;
+    border-radius: 50%;
+    background-color: $blue-2;
+    box-shadow: $gray-2 2px 2px, $gray-1 3px 3px;
+    overflow: inherit;
+  }
+
+  .scroller-button:hover {
+    cursor: pointer;
+  }
+  .scroller-button:active {
+    cursor: pointer;
+    background-color: $blue-3;
+  }
+
+  h1 {
+    margin: 0px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .scroller-wrapper {
+    display: none;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 80px;
+  background-color: white;
+  width: 300px;
+  border: 3px solid $gray-1;
+  border-radius: 15px;
+
+  p {
+    font-size: 20px;
+  }
+
+  p:active,
+  p:hover {
+    cursor: pointer;
+    color: $blue-1;
+    font-weight: 800;
   }
 }

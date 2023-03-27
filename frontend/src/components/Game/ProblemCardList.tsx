@@ -1,22 +1,23 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
-import Hammer from "hammerjs";
 import ProblemCard from "./ProblemCard";
 import temporaryData from "./temporarydata";
+import Scroller from "./Scroller";
 
 function ProblemCardList() {
   const cardList = useRef<HTMLDivElement>(null);
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const isDesktop = windowWidth >= 900;
-
   // temporary data
   const problems = temporaryData;
+  const [locs, setLocs] = useState([1]);
+
+  useEffect(() => {
+    if (cardList.current && cardList.current.childNodes) {
+      const templocs = Array.from(cardList.current.childNodes).map((node) => {
+        return (node as HTMLElement).offsetTop as number;
+      });
+
+      setLocs(templocs);
+    }
+  }, []);
 
   // when button is clicked
   const buttonHandler = useCallback(
@@ -45,33 +46,22 @@ function ProblemCardList() {
     [cardList.current?.offsetWidth]
   );
 
-  // swipe
-  // useEffect(() => {
-  //   const manager = new Hammer.Manager(cardList.current as HTMLElement);
-  //   // manager.add(new Hammer.Swipe());
-  //   manager.on("swipe", function (e) {
-  //     console.log("하하");
-  //     const { deltaX } = e;
-
-  //     if (cardList.current && cardList.current.parentElement) {
-  //       cardList.current.parentElement.scrollBy({
-  //         left: -deltaX,
-  //         behavior: "smooth",
-  //       });
-  //     }
-  //   });
-  // }, []);
-
   return (
-    <div className="problem-carousel-wrapper">
-      <div className="problem-carousel">
-        <div className="carousel-inner-container" ref={cardList}>
-          {problems.map((item, idx) => {
-            return <ProblemCard problem={item} key={item.problemId} />;
-          })}
+    <>
+      <Scroller
+        data={problems.map((problem) => {
+          return problem.problemName;
+        })}
+        locs={locs}
+      />
+      <div className="problem-carousel-wrapper">
+        <div className="problem-carousel">
+          <div className="carousel-inner-container" ref={cardList}>
+            {problems.map((item, idx) => {
+              return <ProblemCard problem={item} key={item.problemId} />;
+            })}
+          </div>
         </div>
-      </div>
-      {isDesktop && (
         <div className="problem-button-container">
           <button
             type="button"
@@ -92,8 +82,8 @@ function ProblemCardList() {
             <h1>▶</h1>
           </button>
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 
