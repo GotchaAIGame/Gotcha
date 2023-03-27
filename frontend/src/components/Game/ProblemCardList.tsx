@@ -12,17 +12,22 @@ function ProblemCardList() {
   // when button is clicked
   const buttonHandler = useCallback(
     (direction: "left" | "right") => {
+      let div = 1;
       if (cardList.current && cardList.current.parentElement) {
         const offset = cardList.current.offsetWidth;
 
+        if (cardList.current?.childElementCount > 0) {
+          div = cardList.current.childElementCount;
+        }
+
         if (direction === "left") {
           cardList.current.parentElement.scrollBy({
-            left: -offset,
+            left: -offset / div,
             behavior: "smooth",
           });
         } else {
           cardList.current.parentElement.scrollBy({
-            left: offset,
+            left: offset / div,
             behavior: "smooth",
           });
         }
