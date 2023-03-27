@@ -1,29 +1,43 @@
-import React, { useRef, useEffect, useCallback } from "react";
-import Hammer from "hammerjs";
+import React, { useRef, useEffect, useCallback, useState } from "react";
 import ProblemCard from "./ProblemCard";
 import temporaryData from "./temporarydata";
+import Scroller from "./Scroller";
 
 function ProblemCardList() {
-  const xOffset = useRef<number>(0);
   const cardList = useRef<HTMLDivElement>(null);
-
   // temporary data
   const problems = temporaryData;
+  const [locs, setLocs] = useState([1]);
+
+  useEffect(() => {
+    if (cardList.current && cardList.current.childNodes) {
+      const templocs = Array.from(cardList.current.childNodes).map((node) => {
+        return (node as HTMLElement).offsetTop as number;
+      });
+
+      setLocs(templocs);
+    }
+  }, []);
 
   // when button is clicked
   const buttonHandler = useCallback(
     (direction: "left" | "right") => {
+      let div = 1;
       if (cardList.current && cardList.current.parentElement) {
         const offset = cardList.current.offsetWidth;
 
+        if (cardList.current?.childElementCount > 0) {
+          div = cardList.current.childElementCount;
+        }
+
         if (direction === "left") {
           cardList.current.parentElement.scrollBy({
-            left: -offset,
+            left: -offset / div,
             behavior: "smooth",
           });
         } else {
           cardList.current.parentElement.scrollBy({
-            left: offset,
+            left: offset / div,
             behavior: "smooth",
           });
         }
@@ -32,52 +46,44 @@ function ProblemCardList() {
     [cardList.current?.offsetWidth]
   );
 
-  // swipe
-  useEffect(() => {
-    const manager = new Hammer.Manager(cardList.current as HTMLElement);
-    manager.add(new Hammer.Swipe());
-    manager.on("swipe", function (e) {
-      const { deltaX } = e;
-
-      if (cardList.current && cardList.current.parentElement) {
-        cardList.current.parentElement.scrollBy({
-          left: -deltaX,
-          behavior: "smooth",
-        });
-      }
-    });
-  }, []);
-
   return (
-    <div className="problem-carousel-wrapper">
-      <div className="problem-carousel">
-        <div className="carousel-inner-container" ref={cardList}>
-          {problems.map((item, idx) => {
-            return <ProblemCard problem={item} key={item.problemId} />;
-          })}
+    <>
+      <Scroller
+        data={problems.map((problem) => {
+          return problem.problemName;
+        })}
+        locs={locs}
+      />
+      <div className="problem-carousel-wrapper">
+        <div className="problem-carousel">
+          <div className="carousel-inner-container" ref={cardList}>
+            {problems.map((item, idx) => {
+              return <ProblemCard problem={item} key={item.problemId} />;
+            })}
+          </div>
+        </div>
+        <div className="problem-button-container">
+          <button
+            type="button"
+            className="problem-button left"
+            onClick={() => {
+              buttonHandler("left");
+            }}
+          >
+            <h1>◀</h1>
+          </button>
+          <button
+            type="button"
+            className="problem-button right"
+            onClick={() => {
+              buttonHandler("right");
+            }}
+          >
+            <h1>▶</h1>
+          </button>
         </div>
       </div>
-      <div className="problem-button-container">
-        <button
-          type="button"
-          className="problem-button left"
-          onClick={() => {
-            buttonHandler("left");
-          }}
-        >
-          <h1>◀</h1>
-        </button>
-        <button
-          type="button"
-          className="problem-button right"
-          onClick={() => {
-            buttonHandler("right");
-          }}
-        >
-          <h1>▶</h1>
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
 
