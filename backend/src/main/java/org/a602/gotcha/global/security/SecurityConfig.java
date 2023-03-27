@@ -3,7 +3,6 @@ package org.a602.gotcha.global.security;
 import java.util.Arrays;
 import java.util.List;
 
-import org.a602.gotcha.domain.member.service.OAuth2MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	private final OAuth2MemberService oAuth2MemberService;
 	public static final String HEAD = "HEAD";
 	public static final String OPTIONS = "OPTIONS";
 	public static final String ALLOW_ORIGIN_PATTERN = "https://j8a602.p.ssafy.io/api/*";
