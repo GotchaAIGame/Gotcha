@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.reward.repository.RewardRepository;
+import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
@@ -28,15 +29,17 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
 
-    private Random random = new Random();
+    private final Random random = new Random();
     private final S3Service s3Service;
+
+    private final RewardRepository rewardRepository;
 
 
     @Transactional(readOnly = true)
     public GameInfoResponse getRoomInfo(String roomCode) {
         Room gameRoom = roomRepository.findByCode(roomCode)
                 .orElseThrow(RoomNotFoundException::new);
-        if(gameRoom.getEndTime().isBefore(LocalDateTime.now())){
+        if (gameRoom.getEndTime().isBefore(LocalDateTime.now())) {
             throw new RoomExpiredException();
         }
         return GameInfoResponse.builder()
@@ -49,10 +52,8 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public List<RewardListResponse> getGameRewardList(Long roomId) {
-        roomRepository.findById(roomId)
-                .orElseThrow(RoomNotFoundException::new);
         List<Reward> rewards = rewardRepository.findRewardsByRoomId(roomId);
-        if(rewards.size() == 0) {
+        if (rewards.isEmpty()) {
             throw new RewardNotFoundException();
         }
         return rewards.stream()

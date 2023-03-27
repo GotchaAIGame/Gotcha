@@ -1,15 +1,18 @@
 package org.a602.gotcha.domain.reward.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.a602.gotcha.domain.reward.Reward;
+import org.a602.gotcha.CustomSpringBootTest;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.reward.request.DeleteRewardRequest;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
 import org.a602.gotcha.domain.reward.service.RewardService;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.global.common.S3Service;
+import org.a602.gotcha.global.security.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,8 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +39,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@CustomSpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 @ExtendWith(MockitoExtension.class)
@@ -46,6 +49,8 @@ class RewardControllerTest {
     @Autowired
     RewardRepository rewardRepository;
 
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
     @Autowired
     RewardService rewardService;
 
@@ -60,11 +65,13 @@ class RewardControllerTest {
     Room saveRoom;
     @Autowired
     ObjectMapper objectMapper;
+    String token;
+    private Member member;
 
     @BeforeEach
     void setUp() {
-        room = new Room();
-        saveRoom = new Room();
+        room = Room.builder().build();
+        saveRoom = Room.builder().build();
         entityManager.persist(room);
         entityManager.persist(saveRoom);
 
@@ -72,6 +79,12 @@ class RewardControllerTest {
         Reward reward2 = new Reward("리워드 2", 4, room, null);
         entityManager.persist(reward1);
         entityManager.persist(reward2);
+
+        member = Member.builder()
+                .email("suker80@naver.com")
+                .organization("삼성").build();
+        token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);
+        entityManager.persist(member);
     }
 
     @Test
@@ -87,6 +100,7 @@ class RewardControllerTest {
         String content = objectMapper.writeValueAsString(setRewardRequest);
         mockMvc.perform(post(url + "/set/reward")
                 .content(content)
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
         assertAll(() -> assertEquals(beforeCreateRewardCount + setRewardRequest.getRewards().size(), rewardRepository.count())
         );
@@ -113,6 +127,7 @@ class RewardControllerTest {
         String content = objectMapper.writeValueAsString(setRewardRequest);
         mockMvc.perform(post(url + "/set/reward")
                 .content(content)
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
         entityManager.flush();
         entityManager.clear();
@@ -143,6 +158,7 @@ class RewardControllerTest {
                     saveRoom.getId());
             mockMvc.perform(post(url + "/set/reward")
                             .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
                     .andExpect(status().isBadRequest());
@@ -156,6 +172,7 @@ class RewardControllerTest {
                     saveRoom.getId());
             mockMvc.perform(post(url + "/set/reward")
                             .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
                     .andExpect(status().isBadRequest());
@@ -169,6 +186,7 @@ class RewardControllerTest {
                     saveRoom.getId());
             mockMvc.perform(post(url + "/set/reward")
                             .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
                     .andExpect(status().isBadRequest());
@@ -182,6 +200,7 @@ class RewardControllerTest {
                     saveRoom.getId());
             mockMvc.perform(post(url + "/set/reward")
                             .content(objectMapper.writeValueAsString(setRewardRequest))
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
                     .andExpect(status().isBadRequest());
@@ -207,6 +226,7 @@ class RewardControllerTest {
         UpdateRewardRequest updateRewardRequest = new UpdateRewardRequest(updateRewardDTOList, room.getId());
         mockMvc.perform(put(url + "/set/reward")
                 .content(objectMapper.writeValueAsString(updateRewardRequest))
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
 
         entityManager.flush();
@@ -232,6 +252,7 @@ class RewardControllerTest {
         Reward reward = rewardList.get(0);
         mockMvc.perform(delete(url + "/set/reward")
                 .content(objectMapper.writeValueAsString(new DeleteRewardRequest(reward.getId())))
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
         int removeAfterSize = rewardRepository.findByRoomId(room.getId()).size();
         assertEquals(removeBeforeSize - 1, removeAfterSize);
@@ -242,6 +263,7 @@ class RewardControllerTest {
     void validRemoveRequest() throws Exception {
         mockMvc.perform(delete(url + "/set/reward")
                         .content(objectMapper.writeValueAsString(new DeleteRewardRequest()))
+                        .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
                 .andExpect(status().isBadRequest());

@@ -1,12 +1,12 @@
 package org.a602.gotcha.domain.reward.service;
 
 import lombok.RequiredArgsConstructor;
-import org.a602.gotcha.domain.reward.Reward;
+import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest.RewardDTO;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.S3Service;
 import org.springframework.stereotype.Service;

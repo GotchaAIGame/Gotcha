@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -32,7 +33,7 @@ public class RewardController {
     @PostMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 설정", responseCode = "200")
     @Operation(description = "게임에 리워드 설정", summary = "게임에 리워드 설정")
-    public BaseResponse<Void> setReward(@Valid @RequestBody SetRewardRequest request) {
+    public BaseResponse<Void> rewardSetAtRoom(@Valid @RequestBody SetRewardRequest request) {
 
         rewardService.setReward(request.getRewards(), request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);

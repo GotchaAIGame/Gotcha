@@ -1,8 +1,8 @@
 package org.a602.gotcha.domain.reward.service;
 
-import org.a602.gotcha.domain.reward.Reward;
+import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.S3Service;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +47,7 @@ public class RewardServiceTest {
         rewards.add(new RewardDTO("Reward1", 1, "image1"));
         rewards.add(new RewardDTO("Reward2", 2, "image2"));
         Long roomId = 1L;
-        Room room = new Room();
+        Room room = Room.builder().build();
 
         // Define the behavior of the mock dependencies
         when(roomService.findById(roomId)).thenReturn(room);
@@ -83,7 +83,7 @@ public class RewardServiceTest {
     public void testUpdateReward() {
         // given
         Long roomId = 1L;
-        Room room = new Room();
+        Room room = Room.builder().build();
 
         List<UpdateRewardDTO> rewardDTOList = Arrays.asList(
                 new UpdateRewardDTO(null, "Reward 1", 1, "Image 1"),

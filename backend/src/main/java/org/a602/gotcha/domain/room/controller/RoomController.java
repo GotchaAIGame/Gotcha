@@ -1,17 +1,21 @@
 package org.a602.gotcha.domain.room.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.room.request.CloseRoomRequest;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
+import org.a602.gotcha.domain.room.response.GameInfoResponse;
+import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

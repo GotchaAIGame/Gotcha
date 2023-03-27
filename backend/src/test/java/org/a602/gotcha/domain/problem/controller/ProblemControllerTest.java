@@ -1,16 +1,19 @@
 package org.a602.gotcha.domain.problem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.a602.gotcha.domain.problem.Problem;
+import org.a602.gotcha.CustomSpringBootTest;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.problem.repository.ProblemRepository;
 import org.a602.gotcha.domain.problem.request.DeleteProblemRequest;
 import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
-import org.a602.gotcha.domain.room.Room;
+import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.global.security.JwtTokenProvider;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@CustomSpringBootTest
 @Transactional
 @AutoConfigureMockMvc
 class ProblemControllerTest {
@@ -52,12 +55,25 @@ class ProblemControllerTest {
     Problem problem;
     String base64Image;
     UpdateProblemRequest updateProblemRequest;
+    Member member;
+    String token;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
 
     @BeforeEach
     void setup(@TempDir Path path) throws IOException {
-        room = new Room("색", "로고", "제목", "이벤트 ", "설명", LocalDateTime.now(), LocalDateTime.now().plus(10, ChronoUnit.MINUTES), 1212);
-        em.persist(room);
+        room = Room.builder()
+                .color("색")
+                .logoUrl("로고")
+                .title("제목")
+                .eventDesc("이벤트 url")
+                .eventDesc("이벤트 설명")
+                .startTime(LocalDateTime.now())
+                .endTime(LocalDateTime.now().plus(10, ChronoUnit.MINUTES))
+                .rewardDesc("보상 설명")
+                .hasReward(true).build();
+        em.persist(this.room);
 
         Path resolve = path.resolve("image.jpg");
         File file = resolve.toFile();
@@ -71,10 +87,15 @@ class ProblemControllerTest {
         }
         byte[] bytes = Files.readAllBytes(file.toPath());
         base64Image = Base64.getEncoder().encodeToString(bytes);
-        problem = new Problem("이름", "설명", "힌트", room, base64Image);
+        problem = new Problem("이름", "설명", "힌트", base64Image, this.room);
         em.persist(problem);
 
         updateProblemRequest = new UpdateProblemRequest(base64Image, "업데이트 이름", " 업데이트 설명", "업데이트 힌트", problem.getId());
+        member = Member.builder()
+                .email("suker80@naver.com")
+                .organization("삼성").build();
+        token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);
+        em.persist(member);
         em.flush();
         em.clear();
     }
@@ -86,6 +107,7 @@ class ProblemControllerTest {
 
         mvc.perform(put(url + "/set/problem")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
                         .content(objectMapper.writeValueAsBytes(updateProblemRequest)))
                 .andExpect(status().isOk());
         em.flush();
@@ -110,6 +132,7 @@ class ProblemControllerTest {
             updateProblemRequest.setName(null);
             mvc.perform(put(url + "/set/problem")
                             .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .content(objectMapper.writeValueAsBytes(updateProblemRequest)))
                     .andExpect(status().isBadRequest());
         }
@@ -122,6 +145,7 @@ class ProblemControllerTest {
             em.clear();
             mvc.perform(put(url + "/set/problem")
                             .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .content(objectMapper.writeValueAsBytes(updateProblemRequest)))
                     .andExpect(status().isBadRequest());
         }
@@ -133,7 +157,7 @@ class ProblemControllerTest {
             em.flush();
             em.clear();
             mvc.perform(put(url + "/set/problem")
-                            .contentType(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, token)
                             .content(objectMapper.writeValueAsBytes(updateProblemRequest)))
                     .andExpect(status().isBadRequest());
         }
@@ -151,6 +175,7 @@ class ProblemControllerTest {
 
             mvc.perform(delete(url + "/set/problem")
                             .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .content(objectMapper.writeValueAsBytes(problemRequest)))
                     .andExpect(status().isOk());
 
@@ -167,6 +192,7 @@ class ProblemControllerTest {
 
             mvc.perform(delete(url + "/set/problem")
                             .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .content(objectMapper.writeValueAsBytes(problemRequest)))
                     .andExpect(status().isBadRequest());
 
@@ -182,6 +208,7 @@ class ProblemControllerTest {
 
             mvc.perform(delete(url + "/set/problem")
                             .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, token)
                             .content(objectMapper.writeValueAsBytes(problemRequest)))
                     .andExpect(status().isBadRequest());
 
