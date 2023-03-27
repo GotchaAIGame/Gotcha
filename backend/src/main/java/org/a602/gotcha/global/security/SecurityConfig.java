@@ -26,13 +26,14 @@ public class SecurityConfig {
 
 	public static final String HEAD = "HEAD";
 	public static final String OPTIONS = "OPTIONS";
+	public static final String ALLOW_ORIGIN_PATTERN = "https://j8a602.p.ssafy.io/api/*";
 	private final JwtTokenProvider jwtTokenProvider;
 	public static final String ALLOW_PATTERN = "*";
 	public static final String POST = "POST";
 	public static final String GET = "GET";
 	public static final String DELETE = "DELETE";
 	public static final String PUT = "PUT";
-	public static final String BASE_URL_PATTERN = "/api/**";
+	public static final String BASE_URL_PATTERN = "/**";
 	public static final String ROLE_USER = "USER";
 	private static final String[] PERMIT_URL_ARRAY = {
 		/* swagger v2 */
@@ -95,7 +96,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://j8a602.p.ssafy.io"));
+		corsConfiguration.setAllowedOriginPatterns(List.of(ALLOW_ORIGIN_PATTERN));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
 		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
 		corsConfiguration.setAllowCredentials(true);
