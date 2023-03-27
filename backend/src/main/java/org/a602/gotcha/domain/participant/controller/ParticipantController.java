@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.a602.gotcha.domain.participant.exception.InvalidPhoneNumberException;
 import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
+import org.a602.gotcha.domain.participant.response.ParticipantRankListResponse;
 import org.a602.gotcha.domain.participant.service.ParticipantService;
 import org.a602.gotcha.domain.problem.response.ProblemListResponse;
 import org.a602.gotcha.domain.problem.service.ProblemService;
@@ -109,6 +110,15 @@ public class ParticipantController {
         }
         participantService.updatePhoneNumber(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    @Operation(description = "랭킹 확인하기 API", summary = "랭킹 확인하기 API")
+    @ApiResponse(responseCode = "200", description = "랭킹 가져오기 성공")
+    @ApiResponse(responseCode = "404", description = "랭킹 받아오기 실패")
+    @PostMapping("/rank")
+    public BaseResponse<List<ParticipantRankListResponse>> getRankList(@Valid @RequestBody RankInfoRequest request) {
+        List<ParticipantRankListResponse> rankList = participantService.getRankList(request);
+        return new BaseResponse<>(rankList);
     }
 
 }
