@@ -23,4 +23,11 @@ const gamePlayAPI = {
     }),
 };
 
-export { gamePlayAPI };
+const memberAPI = {
+  duplicateEmail : (email:string):
+  Promise<AxiosResponse> => request.get("member/duplicateEmail", {
+    params : {email},
+  })
+}
+
+export { gamePlayAPI, memberAPI };

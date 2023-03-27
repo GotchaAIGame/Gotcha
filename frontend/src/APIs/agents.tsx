@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import axiosInstance, { requestConfig } from "./configs";
 
 const responseBody = (response: AxiosResponse) => {
-  console.log(response);
+  // console.log(response);
   return response.data;
 };
 
