@@ -94,7 +94,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://j8a602.p.ssafy.io/api/*"));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
 		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
 		corsConfiguration.setAllowCredentials(true);
