@@ -33,7 +33,7 @@ public class RoomController {
     @ApiResponse(responseCode = "404", description = "방 정보를 찾을 수 없음")
     @ApiResponse(responseCode = "403", description = "해당 방에 접근할 수 없음(유효기간 만료)")
     @GetMapping("/game/enter")
-    public BaseResponse<GameInfoResponse> enterRoom(@NotNull @RequestParam String roomCode) {
+    public BaseResponse<GameInfoResponse> enterRoom(@NotNull @RequestParam int roomCode) {
         GameInfoResponse gameInfoResponse = roomService.getRoomInfo(roomCode);
         return new BaseResponse<>(gameInfoResponse);
     }
