@@ -18,10 +18,13 @@ export default function CustomGamePage() {
         <Timer />
         <ProblemCardList />
       </Grid>
-      <button type="button" onClick={modalHandler}>
-        {isOpen ? "▶" : "◀"}
-      </button>
-      {isOpen && <CustomModal isOpen={isOpen} setIsOpen={setIsOpen} />}
+      {/* <Modal /> */}
+      {!isOpen && (
+        <button type="button" className="open-button" onClick={modalHandler}>
+          ◀
+        </button>
+      )}
+      <CustomModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Grid>
   );
 }

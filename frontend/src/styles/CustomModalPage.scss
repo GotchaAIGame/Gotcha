@@ -1,23 +1,53 @@
 @import "@styles/Colors.scss";
 
-.custom-page-main-container{
+.custom-page-main-container {
+  // position: absolute;
   justify-content: center;
   align-items: center;
-  
-  button {
-    background-color: inherit;
+
+  .open-button {
+    background-color: white;
     align-items: center;
     cursor: pointer;
+    position: fixed;
+    min-height: 100vh;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    box-shadow: -20px 0px 5px -2px rgba(0, 0, 0, 0.25);
   }
 }
 
-
-// Modal
+// custom Modal
 .custom-modal-container {
-  position: relative;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
   top: 0;
-  right: 0;
   z-index: 9999;
-  width: 200px;
+  width: 300px;
+  min-height: 100vh;
   border-left: 1px solid $gray-1;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  box-shadow: -20px 0px 5px -2px rgba(0, 0, 0, 0.25);
+
+  button {
+    background-color: inherit;
+    cursor: pointer;
+    border: none;
+    // width: 50%;
+    align-self: self-end;
+  }
+
+  .modal-input-container {
+    width: 90%;
+    border: 1px solid $gray-1;
+    padding: 5px;
+    margin: 5px;
+  }
 }
