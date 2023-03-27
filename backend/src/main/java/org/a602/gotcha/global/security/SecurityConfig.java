@@ -26,6 +26,7 @@ public class SecurityConfig {
 
 	public static final String HEAD = "HEAD";
 	public static final String OPTIONS = "OPTIONS";
+	public static final String ALLOW_ORIGIN_PATTERN = "https://j8a602.p.ssafy.io/api/*";
 	private final JwtTokenProvider jwtTokenProvider;
 	public static final String ALLOW_PATTERN = "*";
 	public static final String POST = "POST";
@@ -50,6 +51,7 @@ public class SecurityConfig {
 		/*회원가입*/
 		"/",
 		"/api/test",
+		"/api/game/**",
 		"/api/member/signup",
 		"/api/member/login",
 		"/api/member/duplicateNickname",
@@ -62,7 +64,7 @@ public class SecurityConfig {
 		httpSecurity.httpBasic()
 			.disable() // rest api 이기 때문에 기본 설정을 사용하지 않는다. (기본설정은 비인증시 로그인 화면으로 리다이렉트)
 			.cors()
-			//			.configurationSource(corsConfigurationSource())
+			.configurationSource(corsConfigurationSource())
 			.and()
 			.csrf()
 			.disable() // rest api 이기 때문에 csrf 보안이 필요 없으므로 disable 처리한다.
@@ -94,7 +96,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOriginPatterns(List.of(ALLOW_PATTERN));
+		corsConfiguration.setAllowedOriginPatterns(List.of(ALLOW_ORIGIN_PATTERN));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
 		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
 		corsConfiguration.setAllowCredentials(true);
