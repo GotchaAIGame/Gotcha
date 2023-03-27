@@ -76,8 +76,10 @@ function Modal(props: modalProps) {
       <Button
         size="xxsmall"
         text="제출하기"
-        color="gray"
+        color="gray-lime"
         onClick={() => {
+          // modalHandler();
+          console.log("제출하기");
           modalHandler();
         }}
       />
