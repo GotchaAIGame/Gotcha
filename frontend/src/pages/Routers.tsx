@@ -11,6 +11,7 @@ import GamePage from "./GamePage";
 import ModalTestPage from "./ModalTestPage";
 import ModalTestPage2 from "./ModalTestPage2";
 import PlayerRejoinPage from "./PlayerRejoinPage";
+import RankPage from "./RankPage";
 
 export default function Routers() {
   return (
@@ -25,7 +26,10 @@ export default function Routers() {
       <Route path="/create/game" element={<CreateGamePage />} />
       <Route path="/newgame" element={<PlayerNewGamePage />} />
       <Route path="/rejoin" element={<PlayerRejoinPage />} />
-      <Route path="/game/:roomId" element={<GamePage />} />
+      <Route path="game">
+        <Route path=":roomId" element={<GamePage />} />
+        <Route path=":roomId/rank" element={<RankPage />} />
+      </Route>
       <Route path="/modalTest" element={<ModalTestPage />} />
       <Route path="/modalTest/2" element={<ModalTestPage2 />} />
     </Routes>

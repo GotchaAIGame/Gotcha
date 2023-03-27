@@ -16,6 +16,9 @@ export default function Navbar() {
   if (location.pathname === "/rejoin") {
     return null;
   }
+  if (location.pathname === "/game/1/rank") {
+    return null;
+  }
   return (
     <header className="app-main-header">
       {/* 게임 생성 페이지에서는 로고를 생략합니다. */}
