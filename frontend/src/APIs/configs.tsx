@@ -7,7 +7,7 @@ export interface requestConfig {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "https://5710eb1b-27e6-408a-9a33-ee51d3f7737d.mock.pstmn.io",
+  baseURL: "https://j8a602.p.ssafy.io/api/",
 });
 
 export default axiosInstance;
