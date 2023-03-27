@@ -1,17 +1,17 @@
 package org.a602.gotcha.domain.service;
 
+import org.a602.gotcha.CustomSpringBootTest;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
-import org.a602.gotcha.domain.member.service.MemberService;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@CustomSpringBootTest
 public class MemberServiceTest {
 
 	@Autowired
@@ -62,7 +62,7 @@ public class MemberServiceTest {
 
 			final Boolean duplicateNickname = memberService.isDuplicateNickname(memberSignupRequest2.getNickname());
 
-			Assertions.assertThat(true).isEqualTo(duplicateNickname);
+			Assertions.assertThat(duplicateNickname).isEqualTo(true);
 		}
 
 		@Test
@@ -88,7 +88,7 @@ public class MemberServiceTest {
 
 			final Boolean duplicateEmail = memberService.isDuplicateEmail(memberSignupRequest2.getEmail());
 
-			Assertions.assertThat(true).isEqualTo(duplicateEmail);
+			Assertions.assertThat(duplicateEmail).isEqualTo(true);
 		}
 
 	}

@@ -1,13 +1,15 @@
 package org.a602.gotcha.global.swagger;
 
+import org.springdoc.core.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springdoc.core.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
@@ -33,7 +35,7 @@ public class SwaggerConfig {
                         .scheme("bearer")
                         .bearerFormat("JWT")); // 토큰 형식을 지정하는 임의의 문자(Optional)
 
-        return new OpenAPI()
+        return new OpenAPI().addServersItem(new Server().url("/"))
                 .info(new Info().title("Gotcha")
                         .description("갓챠 API 명세서입니다.")
                         .version("v0.0.1"))

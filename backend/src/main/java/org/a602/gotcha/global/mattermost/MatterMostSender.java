@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import static org.a602.gotcha.global.mattermost.MatterMostMessageDto.*;
+import static org.a602.gotcha.global.mattermost.MatterMostMessageDto.Attachment;
 
 
 @Component

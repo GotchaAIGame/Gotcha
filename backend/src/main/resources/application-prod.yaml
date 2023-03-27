@@ -25,3 +25,15 @@ report:
     enabled: true
     webhook-url: ${MM_REPORT_URL}
     pretext: 신고 누적 발생 알림!
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ${BUCKET_NAME}
+    stack:
+      auto: false
+default-image: 'default.jpg'

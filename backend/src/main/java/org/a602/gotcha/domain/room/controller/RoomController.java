@@ -7,15 +7,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.room.request.CloseRoomRequest;
+import org.a602.gotcha.domain.room.request.CreateRoomRequest;
+import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
 import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.a602.gotcha.global.error.GlobalErrorCode;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -26,7 +27,6 @@ import java.util.List;
 @RequestMapping("/api")
 @Slf4j
 public class RoomController {
-
     private final RoomService roomService;
 
     @Operation(description = "코드 통해 게임 입장하는 API", summary = "코드 통해 게임 입장하는 API")
@@ -57,4 +57,37 @@ public class RoomController {
         return new BaseResponse<>(eventDetail);
     }
 
+    @PostMapping("/set/room")
+    @ApiResponse(description = "방 생성 성공", responseCode = "200")
+    @Operation(description = "방 만드는 API", summary = "방 만드는 API")
+    public BaseResponse<Void> createRoom(@RequestBody CreateRoomRequest request) {
+
+        roomService.createRoom(request);
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    @DeleteMapping("/set/room")
+    @ApiResponse(description = "방 종료 성공", responseCode = "200")
+    @Operation(description = "방 종료 API", summary = "방 종료 API")
+    public BaseResponse<Void> closeRoom(@RequestBody CloseRoomRequest request) {
+        roomService.closeRoom(request.getRoomId());
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+
+    @PutMapping("/set/room")
+    @ApiResponse(description = "방 수정 성공", responseCode = "200")
+    @Operation(description = "방 수정 API", summary = "방 수정 API")
+    public BaseResponse<Void> updateRoom(@RequestBody UpdateRoomRequest request) {
+        roomService.updateRoom(
+                request.getId(),
+                request.getColor(),
+                request.getLogoUrl(),
+                request.getTitle(),
+                request.getEventUrl(),
+                request.getDescription(),
+                request.getStartTime(),
+                request.getEndTime());
+        return null;
+    }
 }
