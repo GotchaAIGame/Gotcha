@@ -1,4 +1,5 @@
-@import "@styles/Colors.scss";
+@import "@styles/Colors";
+@import "@styles/mixin";
 
 // 임시 바로가기 버튼 모음 (추후 제거 예정)
 .temps-container {
@@ -23,24 +24,42 @@
 
 // InputPinNum
 .input-pin-num-container {
-  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  button,
   input {
-    border-width: 3px;
-    border-color: $blue-1;
+    @include desktop {
+      font-size: 2rem;
+      width: 35%;
+    }
+    @include mobile {
+      font-size: 1.5rem;
+      max-width: 340px;
+      width: 80%;
+    }
+    border: 3px solid $gray-1;
     border-radius: 12px;
-    font-size: 2rem;
     text-align: center;
-    width: 90%;
-    margin: 5% auto;
-
-    // transition-property: border-color;
-    // transition-duration: 2s;
+    padding: 20px 0;
   }
   input:focus {
-    // background-color: aqua;
-    // border-color: $orange;
     outline: none;
     animation: border-changing 3s infinite;
+    -webkit-animation: border-changing 3s infinite;
+  }
+  button {
+    box-shadow: 3px 3px $gray-1;
+    background-color: $lime;
+  }
+  h3 {
+    @include desktop {
+      font-size: 2rem;
+    }
+    @include mobile {
+      font-size: 1.5rem;
+    }
   }
 }
 
