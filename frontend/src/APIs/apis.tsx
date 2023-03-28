@@ -23,8 +23,9 @@ const memberAPI = {
     email: string
     // registrationId?: string
   ): Promise<AxiosResponse> =>
-    request.post("member/signup",
-    { nickname, password, organization, email }),
+    request.post("member/signup", { nickname, password, organization, email }),
+  logIn: (email: string, password: string): Promise<AxiosResponse> =>
+    request.post("member/login", { email, password }),
 };
 
 export { gamePlayAPI, memberAPI };

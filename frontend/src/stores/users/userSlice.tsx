@@ -2,11 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
   email: string;
+  nickname: string;
+  organization?: string;
+  profileImage?: string;
   isLogin: boolean;
 }
 
 const initialState: UserState = {
   email: "",
+  nickname: "",
   isLogin: false,
 };
 
@@ -15,10 +19,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     // 로그인
-    setLogin: (state, action: PayloadAction<{ email: string }>) => {
+    setLogin: (
+      state,
+      action: PayloadAction<UserState>
+    ) => {
       return {
         ...state,
         email: action.payload.email,
+        nickname: action.payload.nickname,
         isLogin: true,
       };
     },
