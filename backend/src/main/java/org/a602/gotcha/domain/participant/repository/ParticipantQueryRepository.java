@@ -25,7 +25,8 @@ public class ParticipantQueryRepository {
     public List<Participant> getTop3Rank(Long roomId) {
         return query.selectFrom(participant)
                 .join(participant.room, room)
-                .where(participant.room.id.eq(roomId))
+                .where(participant.room.id.eq(roomId),
+                        participant.isFinished.isTrue())
                 .orderBy(
                         participant.solvedCnt.desc(),
                         participant.duration.asc())
@@ -40,6 +41,7 @@ public class ParticipantQueryRepository {
                 .join(participant.room, room)
                 .where(
                         participant.room.id.eq(roomId),
+                        participant.isFinished.isTrue(),
                         participant.solvedCnt.goe(participantSolvedCnt),
                         participant.duration.lt(participantDuration))
                 .fetch().size();

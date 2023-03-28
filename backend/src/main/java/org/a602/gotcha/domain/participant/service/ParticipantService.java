@@ -121,8 +121,9 @@ public class ParticipantService {
         // 랭킹 3위까지 돌면서 목록 만들어주고 3위 안에 유저가 있으면 바로 목록 넘기기
         List<ParticipantRankListResponse> result = new ArrayList<>();
         boolean flag = false;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < top3ParticipantList.size(); i++) {
             Participant curr = top3ParticipantList.get(i);
+            System.out.println(curr.getNickname() + curr.getDuration());
             if (curr.getNickname().equals(request.getNickname())) {
                 flag = true;
                 result.add(ParticipantRankListResponse.builder()
