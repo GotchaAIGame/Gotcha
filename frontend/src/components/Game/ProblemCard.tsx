@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 interface problemProps {
   problem: {
@@ -13,6 +13,7 @@ function ProblemCard(props: problemProps) {
   const uploadImage = useRef<HTMLInputElement>(null);
   const { problem } = props;
   const { problemId, problemName, problemDesc, problemImgURL } = problem;
+  const [open, setOpen] = useState(false);
 
   const hasImage = false;
 
@@ -20,7 +21,7 @@ function ProblemCard(props: problemProps) {
     const files = uploadImage.current?.files;
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
-      console.log(fileURL);
+      setOpen(true);
     }
   };
 
@@ -57,6 +58,27 @@ function ProblemCard(props: problemProps) {
           )}
         </div>
       </div>
+      {open && (
+        <div className="image-editior-wrapper">
+          <div
+            className="image-editor-overlay"
+            onClick={() => setOpen(false)}
+            role="presentation"
+          >
+            <div className="image-editor-content">
+              <div className="image-editor-title">
+                <h1> 이미지 수정 </h1>
+              </div>
+              <div className="image-editor-description">
+                <h1> 내용 </h1>
+              </div>
+              <div className="image-editor-buttons">
+                <h1> 버튼 </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

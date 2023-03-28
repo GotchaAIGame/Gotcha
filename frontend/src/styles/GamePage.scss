@@ -226,6 +226,8 @@ input.invisible {
 
 .AIModal-wrapper,
 .AIModal-overlay,
+.image-editor-wrapper,
+.image-editor-overlay,
 .dropdown-overlay {
   width: 100vw;
   height: 100vh;
@@ -236,11 +238,13 @@ input.invisible {
   position: fixed;
 }
 
+.image-editor-overlay,
 .AIModal-overlay {
   background: rgba(49, 49, 49, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .AIModal-content {
@@ -412,4 +416,11 @@ input.invisible {
     color: $blue-1;
     font-weight: 800;
   }
+}
+
+// image editor
+.image-editor-content {
+  height: 50%;
+  width: 300px;
+  background-color: white;
 }
