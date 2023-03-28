@@ -7,6 +7,7 @@ import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.junit.jupiter.api.DisplayName;
