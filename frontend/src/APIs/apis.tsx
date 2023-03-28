@@ -5,6 +5,9 @@ import request from "./agents";
 const gamePlayAPI = {
   enter: (roomCode: number): Promise<AxiosResponse> =>
     request.get("/game/enter", { params: { roomCode } }),
+  // 게임 재참여
+  rejoin: (roomId: number, nickname: string): Promise<AxiosResponse> =>
+    request.post("/game/rejoin", { params: { roomId, nickname } }),
 };
 
 const memberAPI = {
@@ -23,8 +26,7 @@ const memberAPI = {
     email: string
     // registrationId?: string
   ): Promise<AxiosResponse> =>
-    request.post("member/signup",
-    { nickname, password, organization, email }),
+    request.post("member/signup", { nickname, password, organization, email }),
 };
 
 export { gamePlayAPI, memberAPI };
