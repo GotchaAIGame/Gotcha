@@ -11,19 +11,19 @@ from utils import infer
 api = FastAPI()
 
 @api.post("/predict")
-async def predict(original_url : str = Form(...), input_image : UploadFile = File(...)):
+async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(...)):
 
     """
     get datas required to calculate the similarities between two images and return the similarities between
     """
 
     # get target image through the original image url
-    response = requests.get(original_url)
+    response = requests.get(originalUrl)
     original_image = Image.open(BytesIO(response.content))
     original_image = ImageOps.exif_transpose(original_image)
 
     # get input image
-    input_image = Image.open(BytesIO(input_image.file.read()))
+    input_image = Image.open(BytesIO(inputImage.file.read()))
     input_image = ImageOps.exif_transpose(input_image)
 
     result, similarity = infer(original_image, input_image)
