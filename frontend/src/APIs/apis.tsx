@@ -4,30 +4,27 @@ import request from "./agents";
 // APis about game play
 const gamePlayAPI = {
   enter: (roomCode: number): Promise<AxiosResponse> =>
-    request.get("/api/game/enter", { params: { roomCode } }),
-  register: (
-    roomId: number,
-    nickname: string,
-    password: number
-  ): Promise<AxiosResponse> =>
-    request.post("api/game/register", {
-      data: { roomId, nickname, password },
-    }),
-  start: (
-    roomId: number,
-    nickname: string,
-    startDateTime: string
-  ): Promise<AxiosResponse> =>
-    request.post("api/game/start", {
-      data: { roomId, nickname, startDateTime },
-    }),
+    request.get("/game/enter", { params: { roomCode } }),
 };
 
 const memberAPI = {
-  duplicateEmail : (email:string):
-  Promise<AxiosResponse> => request.get("member/duplicateEmail", {
-    params : {email},
-  })
-}
+  duplicateEmail: (email: string): Promise<AxiosResponse> =>
+    request.get("member/duplicateEmail", {
+      params: { email },
+    }),
+  duplicateNickName: (nickname: string): Promise<AxiosResponse> =>
+    request.get("member/duplicateNickname", {
+      params: { nickname },
+    }),
+  signUp: (
+    nickname: string,
+    password: string,
+    organization: string,
+    email: string
+    // registrationId?: string
+  ): Promise<AxiosResponse> =>
+    request.post("member/signup",
+    { nickname, password, organization, email }),
+};
 
 export { gamePlayAPI, memberAPI };

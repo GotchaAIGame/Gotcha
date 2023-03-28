@@ -1,4 +1,5 @@
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, useRef } from "react";
+import checkImg from "@assets/check.svg";
 import "./styles/InputBox.scss";
 import classNames from "classnames";
 
@@ -6,22 +7,27 @@ interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   text?: string;
   type?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  checked?: boolean;
 }
 
 export default function InputBox({
   text,
   type,
   onChange,
+  checked,
   ...rest
 }: InputBoxProps) {
   return (
-    <input
-      className={classNames("inputBoxWrapper")}
-      type={type}
-      placeholder={text}
-      onChange={onChange}
-      {...rest}
-    />
+    <div className="common-input-box-container">
+      <input
+        className={classNames("inputBoxWrapper")}
+        type={type}
+        placeholder={text}
+        onChange={onChange}
+        {...rest}
+      />
+      {checked && <img src={checkImg} alt="" />}
+    </div>
   );
 }
 
@@ -31,4 +37,5 @@ InputBox.defaultProps = {
   onChange: () => {
     return null;
   },
+  checked: false,
 };
