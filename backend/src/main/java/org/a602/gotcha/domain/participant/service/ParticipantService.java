@@ -123,7 +123,6 @@ public class ParticipantService {
         boolean flag = false;
         for (int i = 0; i < top3ParticipantList.size(); i++) {
             Participant curr = top3ParticipantList.get(i);
-            System.out.println(curr.getNickname() + curr.getDuration());
             if (curr.getNickname().equals(request.getNickname())) {
                 flag = true;
                 result.add(ParticipantRankListResponse.builder()

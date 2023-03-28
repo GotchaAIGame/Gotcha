@@ -53,6 +53,7 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public List<RewardListResponse> getGameRewardList(Long roomId) {
+        checkRoomValidation(roomId);
         List<Reward> rewards = rewardRepository.findRewardsByRoomId(roomId);
         if (rewards.isEmpty()) {
             throw new RewardNotFoundException();
@@ -67,8 +68,7 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public EventDetailResponse getEventDetail(Long roomId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(RoomNotFoundException::new);
+        Room room = findRoom(roomId);
         return EventDetailResponse.builder()
                 .eventDesc(room.getEventDesc())
                 .eventUrl(room.getEventUrl())
@@ -126,5 +126,15 @@ public class RoomService {
         return roomRepository.findById(roomId).orElseThrow(() -> {
             throw new RoomNotFoundException();
         });
+    }
+
+    private void checkRoomValidation(Long roomID) {
+        roomRepository.findById(roomID)
+                .orElseThrow(RoomNotFoundException::new);
+    }
+
+    private Room findRoom(Long roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
     }
 }

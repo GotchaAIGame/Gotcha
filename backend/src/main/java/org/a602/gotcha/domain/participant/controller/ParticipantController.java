@@ -36,7 +36,8 @@ public class ParticipantController {
 
     @Operation(description = "닉네임 중복체크 API", summary = "닉네임 중복체크 API")
     @ApiResponse(responseCode = "200", description = "닉네임 중복 검사 통과", content = @Content(schema = @Schema(implementation = Boolean.class)))
-    @ApiResponse(responseCode = "400", description = "닉네임 중복 검사 실패")
+    @ApiResponse(responseCode = "400", description = "중복된 닉네임 있음")
+    @ApiResponse(responseCode = "404", description = "해당하는 방 찾을 수 없음")
     @PostMapping("/duplicate")
     public BaseResponse<Boolean> duplicateNickname(@Valid @RequestBody DuplicateNicknameRequest request) {
         Boolean isDuplicate = participantService.existDuplicateNickname(request);
@@ -46,9 +47,9 @@ public class ParticipantController {
     @Operation(description = "참여자 신규로 등록하기 API", summary = "참여자 신규로 등록하기 API")
     @ApiResponse(responseCode = "200", description = "유저 등록 성공")
     @ApiResponse(responseCode = "400", description = "중복된 닉네임 있음")
-    @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
+    @ApiResponse(responseCode = "404", description = "해당하는 방 찾을 수 없음")
     @PostMapping("/register")
-    public BaseResponse<Object> getParticipantInfo(@Valid @RequestBody ParticipantRegisterRequest request) {
+    public BaseResponse<Object> registerParticipant(@Valid @RequestBody ParticipantRegisterRequest request) {
         participantService.registerParticipant(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
@@ -57,7 +58,7 @@ public class ParticipantController {
     @ApiResponse(responseCode = "200", description = "참여자 정보 확인 성공", content = @Content(schema = @Schema(implementation = ParticipantInfoResponse.class)))
     @ApiResponse(responseCode = "401", description = "참여자 정보 일치하지 않음")
     @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
-    @ApiResponse(responseCode = "")
+    @ApiResponse(responseCode = "404", description = "해당하는 유저 존재하지 않음")
     @PostMapping("/login")
     public BaseResponse<ParticipantInfoResponse> doLogin(@Valid @RequestBody ParticipantLoginRequest request) {
         ParticipantInfoResponse response = participantService.getParticipantInfo(request);
