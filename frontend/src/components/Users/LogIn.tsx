@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 import { setLogin } from "@stores/users/userSlice";
 import InputBox from "@components/common/InputBox";
 import Button from "@components/common/Button";
@@ -13,6 +14,7 @@ export default function LogIn() {
   // const [inputText, setInputText] = useState("");
   const [emailInput, setEmailInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
+  const [cookies, setCookie] = useCookies(["refreshToken"]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,9 +38,17 @@ export default function LogIn() {
         .then((res) => {
           console.log(res);
           console.log(res.data.result);
-          dispatch(setLogin(res.data.result));
+          const gotUserInfo = res.data.result;
+          // Store에 user 정보 저장
+          dispatch(setLogin(gotUserInfo));
+          // token 저장 =
+          const accessToken = gotUserInfo.get("access");
+          const refreshToken = gotUserInfo.get("refresh");
+          sessionStorage.setItem("accessToken", accessToken);
+          setCookie("refreshToken", refreshToken);
+
           alert("환영합니다!");
-          navigate("/creator")
+          navigate("/creator");
         })
         .catch((res) => {
           alert("아이디와 비밀번호를 확인해 주세요");

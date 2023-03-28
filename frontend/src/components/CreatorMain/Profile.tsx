@@ -5,6 +5,8 @@ import Button from "@components/common/Button";
 
 export default function Profile() {
   const userNickname = useSelector((state: any) => state.users.nickname);
+  const userInfro = useSelector((state: any) => state.users);
+  console.log(userInfro);
 
   return (
     <Grid container className="profile-infos-container">
