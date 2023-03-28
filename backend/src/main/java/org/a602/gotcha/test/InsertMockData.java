@@ -25,10 +25,11 @@ public class InsertMockData {
 
     @PostConstruct
     private void insertData() {
+        String HASH_PWD = passwordEncoder.encode("602602");
         // Member 생성
         Member member = Member.builder()
                 .nickname("싸피")
-                .password("1234")
+                .password(HASH_PWD)
                 .organization("SSAFY")
                 .email("ssafy@ssafy.com")
                 .registrationId("NORMAL")
@@ -54,7 +55,6 @@ public class InsertMockData {
         // Participant 생성
         LocalDateTime startTime = LocalDateTime.now().plusHours(1);
         LocalDateTime endTime = LocalDateTime.now().plusHours(2);
-        String HASH_PWD = passwordEncoder.encode("1234");
         Participant participantA = Participant.builder()
                 .nickname("2조태규")
                 .password(HASH_PWD)
