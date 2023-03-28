@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
 // APis about game play
@@ -23,8 +23,17 @@ const memberAPI = {
     email: string
     // registrationId?: string
   ): Promise<AxiosResponse> =>
-    request.post("member/signup",
-    { nickname, password, organization, email }),
+    request.post("member/signup", { nickname, password, organization, email }),
 };
 
-export { gamePlayAPI, memberAPI };
+const MLAPI = {
+  predict: (formData: FormData): Promise<AxiosResponse> =>
+    request.postPython("game/predict", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }),
+};
+
+export { gamePlayAPI, memberAPI, MLAPI };
