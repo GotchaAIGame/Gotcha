@@ -24,8 +24,8 @@ export default function LogIn() {
       e.preventDefault();
       alert("ID를 입력해 주세요.");
     } else {
-      const userId = inputText;
-      dispatch(setLogin({ userId }));
+      const email = inputText;
+      dispatch(setLogin({ email }));
       if (existId) {
         navigate("/");
       } else {

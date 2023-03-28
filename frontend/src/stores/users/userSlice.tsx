@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-  userId: string;
+  email: string;
   isLogin: boolean;
 }
 
 const initialState: UserState = {
-  userId: "",
+  email: "",
   isLogin: false,
 };
 
@@ -15,21 +15,18 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     // 로그인
-    setLogin: (
-      state,
-      action: PayloadAction<{ userId: string }>
-    ) => {
-      return{
+    setLogin: (state, action: PayloadAction<{ email: string }>) => {
+      return {
         ...state,
-        userId: action.payload.userId,
+        email: action.payload.email,
         isLogin: true,
       };
     },
     // 로그아웃
     setLogout: (state) => {
-      return{
+      return {
         ...state,
-        userId: "",
+        email: "",
         isLogin: false,
       };
     },

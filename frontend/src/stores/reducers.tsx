@@ -3,6 +3,7 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 import users from "./users/userSlice";
 import theme from "./users/themeSlice";
+import game from "./game/gameSlice";
 
 const persistConfig = {
   key: "root",
@@ -11,8 +12,7 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  users,
-  theme,
+  users,theme, game
 });
 
 export default persistReducer(persistConfig, reducers);

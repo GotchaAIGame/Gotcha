@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 interface problemProps {
   problem: {
@@ -10,10 +10,19 @@ interface problemProps {
 }
 
 function ProblemCard(props: problemProps) {
+  const uploadImage = useRef<HTMLInputElement>(null);
   const { problem } = props;
   const { problemId, problemName, problemDesc, problemImgURL } = problem;
 
   const hasImage = false;
+
+  const uploadHandler = () => {
+    const files = uploadImage.current?.files;
+    if (files && files.length) {
+      const fileURL = URL.createObjectURL(files[0]);
+      console.log(fileURL);
+    }
+  };
 
   return (
     <div className="outer-card-wrapper">
@@ -32,8 +41,18 @@ function ProblemCard(props: problemProps) {
             />
           ) : (
             <form className="empty-image-container">
-              <h1> + </h1>
-              <h5 id="take-pic"> 사진 찍기 </h5>
+              <label htmlFor="upload">
+                <p className="plus"> + </p>
+                <h5 id="take-pic"> 사진 찍기 </h5>
+                <input
+                  id="upload"
+                  type="file"
+                  accept="image/*"
+                  ref={uploadImage}
+                  onChange={uploadHandler}
+                  className="invisible"
+                />
+              </label>
             </form>
           )}
         </div>

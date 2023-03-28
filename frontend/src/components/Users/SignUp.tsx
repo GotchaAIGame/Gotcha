@@ -1,19 +1,61 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from "react";
+import React, { useState } from "react";
 import "@styles/SignUpPage.scss";
 import Button from "@components/common/Button";
 import InputValidBox from "@components/common/InputValidBox";
 import InputBox from "@components/common/InputBox";
+import { memberAPI } from "@apis/apis";
 
 type Props = {
   setIsSuccess: (value: boolean) => void;
 };
 
+interface IuserInfo {
+  nickname: string;
+  password: string;
+  organization: string;
+  email: string;
+  registrationId: string;
+}
+
 export default function SignUp(props: Props) {
+  const [userInfo, setUserInfo] = useState<IuserInfo>({
+    nickname: "",
+    password: "",
+    organization: "",
+    email: "",
+    registrationId: "",
+  });
   const { setIsSuccess } = props;
 
   const signupHandler = () => {
     setIsSuccess(true);
+  };
+
+  // email 갱신 (onChange)
+  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (target) {
+      const newEmail = target.value;
+      const newUserInfo = { ...userInfo };
+      newUserInfo.email = newEmail;
+      setUserInfo(newUserInfo);
+      console.log(userInfo);
+    }
+  };
+
+  // email 중복확인 (onClick)
+  const emailChecker = (e: any) => {
+    e.preventDefault();
+    const result = memberAPI.duplicateEmail(userInfo.email);
+    console.log(userInfo.email);
+    result
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((res) => {
+        alert(res);
+      });
   };
 
   return (
@@ -23,7 +65,12 @@ export default function SignUp(props: Props) {
       <form action="submit" className="signup-page-form">
         <label htmlFor="sign-up-email">
           <h5>이메일</h5>
-          <InputValidBox type="email" text="이메일" />
+          <InputValidBox
+            type="email"
+            text="이메일"
+            onClick={emailChecker}
+            onChange={emailHandler}
+          />
         </label>
       </form>
       <form action="submit" className="signup-page-form">
