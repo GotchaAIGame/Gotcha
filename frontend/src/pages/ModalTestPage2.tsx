@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, MouseEventHandler } from "react";
 import ProgressBar from "@components/Game/ProgressBar";
 import right from "@assets/right.svg";
 import wrong from "@assets/wrong.svg";
+import { MLAPI, memberAPI } from "@apis/apis";
+import axios from "axios";
 
 interface AIModalProps {
   open: boolean;
@@ -58,6 +60,11 @@ export default function ModalTestPage2() {
   const [modalOpen1, setModalOpen1] = useState(false);
   const [resultStatus, setResultStatus] = useState(0); // 0 : loading, 1 : correct, 2: wrong
 
+  const imgURL =
+    "https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png";
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const modalHandler = () => {
     setModalOpen1(!modalOpen1);
     setResultStatus(0);
@@ -65,6 +72,21 @@ export default function ModalTestPage2() {
 
   const resultHandler = (status: number) => {
     setResultStatus(status);
+  };
+
+  const predictHandler: MouseEventHandler = async (e) => {
+    e.preventDefault();
+
+    const files = inputRef.current?.files;
+    const formData: FormData = new FormData();
+
+    if (files && files.length) {
+      formData.append("inputImage", files[0]);
+      formData.append("originalUrl", imgURL);
+
+      const result = await MLAPI.predict(formData);
+      console.log(result);
+    }
   };
 
   return (
@@ -83,6 +105,18 @@ export default function ModalTestPage2() {
         resultStatus={resultStatus}
         resultHandler={resultHandler}
       />
+      <div className="ml-test-div">
+        <p> 원본 데이터 </p>
+        <img src={imgURL} alt="원본" height="300px" />
+        <form>
+          <label htmlFor="upload">
+            <input id="upload" type="file" accept="image/*" ref={inputRef} />
+            <button type="submit" onClick={predictHandler}>
+              제출하기
+            </button>
+          </label>
+        </form>
+      </div>
     </>
   );
 }

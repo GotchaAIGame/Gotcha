@@ -53,7 +53,7 @@ export default function MainPage() {
           <button type="button">새 게임 페이지</button>
         </Link>
         <Link to="/modalTest/2">
-          <button type="button"> 모달 테스트 페이지 2 </button>
+          <button type="button"> 각종 TEST Page </button>
         </Link>
       </div>
     </div>
