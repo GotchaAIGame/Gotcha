@@ -1,4 +1,5 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin";
 
 .black {
   background: rgba(49, 49, 49, 0.8);
@@ -16,7 +17,9 @@
 }
 
 .modal-content {
-  max-width: 320px;
+  max-width: 40%;
+  min-width: 300px;
+  //max-width: 320px;
   position: absolute;
   top: 33%;
   left: 50%;
@@ -25,24 +28,25 @@
   transform: translate(-50%, -50%);
   padding: 14px 28px;
   box-shadow: 5px 5px 3px $gray-2;
-}
-
-.small-image {
-  display: flex;
+  .small-image {
+    display: flex;
+  }
+  .close {
+    position: absolute;
+    right: 15px;
+    // padding: 10px;
+  }
+  .modal-innerText {
+    margin-top: 40px;
+  }
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .outside {
   position: absolute;
   left: -10px;
   top: -10px;
-}
-
-.close {
-  position: absolute;
-  right: 10px;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: center;
 }

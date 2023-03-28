@@ -1,26 +1,10 @@
-import { AxiosResponse } from "axios";
+import { AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
 // APis about game play
 const gamePlayAPI = {
   enter: (roomCode: number): Promise<AxiosResponse> =>
-    request.get("game/enter", { params: { roomCode } }),
-  register: (
-    roomId: number,
-    nickname: string,
-    password: number
-  ): Promise<AxiosResponse> =>
-    request.post("game/register", {
-      data: { roomId, nickname, password },
-    }),
-  start: (
-    roomId: number,
-    nickname: string,
-    startDateTime: string
-  ): Promise<AxiosResponse> =>
-    request.post("game/start", {
-      data: { roomId, nickname, startDateTime },
-    }),
+    request.get("/game/enter", { params: { roomCode } }),
 };
 
 const memberAPI = {
@@ -28,6 +12,28 @@ const memberAPI = {
     request.get("member/duplicateEmail", {
       params: { email },
     }),
+  duplicateNickName: (nickname: string): Promise<AxiosResponse> =>
+    request.get("member/duplicateNickname", {
+      params: { nickname },
+    }),
+  signUp: (
+    nickname: string,
+    password: string,
+    organization: string,
+    email: string
+    // registrationId?: string
+  ): Promise<AxiosResponse> =>
+    request.post("member/signup", { nickname, password, organization, email }),
 };
 
-export { gamePlayAPI, memberAPI };
+const MLAPI = {
+  predict: (formData: FormData): Promise<AxiosResponse> =>
+    request.postPython("game/predict", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }),
+};
+
+export { gamePlayAPI, memberAPI, MLAPI };

@@ -3,6 +3,7 @@ import React, {
   HTMLAttributes,
   ChangeEventHandler,
 } from "react";
+import checkImg from "@assets/check.svg";
 import "./styles/InputValidBox.scss";
 
 interface InputValidBoxProps
@@ -11,6 +12,7 @@ interface InputValidBoxProps
   text?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  checked?: boolean;
 }
 
 export default function InputValidBox({
@@ -18,6 +20,7 @@ export default function InputValidBox({
   text,
   onClick,
   onChange,
+  checked,
 }: InputValidBoxProps) {
   const handleClick: MouseEventHandler<HTMLButtonElement> = (event) =>
     onClick && onClick(event);
@@ -25,9 +28,13 @@ export default function InputValidBox({
   return (
     <div className="inputvalidBoxContainer">
       <input type={type} placeholder={text} onChange={onChange} />
-      <button type="button" onClick={handleClick}>
-        중복확인
-      </button>
+      {!checked ? (
+        <button type="button" onClick={handleClick}>
+          중복확인
+        </button>
+      ) : (
+        <img src={checkImg} alt="" />
+      )}
     </div>
   );
 }
@@ -41,4 +48,5 @@ InputValidBox.defaultProps = {
   onChange: () => {
     return null;
   },
+  checked: false,
 };
