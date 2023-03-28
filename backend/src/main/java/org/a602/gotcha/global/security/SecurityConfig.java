@@ -23,10 +23,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+	public static final String SERVER_URL_PATTERN = "https://j8a602.p.ssafy.io";
 	private final JwtTokenProvider jwtTokenProvider;
 	public static final String HEAD = "HEAD";
 	public static final String OPTIONS = "OPTIONS";
-	public static final String ALLOW_ORIGIN_PATTERN = "https://j8a602.p.ssafy.io/api/*";
 	public static final String ALLOW_PATTERN = "*";
 	public static final String FRONT_URL_PATTERN = "http://localhost:3000";
 	public static final String POST = "POST";
@@ -81,8 +81,6 @@ public class SecurityConfig {
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 		// 커스텀 필터를 ID/PW 기반으로 인증하는 기본 필터 앞에 넣어서 먼저 인증을 시도하게 한다.
 
-
-
 		return httpSecurity.build();
 	}
 
@@ -95,7 +93,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOriginPatterns(List.of(FRONT_URL_PATTERN));
+		corsConfiguration.setAllowedOrigins(List.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
 		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
 		corsConfiguration.setAllowCredentials(true);
