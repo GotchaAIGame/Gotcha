@@ -25,25 +25,23 @@ public class ParticipantQueryRepository {
     public List<Participant> getTop3Rank(Long roomId) {
         return query.selectFrom(participant)
                 .join(participant.room, room)
-                .fetchJoin()
                 .where(participant.room.id.eq(roomId))
-                .orderBy(participant.duration.asc())
+                .orderBy(
+                        participant.solvedCnt.desc(),
+                        participant.duration.asc())
                 .limit(3)
                 .fetch();
     }
 
-    public long getParticipantRank(Long roomId, Long participantId) {
-        // Find the participant by ID and get their duration
-        Duration participantDuration = query.select(participant.duration)
-                .from(participant)
-                .where(participant.id.eq(participantId))
-                .fetchOne();
+    public long getParticipantRank(Long roomId, Duration participantDuration, Integer participantSolvedCnt) {
 
         // Count the number of participants with a lower duration in the same room
         long rank = query.selectFrom(participant)
                 .join(participant.room, room)
-                .where(participant.room.id.eq(roomId))
-                .where(participant.duration.lt(participantDuration))
+                .where(
+                        participant.room.id.eq(roomId),
+                        participant.solvedCnt.goe(participantSolvedCnt),
+                        participant.duration.lt(participantDuration))
                 .fetch().size();
 
         // Add 1 to the rank to get the participant's actual rank (since ranks start at 1)

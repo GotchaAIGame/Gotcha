@@ -50,13 +50,16 @@ public class Participant extends BaseTime {
     private Room room;
 
     @Builder
-    public Participant(String nickname, String password, Room room, Boolean isFinished, LocalDateTime startTime, Duration duration) {
+    public Participant(String nickname, String password, String phoneNumber, Duration duration, Boolean isFinished, Integer solvedCnt, LocalDateTime startTime, LocalDateTime endTime, Room room) {
         this.nickname = nickname;
         this.password = password;
-        this.room = room;
-        this.isFinished = isFinished;
-        this.startTime = startTime;
+        this.phoneNumber = phoneNumber;
         this.duration = duration;
+        this.isFinished = isFinished;
+        this.solvedCnt = solvedCnt;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.room = room;
     }
 
     public void updateStartTime(LocalDateTime startTime) {

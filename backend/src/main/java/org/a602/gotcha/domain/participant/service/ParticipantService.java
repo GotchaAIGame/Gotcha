@@ -130,6 +130,7 @@ public class ParticipantService {
                         .nickname(curr.getNickname())
                         .duration(convertDuration(curr.getDuration()))
                         .isUser(true)
+                        .solvedCnt(curr.getSolvedCnt())
                         .build());
             } else {
                 result.add(ParticipantRankListResponse.builder()
@@ -137,17 +138,19 @@ public class ParticipantService {
                         .nickname(curr.getNickname())
                         .duration(convertDuration(curr.getDuration()))
                         .isUser(false)
+                        .solvedCnt(curr.getSolvedCnt())
                         .build());
             }
         }
         // 3등 안에 유저가 없다면 유저 등수를 찾아 더하여 반환
-        if(!flag) {
-            Long grade = participantQueryRepository.getParticipantRank(request.getRoomId(), participant.getId());
+        if (!flag) {
+            Long grade = participantQueryRepository.getParticipantRank(request.getRoomId(), participant.getDuration(), participant.getSolvedCnt());
             result.add(ParticipantRankListResponse.builder()
                     .grade(grade)
                     .nickname(participant.getNickname())
                     .duration(convertDuration(participant.getDuration()))
                     .isUser(true)
+                    .solvedCnt(participant.getSolvedCnt())
                     .build());
         }
         return result;

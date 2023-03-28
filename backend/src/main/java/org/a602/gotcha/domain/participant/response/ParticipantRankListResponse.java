@@ -25,4 +25,7 @@ public class ParticipantRankListResponse {
     @Schema(description = "본인 여부")
     private Boolean isUser;
 
+    @Schema(description = "푼 문제")
+    private Integer solvedCnt;
+
 }
