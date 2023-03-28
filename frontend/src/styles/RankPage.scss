@@ -126,3 +126,62 @@
     }
   }
 }
+
+// 이벤트 참여하기 모달
+.modal-five {
+  p,
+  h5 {
+    text-align: left;
+  }
+}
+
+// 경품보기 모달
+.modal-six {
+  top: 17%;
+  .modal-content {
+    height: 85%;
+    width: 90%;
+    overflow: scroll;
+
+    background-image: url("../assets/fullBGPattern.svg");
+    background-color: $blue-1;
+    .modal-innerText {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .rank-one,
+      .rank-two,
+      .rank-three {
+        width: 300px;
+        border-radius: 10px;
+        background-color: white;
+        border: 1px solid $gray-1;
+        box-shadow: 3px 3px $gray-1;
+        margin: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .medal {
+          width: 45px;
+          position: relative;
+          top: -20px;
+          left: -100px;
+        }
+        img {
+          max-width: 250px;
+          margin: -20px;
+        }
+      }
+      p {
+        .h5-text {
+          color: $gray-3;
+          font-weight: 900;
+          margin-bottom: 10px;
+        }
+        color: $gray-3;
+        text-align: left;
+        max-width: 300px;
+      }
+    }
+  }
+}

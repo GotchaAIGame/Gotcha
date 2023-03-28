@@ -3,6 +3,7 @@
 .inputvalidBoxContainer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0.5rem auto;
   width: 325px;
   height: 63px;
@@ -24,5 +25,11 @@
     background-color: transparent;
     color: $green;
     cursor: pointer;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
   }
 }

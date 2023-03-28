@@ -1,10 +1,26 @@
 @import "@styles/Colors.scss";
 
-.inputBoxWrapper {
+.common-input-box-container {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0.5rem auto;
-  width: 305px;
-  height: 53px;
+  width: 325px;
+  height: 63px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: $gray-1;
   border-radius: 10px;
-  border: 2px solid $gray-1;
+  background-color: white;
+  .inputBoxWrapper {
+    padding: 5px 10px;
+    border: 0;
+    background-color: transparent;
+    outline-style: none;
+  }
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
 }
