@@ -9,7 +9,7 @@ export default function PlayerNewGamePage() {
     <div className="player-info-container">
       <header>
         <Link to="/">
-          <img src={logo} alt="로고" />
+          <img className="logo-img" src={logo} alt="로고" />
         </Link>
       </header>
       <NewPlayerInfo />
