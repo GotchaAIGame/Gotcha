@@ -34,7 +34,7 @@ public class MemberService {
 	public Long signup(final MemberSignupRequest memberSignupRequest) {
 		final Member member = memberRepository.save(memberSignupRequest.toEntity());
 		member.encodePassword(passwordEncoder);
-		member.addDefaultRegistrationId();
+		member.insertDefaultRegistrationId();
 
 		return member.getId();
 	}
