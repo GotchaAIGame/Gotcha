@@ -2,67 +2,61 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface gameState {
   brandColor: string;
-  logo_url: string;
+  logoUrl: string;
   title: string;
-  event_url: string;
-  code: string;
+  eventUrl: string;
   description: string;
-  has_reward: boolean;
-  start_date: string;
-  end_date: string;
-  problems: {
-    description: string;
-    hint: string;
-    name: string;
-    // image: {};
-  };
+  hasReward: boolean;
+  startTime: string;
+  endTime: string;
+  problems: object[];
+}
+
+interface problemState {
+  image: string;
+  name: string;
+  description: string;
+  hint: string;
 }
 
 const initialState: gameState = {
   brandColor: "5551FF",
-  logo_url: "",
+  logoUrl: "",
   title: "",
-  event_url: "",
-  code: "",
+  eventUrl: "",
   description: "",
-  has_reward: false,
-  start_date: "",
-  end_date: "",
-  problems: {
-    description: "",
-    hint: "",
-    name: "",
-    // image: {};
-  },
+  hasReward: false,
+  startTime: "",
+  endTime: "",
+  problems: [],
 };
 
 export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    // 초기 게임 생성
+    // 초기 정보 생성
     setGame: (
       state,
       action: PayloadAction<{
         title: string;
         description: string;
-        start_date: string;
-        end_date: string;
-        problems: {
-          description: string;
-          hint: string;
-          name: string;
-        };
+        startTime: string;
+        endTime: string;
       }>
     ) => {
       return {
         ...state,
         title: action.payload.title,
         description: action.payload.description,
-        start_date: action.payload.start_date,
-        end_date: action.payload.end_date,
-        problems: action.payload.problems,
+        startTime: action.payload.startTime,
+        endTime: action.payload.endTime,
       };
+    },
+
+    // 게임 문제 추가
+    newProblem: (state, action: PayloadAction<problemState>) => {
+      state.problems.push(action.payload);
     },
 
     // 게임 커스텀
@@ -75,17 +69,8 @@ export const gameSlice = createSlice({
     ) => {
       return {
         ...state,
-        brandColor: action.payload.brandColor,
         logo_url: action.payload.logoUrl,
-      };
-    },
-
-    // 로그아웃
-    setLogout: (state) => {
-      return {
-        ...state,
-        userId: "",
-        isLogin: false,
+        brandColor: action.payload.brandColor,
       };
     },
   },

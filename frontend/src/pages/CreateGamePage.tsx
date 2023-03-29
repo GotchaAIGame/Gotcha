@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
 import InputGameInfo from "@components/CreateGame/InputGameInfo";
 import GameCardCarousel from "@components/CreateGame/GameCardCarousel";
 import helpButton from "@assets/helpButton.svg";
@@ -11,28 +12,33 @@ import { creatorAPI } from "@apis/apis";
 
 export default function CreateGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
+  const gameInfo = useSelector((state: any) => state.game);
+  const navigate = useNavigate();
 
   const tempHelperHandler = () => {
     setNeedHelp(!needHelp);
   };
 
-  const tempPost = () => {
-    const result = creatorAPI.createGameRoom();
-    result
-      .then((res) => {
-        console.log(res, "됐다");
-      })
-      .catch((res) => {
-        console.log(res, "안됐다");
-      });
+  const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // e.preventDefault();
+    console.log(gameInfo);
+    if (!gameInfo.problems.image) {
+      console.log("문제 미입력");
+    } else {
+      const result = creatorAPI.createGameRoom(gameInfo);
+      result
+        .then((res) => {
+          console.log(res, "됐다");
+          navigate("/creator");
+        })
+        .catch((res) => {
+          console.log(res, "안됐다");
+        });
+    }
   };
 
   return (
     <div>
-      <button type="button" onClick={tempPost}>
-        {" "}
-        post확인
-      </button>
       <Grid container className="create-game-grid-container">
         {needHelp ? (
           <Grid item xs={11} md={9}>
@@ -56,9 +62,7 @@ export default function CreateGamePage() {
           />
         </button>
       </Grid>
-      <Link to="/custom/game">
-        <Button text="다음" />
-      </Link>
+      <Button text="생성" onClick={postGameCreate} />
     </div>
   );
 }
