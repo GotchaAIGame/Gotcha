@@ -2,6 +2,7 @@ package org.a602.gotcha.domain.member.controller;
 
 import javax.validation.Valid;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.a602.gotcha.domain.member.response.MemberInformationResponse;
 import org.a602.gotcha.domain.member.response.MemberLoginResponse;
 import org.a602.gotcha.domain.member.service.MemberService;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Tag(name = "Member", description = "유저(출제자) 관련 API")
 public class MemberController {
 
 	private final MemberService memberService;

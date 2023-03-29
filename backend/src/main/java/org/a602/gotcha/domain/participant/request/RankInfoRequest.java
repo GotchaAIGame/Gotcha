@@ -14,8 +14,8 @@ import javax.validation.constraints.Positive;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "참여자 로그인 요청")
-public class ParticipantLoginRequest {
+@Schema(description = "랭킹 확인 요청")
+public class RankInfoRequest {
 
     @NotNull
     @Positive
@@ -25,9 +25,5 @@ public class ParticipantLoginRequest {
     @NotBlank
     @Schema(description = "유저 닉네임")
     private String nickname;
-
-    @NotNull
-    @Schema(description = "비밀번호")
-    private Integer password;
 
 }

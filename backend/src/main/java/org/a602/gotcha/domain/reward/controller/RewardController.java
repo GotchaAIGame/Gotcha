@@ -2,6 +2,7 @@ package org.a602.gotcha.domain.reward.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.reward.request.DeleteRewardRequest;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-
+@Tag(name = "Reward", description = "보상 정보 관리 API")
 public class RewardController {
     private final RewardService rewardService;
 

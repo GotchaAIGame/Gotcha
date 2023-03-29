@@ -7,6 +7,7 @@ import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -38,8 +39,8 @@ class RoomServiceTest {
     @Mock
     private RewardRepository rewardRepository;
 
-    String ROOM_CODE = "ABCD";
-    String INVALID_ROOM_CODE = "EFGH";
+    int ROOM_CODE = 602602;
+    int INVALID_ROOM_CODE = 111111;
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
     @Value("${cloud.aws.s3.bucket}")
@@ -175,4 +176,35 @@ class RoomServiceTest {
 //        }
 
     }
+    @Nested
+    @DisplayName("getEventDetail 메소드는")
+    class GetEventDetail {
+        @Test
+        @DisplayName("방 정보가 없을 경우 RoomNotFoud 예외 발생")
+        void notValidRoomId() {
+            // when
+            when(roomRepository.findById(eq(INVALID_ROOM_ID))).thenReturn(Optional.empty());
+            // then
+            assertThrows(RoomNotFoundException.class, () -> roomService.getEventDetail(INVALID_ROOM_ID));
+        }
+
+        @Test
+        @DisplayName("방 정보가 유효하다면 이벤트 상세 내용 반환")
+        void getEventDetail() {
+            // given
+            String EVENT_DESC = "이벤트 상세내용";
+            String EVENT_URL = "이벤트 URL";
+            Room gameRoom = Room.builder()
+                    .eventDesc(EVENT_DESC)
+                    .eventUrl(EVENT_URL)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(gameRoom));
+            // then
+            EventDetailResponse result = roomService.getEventDetail(ROOM_ID);
+            assertEquals(EVENT_DESC, result.getEventDesc());
+            assertEquals(EVENT_URL, result.getEventUrl());
+        }
+    }
+
 }

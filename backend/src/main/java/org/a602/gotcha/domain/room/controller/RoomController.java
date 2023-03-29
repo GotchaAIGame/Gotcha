@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.a602.gotcha.domain.room.request.CloseRoomRequest;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
+import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.domain.room.service.RoomService;
@@ -40,18 +41,26 @@ public class RoomController {
 
     @Operation(description = "우승 상품 확인하기 API", summary = "우승 상품 확인하기 API")
     @ApiResponse(responseCode = "200", description = "우승 상품 불러오기 성공", content = @Content(schema = @Schema(implementation = RewardListResponse.class)))
-    @ApiResponse(responseCode = "404", description = "우승 상품 찾을 수 없음")
+    @ApiResponse(responseCode = "404", description = "1. 방을 찾을 수 없음 \t\n 2. 우승 상품 찾을 수 없음")
     @GetMapping("/game/reward")
     public BaseResponse<List<RewardListResponse>> getGameRewardList(@RequestParam Long roomId) {
         List<RewardListResponse> rewardList = roomService.getGameRewardList(roomId);
         return new BaseResponse<>(rewardList);
     }
 
+    @Operation(description = "이벤트 상세 내용 확인하기 API", summary = "이벤트 상세 내용 확인하기 API")
+    @ApiResponse(responseCode = "200", description = "이벤트 상세 내용 불러오기 성공", content = @Content(schema = @Schema(implementation = EventDetailResponse.class)))
+    @ApiResponse(responseCode = "404", description = "방 정보 찾기 실패")
+    @GetMapping("/game/detail")
+    public BaseResponse<EventDetailResponse> getEventDetail(@RequestParam Long roomId) {
+        EventDetailResponse eventDetail = roomService.getEventDetail(roomId);
+        return new BaseResponse<>(eventDetail);
+    }
+
     @PostMapping("/set/room")
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
     public BaseResponse<Void> createRoom(@RequestBody CreateRoomRequest request) {
-
         roomService.createRoom(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
