@@ -51,7 +51,7 @@ public class JwtTokenProvider {
 		Claims claims = Jwts.claims().setSubject(member.getEmail());
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
-		final long accessTokenValidSecond = Duration.ofMinutes(15).toMillis(); //access  토큰 유효시간 15분
+		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
 		final Date now = new Date();
 
 		return Jwts.builder()
@@ -65,7 +65,7 @@ public class JwtTokenProvider {
 	// refreshToken 생성.
 	public String createRefreshToken(final String accessToken, final String email) {
 		//		final RefreshToken refreshToken = new RefreshToken(accessToken, UUID.randomUUID().toString());
-		final long refreshTokenValidSecond = Duration.ofDays(7).toMillis(); //refresh  토큰 유효시간 7일
+		final long refreshTokenValidSecond = Duration.ofDays(14).toMillis(); //refresh토큰 유효시간
 		final Date now = new Date();
 
 		final String refreshToken = Jwts.builder()
