@@ -186,12 +186,12 @@ public class ParticipantService {
         }
     }
 
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+    private String encodePassword(Integer password) {
+        return passwordEncoder.encode(password.toString());
     }
 
-    private boolean matchPassword(String rawPassword, String encodePassword) {
-        return passwordEncoder.matches(rawPassword, encodePassword);
+    private boolean matchPassword(Integer rawPassword, String encodePassword) {
+        return passwordEncoder.matches(rawPassword.toString(), encodePassword);
     }
 
     private String convertDuration(Duration duration) {

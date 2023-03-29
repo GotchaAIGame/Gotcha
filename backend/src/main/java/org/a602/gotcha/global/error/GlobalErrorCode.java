@@ -22,7 +22,7 @@ public enum GlobalErrorCode {
     LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
     ROOM_NOT_FOUND(404, "R100", "존재하지 않는 방입니다"),
     ROOM_EXPIRED(403, "R200", "해당 게임방에 접근할 수 없습니다."),
-    PROBLEM_NOT_FOUND(400, "PR100", "존재하지 않는 문제 입니다."),
+    PROBLEM_NOT_FOUND(404, "PR100", "존재하지 않는 문제 입니다."),
     DUPLICATED_PARTICIPANT(400, "P100", "닉네임이 일치하는 참가자가 있습니다."),
     PARTICIPANT_NOT_FOUND(404, "P200", "해당하는 유저가 없습니다"),
     INVALID_PHONE_NUMBER(400, "P300", "잘못된 형태의 휴대폰 입력입니다"),

@@ -26,8 +26,8 @@ public class ParticipantLoginRequest {
     @Schema(description = "유저 닉네임")
     private String nickname;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "비밀번호")
-    private String password;
+    private Integer password;
 
 }
