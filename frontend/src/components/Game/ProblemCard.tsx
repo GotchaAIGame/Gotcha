@@ -97,6 +97,7 @@ function ProblemCard(props: problemProps) {
                 color="skyblue"
                 onClick={() => {
                   console.log("안녕하세요");
+                  setOpen(false);
                 }}
               />
             </div>
