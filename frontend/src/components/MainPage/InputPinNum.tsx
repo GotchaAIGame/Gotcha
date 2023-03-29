@@ -1,22 +1,36 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { gamePlayAPI } from "@apis/apis";
 
 export default function InputPinNum() {
-  const [inputPin, setInputPin] = useState<number>(0);
+  const [inputPin, setInputPin] = useState<any>("");
+  const navigate = useNavigate();
 
   const checkingMember = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target.value;
-    const newTarget = target ? parseInt(target, 10) : 0;
+    const newTarget = target ? parseInt(target, 10) : null;
     setInputPin(newTarget);
   };
 
+  // string 막기
   const rejoinHandler = () => {
-    if (inputPin == null) {
-      console.log("입력값이 없습니다.");
-      return;
+    // Pin번호 6자리
+    if (inputPin.toString().length === 6) {
+      const request = gamePlayAPI.enter(inputPin);
+      request
+        .then((res) => {
+          navigate("/rejoin");
+          setInputPin("");
+        })
+        .catch((err) => {
+          alert("유효하지 않은 방입니다.");
+          console.error(err);
+          setInputPin("");
+        });
+    } else {
+      alert("6자리의 PIN번호를 모두 입력해주세요.");
+      setInputPin("");
     }
-    const res = gamePlayAPI.enter(inputPin);
   };
 
   return (
@@ -28,9 +42,9 @@ export default function InputPinNum() {
         value={inputPin}
       />
       <button type="submit">시작하기</button>
-      <Link to="/rejoin" className="rejoin-link" onClick={rejoinHandler}>
+      <button className="rejoin-link" type="button" onClick={rejoinHandler}>
         <h3>게임에 이미 참여하신 적이 있나요?</h3>
-      </Link>
+      </button>
     </div>
   );
 }
