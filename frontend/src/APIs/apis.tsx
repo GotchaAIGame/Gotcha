@@ -5,6 +5,13 @@ import request from "./agents";
 const gamePlayAPI = {
   enter: (roomCode: number): Promise<AxiosResponse> =>
     request.get("/game/enter", { params: { roomCode } }),
+  // 게임 신규참여
+  start: (
+    roomId: number,
+    nickname: string,
+    startTime: string
+  ): Promise<AxiosResponse> =>
+    request.post("/game/start", { params: { roomId, nickname, startTime } }),
   // 게임 재참여
   rejoin: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/rejoin", { params: { roomId, nickname } }),
