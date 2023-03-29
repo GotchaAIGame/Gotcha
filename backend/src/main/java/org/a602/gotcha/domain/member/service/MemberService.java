@@ -3,7 +3,6 @@ package org.a602.gotcha.domain.member.service;
 import static org.a602.gotcha.global.security.JwtTokenProvider.*;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
@@ -50,10 +49,9 @@ public class MemberService {
 
 	@Transactional(readOnly = true)
 	public MemberLoginResponse login(final MemberLoginRequest memberLoginRequest) {
-		final Optional<Member> memberByEmail = memberRepository.findMemberByEmail(memberLoginRequest.getEmail());
-		memberByEmail.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+		final Member member = memberRepository.findMemberByEmail(memberLoginRequest.getEmail())
+			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
 
-		final Member member = memberByEmail.get();
 		String accessToken;
 		String refreshToken;
 
