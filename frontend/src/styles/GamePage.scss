@@ -244,7 +244,6 @@ input.invisible {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .AIModal-content {
@@ -420,20 +419,21 @@ input.invisible {
 
 // image editor
 .image-editor-content {
-  position: relative;
-  max-height: 90vh;
-  max-width: 90vw;
+  position: fixed;
   background-color: white;
+  max-width: 80%;
+  max-height: 80%;
+  top: 50%;
+  left: 50%;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform: translate(-50%, -50%);
 
   .image-editor-image {
     margin: 10px;
-    max-height: 78%;
-    max-width: 90%;
-    border: 1px solid black;
+    overflow: inherit;
   }
 
   .image-editor-buttons {

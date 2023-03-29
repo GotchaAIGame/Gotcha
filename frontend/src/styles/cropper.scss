@@ -8,6 +8,8 @@
  * Date: 2022-11-20T05:30:43.444Z
  */
 
+@import "@styles/Colors.scss";
+
 .cropper-container {
   direction: ltr;
   font-size: 0;
@@ -26,7 +28,7 @@
   backface-visibility: hidden;
   display: block;
   height: 100%;
-  image-orientation: 0deg;
+  image-orientation: 130deg;
   max-height: none !important;
   max-width: none !important;
   min-height: 0 !important;
@@ -276,7 +278,7 @@
 }
 
 .cropper-bg {
-  background-color: white;
+  background-color: $gray-3;
 }
 
 .cropper-hide {
