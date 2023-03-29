@@ -1,7 +1,6 @@
 import React, { ChangeEventHandler, useRef } from "react";
 import checkImg from "@assets/check.svg";
 import "./styles/InputBox.scss";
-import classNames from "classnames";
 
 interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   text?: string;
@@ -20,7 +19,6 @@ export default function InputBox({
   return (
     <div className="common-input-box-container">
       <input
-        className={classNames("inputBoxWrapper")}
         type={type}
         placeholder={text}
         onChange={onChange}

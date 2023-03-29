@@ -5,8 +5,6 @@ import { useSelector } from "react-redux";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
 import "@styles/MainPage.scss";
-import Button from "@components/common/Button";
-// import Modal from "@components/common/Modal";
 
 export default function MainPage() {
   const email = useSelector((state: any) => state.users.email);
@@ -18,9 +16,6 @@ export default function MainPage() {
       <h3>Main</h3>
       {nickname && <p>{nickname}님, 어서오세요!</p>}
       <InputPinNum />
-      <Link to="/rejoin" className="rejoin-link">
-        <h3>게임에 이미 참여하신 적이 있나요?</h3>
-      </Link>
 
       {/* 임시 바로가기 모음 */}
       <div className="temps-container">
@@ -54,7 +49,7 @@ export default function MainPage() {
           <button type="button">새 게임 페이지</button>
         </Link>
         <Link to="/modalTest/2">
-          <button type="button"> 모달 테스트 페이지 2 </button>
+          <button type="button"> 각종 TEST Page </button>
         </Link>
       </div>
     </div>

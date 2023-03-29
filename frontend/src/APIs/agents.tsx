@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { axiosInstance, newInstance, requestConfig } from "./configs";
+import { requestConfig, axiosInstance, newInstance, axiosInstancePython } from "./configs";
 
 const responseBody = (response: AxiosResponse) => {
   // console.log(response);
@@ -12,12 +12,13 @@ const requests = {
 
   post: (url: string, data: any, config?: requestConfig) =>
     axiosInstance.post(url, data, config).then(responseBody),
-
   put: (url: string, data: any, config?: requestConfig) =>
     axiosInstance.put(url, data, config).then(responseBody),
 
   delete: (url: string, config?: requestConfig) =>
     axiosInstance.delete(url, config).then(responseBody),
+  postPython: (url: string, data: any, config: requestConfig) =>
+    axiosInstancePython.post(url, data, config).then(responseBody),
 
   // Creator Token 검증
   authGet: (url: string, config?: requestConfig) =>
