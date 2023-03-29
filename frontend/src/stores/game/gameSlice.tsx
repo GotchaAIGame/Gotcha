@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 
 interface gameState {
   brandColor: string;
@@ -19,6 +19,8 @@ interface problemState {
   hint: string;
 }
 
+// interface listProblemState {Record<names, number>}
+
 const initialState: gameState = {
   brandColor: "5551FF",
   logoUrl: "",
@@ -28,7 +30,14 @@ const initialState: gameState = {
   hasReward: false,
   startTime: "",
   endTime: "",
-  problems: [],
+  problems: [
+    {
+      image: "",
+      name: "",
+      description: "",
+      hint: "",
+    },
+  ],
 };
 
 export const gameSlice = createSlice({
@@ -54,9 +63,36 @@ export const gameSlice = createSlice({
       };
     },
 
-    // 게임 문제 추가
-    newProblem: (state, action: PayloadAction<problemState>) => {
-      state.problems.push(action.payload);
+    // 게임 문제창 추가
+    addProblem: (state) => {
+      state.problems.push({
+        image: "",
+        name: "",
+        description: "",
+        hint: "",
+      });
+    },
+
+    // 게임 문제 내용 반영
+    setProblem: (
+      state,
+      action: PayloadAction<{ problemState: problemState; idx: number }>
+    ) => {
+      const { problemState, idx } = action.payload;
+      // console.log(problemState, "state");
+
+      const newProblems = state.problems.map((data, dataIdx) => {
+        let tempData = data;
+        if (dataIdx === idx) {
+          tempData = problemState;
+        }
+        return tempData;
+      });
+
+      return {
+        ...state,
+        problems: newProblems,
+      };
     },
 
     // 게임 커스텀
@@ -76,5 +112,6 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setGame, setGameCustom } = gameSlice.actions;
+export const { setGame, addProblem, setProblem, setGameCustom } =
+  gameSlice.actions;
 export default gameSlice.reducer;

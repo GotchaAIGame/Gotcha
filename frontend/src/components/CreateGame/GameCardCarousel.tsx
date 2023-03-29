@@ -1,28 +1,36 @@
+/* eslint-disable */
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addProblem } from "@stores/game/gameSlice";
 import GameCard from "./GameCard";
-import UploadTest from "./UploadTest";
+// import UploadTest from "./UploadTest";
 
 export default function GameCardCarousel() {
-  const [problemCount, setProblemCount] = useState<number>(1);
+  const gameInfo = useSelector((state: any) => state.game);
+  const problemsInfo = gameInfo.problems;
 
-  const problemCountArr = Array.from({ length: problemCount }, (_, i) => i);
+  const dispatch = useDispatch();
 
-  const problemCountHandler = () => {
-    setProblemCount(problemCount + 1);
+  const addProblemHandler = () => {
+    console.log(gameInfo.problems);
+    dispatch(addProblem());
   };
 
   return (
     <div className="cards-and-plusbutton-container">
+      {problemsInfo.length &&
+        problemsInfo.map((data: any, index: number) => (
+          <div key={index}>
+            {/* <p>{index}</p> */}
+            <GameCard index={index} />
+          </div>
+        ))}
+      {/* <GameCard /> */}
       {/* <UploadTest /> */}
-      {problemCountArr.map((index) => (
-        <div key={index}>
-          {/* <p>{index}</p> */}
-          <GameCard key={index} />
-        </div>
-      ))}
+
       <button
         type="button"
-        onClick={problemCountHandler}
+        onClick={addProblemHandler}
         className="add-img-button"
       >
         +

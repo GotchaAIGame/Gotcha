@@ -22,7 +22,7 @@ export default function CreateGamePage() {
   const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
     console.log(gameInfo);
-    if (!gameInfo.problems.image) {
+    if (!gameInfo.problems[0].image) {
       console.log("문제 미입력");
     } else {
       const result = creatorAPI.createGameRoom(gameInfo);
