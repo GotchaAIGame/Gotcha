@@ -33,6 +33,17 @@ async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(
         'similarity' : similarity
     }
 
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return (fibonacci(n-1) + fibonacci(n-2))
+
+@app.get("/load-test/{number}")
+def load_test(number: int):
+    result = fibonacci(number)
+    return {"result": result}
+
 
 
 
