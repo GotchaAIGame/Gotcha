@@ -39,8 +39,8 @@ class RoomServiceTest {
     @Mock
     private RewardRepository rewardRepository;
 
-    String ROOM_CODE = "ABCD";
-    String INVALID_ROOM_CODE = "EFGH";
+    int ROOM_CODE = 602602;
+    int INVALID_ROOM_CODE = 111111;
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
     @Value("${cloud.aws.s3.bucket}")
