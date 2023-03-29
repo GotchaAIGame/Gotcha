@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "@styles/cropper.scss";
 import Button from "@components/common/Button";
+import AIModal from "./AIModal";
 
 interface problemProps {
   problem: {
@@ -14,18 +15,34 @@ interface problemProps {
 
 function ProblemCard(props: problemProps) {
   const uploadImage = useRef<HTMLInputElement>(null);
-  const { problem } = props;
-  const { problemId, problemName, problemDesc, problemImgURL } = problem;
-  const [open, setOpen] = useState(false);
+  const croppedImageRef = useRef<ReactCropperElement>(null);
+
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [AIModalOpen, setAIModalOpen] = useState(false);
+  const [croppedImage, setCroppedImage] = useState<string>("");
+  const [resultStatus, setResultStatus] = useState<number>(0);
   const [Image, setImage] = useState<string>("");
 
+  const { problem } = props;
+  const { problemId, problemName, problemDesc, problemImgURL } = problem;
   const hasImage = false;
+
+  const cropperHandler = () => {
+    if (typeof croppedImageRef.current?.cropper !== "undefined") {
+      const tempCroppedImage = croppedImageRef.current?.cropper
+        .getCroppedCanvas()
+        .toDataURL();
+
+      setCroppedImage(tempCroppedImage);
+      setAIModalOpen(true);
+    }
+  };
 
   const uploadHandler = () => {
     const files = uploadImage.current?.files;
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
-      setOpen(true);
+      setEditorOpen(true);
       setImage(fileURL);
     }
   };
@@ -66,14 +83,14 @@ function ProblemCard(props: problemProps) {
           </div>
         </div>
       </div>
-      {open && (
+      {editorOpen && (
         <div className="image-editior-wrapper">
           <div
             className="image-editor-overlay"
             onClick={() => {
-              return setOpen(false);
+              return setEditorOpen(false);
             }}
-            onKeyDown={() => setOpen(false)}
+            onKeyDown={() => setEditorOpen(false)}
             role="presentation"
           />
           <div className="image-editor-content">
@@ -89,6 +106,7 @@ function ProblemCard(props: problemProps) {
                 minCropBoxWidth={100}
                 viewMode={1}
                 background={false}
+                ref={croppedImageRef}
               />
             </div>
             <div className="image-editor-buttons">
@@ -97,13 +115,23 @@ function ProblemCard(props: problemProps) {
                 color="skyblue"
                 onClick={() => {
                   console.log("안녕하세요");
-                  setOpen(false);
+                  cropperHandler();
+                  setEditorOpen(false);
                 }}
               />
             </div>
           </div>
         </div>
       )}
+      <AIModal
+        imageURL={croppedImage}
+        open={AIModalOpen}
+        openHandler={() => setAIModalOpen(false)}
+        resultStatus={resultStatus}
+        resultHandler={(status: number) => {
+          setResultStatus(status);
+        }}
+      />
     </>
   );
 }

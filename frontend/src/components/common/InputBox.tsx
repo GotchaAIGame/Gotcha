@@ -18,12 +18,7 @@ export default function InputBox({
 }: InputBoxProps) {
   return (
     <div className="common-input-box-container">
-      <input
-        type={type}
-        placeholder={text}
-        onChange={onChange}
-        {...rest}
-      />
+      <input type={type} placeholder={text} onChange={onChange} {...rest} />
       {checked && <img src={checkImg} alt="" />}
     </div>
   );

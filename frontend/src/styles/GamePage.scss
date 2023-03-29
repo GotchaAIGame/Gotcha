@@ -285,6 +285,11 @@ input.invisible {
         top: 50%;
         transform: translate(-50%, -50%);
       }
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
     }
   }
 
