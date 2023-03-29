@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.a602.gotcha.CustomSpringBootTest;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.participant.entity.Participant;
-import org.a602.gotcha.domain.participant.request.DuplicateNicknameRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantLoginRequest;
-import org.a602.gotcha.domain.participant.request.ParticipantRegisterRequest;
-import org.a602.gotcha.domain.participant.request.RankInfoRequest;
+import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantRankListResponse;
+import org.a602.gotcha.domain.problem.entity.Problem;
+import org.a602.gotcha.domain.problem.response.ProblemListResponse;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.global.common.BaseResponse;
@@ -49,15 +48,20 @@ class ParticipantControllerTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    private Member member;
     private Long ROOM_ID_WITH_REWARD;
     private Long ROOM_ID_WITHOUT_REWARD;
-    String url = "http://localhost:8080/api/game/";
+    private final Integer USER_PASSWORD = 1234;
+    private final LocalDateTime GAME_START_TIME = LocalDateTime.now();
+    private final LocalDateTime GAME_END_TIME = LocalDateTime.now().plusDays(7);
+    private final LocalDateTime USER_GAME_START_TIME = LocalDateTime.now().plusHours(1);
+    private final LocalDateTime USER_GAME_END_TIME = LocalDateTime.now().plusHours(2);
+    private final int NUMBER_OF_PROBLEMS = 5;
+    private final String url = "http://localhost:8080/api/game/";
 
     @BeforeEach
     void setUp() {
         // 유저(출제자) 생성
-        member = Member.builder()
+        Member member = Member.builder()
                 .email("yezi@naver.com")
                 .organization("naver").build();
         em.persist(member);
@@ -67,8 +71,8 @@ class ParticipantControllerTest {
                 .code(101101)
                 .hasReward(true)
                 .member(member)
-                .startTime(LocalDateTime.now())
-                .endTime((LocalDateTime.now().plusDays(7)))
+                .startTime(GAME_START_TIME)
+                .endTime(GAME_END_TIME)
                 .build();
         em.persist(roomA);
         ROOM_ID_WITH_REWARD = roomA.getId();
@@ -77,8 +81,8 @@ class ParticipantControllerTest {
                 .code(102102)
                 .hasReward(false)
                 .member(member)
-                .startTime(LocalDateTime.now())
-                .endTime((LocalDateTime.now().plusDays(7)))
+                .startTime(GAME_START_TIME)
+                .endTime(GAME_END_TIME)
                 .build();
         em.persist(roomB);
         ROOM_ID_WITHOUT_REWARD = roomB.getId();
@@ -91,8 +95,19 @@ class ParticipantControllerTest {
                     .build();
             em.persist(reward);
         }
+        // 문제 생성
+        for (int i = 1; i <= NUMBER_OF_PROBLEMS; i++) {
+            Problem problem = Problem.builder()
+                    .name("문제" + i)
+                    .description("문제입니다.")
+                    .hint("힌트입니다.")
+                    .imageUrl("url")
+                    .room(roomA)
+                    .build();
+            em.persist(problem);
+        }
         // 참여자 생성(게임완료)
-        String HASH_PWD = passwordEncoder.encode("1234");
+        String HASH_PWD = passwordEncoder.encode(USER_PASSWORD.toString());
         LocalDateTime startTime = LocalDateTime.now().plusHours(1);
         for (int i = 10; i > 0; i--) {
             LocalDateTime endTime = LocalDateTime.now().plusHours(i + 1);
@@ -120,6 +135,18 @@ class ParticipantControllerTest {
                 .room(roomA)
                 .build();
         em.persist(participantA);
+        // 참여자 생성(게임완료-B방)
+        Participant participantA2 = Participant.builder()
+                .nickname("YEZI")
+                .password(HASH_PWD)
+                .startTime(startTime)
+                .endTime(startTime.plusDays(1))
+                .duration(Duration.between(startTime, startTime.plusDays(1)))
+                .solvedCnt(3)
+                .isFinished(true)
+                .room(roomB)
+                .build();
+        em.persist(participantA2);
         // 참여자 생성(게임미완료)
         Participant participantB = Participant.builder()
                 .nickname("TAEGYU")
@@ -130,6 +157,14 @@ class ParticipantControllerTest {
                 .room(roomA)
                 .build();
         em.persist(participantB);
+        // 참여자 생성(가입만 완료)
+        Participant participantC = Participant.builder()
+                .nickname("DASOM")
+                .password(HASH_PWD)
+                .isFinished(false)
+                .room(roomA)
+                .build();
+        em.persist(participantC);
     }
 
     @Nested
@@ -194,7 +229,7 @@ class ParticipantControllerTest {
             ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
                     .roomId(100000000L)
                     .nickname("MINSU")
-                    .password("1234")
+                    .password(USER_PASSWORD)
                     .build();
             mockMvc
                     .perform(post(url + "register")
@@ -210,7 +245,7 @@ class ParticipantControllerTest {
             ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
                     .roomId(ROOM_ID_WITH_REWARD)
                     .nickname("YEZI")
-                    .password("1234")
+                    .password(USER_PASSWORD)
                     .build();
             mockMvc
                     .perform(post(url + "register")
@@ -226,7 +261,7 @@ class ParticipantControllerTest {
             ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
                     .roomId(ROOM_ID_WITH_REWARD)
                     .nickname("MINSU")
-                    .password("1234")
+                    .password(USER_PASSWORD)
                     .build();
             mockMvc
                     .perform(post(url + "register")
@@ -239,7 +274,7 @@ class ParticipantControllerTest {
     }
 
     @Nested
-    @DisplayName("기존 참여자 방에 로그인하기 API")
+    @DisplayName("기존 참여자 방에 로그인하기 API TEST")
     class ParticipantLogin {
 
         @Test
@@ -248,7 +283,7 @@ class ParticipantControllerTest {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
                     .roomId(100000000L)
                     .nickname("YEZI")
-                    .password("1111")
+                    .password(1111)
                     .build();
             mockMvc
                     .perform(post(url + "login")
@@ -264,7 +299,7 @@ class ParticipantControllerTest {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
                     .roomId(ROOM_ID_WITH_REWARD)
                     .nickname("MINSU")
-                    .password("1111")
+                    .password(1111)
                     .build();
             mockMvc
                     .perform(post(url + "login")
@@ -281,7 +316,7 @@ class ParticipantControllerTest {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
                     .roomId(ROOM_ID_WITH_REWARD)
                     .nickname("YEZI")
-                    .password("1111")
+                    .password(1111)
                     .build();
             mockMvc
                     .perform(post(url + "login")
@@ -297,7 +332,7 @@ class ParticipantControllerTest {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
                     .roomId(ROOM_ID_WITH_REWARD)
                     .nickname("YEZI")
-                    .password("1234")
+                    .password(USER_PASSWORD)
                     .build();
             mockMvc
                     .perform(post(url + "login")
@@ -309,21 +344,338 @@ class ParticipantControllerTest {
         }
     }
 
-    @Test
-    @DisplayName("랭킹 확인하기")
-    void getRank() throws Exception {
-        RankInfoRequest request = RankInfoRequest.builder()
-                .roomId(ROOM_ID_WITH_REWARD)
-                .nickname("YEZI")
-                .build();
-        MockHttpServletResponse response = mockMvc.perform(post(url + "rank")
-                        .content(objectMapper.writeValueAsBytes(request))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn()
-                .getResponse();
-        BaseResponse<List<ParticipantRankListResponse>> arrayList = objectMapper.readValue(response.getContentAsString(), BaseResponse.class);
-        assertEquals(4, arrayList.getResult().size());
+    @Nested
+    @DisplayName("게임 신규로 시작하기 API TEST")
+    class NewGameStart {
+
+        @Test
+        @DisplayName("해당하는 방 없음")
+        void invalidRoom() throws Exception {
+            ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
+                    .roomId(100000000L)
+                    .nickname("YEZI")
+                    .startTime(USER_GAME_START_TIME)
+                    .build();
+            mockMvc
+                    .perform(post(url + "start")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("R100")));
+        }
+
+        @Test
+        @DisplayName("해당 유저를 찾을 수 없음")
+        void invalidParticipant() throws Exception {
+            ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("MINSU")
+                    .startTime(USER_GAME_START_TIME)
+                    .build();
+            mockMvc
+                    .perform(post(url + "start")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("P200")));
+        }
+
+        @Test
+        @DisplayName("해당하는 문제 없음")
+        void problemNotFounded() throws Exception {
+            ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
+                    .roomId(ROOM_ID_WITHOUT_REWARD)
+                    .nickname("YEZI")
+                    .startTime(USER_GAME_START_TIME)
+                    .build();
+            mockMvc
+                    .perform(post(url + "start")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("PR100")));
+        }
+
+        @Test
+        @DisplayName("게임 시작하기 성공")
+        void newGameStartSuccess() throws Exception {
+            ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("DASOM")
+                    .startTime(USER_GAME_START_TIME)
+                    .build();
+            MockHttpServletResponse response = mockMvc
+                    .perform(post(url + "start")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(200)))
+                    .andReturn()
+                    .getResponse();
+            BaseResponse<List<ProblemListResponse>> problemList = objectMapper.readValue(response.getContentAsString(), BaseResponse.class);
+            assertEquals(NUMBER_OF_PROBLEMS, problemList.getResult().size());
+        }
     }
 
+    @Nested
+    @DisplayName("게임 재참여하기 API TEST")
+    class RejoinGame {
 
+        @Test
+        @DisplayName("해당하는 방 없음")
+        void invalidRoom() throws Exception {
+            RejoinGameRequest request = RejoinGameRequest.builder()
+                    .roomId(100000000L)
+                    .nickname("YEZI")
+                    .build();
+            mockMvc
+                    .perform(post(url + "rejoin")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("R100")));
+        }
+
+        @Test
+        @DisplayName("해당 유저를 찾을 수 없음")
+        void invalidParticipant() throws Exception {
+            RejoinGameRequest request = RejoinGameRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("MINSU")
+                    .build();
+            mockMvc
+                    .perform(post(url + "rejoin")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("P200")));
+        }
+
+        @Test
+        @DisplayName("해당하는 문제 없음")
+        void problemNotFounded() throws Exception {
+            RejoinGameRequest request = RejoinGameRequest.builder()
+                    .roomId(ROOM_ID_WITHOUT_REWARD)
+                    .nickname("YEZI")
+                    .build();
+            mockMvc
+                    .perform(post(url + "rejoin")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("PR100")));
+        }
+
+        @Test
+        @DisplayName("게임 신규 시작 성공")
+        void gameRestartSuccess() throws Exception {
+            RejoinGameRequest request = RejoinGameRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("TAEGYU")
+                    .build();
+            MockHttpServletResponse response = mockMvc
+                    .perform(post(url + "rejoin")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(200)))
+                    .andReturn()
+                    .getResponse();
+            BaseResponse<List<ProblemListResponse>> problemList = objectMapper.readValue(response.getContentAsString(), BaseResponse.class);
+            assertEquals(NUMBER_OF_PROBLEMS, problemList.getResult().size());
+        }
+
+
+    }
+
+    @Nested
+    @DisplayName("최종 제출 기록 등록하기 API TEST")
+    class RegisterGameRecord {
+
+        @Test
+        @DisplayName("해당하는 방 없음")
+        void invalidRoom() throws Exception {
+            ProblemFinishRequest request = ProblemFinishRequest.builder()
+                    .roomId(100000000L)
+                    .nickname("YEZI")
+                    .solvedCnt(3)
+                    .endTime(USER_GAME_END_TIME)
+                    .build();
+            mockMvc
+                    .perform(post(url + "clear")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("R100")));
+        }
+
+        @Test
+        @DisplayName("해당 유저를 찾을 수 없음")
+        void invalidParticipant() throws Exception {
+            ProblemFinishRequest request = ProblemFinishRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("MINSU")
+                    .solvedCnt(3)
+                    .endTime(USER_GAME_END_TIME)
+                    .build();
+            mockMvc
+                    .perform(post(url + "clear")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("P200")));
+        }
+
+        @Test
+        @DisplayName("유저 기록 등록 성공")
+        void registerRecordSuccess() throws Exception {
+            ProblemFinishRequest request = ProblemFinishRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("TAEGYU")
+                    .solvedCnt(3)
+                    .endTime(USER_GAME_END_TIME)
+                    .build();
+            mockMvc
+                    .perform(post(url + "clear")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(200)));
+        }
+
+    }
+
+    @Nested
+    @DisplayName("휴대폰 번호 입력하기 API TEST")
+    class RegisterPhoneNumber {
+
+        @Test
+        @DisplayName("해당하는 방 없음")
+        void invalidRoom() throws Exception {
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(100000000L)
+                    .nickname("YEZI")
+                    .phoneNumber("010-1111-1111")
+                    .build();
+            mockMvc
+                    .perform(post(url + "phonenumber")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("R100")));
+        }
+
+        @Test
+        @DisplayName("해당 유저를 찾을 수 없음")
+        void invalidParticipant() throws Exception {
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("MINSU")
+                    .phoneNumber("010-1111-1111")
+                    .build();
+            mockMvc
+                    .perform(post(url + "phonenumber")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("P200")));
+        }
+
+        @Test
+        @DisplayName("올바르지 않은 휴대폰 번호 형식")
+        void invalidPhoneNumber() throws Exception {
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("YEZI")
+                    .phoneNumber("01011111111")
+                    .build();
+            mockMvc
+                    .perform(post(url + "phonenumber")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(400)))
+                    .andExpect(jsonPath("$.code", is("P300")));
+        }
+
+        @Test
+        @DisplayName("휴대폰 번호 업데이트 성공")
+        void updatePhoneNumberSuccess() throws Exception {
+            RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("YEZI")
+                    .phoneNumber("010-1111-1111")
+                    .build();
+            mockMvc
+                    .perform(post(url + "phonenumber")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(200)));
+        }
+
+    }
+
+    @Nested
+    @DisplayName("랭킹 확인하기 API TEST")
+    class GetRankList {
+
+        @Test
+        @DisplayName("해당하는 방 없음")
+        void invalidRoom() throws Exception {
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(100000000L)
+                    .nickname("YEZI")
+                    .build();
+            mockMvc
+                    .perform(post(url + "rank")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("R100")));
+        }
+
+        @Test
+        @DisplayName("해당 유저를 찾을 수 없음")
+        void invalidParticipant() throws Exception {
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("MINSU")
+                    .build();
+            mockMvc
+                    .perform(post(url + "rank")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(request))
+                    )
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("P200")));
+        }
+
+        @Test
+        @DisplayName("랭킹 목록 불러오기 성공")
+        void getRank() throws Exception {
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(ROOM_ID_WITH_REWARD)
+                    .nickname("YEZI")
+                    .build();
+            MockHttpServletResponse response = mockMvc.perform(post(url + "rank")
+                            .content(objectMapper.writeValueAsBytes(request))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andReturn()
+                    .getResponse();
+            BaseResponse<List<ParticipantRankListResponse>> arrayList = objectMapper.readValue(response.getContentAsString(), BaseResponse.class);
+            assertEquals(4, arrayList.getResult().size());
+        }
+    }
 }
