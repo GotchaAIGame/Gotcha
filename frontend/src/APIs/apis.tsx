@@ -28,4 +28,8 @@ const memberAPI = {
     request.post("member/login", { email, password }),
 };
 
-export { gamePlayAPI, memberAPI };
+const creatorAPI = {
+  createGameRoom: (): Promise<AxiosResponse> => request.authPost("set/room", {}),
+};
+
+export { gamePlayAPI, memberAPI, creatorAPI };

@@ -50,7 +50,7 @@ export default function LogIn() {
           console.log("저장?");
 
           alert("환영합니다!");
-          // navigate("/creator");
+          navigate("/creator");
         })
         .catch((res) => {
           alert(res);
