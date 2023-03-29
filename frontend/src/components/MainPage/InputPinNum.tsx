@@ -38,7 +38,11 @@ export default function InputPinNum() {
         value={inputPin.toString()}
         onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // 나중에 useRef로 바꾸기
       />
-      <button className="newgame-link" type="button" onClick={() => enterHandler(1)}>
+      <button
+        className="newgame-link"
+        type="button"
+        onClick={() => enterHandler(1)}
+      >
         시작하기
       </button>
       <button

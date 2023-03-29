@@ -51,6 +51,9 @@ export default function MainPage() {
         <Link to="/modalTest/2">
           <button type="button"> 각종 TEST Page </button>
         </Link>
+        <Link to="/crop">
+          <button type="button"> 이미지 크롭 테스트 </button>
+        </Link>
       </div>
     </div>
   );
