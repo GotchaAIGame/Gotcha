@@ -7,6 +7,7 @@ import helpButton from "@assets/helpButton.svg";
 import Button from "@components/common/Button";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
 import "@styles/CreateGamePage.scss";
+import { creatorAPI } from "@apis/apis";
 
 export default function CreateGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
@@ -15,8 +16,23 @@ export default function CreateGamePage() {
     setNeedHelp(!needHelp);
   };
 
+  const tempPost = () => {
+    const result = creatorAPI.createGameRoom();
+    result
+      .then((res) => {
+        console.log(res, "됐다");
+      })
+      .catch((res) => {
+        console.log(res, "안됐다");
+      });
+  };
+
   return (
     <div>
+      <button type="button" onClick={tempPost}>
+        {" "}
+        post확인
+      </button>
       <Grid container className="create-game-grid-container">
         {needHelp ? (
           <Grid item xs={11} md={9}>
