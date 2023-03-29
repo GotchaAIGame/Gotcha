@@ -14,7 +14,7 @@ interface BtnProps {
 }
 
 function Button({ text, type, size, color, onClick, ...rest }: BtnProps) {
-  const handleClick = () => onClick();
+  const handleClick = (e: any) => onClick(e);
 
   let imgSrc = null;
   if (color === "google") {
