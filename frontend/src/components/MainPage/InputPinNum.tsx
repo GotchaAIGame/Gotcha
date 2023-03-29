@@ -13,9 +13,9 @@ export default function InputPinNum() {
       request
         .then(() => {
           if (type === 1) {
-            navigate("/newgame"); // 새게임
+            navigate(`/newgame/${inputPin}`); // 신규참여
           } else if (type === 2) {
-            navigate("/rejoin"); // 재참여
+            navigate(`/rejoin/${inputPin}`); // 재참여
           }
           setInputPin("");
         })
@@ -36,7 +36,7 @@ export default function InputPinNum() {
         type="number"
         placeholder="PIN번호를 입력해주세요"
         value={inputPin.toString()}
-        onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // 나중에 useRef로 바꾸기
+        onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // useRef로 바꿀 것
       />
       <button className="newgame-link" type="button" onClick={() => enterHandler(1)}>
         시작하기
