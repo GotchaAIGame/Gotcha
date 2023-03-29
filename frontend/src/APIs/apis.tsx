@@ -19,15 +19,15 @@ const memberAPI = {
     request.get("member/duplicateNickname", {
       params: { nickname },
     }),
-    signUp: (userInfo: {
-      nickname: string;
-      password: string;
-      organization: string;
-      email: string;
-    }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
-    logIn: (email: string, password: string): Promise<AxiosResponse> =>
-      request.post("member/login", { email, password }),
-  };
+  signUp: (userInfo: {
+    nickname: string;
+    password: string;
+    organization: string;
+    email: string;
+  }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
+  logIn: (email: string, password: string): Promise<AxiosResponse> =>
+    request.post("member/login", { email, password }),
+};
 
 const MLAPI = {
   predict: (formData: FormData): Promise<AxiosResponse> =>

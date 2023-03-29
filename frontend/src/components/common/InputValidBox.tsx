@@ -13,6 +13,7 @@ interface InputValidBoxProps
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   checked?: boolean;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default function InputValidBox({
@@ -21,13 +22,21 @@ export default function InputValidBox({
   onClick,
   onChange,
   checked,
+  inputRef,
 }: InputValidBoxProps) {
   const handleClick: MouseEventHandler<HTMLButtonElement> = (event) =>
     onClick && onClick(event);
 
+  console.log(inputRef);
+
   return (
     <div className="inputvalidBoxContainer">
-      <input type={type} placeholder={text} onChange={onChange} />
+      <input
+        type={type}
+        placeholder={text}
+        onChange={onChange}
+        ref={inputRef}
+      />
       {!checked ? (
         <button type="button" onClick={handleClick}>
           중복확인
@@ -49,4 +58,5 @@ InputValidBox.defaultProps = {
     return null;
   },
   checked: false,
+  inputRef: undefined,
 };
