@@ -16,20 +16,19 @@ const memberAPI = {
     request.get("member/duplicateNickname", {
       params: { nickname },
     }),
-  signUp: (
-    nickname: string,
-    password: string,
-    organization: string,
-    email: string
-    // registrationId?: string
-  ): Promise<AxiosResponse> =>
-    request.post("member/signup", { nickname, password, organization, email }),
+  signUp: (userInfo: {
+    nickname: string;
+    password: string;
+    organization: string;
+    email: string;
+  }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
   logIn: (email: string, password: string): Promise<AxiosResponse> =>
     request.post("member/login", { email, password }),
 };
 
 const creatorAPI = {
-  createGameRoom: (): Promise<AxiosResponse> => request.authPost("set/room", {}),
+  createGameRoom: (): Promise<AxiosResponse> =>
+    request.authPost("set/room", {}),
 };
 
 export { gamePlayAPI, memberAPI, creatorAPI };
