@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import Cropper, { ReactCropperElement } from "react-cropper";
+import "@styles/cropper.scss";
 import Button from "@components/common/Button";
 
 interface problemProps {
@@ -65,15 +67,28 @@ function ProblemCard(props: problemProps) {
         <div className="image-editior-wrapper">
           <div
             className="image-editor-overlay"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              console.log("하하");
+              return setOpen(false);
+            }}
             role="presentation"
           >
             <div className="image-editor-content">
               <div className="image-editor-image">
-                <img src={Image} alt="user-img" />
+                <Cropper
+                  src={Image}
+                  style={{
+                    maxHeight: "70vh",
+                    maxWidth: "80vw",
+                    overflow: "auto",
+                  }}
+                  background
+                  minCropBoxHeight={100}
+                  minCropBoxWidth={100}
+                  viewMode={1}
+                />
               </div>
               <div className="image-editor-buttons">
-                <Button text="이미지 편집" color="darkblue" />
                 <Button text="제출하기" color="skyblue" />
               </div>
             </div>

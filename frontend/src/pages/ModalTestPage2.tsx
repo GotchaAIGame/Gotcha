@@ -61,7 +61,8 @@ export default function ModalTestPage2() {
   const [resultStatus, setResultStatus] = useState(0); // 0 : loading, 1 : correct, 2: wrong
 
   const imgURL =
-    "https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png";
+    // "https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png"; 월계
+    "https://user-images.githubusercontent.com/47023884/228404315-2409f506-04b5-46c1-90fd-ea45e5215f6a.jpg";
 
   const inputRef = useRef<HTMLInputElement>(null);
 
