@@ -19,7 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -44,15 +44,15 @@ class ParticipantServiceTest {
     @Mock
     private RoomRepository roomRepository;
     @Mock
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
     String USER_NICKNAME = "YEZI";
     String NOT_REGISTERED_NICKNAME = "TAEGYU";
-    String USER_PASSWORD = "1234";
+    Integer USER_PASSWORD = 1234;
     String HASH_PASSWORD = "ENCODE_PASSWORD";
-    String NOT_VALID_PASSWORD = "1111";
+    Integer NOT_VALID_PASSWORD = 1111;
 
     @Nested
     @DisplayName("참여자 닉네임 중복 체크 메소드는")
@@ -239,7 +239,7 @@ class ParticipantServiceTest {
                             .password(HASH_PASSWORD)
                             .isFinished(false)
                             .build()));
-            when(bCryptPasswordEncoder.matches(USER_PASSWORD, HASH_PASSWORD)).thenReturn(true);
+            when(passwordEncoder.matches(USER_PASSWORD.toString(), HASH_PASSWORD)).thenReturn(true);
             // then
             ParticipantInfoResponse participantInfo = participantService.getParticipantInfo(request);
             assertFalse(participantInfo.getIsFinished());
