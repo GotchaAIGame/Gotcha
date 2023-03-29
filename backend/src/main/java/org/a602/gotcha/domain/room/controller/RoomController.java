@@ -34,14 +34,14 @@ public class RoomController {
     @ApiResponse(responseCode = "404", description = "방 정보를 찾을 수 없음")
     @ApiResponse(responseCode = "403", description = "해당 방에 접근할 수 없음(유효기간 만료)")
     @GetMapping("/game/enter")
-    public BaseResponse<GameInfoResponse> enterRoom(@NotNull @RequestParam String roomCode) {
+    public BaseResponse<GameInfoResponse> enterRoom(@NotNull @RequestParam int roomCode) {
         GameInfoResponse gameInfoResponse = roomService.getRoomInfo(roomCode);
         return new BaseResponse<>(gameInfoResponse);
     }
 
     @Operation(description = "우승 상품 확인하기 API", summary = "우승 상품 확인하기 API")
     @ApiResponse(responseCode = "200", description = "우승 상품 불러오기 성공", content = @Content(schema = @Schema(implementation = RewardListResponse.class)))
-    @ApiResponse(responseCode = "404", description = "우승 상품 찾을 수 없음")
+    @ApiResponse(responseCode = "404", description = "1. 방을 찾을 수 없음 \t\n 2. 우승 상품 찾을 수 없음")
     @GetMapping("/game/reward")
     public BaseResponse<List<RewardListResponse>> getGameRewardList(@RequestParam Long roomId) {
         List<RewardListResponse> rewardList = roomService.getGameRewardList(roomId);
@@ -61,7 +61,6 @@ public class RoomController {
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
     public BaseResponse<Void> createRoom(@RequestBody CreateRoomRequest request) {
-
         roomService.createRoom(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
