@@ -57,8 +57,7 @@ public class ParticipantController {
     @Operation(description = "기존 참여자 방에 로그인하기 API", summary = "기존 참여자 방에 로그인하기 API")
     @ApiResponse(responseCode = "200", description = "참여자 정보 확인 성공", content = @Content(schema = @Schema(implementation = ParticipantInfoResponse.class)))
     @ApiResponse(responseCode = "401", description = "참여자 정보 일치하지 않음")
-    @ApiResponse(responseCode = "404", description = "해당하는 방 존재하지 않음")
-    @ApiResponse(responseCode = "404", description = "해당하는 유저 존재하지 않음")
+    @ApiResponse(responseCode = "404", description = "1. 해당하는 방 존재하지 않음 \t\n 2. 해당하는 유저 존재하지 않음")
     @PostMapping("/login")
     public BaseResponse<ParticipantInfoResponse> doLogin(@Valid @RequestBody ParticipantLoginRequest request) {
         ParticipantInfoResponse response = participantService.getParticipantInfo(request);
@@ -67,9 +66,7 @@ public class ParticipantController {
 
     @Operation(description = "게임 신규로 시작하기 API", summary = "게임 신규로 시작하기 API")
     @ApiResponse(responseCode = "200", description = "게임 신규 시작 성공", content = @Content(schema = @Schema(implementation = ProblemListResponse.class)))
-    @ApiResponse(responseCode = "404", description = "해당하는 방 없음")
-    @ApiResponse(responseCode = "404", description = "해당하는 유저 없음")
-    @ApiResponse(responseCode = "404", description = "해당하는 문제 없음")
+    @ApiResponse(responseCode = "404", description = "1. 해당하는 방 없음 \t\n 2. 해당하는 유저 없음 \t\n 3. 해당하는 문제 없음 ")
     @PostMapping("/start")
     public BaseResponse<List<ProblemListResponse>> newGameStart(@Valid @RequestBody ParticipantGameStartRequest request) {
         // 유저 유효성 체크 및 시작 시간 추가
@@ -81,9 +78,7 @@ public class ParticipantController {
 
     @Operation(description = "게임 재참여하기 API", summary = "게임 재참여하기 API API")
     @ApiResponse(responseCode = "200", description = "게임 재참여 성공", content = @Content(schema = @Schema(implementation = ProblemListResponse.class)))
-    @ApiResponse(responseCode = "404", description = "해당하는 방 없음")
-    @ApiResponse(responseCode = "404", description = "해당하는 유저 없음")
-    @ApiResponse(responseCode = "404", description = "해당하는 문제 없음")
+    @ApiResponse(responseCode = "404", description = "1. 해당하는 방 없음 \t\n 2. 해당하는 유저 없음 \t\n 3. 해당하는 문제 없음 ")
     @PostMapping("/rejoin")
     public BaseResponse<List<ProblemListResponse>> rejoinGame(@Valid @RequestBody RejoinGameRequest request) {
         // 유저 유효성 체크
@@ -95,6 +90,7 @@ public class ParticipantController {
 
     @Operation(description = "최종 제출 기록 등록하기 API", summary = "최종 제출 기록 등록하기 API")
     @ApiResponse(responseCode = "200", description = "기록 등록 성공")
+    @ApiResponse(responseCode = "404", description = "1. 해당하는 방 없음 \t\n 2. 해당하는 유저 없음")
     @PostMapping("/clear")
     public BaseResponse<Object> registerGameRecord(@Valid @RequestBody ProblemFinishRequest request) {
         participantService.updateGameRecord(request);
@@ -103,10 +99,11 @@ public class ParticipantController {
 
     @Operation(description = "휴대폰 번호 입력하기 API", summary = "휴대폰 번호 입력하기 API")
     @ApiResponse(responseCode = "200", description = "휴대폰 번호 등록 성공")
-    @ApiResponse(responseCode = "400", description = "휴대폰 번호 등록 실패")
+    @ApiResponse(responseCode = "400", description = "휴대폰 번호 형식이 올바르지 않음")
+    @ApiResponse(responseCode = "404", description = "1. 해당하는 방 없음 \t\n 2. 해당하는 유저 없음")
     @PostMapping("/phonenumber")
     public BaseResponse<Object> registerPhoneNumber(@Valid @RequestBody RegisterPhonenumberRequest request) {
-        if(!request.getPhoneNumber().matches("^01([0-9])-([0-9]{3,4})-([0-9]{4})$")) {
+        if (!request.getPhoneNumber().matches("^01([0-9])-([0-9]{3,4})-([0-9]{4})$")) {
             throw new InvalidPhoneNumberException();
         }
         participantService.updatePhoneNumber(request);
