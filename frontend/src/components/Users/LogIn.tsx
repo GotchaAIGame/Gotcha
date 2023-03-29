@@ -41,17 +41,20 @@ export default function LogIn() {
           const gotUserInfo = res.data.result;
           // Store에 user 정보 저장
           dispatch(setLogin(gotUserInfo));
-          // token 저장 =
-          const accessToken = gotUserInfo.get("access");
-          const refreshToken = gotUserInfo.get("refresh");
+          // console.log(gotUserInfo.accessToken, "됐다!");
+
+          // token 저장
+          const { accessToken, refreshToken } = gotUserInfo;
           sessionStorage.setItem("accessToken", accessToken);
           setCookie("refreshToken", refreshToken);
+          console.log("저장?");
 
           alert("환영합니다!");
-          navigate("/creator");
+          // navigate("/creator");
         })
         .catch((res) => {
-          alert("아이디와 비밀번호를 확인해 주세요");
+          alert(res);
+          console.log(res);
         });
     }
   };
