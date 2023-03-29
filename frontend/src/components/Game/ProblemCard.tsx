@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Button from "@components/common/Button";
 
 interface problemProps {
   problem: {
@@ -14,6 +15,7 @@ function ProblemCard(props: problemProps) {
   const { problem } = props;
   const { problemId, problemName, problemDesc, problemImgURL } = problem;
   const [open, setOpen] = useState(false);
+  const [Image, setImage] = useState<string>("");
 
   const hasImage = false;
 
@@ -22,6 +24,7 @@ function ProblemCard(props: problemProps) {
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
       setOpen(true);
+      setImage(fileURL);
     }
   };
 
@@ -66,14 +69,12 @@ function ProblemCard(props: problemProps) {
             role="presentation"
           >
             <div className="image-editor-content">
-              <div className="image-editor-title">
-                <h1> 이미지 수정 </h1>
-              </div>
-              <div className="image-editor-description">
-                <h1> 내용 </h1>
+              <div className="image-editor-image">
+                <img src={Image} alt="user-img" />
               </div>
               <div className="image-editor-buttons">
-                <h1> 버튼 </h1>
+                <Button text="이미지 편집" color="darkblue" />
+                <Button text="제출하기" color="skyblue" />
               </div>
             </div>
           </div>
