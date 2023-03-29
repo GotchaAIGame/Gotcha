@@ -30,12 +30,21 @@ export default function FakeMainPage() {
         <span style={{ color: "#DFF93E" }}>❤</span>
       </h1>
       <Grid container style={{ justifyContent: "center" }}>
-        <Grid item sm={9} md={9} className="input-pin-num-container">
+        <Grid
+          item
+          sm={9}
+          md={9}
+          className="input-pin-num-container"
+          style={{ justifyContent: "center" }}
+        >
           <input
             type="text"
             placeholder="PIN번호"
             onChange={checkingMember}
             value={inputPin}
+            style={{
+              width: "70%",
+            }}
           />
         </Grid>
         <Grid item sm={9} md={9}>

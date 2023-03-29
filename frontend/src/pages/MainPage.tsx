@@ -5,21 +5,17 @@ import { useSelector } from "react-redux";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import LogOut from "@components/Users/LogOut";
 import "@styles/MainPage.scss";
-import Button from "@components/common/Button";
-// import Modal from "@components/common/Modal";
 
 export default function MainPage() {
-  const userId = useSelector((state: any) => state.users.userId);
+  const email = useSelector((state: any) => state.users.email);
+  const nickname = useSelector((state: any) => state.users.nickname);
 
   return (
     // 그리드 테스트 용입니다.
     <div>
       <h3>Main</h3>
-      {userId && <p>{userId}님, 어서오세요!</p>}
+      {nickname && <p>{nickname}님, 어서오세요!</p>}
       <InputPinNum />
-      <Link to="/rejoin" className="rejoin-link">
-        <h3>게임에 이미 참여하신 적이 있나요?</h3>
-      </Link>
 
       {/* 임시 바로가기 모음 */}
       <div className="temps-container">
@@ -42,7 +38,7 @@ export default function MainPage() {
         <Link to="/modalTest">
           <button type="button"> 모달 테스트 페이지 </button>
         </Link>
-        {userId ? (
+        {email ? (
           <LogOut />
         ) : (
           <Link to="/login">

@@ -2,35 +2,60 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 import { setLogin } from "@stores/users/userSlice";
 import InputBox from "@components/common/InputBox";
 import Button from "@components/common/Button";
+import { memberAPI } from "@apis/apis";
 
 export default function LogIn() {
   // 추후 유효성 검사 이후 페이지 이동되게 수정 예정
   const existId = useSelector((state: any) => state.users.userId);
-  const [inputText, setInputText] = useState("");
+  // const [inputText, setInputText] = useState("");
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [cookies, setCookie] = useCookies(["refreshToken"]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // 입력값 변경내용 확인
   const idTypingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
+    setEmailInput(e.target.value);
+  };
+
+  const passwordTypingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordInput(e.target.value);
   };
 
   const loginHandler = (e: any) => {
-    if (!inputText) {
-      e.preventDefault();
+    e.preventDefault();
+    if (!emailInput) {
       alert("ID를 입력해 주세요.");
     } else {
-      const email = inputText;
-      dispatch(setLogin({ email }));
-      if (existId) {
-        navigate("/");
-      } else {
-        navigate("/creator");
-      }
+      const result = memberAPI.logIn(emailInput, passwordInput);
+      result
+        .then((res) => {
+          console.log(res);
+          console.log(res.data.result);
+          const gotUserInfo = res.data.result;
+          // Store에 user 정보 저장
+          dispatch(setLogin(gotUserInfo));
+          // console.log(gotUserInfo.accessToken, "됐다!");
+
+          // token 저장
+          const { accessToken, refreshToken } = gotUserInfo;
+          sessionStorage.setItem("accessToken", accessToken);
+          setCookie("refreshToken", refreshToken);
+          console.log("저장?");
+
+          alert("환영합니다!");
+          navigate("/creator");
+        })
+        .catch((res) => {
+          alert(res);
+          console.log(res);
+        });
     }
   };
   return (
@@ -40,9 +65,14 @@ export default function LogIn() {
           type="text"
           text="아이디"
           onChange={idTypingHandler}
-          value={inputText}
+          value={emailInput}
         />
-        <InputBox type="password" text="비밀번호" />
+        <InputBox
+          type="password"
+          text="비밀번호"
+          onChange={passwordTypingHandler}
+          value={passwordInput}
+        />
         <Button text="로그인하기" type="submit" />
       </form>
 
