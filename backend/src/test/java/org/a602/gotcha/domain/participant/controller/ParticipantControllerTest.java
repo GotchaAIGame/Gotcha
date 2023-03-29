@@ -48,8 +48,8 @@ class ParticipantControllerTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    private Long ROOM_ID_WITH_REWARD;
-    private Long ROOM_ID_WITHOUT_REWARD;
+    private Long ROOM_ID;
+    private Long ROOM_HAS_NO_PROBLEM_ID;
     private final Integer USER_PASSWORD = 1234;
     private final LocalDateTime GAME_START_TIME = LocalDateTime.now();
     private final LocalDateTime GAME_END_TIME = LocalDateTime.now().plusDays(7);
@@ -66,7 +66,7 @@ class ParticipantControllerTest {
                 .organization("naver").build();
         em.persist(member);
         // 방 생성
-        Room roomA = Room.builder()
+        Room room = Room.builder()
                 .title("ssafy")
                 .code(101101)
                 .hasReward(true)
@@ -74,24 +74,20 @@ class ParticipantControllerTest {
                 .startTime(GAME_START_TIME)
                 .endTime(GAME_END_TIME)
                 .build();
-        em.persist(roomA);
-        ROOM_ID_WITH_REWARD = roomA.getId();
-        Room roomB = Room.builder()
-                .title("a602")
-                .code(102102)
-                .hasReward(false)
-                .member(member)
-                .startTime(GAME_START_TIME)
-                .endTime(GAME_END_TIME)
+        em.persist(room);
+        ROOM_ID = room.getId();
+        // 문제 없는 방 생성
+        Room roomB= Room.builder()
+                .title("임시")
                 .build();
         em.persist(roomB);
-        ROOM_ID_WITHOUT_REWARD = roomB.getId();
+        ROOM_HAS_NO_PROBLEM_ID = roomB.getId();
         // 보상 생성
         for (int i = 1; i <= 3; i++) {
             Reward reward = Reward.builder()
                     .name("상품" + i)
                     .grade(i)
-                    .room(roomA)
+                    .room(room)
                     .build();
             em.persist(reward);
         }
@@ -102,7 +98,7 @@ class ParticipantControllerTest {
                     .description("문제입니다.")
                     .hint("힌트입니다.")
                     .imageUrl("url")
-                    .room(roomA)
+                    .room(room)
                     .build();
             em.persist(problem);
         }
@@ -119,7 +115,7 @@ class ParticipantControllerTest {
                     .duration(Duration.between(startTime, endTime))
                     .solvedCnt(i % 5)
                     .isFinished(true)
-                    .room(roomA)
+                    .room(room)
                     .build();
             em.persist(participant);
         }
@@ -132,11 +128,29 @@ class ParticipantControllerTest {
                 .duration(Duration.between(startTime, startTime.plusDays(1)))
                 .solvedCnt(3)
                 .isFinished(true)
-                .room(roomA)
+                .room(room)
                 .build();
         em.persist(participantA);
-        // 참여자 생성(게임완료-B방)
-        Participant participantA2 = Participant.builder()
+        // 참여자 생성(게임미완료)
+        Participant participantB = Participant.builder()
+                .nickname("TAEGYU")
+                .password(HASH_PWD)
+                .startTime(startTime)
+                .solvedCnt(2)
+                .isFinished(false)
+                .room(room)
+                .build();
+        em.persist(participantB);
+        // 참여자 생성(가입만 완료)
+        Participant participantC = Participant.builder()
+                .nickname("DASOM")
+                .password(HASH_PWD)
+                .isFinished(false)
+                .room(room)
+                .build();
+        em.persist(participantC);
+        // 참여자 생성(문제 없는 방)
+        Participant participantTemp = Participant.builder()
                 .nickname("YEZI")
                 .password(HASH_PWD)
                 .startTime(startTime)
@@ -146,25 +160,7 @@ class ParticipantControllerTest {
                 .isFinished(true)
                 .room(roomB)
                 .build();
-        em.persist(participantA2);
-        // 참여자 생성(게임미완료)
-        Participant participantB = Participant.builder()
-                .nickname("TAEGYU")
-                .password(HASH_PWD)
-                .startTime(startTime)
-                .solvedCnt(2)
-                .isFinished(false)
-                .room(roomA)
-                .build();
-        em.persist(participantB);
-        // 참여자 생성(가입만 완료)
-        Participant participantC = Participant.builder()
-                .nickname("DASOM")
-                .password(HASH_PWD)
-                .isFinished(false)
-                .room(roomA)
-                .build();
-        em.persist(participantC);
+        em.persist(participantTemp);
     }
 
     @Nested
@@ -190,7 +186,7 @@ class ParticipantControllerTest {
         @DisplayName("중복된 아이디 있음")
         void duplicateNicknameExist() throws Exception {
             DuplicateNicknameRequest request = DuplicateNicknameRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .build();
             mockMvc
@@ -205,7 +201,7 @@ class ParticipantControllerTest {
         @DisplayName("중복체크 성공")
         void duplicateCheckSuccess() throws Exception {
             DuplicateNicknameRequest request = DuplicateNicknameRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .build();
             mockMvc
@@ -243,7 +239,7 @@ class ParticipantControllerTest {
         @DisplayName("중복된 아이디 있음")
         void duplicateNicknameExist() throws Exception {
             ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .password(USER_PASSWORD)
                     .build();
@@ -259,7 +255,7 @@ class ParticipantControllerTest {
         @DisplayName("참여자 등록 성공")
         void registerParticipantSuccess() throws Exception {
             ParticipantRegisterRequest request = ParticipantRegisterRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .password(USER_PASSWORD)
                     .build();
@@ -297,7 +293,7 @@ class ParticipantControllerTest {
         @DisplayName("해당 유저를 찾을 수 없음")
         void invalidParticipant() throws Exception {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .password(1111)
                     .build();
@@ -314,7 +310,7 @@ class ParticipantControllerTest {
         @DisplayName("비밀번호가 일치하지 않음")
         void invalidPassword() throws Exception {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .password(1111)
                     .build();
@@ -330,7 +326,7 @@ class ParticipantControllerTest {
         @DisplayName("로그인 성공")
         void participantLoginSuccess() throws Exception {
             ParticipantLoginRequest request = ParticipantLoginRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .password(USER_PASSWORD)
                     .build();
@@ -369,7 +365,7 @@ class ParticipantControllerTest {
         @DisplayName("해당 유저를 찾을 수 없음")
         void invalidParticipant() throws Exception {
             ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .startTime(USER_GAME_START_TIME)
                     .build();
@@ -386,7 +382,7 @@ class ParticipantControllerTest {
         @DisplayName("해당하는 문제 없음")
         void problemNotFounded() throws Exception {
             ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
-                    .roomId(ROOM_ID_WITHOUT_REWARD)
+                    .roomId(ROOM_HAS_NO_PROBLEM_ID)
                     .nickname("YEZI")
                     .startTime(USER_GAME_START_TIME)
                     .build();
@@ -403,7 +399,7 @@ class ParticipantControllerTest {
         @DisplayName("게임 시작하기 성공")
         void newGameStartSuccess() throws Exception {
             ParticipantGameStartRequest request = ParticipantGameStartRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("DASOM")
                     .startTime(USER_GAME_START_TIME)
                     .build();
@@ -444,7 +440,7 @@ class ParticipantControllerTest {
         @DisplayName("해당 유저를 찾을 수 없음")
         void invalidParticipant() throws Exception {
             RejoinGameRequest request = RejoinGameRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .build();
             mockMvc
@@ -460,7 +456,7 @@ class ParticipantControllerTest {
         @DisplayName("해당하는 문제 없음")
         void problemNotFounded() throws Exception {
             RejoinGameRequest request = RejoinGameRequest.builder()
-                    .roomId(ROOM_ID_WITHOUT_REWARD)
+                    .roomId(ROOM_HAS_NO_PROBLEM_ID)
                     .nickname("YEZI")
                     .build();
             mockMvc
@@ -476,7 +472,7 @@ class ParticipantControllerTest {
         @DisplayName("게임 신규 시작 성공")
         void gameRestartSuccess() throws Exception {
             RejoinGameRequest request = RejoinGameRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("TAEGYU")
                     .build();
             MockHttpServletResponse response = mockMvc
@@ -520,7 +516,7 @@ class ParticipantControllerTest {
         @DisplayName("해당 유저를 찾을 수 없음")
         void invalidParticipant() throws Exception {
             ProblemFinishRequest request = ProblemFinishRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .solvedCnt(3)
                     .endTime(USER_GAME_END_TIME)
@@ -538,7 +534,7 @@ class ParticipantControllerTest {
         @DisplayName("유저 기록 등록 성공")
         void registerRecordSuccess() throws Exception {
             ProblemFinishRequest request = ProblemFinishRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("TAEGYU")
                     .solvedCnt(3)
                     .endTime(USER_GAME_END_TIME)
@@ -578,7 +574,7 @@ class ParticipantControllerTest {
         @DisplayName("해당 유저를 찾을 수 없음")
         void invalidParticipant() throws Exception {
             RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .phoneNumber("010-1111-1111")
                     .build();
@@ -595,7 +591,7 @@ class ParticipantControllerTest {
         @DisplayName("올바르지 않은 휴대폰 번호 형식")
         void invalidPhoneNumber() throws Exception {
             RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .phoneNumber("01011111111")
                     .build();
@@ -612,7 +608,7 @@ class ParticipantControllerTest {
         @DisplayName("휴대폰 번호 업데이트 성공")
         void updatePhoneNumberSuccess() throws Exception {
             RegisterPhonenumberRequest request = RegisterPhonenumberRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .phoneNumber("010-1111-1111")
                     .build();
@@ -650,7 +646,7 @@ class ParticipantControllerTest {
         @DisplayName("해당 유저를 찾을 수 없음")
         void invalidParticipant() throws Exception {
             RankInfoRequest request = RankInfoRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("MINSU")
                     .build();
             mockMvc
@@ -666,7 +662,7 @@ class ParticipantControllerTest {
         @DisplayName("랭킹 목록 불러오기 성공")
         void getRank() throws Exception {
             RankInfoRequest request = RankInfoRequest.builder()
-                    .roomId(ROOM_ID_WITH_REWARD)
+                    .roomId(ROOM_ID)
                     .nickname("YEZI")
                     .build();
             MockHttpServletResponse response = mockMvc.perform(post(url + "rank")
