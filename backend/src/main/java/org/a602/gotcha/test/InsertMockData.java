@@ -25,7 +25,7 @@ public class InsertMockData {
 
     @PostConstruct
     private void insertData() {
-        String HASH_PWD = passwordEncoder.encode("602602");
+        String HASH_PWD = passwordEncoder.encode("1234");
         // Member 생성
         Member member = Member.builder()
                 .nickname("싸피")
