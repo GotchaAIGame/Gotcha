@@ -98,8 +98,10 @@
 
   .create-button-wrapper {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     text-decoration: none;
+    width: 150px;
+    margin: auto;
   }
 
   .game-tab-buttons-container {
