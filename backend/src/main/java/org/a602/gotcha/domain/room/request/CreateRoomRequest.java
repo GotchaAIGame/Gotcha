@@ -23,7 +23,6 @@ public class CreateRoomRequest {
     String brandColor;
 
     @Schema(description = "로고 url")
-    @NotBlank
     String logoUrl;
 
     @Schema(description = "방 제목")
@@ -31,7 +30,6 @@ public class CreateRoomRequest {
     String title;
 
     @Schema(description = "이벤트 url")
-    @NotBlank
     String eventUrl;
 
     @Schema(description = "이벤트 설명")
