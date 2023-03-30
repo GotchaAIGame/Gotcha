@@ -21,10 +21,6 @@ public class CreateProblemRequest {
     @NotBlank
     String name;
 
-    @Schema(description = "문제 설명")
-    @NotBlank
-    String description;
-
     @Schema(description = "힌트")
     String hint;
 }

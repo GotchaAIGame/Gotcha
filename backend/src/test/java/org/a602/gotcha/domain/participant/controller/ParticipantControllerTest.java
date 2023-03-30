@@ -95,7 +95,6 @@ class ParticipantControllerTest {
         for (int i = 1; i <= NUMBER_OF_PROBLEMS; i++) {
             Problem problem = Problem.builder()
                     .name("문제" + i)
-                    .description("문제입니다.")
                     .hint("힌트입니다.")
                     .imageUrl("url")
                     .room(room)

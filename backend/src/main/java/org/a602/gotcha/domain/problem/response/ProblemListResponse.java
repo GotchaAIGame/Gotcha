@@ -19,9 +19,6 @@ public class ProblemListResponse {
     @Schema(description = "보물(문제) 이름")
     private String problemName;
 
-    @Schema(description = "보물(문제) 설명")
-    private String problemDesc;
-
     @Schema(description = "보물(문제) 이미지 URL")
     private String problemImgURL;
 

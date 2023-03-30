@@ -89,7 +89,6 @@ public class RoomService {
                 .logoUrl(request.getLogoUrl())
                 .eventUrl(request.getEventUrl())
                 .startTime(request.getStartTime())
-                .description(request.getDescription())
                 .code(code)
                 .build();
         for (CreateProblemRequest problem : problems) {
@@ -101,7 +100,7 @@ public class RoomService {
                     .name(problem.getName())
                     .room(room)
                     .imageUrl(uploadImageUrl)
-                    .description(problem.getDescription()).build();
+                    .build();
             problemList.add(build);
             room.getProblems().addAll(problemList);
 
@@ -115,11 +114,11 @@ public class RoomService {
         roomRepository.deleteById(roomId);
     }
 
-    public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+    public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String eventDesc, LocalDateTime startTime, LocalDateTime endTime) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> {
             throw new RoomNotFoundException();
         });
-        room.updateRoom(color, logoUrl, title, eventUrl, description, startTime, endTime);
+        room.updateRoom(color, logoUrl, title, eventUrl, eventDesc, startTime, endTime);
 
     }
 
