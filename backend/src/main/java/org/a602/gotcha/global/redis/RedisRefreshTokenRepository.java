@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import org.a602.gotcha.global.security.RefreshToken;
+import org.a602.gotcha.global.security.jwt.RefreshToken;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package org.a602.gotcha.global.security;
+package org.a602.gotcha.global.security.jwt;
 
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.security.config.Elements.*;

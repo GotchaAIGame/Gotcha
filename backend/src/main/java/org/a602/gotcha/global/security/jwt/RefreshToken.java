@@ -1,4 +1,4 @@
-package org.a602.gotcha.global.security;
+package org.a602.gotcha.global.security.jwt;
 
 import org.springframework.data.annotation.Id;
 
