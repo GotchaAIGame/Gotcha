@@ -92,6 +92,7 @@ public class RoomService {
                 .startTime(request.getStartTime())
                 .code(code)
                 .build();
+
         for (CreateProblemRequest problem : problems) {
 
             String uploadImageUrl = s3Service.uploadImage(problem.getImage());
