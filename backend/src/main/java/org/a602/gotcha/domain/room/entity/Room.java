@@ -62,7 +62,7 @@ public class Room {
     @OneToMany(mappedBy = "room", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Reward> rewards = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "room", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Problem> problems = new LinkedHashSet<>();
 
     @Builder

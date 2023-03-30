@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 public class CreateProblemRequest {
 
     @Schema(description = "Base64 인코딩된 이미지")
-    @NotBlank
     String image;
 
     @Schema(description = "문제 이름")

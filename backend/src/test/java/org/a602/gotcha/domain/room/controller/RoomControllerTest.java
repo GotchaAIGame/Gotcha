@@ -30,6 +30,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,11 +58,12 @@ class RoomControllerTest {
     private final LocalDateTime GAME_START_TIME = LocalDateTime.now();
     private final LocalDateTime GAME_END_TIME = LocalDateTime.now().plusDays(7);
     private String token;
+    private Member member;
 
     @BeforeEach
     void setUp() {
         // 유저(출제자) 생성
-        Member member = Member.builder()
+        member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
         token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);
@@ -256,5 +258,14 @@ class RoomControllerTest {
         mockMvc.perform(get(url + "/room/{roomId}", room.getId())
                 .header(HttpHeaders.AUTHORIZATION, token)).andExpect(status().isOk());
 
+    }
+
+    @Test
+    @DisplayName("멤버로 방 조회")
+    void findByMember() throws Exception {
+        mockMvc.perform(
+                get(url + "member/room/{memberId}", member.getId())
+                        .header(HttpHeaders.AUTHORIZATION, token)
+        ).andDo(print());
     }
 }
