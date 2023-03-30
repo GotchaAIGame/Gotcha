@@ -29,8 +29,8 @@ export default function Routers() {
       <Route path="/newgame/:roomId" element={<PlayerNewGamePage />} />
       <Route path="/rejoin/:roomId" element={<PlayerRejoinPage />} />
       <Route path="game">
-        <Route path=":roomId" element={<GamePage />} />
-        <Route path=":roomId/rank" element={<RankPage />} />
+        <Route path=":roomPin" element={<GamePage />} />
+        <Route path=":roomPin/rank" element={<RankPage />} />
       </Route>
       <Route path="/modalTest" element={<ModalTestPage />} />
       <Route path="/modalTest/2" element={<ModalTestPage2 />} />

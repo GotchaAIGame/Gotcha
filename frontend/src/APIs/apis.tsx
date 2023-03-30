@@ -15,13 +15,14 @@ const gamePlayAPI = {
   // 게임 재참여
   rejoin: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/rejoin", { roomId, nickname }),
-  // 게임 로그인
+  // 재참여 로그인
   login: (
     roomId: number,
     nickname: string,
     password: number
   ): Promise<AxiosResponse> =>
     request.post("/game/login", { roomId, nickname, password }),
+  // 랭킹 불러오기
 };
 
 const memberAPI = {

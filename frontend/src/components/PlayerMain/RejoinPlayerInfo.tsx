@@ -21,16 +21,15 @@ export default function RejoinPlayerInfo() {
   const nicknameHandler = useRef<HTMLInputElement>(null); // 닉네임 input
   const changeHandler = (value: string) => setOtp(value); // 비밀번호 input
 
+  const roomId = location.state.room;
+  const roomPin = location.state.inputPin;
+
+  const currentRef = nicknameHandler.current;
   // 재참여 로그인
   const rejoinGameHandler = () => {
-    const currentRef = nicknameHandler.current;
     if (otp.length < 4) {
       alert("비밀번호 4자리를 입력해주세요.");
     }
-
-    const roomId = location.state.room;
-    const roomPin = location.state.inputPin;
-
     if (currentRef) {
       let nicknameValue = currentRef.value;
       const password = parseInt(otp.slice(0, 4), 10);
@@ -56,12 +55,27 @@ export default function RejoinPlayerInfo() {
               navigate(`/newgame/${roomPin}`); // 새게임 페이지로 리다이렉트 -> 새게임페이지 나오면 닉네임 자동입력되게끔 추가해주기!!
               break;
             default:
-              console.error();
+              console.error(err);
           }
         });
       nicknameValue = ""; // 수정필요 -> 비워지지않음
-      setOtp("");
+      // setOtp("");
     }
+  };
+
+  const rejoinClickHandler = () => {
+    if (currentRef) {
+      const nicknameValue = currentRef.value;
+      // console.log(nicknameValue);
+      const request = gamePlayAPI.rejoin(roomId, nicknameValue);
+      request.then(() => {
+        navigate(`/game/${roomPin}`);
+      });
+    }
+  };
+
+  const rankClickHandler = () => {
+    navigate(`/game/${roomPin}/rank`);
   };
 
   return (
@@ -71,7 +85,11 @@ export default function RejoinPlayerInfo() {
       <div className="enter-button">
         {isClicked ? (
           <>
-            {isFinish ? <Button text="랭킹보기" /> : <Button text="이어하기" />}
+            {isFinish ? (
+              <Button text="랭킹보기" onClick={rankClickHandler} />
+            ) : (
+              <Button text="이어하기" onClick={rejoinClickHandler} />
+            )}
           </>
         ) : (
           <Button
