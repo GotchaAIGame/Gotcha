@@ -86,7 +86,7 @@ public class InsertMockData {
                     .build();
         }
         Participant participantA = Participant.builder()
-                .nickname("2조태규")
+                .nickname("태규")
                 .password(HASH_PWD)
                 .startTime(startTime)
                 .endTime(startTime.plusHours(2).plusMinutes(30))
@@ -96,15 +96,25 @@ public class InsertMockData {
                 .room(roomWithReward)
                 .build();
         Participant participantB = Participant.builder()
-                .nickname("2조예지")
+                .nickname("예지")
                 .password(HASH_PWD)
                 .startTime(LocalDateTime.now().minusMinutes(30))
                 .isFinished(false)
                 .solvedCnt(2)
                 .room(roomWithReward)
                 .build();
+        Participant participantC = Participant.builder()
+                .nickname("월계")
+                .password(HASH_PWD)
+                .startTime(startTime)
+                .endTime(startTime.plusDays(2))
+                .isFinished(true)
+                .solvedCnt(1)
+                .room(roomWithReward)
+                .build();
         participantRepository.save(participantA);
         participantRepository.save(participantB);
+        participantRepository.save(participantC);
         // 리워드 생성
         for(int i = 1; i <= 3; i++) {
             Reward reward = Reward.builder()
