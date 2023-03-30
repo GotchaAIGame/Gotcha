@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -51,6 +52,7 @@ public class CreateRoomRequest {
 
     @Schema(description = "문제들")
     @NotNull
+    @Valid
     List<CreateProblemRequest> problems;
 
 }

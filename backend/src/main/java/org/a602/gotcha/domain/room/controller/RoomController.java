@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.domain.room.mapper.RoomToRoomDetailResponseMapper;
 import org.a602.gotcha.domain.room.request.CloseRoomRequest;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
-import org.a602.gotcha.domain.room.response.EventDetailResponse;
-import org.a602.gotcha.domain.room.response.GameInfoResponse;
-import org.a602.gotcha.domain.room.response.RewardListResponse;
+import org.a602.gotcha.domain.room.response.*;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
@@ -60,9 +60,10 @@ public class RoomController {
     @PostMapping("/set/room")
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
-    public BaseResponse<Void> createRoom(@RequestBody CreateRoomRequest request) {
-        roomService.createRoom(request);
-        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    public BaseResponse<CreateRoomResponse> createRoom(@RequestBody CreateRoomRequest request) {
+        int code = roomService.createRoom(request);
+        CreateRoomResponse createRoomResponse = new CreateRoomResponse(code);
+        return new BaseResponse<>(createRoomResponse);
     }
 
     @DeleteMapping("/set/room")
@@ -87,6 +88,13 @@ public class RoomController {
                 request.getEventDesc(),
                 request.getStartTime(),
                 request.getEndTime());
-        return null;
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public BaseResponse<RoomDetailResponse> getRoomDetail(@PathVariable Long roomId) {
+        Room roomWithAllRelations = roomService.getRoomWithAllRelations(roomId);
+        RoomDetailResponse roomDetailResponse = RoomToRoomDetailResponseMapper.INSTANCE.roomToRoomDetailResponse(roomWithAllRelations);
+        return new BaseResponse<>(roomDetailResponse);
     }
 }

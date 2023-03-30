@@ -77,11 +77,11 @@ public class RoomService {
     }
 
 
-    public void createRoom(CreateRoomRequest request) {
+    public int createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
 
-        int code = random.nextInt(100_0000);
+        int code = random.nextInt(90_0000) + 100_000;
         Room room = Room.builder()
                 .color(request.getBrandColor())
                 .title(request.getTitle())
@@ -105,8 +105,9 @@ public class RoomService {
             room.getProblems().addAll(problemList);
 
         }
-
         roomRepository.save(room);
+        return code;
+
     }
 
 
@@ -137,4 +138,10 @@ public class RoomService {
         return roomRepository.findById(roomId)
                 .orElseThrow(RoomNotFoundException::new);
     }
+
+    @Transactional(readOnly = true)
+    public Room getRoomWithAllRelations(Long roomId) {
+        return roomRepository.findOneWithAllRelationships(roomId);
+    }
+
 }
