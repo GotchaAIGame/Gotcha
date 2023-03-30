@@ -5,9 +5,8 @@ Recent update : 2023.03.14 15:19
 
 import torch
 import torchvision.transforms as transforms
-import os
 from SuperGlueModels.matching import Matching
-import matplotlib.cm as cm
+from fastapi import FastAPI
 
 model = None
 similarity_threshold = 40
@@ -20,9 +19,10 @@ transform = transforms.Compose([
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print('Running inference on device \"{}\"'.format(device))
 
-async def lifespan(app):
+async def lifespan(app : FastAPI):
     # set lifespan of the main application
     # it loads model when the server is on, and remove it when the server is down
+    print("lifespan is called")
 
     global model
 
@@ -84,7 +84,7 @@ def infer(original_image, input_image):
     kpts0 = last_data['keypoints0'][0].detach().cpu().numpy()
     kpts1 = pred['keypoints1'][0].detach().cpu().numpy()
     matches = pred['matches0'][0].detach().cpu().numpy()
-    confidence = pred['matching_scores0'][0].detach().cpu().numpy()
+    # confidence = pred['matching_scores0'][0].detach().cpu().numpy()
 
     valid = matches > -1
     mkpts0 = kpts0[valid]
