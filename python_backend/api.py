@@ -27,6 +27,7 @@ async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(
     input_image = ImageOps.exif_transpose(input_image)
 
     result, similarity = infer(original_image, input_image)
+    print("프레딕트 실행 ")
     
     return {
         'result' : result,
@@ -42,6 +43,7 @@ def fibonacci(n):
 @api.get("/load-test/{number}")
 def load_test(number: int):
     result = fibonacci(number)
+    print("로드 테스트 실행")
     return {"result": result}
 
 
