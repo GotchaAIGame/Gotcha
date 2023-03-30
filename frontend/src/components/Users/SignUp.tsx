@@ -15,7 +15,6 @@ interface IuserInfo {
   password: string;
   organization: string;
   email: string;
-  registrationId: string;
 }
 
 export default function SignUp(props: Props) {
@@ -25,7 +24,6 @@ export default function SignUp(props: Props) {
     password: "",
     organization: "",
     email: "",
-    registrationId: "",
   });
   // 중복 확인을 위한 값
   const [nicknameInput, SetNicknameInput] = useState<string>("");
@@ -166,13 +164,7 @@ export default function SignUp(props: Props) {
   const signupHandler = () => {
     const validValue = (userInfo.email, userInfo.nickname, userInfo.password);
     if (validValue) {
-      const result = memberAPI.signUp(
-        userInfo.nickname,
-        userInfo.password,
-        userInfo.organization,
-        userInfo.email
-        // userInfo.registrationId
-      );
+      const result = memberAPI.signUp(userInfo);
       result
         .then((res) => {
           // console.log(res);

@@ -34,14 +34,14 @@ const memberAPI = {
     request.get("member/duplicateNickname", {
       params: { nickname },
     }),
-  signUp: (
-    nickname: string,
-    password: string,
-    organization: string,
-    email: string
-    // registrationId?: string
-  ): Promise<AxiosResponse> =>
-    request.post("member/signup", { nickname, password, organization, email }),
+  signUp: (userInfo: {
+    nickname: string;
+    password: string;
+    organization: string;
+    email: string;
+  }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
+  logIn: (email: string, password: string): Promise<AxiosResponse> =>
+    request.post("member/login", { email, password }),
 };
 
 const MLAPI = {
@@ -54,4 +54,25 @@ const MLAPI = {
     }),
 };
 
-export { gamePlayAPI, memberAPI, MLAPI };
+const creatorAPI = {
+  createGameRoom: (gameInfo: {
+    brandColor: string;
+    logoUrl: string;
+    title: string;
+    eventUrl: string;
+    description: string;
+    hasReward: boolean;
+    startTime: string;
+    endTime: string;
+    problems: [
+      {
+        image: string;
+        name: string;
+        description: string;
+        hint: string;
+      }
+    ];
+  }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
+};
+
+export { gamePlayAPI, memberAPI, MLAPI, creatorAPI };

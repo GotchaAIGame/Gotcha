@@ -13,6 +13,7 @@ import ModalTestPage from "./ModalTestPage";
 import ModalTestPage2 from "./ModalTestPage2";
 import PlayerRejoinPage from "./PlayerRejoinPage";
 import RankPage from "./RankPage";
+import ImageCropperPage from "./ImageCropperPage";
 
 export default function Routers() {
   return (
@@ -34,6 +35,7 @@ export default function Routers() {
       </Route>
       <Route path="/modalTest" element={<ModalTestPage />} />
       <Route path="/modalTest/2" element={<ModalTestPage2 />} />
+      <Route path="/crop" element={<ImageCropperPage />} />
     </Routes>
   );
 }

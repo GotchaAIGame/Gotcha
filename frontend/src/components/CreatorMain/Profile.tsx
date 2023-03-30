@@ -3,9 +3,10 @@ import { useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 import Button from "@components/common/Button";
 
-
 export default function Profile() {
-  const userId = useSelector((state: any) => state.users.userId);
+  const userNickname = useSelector((state: any) => state.users.nickname);
+  const userInfro = useSelector((state: any) => state.users);
+  console.log(userInfro);
 
   return (
     <Grid container className="profile-infos-container">
@@ -18,7 +19,7 @@ export default function Profile() {
       <Grid item xs={6} md={12}>
         <Grid container className="profile-texts-container">
           <Grid item xs={12} sm={6} md={12}>
-            {userId ? <h3>{userId}</h3> : <h3>비로그인</h3>}
+            {userNickname ? <h3>{userNickname}</h3> : <h3>비로그인</h3>}
           </Grid>
           <Grid item xs={12} sm={6} md={12}>
             <Button size="small" color="skyblue" text="프로필 수정하기" />
