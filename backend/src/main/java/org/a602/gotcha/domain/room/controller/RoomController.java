@@ -84,7 +84,7 @@ public class RoomController {
                 request.getLogoUrl(),
                 request.getTitle(),
                 request.getEventUrl(),
-                request.getDescription(),
+                request.getEventDesc(),
                 request.getStartTime(),
                 request.getEndTime());
         return null;

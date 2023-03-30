@@ -71,7 +71,6 @@ class ProblemControllerTest {
                 .eventDesc("이벤트 설명")
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plus(10, ChronoUnit.MINUTES))
-                .rewardDesc("보상 설명")
                 .hasReward(true).build();
         em.persist(this.room);
 
@@ -87,10 +86,10 @@ class ProblemControllerTest {
         }
         byte[] bytes = Files.readAllBytes(file.toPath());
         base64Image = Base64.getEncoder().encodeToString(bytes);
-        problem = new Problem("이름", "설명", "힌트", base64Image, this.room);
+        problem = new Problem("이름", "힌트", base64Image, this.room);
         em.persist(problem);
 
-        updateProblemRequest = new UpdateProblemRequest(base64Image, "업데이트 이름", " 업데이트 설명", "업데이트 힌트", problem.getId());
+        updateProblemRequest = new UpdateProblemRequest(base64Image, "업데이트 이름", "업데이트 힌트", problem.getId());
         member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
@@ -103,7 +102,7 @@ class ProblemControllerTest {
     @Test
     @DisplayName("문제 업데이트 API 테스트")
     void updateProblem() throws Exception {
-        UpdateProblemRequest updateProblemRequest = new UpdateProblemRequest(base64Image, "업데이트 이름", "업데이트 설명", "업데이트 힌트", problem.getId());
+        UpdateProblemRequest updateProblemRequest = new UpdateProblemRequest(base64Image, "업데이트 이름", "업데이트 힌트", problem.getId());
 
         mvc.perform(put(url + "/set/problem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +114,6 @@ class ProblemControllerTest {
         Problem updateProblem = problemRepository.findById(problem.getId()).orElseThrow();
 
         Assertions.assertEquals("업데이트 이름", updateProblem.getName());
-        Assertions.assertEquals("업데이트 설명", updateProblem.getDescription());
         Assertions.assertEquals("업데이트 힌트", updateProblem.getHint());
     }
 
@@ -138,20 +136,7 @@ class ProblemControllerTest {
         }
 
         @Test
-        @DisplayName("설명이 null일 경우")
-        void desNull() throws Exception {
-            updateProblemRequest.setDescription(null);
-            em.flush();
-            em.clear();
-            mvc.perform(put(url + "/set/problem")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .header(HttpHeaders.AUTHORIZATION, token)
-                            .content(objectMapper.writeValueAsBytes(updateProblemRequest)))
-                    .andExpect(status().isBadRequest());
-        }
-
-        @Test
-        @DisplayName("설명이 힌트가 null 일 경우")
+        @DisplayName("힌트가 null 일 경우")
         void hintNull() throws Exception {
             updateProblemRequest.setHint(null);
             em.flush();

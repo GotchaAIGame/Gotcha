@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.problem.exception.ProblemNotFoundException;
-import org.a602.gotcha.domain.problem.exception.ProlbemNotFoundException;
 import org.a602.gotcha.domain.problem.repository.ProblemRepository;
 import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
 import org.a602.gotcha.domain.problem.response.ProblemListResponse;
@@ -27,14 +26,14 @@ public class ProblemService {
     @Transactional
     public void updateProblem(UpdateProblemRequest request) {
         Problem problem = problemRepository.findById(request.getProblemId()).orElseThrow(() -> {
-            throw new ProlbemNotFoundException();
+            throw new ProblemNotFoundException();
         });
         String image = request.getImage();
         String uploadImageUrl = null;
         if (image != null) {
             uploadImageUrl = s3Service.uploadImage(image);
         }
-        String prevImageUrl = problem.updateProblem(uploadImageUrl, request.getDescription(), request.getName(), request.getHint());
+        String prevImageUrl = problem.updateProblem(uploadImageUrl, request.getName(), request.getHint());
         if (image != null) {
             s3Service.deleteImage(prevImageUrl);
         }
@@ -55,7 +54,6 @@ public class ProblemService {
                         ProblemListResponse.builder()
                                 .problemId(problem.getId())
                                 .problemName(problem.getName())
-                                .problemDesc(problem.getDescription())
                                 .problemImgURL(problem.getImageUrl())
                                 .build()).collect(Collectors.toList());
     }

@@ -23,10 +23,6 @@ public class UpdateProblemRequest {
     @NotBlank
     private String name;
 
-    @Schema(description = "설명")
-    @NotBlank
-    private String description;
-
     @Schema(description = "힌트")
     @NotBlank
     private String hint;

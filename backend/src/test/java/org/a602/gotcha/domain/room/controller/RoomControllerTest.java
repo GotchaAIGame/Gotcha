@@ -67,10 +67,9 @@ class RoomControllerTest {
                 .logoUrl("logoURL")
                 .title("제목")
                 .eventUrl("eventURL")
-                .code(602602)
+                .code(123412)
                 .eventDesc("이벤트내용")
                 .hasReward(true)
-                .rewardDesc("리워드설명")
                 .startTime(GAME_START_TIME)
                 .endTime(GAME_END_TIME)
                 .member(member)
@@ -113,7 +112,7 @@ class RoomControllerTest {
             mockMvc
                     .perform(get(url + "game/enter")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .param("roomCode", String.valueOf(111111)))
+                            .param("roomCode", String.valueOf(444444)))
                     .andExpect(jsonPath("$.status", is(404)))
                     .andExpect(jsonPath("$.code", is("R100")));
         }
@@ -123,14 +122,14 @@ class RoomControllerTest {
         void expiredRoomCode() throws Exception {
             // 유효하지 않은 방 생성
             Room room = Room.builder()
-                    .code(111111)
+                    .code(444444)
                     .endTime(LocalDateTime.now().minusDays(2))
                     .build();
             em.persist(room);
             mockMvc
                     .perform(get(url + "game/enter")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .param("roomCode", String.valueOf(111111)))
+                            .param("roomCode", String.valueOf(444444)))
                     .andExpect(jsonPath("$.status", is(403)))
                     .andExpect(jsonPath("$.code", is("R200")));
         }
@@ -141,7 +140,7 @@ class RoomControllerTest {
             mockMvc
                     .perform(get(url + "game/enter")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .param("roomCode", String.valueOf(602602)))
+                            .param("roomCode", String.valueOf(123412)))
                     .andExpect(jsonPath("$.status", is(200)));
         }
     }
@@ -219,11 +218,11 @@ class RoomControllerTest {
     void updateRoom() throws Exception {
         UpdateRoomRequest updateRoomRequest = new UpdateRoomRequest(
                 room.getId(),
-                "색깔",
-                "로고",
-                "제목",
-                "이벤트",
-                "내용",
+                "변경색깔",
+                "변경로고",
+                "변경제목",
+                "변경이벤트",
+                "변경내용",
                 LocalDateTime.of(2023, 3, 17, 12, 0, 0),
                 LocalDateTime.of(2023, 3, 17, 12, 5, 0)
         );
@@ -236,11 +235,11 @@ class RoomControllerTest {
         em.flush();
         em.clear();
         Room updateRoom = em.find(Room.class, room.getId());
-        assertEquals("이벤트", updateRoom.getEventUrl());
-        assertEquals("색깔", updateRoom.getColor());
-        assertEquals("로고", updateRoom.getLogoUrl());
-        assertEquals("이벤트", updateRoom.getEventUrl());
-        assertEquals("내용", updateRoom.getEventDesc());
+        assertEquals("변경이벤트", updateRoom.getEventUrl());
+        assertEquals("변경색깔", updateRoom.getColor());
+        assertEquals("변경로고", updateRoom.getLogoUrl());
+        assertEquals("변경이벤트", updateRoom.getEventUrl());
+        assertEquals("변경내용", updateRoom.getEventDesc());
         assertEquals(LocalDateTime.of(2023, 3, 17, 12, 0, 0), updateRoom.getStartTime());
         assertEquals(LocalDateTime.of(2023, 3, 17, 12, 5, 0), updateRoom.getEndTime());
     }

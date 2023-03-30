@@ -16,7 +16,7 @@ public class UpdateRoomRequest {
     private String logoUrl;
     private String title;
     private String eventUrl;
-    private String description;
+    private String eventDesc;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 }
