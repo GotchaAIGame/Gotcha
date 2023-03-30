@@ -11,11 +11,13 @@ export default function InputPinNum() {
     if (inputPin.toString().length === 6) {
       const request = gamePlayAPI.enter(inputPin);
       request
-        .then(() => {
+        .then((res) => {
+          const room = res.data.result.roomId;
+
           if (type === 1) {
             navigate(`/newgame/${inputPin}`); // 신규참여
           } else if (type === 2) {
-            navigate(`/rejoin/${inputPin}`); // 재참여
+            navigate(`/rejoin/${inputPin}`, { state: room }); // 재참여
           }
           setInputPin("");
         })
@@ -38,7 +40,11 @@ export default function InputPinNum() {
         value={inputPin.toString()}
         onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // useRef로 바꿀 것
       />
-      <button className="newgame-link" type="button" onClick={() => enterHandler(1)}>
+      <button
+        className="newgame-link"
+        type="button"
+        onClick={() => enterHandler(1)}
+      >
         시작하기
       </button>
       <button

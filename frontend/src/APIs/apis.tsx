@@ -11,17 +11,17 @@ const gamePlayAPI = {
     nickname: string,
     startTime: string
   ): Promise<AxiosResponse> =>
-    request.post("/game/start", { params: { roomId, nickname, startTime } }),
+    request.post("/game/start", { roomId, nickname, startTime }),
   // 게임 재참여
   rejoin: (roomId: number, nickname: string): Promise<AxiosResponse> =>
-    request.post("/game/rejoin", { params: { roomId, nickname } }),
+    request.post("/game/rejoin", { roomId, nickname }),
   // 게임 로그인
   login: (
     roomId: number,
     nickname: string,
     password: number
   ): Promise<AxiosResponse> =>
-    request.post("/game/login", { params: { roomId, nickname, password } }),
+    request.post("/game/login", { roomId, nickname, password }),
 };
 
 const memberAPI = {
