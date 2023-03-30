@@ -74,7 +74,7 @@ public class InsertMockData {
         roomRepository.save(roomWithoutReward);
         // Participant 생성
         for (int i = 1; i < 20; i++) {
-            Participant.builder()
+            Participant participant = Participant.builder()
                     .nickname("나는 규튜리다" + i)
                     .password(HASH_PWD)
                     .startTime(startTime.plusHours(1))
@@ -84,6 +84,7 @@ public class InsertMockData {
                     .room(roomWithReward)
                     .isFinished(true)
                     .build();
+            participantRepository.save(participant);
         }
         Participant participantA = Participant.builder()
                 .nickname("태규")
