@@ -48,6 +48,7 @@ public class RoomService {
                 .color(gameRoom.getColor())
                 .logoUrl(gameRoom.getLogoUrl())
                 .title(gameRoom.getTitle())
+                .hasReward(gameRoom.getHasReward())
                 .build();
     }
 
