@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { gamePlayAPI } from "@apis/apis";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import InputBox from "@components/common/InputBox";
@@ -7,14 +8,20 @@ import silver from "@assets/silvermedal.png";
 import bronze from "@assets/bronzemedal.png";
 
 export default function RankButtons() {
-  const [modalFiveOpen, setModalFiveOpen] = useState(false);
-  const [modalSixOpen, setModalSixOpen] = useState(false);
+  const [rewradState, setRewardState] = useState(false);
+  const [joinState, setJoinState] = useState(false);
 
   const modalHandler = (modalNumber: number) => {
-    const modalStates = [modalFiveOpen, modalSixOpen];
-    const modalStatesHandler = [setModalFiveOpen, setModalSixOpen];
-
+    const modalStates = [rewradState, joinState];
+    const modalStatesHandler = [setRewardState, setJoinState];
     modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
+
+    // if (rewradState || joinState) {
+    //   useEffect(() => {
+    //     // store에 넣어서 해결해야될 것 같은데..
+    //     const request = gamePlayAPI.reward();
+    //   });
+    // }
   };
   return (
     <>
@@ -28,7 +35,7 @@ export default function RankButtons() {
       </div>
       <div className="rank-modals-container">
         <Modal
-          open={modalFiveOpen}
+          open={joinState}
           modalHandler={() => {
             modalHandler(1);
           }}
@@ -45,7 +52,7 @@ export default function RankButtons() {
           </p>
         </Modal>
         <Modal
-          open={modalSixOpen}
+          open={rewradState}
           modalHandler={() => {
             modalHandler(2);
           }}
@@ -77,7 +84,7 @@ export default function RankButtons() {
             <h5>스타벅스 아메리카노 Tall</h5>
           </div>
           <p>
-          <h5 className="h5-text">꼭 알아두세요!</h5>
+            <h5 className="h5-text">꼭 알아두세요!</h5>
             첫구매 쿠폰은 매일 신규 회원 및 구매 이력이 없는 고객만 사용
             가능합니다. 쿠폰팩은 즉시 발급되며, 쿠폰 사용 기한은 발급 후
             24시간입니다. 쿠폰팩은 하단의 더.세.페 쿠폰 적용 상품에만

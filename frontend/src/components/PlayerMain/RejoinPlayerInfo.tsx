@@ -15,6 +15,10 @@ import Button from "@components/common/Button";
 // 현재 방식 : navigate에 필요한 정보들을 같이 담아서 보내서 사용하는 방식
 // 바뀔 방식 : store에 playerInfo 저장해서 selctor로 뽑아쓰기
 
+// 23.03.30 17:57
+// 경품확인과 참여하기 모두 참여자정보와 rommId가 계속 필요하다..
+// store로 변경해야할 듯.. ㅜㅜ
+
 export default function RejoinPlayerInfo() {
   const [otp, setOtp] = useState(""); // 비밀번호 state
   const [isClicked, setIsClicked] = useState(false); // 입장하기 버튼 클릭 여부

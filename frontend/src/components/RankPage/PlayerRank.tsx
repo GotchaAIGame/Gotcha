@@ -30,6 +30,10 @@ export default function PlayerRank() {
     });
   }, [room, nickname]);
 
+
+  // 해야할 것
+  // 1. 문제수 추가할 것
+  // 2. isUser true인 애는 회색으로 하이라이트
   return (
     <section className="player-rank-wrapper">
       <header className="ranking-title-flag">

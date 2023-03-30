@@ -25,6 +25,9 @@ const gamePlayAPI = {
   // 랭킹 불러오기
   rank: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/rank", { roomId, nickname }),
+  // 우승상품 확인하기
+  reward: (roomId: number): Promise<AxiosResponse> =>
+    request.get("/game/reward", { params: { roomId } }),
 };
 
 const memberAPI = {
