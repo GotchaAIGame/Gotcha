@@ -22,9 +22,17 @@ export default function CreateGamePage() {
   const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
     console.log(gameInfo);
-    if (!gameInfo.problems[0].image) {
-      console.log("문제 미입력");
-    } else {
+    // const problemLength = gameInfo.problems.length();
+
+    // 제목, 기간, 정보 입력 여부 확인
+    if (
+      (gameInfo.title,
+      gameInfo.startTime,
+      gameInfo.endTime,
+      gameInfo.description,
+      gameInfo.problems[0].image)
+    ) {
+      // 문제 중 마지막 미입력값 배열이 있으면 제거
       const result = creatorAPI.createGameRoom(gameInfo);
       result
         .then((res) => {
@@ -34,6 +42,8 @@ export default function CreateGamePage() {
         .catch((res) => {
           console.log(res, "안됐다");
         });
+    } else {
+      alert("내용을 입력해 주세요");
     }
   };
 

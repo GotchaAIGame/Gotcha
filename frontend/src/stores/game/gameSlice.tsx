@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
+import produce from "immer";
 
 interface gameState {
   brandColor: string;
   logoUrl: string;
   title: string;
   eventUrl: string;
-  description: string;
   hasReward: boolean;
   startTime: string;
   endTime: string;
@@ -15,7 +15,6 @@ interface gameState {
 interface problemState {
   image: string;
   name: string;
-  description: string;
   hint: string;
 }
 
@@ -26,7 +25,6 @@ const initialState: gameState = {
   logoUrl: "",
   title: "",
   eventUrl: "",
-  description: "",
   hasReward: false,
   startTime: "",
   endTime: "",
@@ -49,7 +47,6 @@ export const gameSlice = createSlice({
       state,
       action: PayloadAction<{
         title: string;
-        description: string;
         startTime: string;
         endTime: string;
       }>
@@ -57,7 +54,6 @@ export const gameSlice = createSlice({
       return {
         ...state,
         title: action.payload.title,
-        description: action.payload.description,
         startTime: action.payload.startTime,
         endTime: action.payload.endTime,
       };
@@ -95,6 +91,27 @@ export const gameSlice = createSlice({
       };
     },
 
+    // 게임 문제 삭제
+    // deleteProblem: (state, action: PayloadAction<{ idx: number }>) => {
+    //   console.log("지워볼게");
+    //   const data = action.payload;
+    //   const coppiedProblems = state.problems;
+    //   coppiedProblems.splice(data.idx, 1);
+
+    //   return {
+    //     ...state,
+    //     problems: coppiedProblems,
+    //   };
+    // },
+
+    deleteProblem: (state, action: PayloadAction<number>) => {
+      // const idxToDelete = state.problems.findIndex(p => p.id === action.payload);
+      const idxToDelete = action.payload;
+      return produce(state, (draft) => {
+        draft.problems.splice(idxToDelete, 1);
+      });
+    },
+
     // 게임 커스텀
     setGameCustom: (
       state,
@@ -112,6 +129,6 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setGame, addProblem, setProblem, setGameCustom } =
+export const { setGame, addProblem, setProblem, deleteProblem, setGameCustom } =
   gameSlice.actions;
 export default gameSlice.reducer;
