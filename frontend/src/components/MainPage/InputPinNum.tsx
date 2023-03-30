@@ -15,9 +15,9 @@ export default function InputPinNum() {
           const room = res.data.result.roomId;
 
           if (type === 1) {
-            navigate(`/newgame/${inputPin}`); // 신규참여
+            navigate(`/newgame/${inputPin}`, { state: { room, inputPin } }); // 신규참여
           } else if (type === 2) {
-            navigate(`/rejoin/${inputPin}`, { state: room }); // 재참여
+            navigate(`/rejoin/${inputPin}`, { state: { room, inputPin } }); // 재참여
           }
           setInputPin("");
         })

@@ -1,10 +1,9 @@
 import React, { useRef, useState } from "react";
 import { gamePlayAPI } from "@apis/apis";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InputBox from "@components/common/InputBox";
 import OTPInput from "@components/common/OTPInput";
 import Button from "@components/common/Button";
-import { HttpStatusCode } from "axios";
 
 // 1. 먼저 재참여자는 이전에 참여했던
 //    닉네임과 비밀번호가 일치하는지 확인(/game/login)
@@ -18,11 +17,18 @@ export default function RejoinPlayerInfo() {
 
   const currentRef = nicknameHandler.current;
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // 재참여 로그인
   const rejoinGameHandler = () => {
-    // if (otp.length < 4) {
-    //   alert("비밀번호 4자리를 입력해주세요.");
-    // }
-    const roomId = location.state;
+    if (otp.length < 4) {
+      alert("비밀번호 4자리를 입력해주세요.");
+    }
+
+    const roomId = location.state.room;
+    const roomPin = location.state.inputPin;
+
+    console.log("roomId: ", roomId, "roomPin: ", roomPin);
 
     if (currentRef) {
       let nicknameValue = currentRef.value;
@@ -36,19 +42,21 @@ export default function RejoinPlayerInfo() {
         .catch((err) => {
           const errCode = err.response.data.status;
           switch (errCode) {
+            case 400:
+              alert("닉네임을 입력해주세요.");
+              break;
             case 401:
               alert("닉네임과 비밀번호를 확인해주세요.");
               break;
             case 404:
               alert("참여한 전적이 없습니다. \n새게임을 시작해주세요.");
+              navigate(`/newgame/${roomPin}`); // 새게임 페이지로 리다이렉트 -> 새게임페이지 나오면 닉네임 자동입력되게끔 추가해주기!!
               break;
             default:
               console.error();
           }
         });
-      if (currentRef) {
-        nicknameValue = "";
-      }
+      nicknameValue = ""; // 수정필요 -> 비워지지않음
       setOtp("");
     }
   };
