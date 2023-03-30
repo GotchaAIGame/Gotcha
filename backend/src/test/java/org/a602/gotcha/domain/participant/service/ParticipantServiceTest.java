@@ -4,9 +4,11 @@ import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.exception.DuplicateNicknameException;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.participant.exception.ParticipantNotFoundException;
+import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.*;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
+import org.a602.gotcha.domain.participant.response.ParticipantRankListResponse;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
@@ -17,9 +19,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,17 +40,19 @@ class ParticipantServiceTest {
     @Mock
     private ParticipantRepository participantRepository;
     @Mock
+    private ParticipantQueryRepository participantQueryRepository;
+    @Mock
     private RoomRepository roomRepository;
     @Mock
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     Long ROOM_ID = 1L;
     Long INVALID_ROOM_ID = 10L;
     String USER_NICKNAME = "YEZI";
     String NOT_REGISTERED_NICKNAME = "TAEGYU";
-    String USER_PASSWORD = "1234";
+    Integer USER_PASSWORD = 1234;
     String HASH_PASSWORD = "ENCODE_PASSWORD";
-    String NOT_VALID_PASSWORD = "1111";
+    Integer NOT_VALID_PASSWORD = 1111;
 
     @Nested
     @DisplayName("참여자 닉네임 중복 체크 메소드는")
@@ -232,7 +239,7 @@ class ParticipantServiceTest {
                             .password(HASH_PASSWORD)
                             .isFinished(false)
                             .build()));
-            when(bCryptPasswordEncoder.matches(USER_PASSWORD, HASH_PASSWORD)).thenReturn(true);
+            when(passwordEncoder.matches(USER_PASSWORD.toString(), HASH_PASSWORD)).thenReturn(true);
             // then
             ParticipantInfoResponse participantInfo = participantService.getParticipantInfo(request);
             assertFalse(participantInfo.getIsFinished());
@@ -241,7 +248,7 @@ class ParticipantServiceTest {
 
     @Nested
     @DisplayName("updateStartTime 메소드는")
-    class UpdateStartTime{
+    class UpdateStartTime {
 
         @Test
         @DisplayName("방 정보가 없을 경우 RoomNotFound 예외 발생")
@@ -460,5 +467,150 @@ class ParticipantServiceTest {
 
     }
 
+    @Nested
+    @DisplayName("getRankList 메소드는")
+    class GetRankList {
+
+        @Test
+        @DisplayName("방 정보가 없을 경우 RoomNotFound 예외 발생")
+        void notValidRoomId() {
+            // given
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(INVALID_ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(INVALID_ROOM_ID))).thenReturn(Optional.empty());
+            // then
+            assertThrows(RoomNotFoundException.class, () -> participantService.getRankList(request));
+        }
+
+        @Test
+        @DisplayName("해당하는 참여자가 없을 경우 ParticipantNotFound 예외 발생")
+        void notValidParticipant() {
+            // given
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(NOT_REGISTERED_NICKNAME)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(Optional.empty());
+            // then
+            assertThrows(ParticipantNotFoundException.class, () -> participantService.getRankList(request));
+        }
+
+        @Test
+        @DisplayName("참여자가 Top3 안에 있을 경우 1~3위까지만 반환")
+        void participantInTop3() {
+            // given
+            // 유저가 1등을 하도록 생성
+            List<Participant> top3ParticipantList = new ArrayList<>();
+            Participant participant = Participant.builder()
+                    .nickname(USER_NICKNAME)
+                    .duration(Duration.ofHours(1))
+                    .solvedCnt(5)
+                    .build();
+            top3ParticipantList.add(participant);
+            for (int i = 0; i < 2; i++) {
+                top3ParticipantList.add(Participant.builder()
+                        .nickname("temp" + i)
+                        .duration(Duration.ofHours(2 + i))
+                        .solvedCnt(4)
+                        .build());
+            }
+            // 요청 정보 생성
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(Optional.of(participant));
+            when(participantQueryRepository.getTop3Rank(ROOM_ID))
+                    .thenReturn(top3ParticipantList);
+            // then
+            List<ParticipantRankListResponse> rankList = participantService.getRankList(request);
+            assertEquals(3, rankList.size());
+            assertTrue(rankList.get(0).getIsUser());
+            assertFalse(rankList.get(1).getIsUser());
+        }
+
+        @Test
+        @DisplayName("참여자가 총 2명일 때는 2명에 대한 정보만 반환")
+        void existTwoParticipant() {
+            // given
+            List<Participant> top3ParticipantList = new ArrayList<>();
+            Participant participant = Participant.builder()
+                    .nickname(USER_NICKNAME)
+                    .duration(Duration.ofHours(1))
+                    .solvedCnt(5)
+                    .build();
+            top3ParticipantList.add(participant);
+            for (int i = 0; i < 1; i++) {
+                top3ParticipantList.add(Participant.builder()
+                        .nickname("temp" + i)
+                        .duration(Duration.ofHours(2 + i))
+                        .solvedCnt(4)
+                        .build());
+            }
+            // 요청 정보 생성
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(Optional.of(participant));
+            when(participantQueryRepository.getTop3Rank(ROOM_ID))
+                    .thenReturn(top3ParticipantList);
+            // then
+            List<ParticipantRankListResponse> rankList = participantService.getRankList(request);
+            assertEquals(2, rankList.size());
+            assertTrue(rankList.get(0).getIsUser());
+            assertFalse(rankList.get(1).getIsUser());
+        }
+
+        @Test
+        @DisplayName("참여자가 Top3 안에 없을 때는 Top3와 유저 정보 함께 반환")
+        void participantOutOfRank() {
+            // given
+            List<Participant> top3ParticipantList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                top3ParticipantList.add(Participant.builder()
+                        .nickname("temp" + i)
+                        .duration(Duration.ofHours(1 + i))
+                        .solvedCnt(4)
+                        .build());
+            }
+            Participant participant = Participant.builder()
+                    .nickname(USER_NICKNAME)
+                    .duration(Duration.ofHours(10))
+                    .solvedCnt(5)
+                    .build();
+            // 요청 정보 생성
+            RankInfoRequest request = RankInfoRequest.builder()
+                    .roomId(ROOM_ID)
+                    .nickname(USER_NICKNAME)
+                    .build();
+            // when
+            when(roomRepository.findById(eq(ROOM_ID))).thenReturn(Optional.of(Room.builder().build()));
+            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(Optional.of(participant));
+            when(participantQueryRepository.getTop3Rank(ROOM_ID))
+                    .thenReturn(top3ParticipantList);
+            when(participantQueryRepository.getParticipantRank(ROOM_ID, participant.getDuration(), participant.getSolvedCnt()))
+                    .thenReturn(4L);
+            // then
+            List<ParticipantRankListResponse> rankList = participantService.getRankList(request);
+            assertEquals(4, rankList.size());
+            assertTrue(rankList.get(3).getIsUser());
+            assertFalse(rankList.get(0).getIsUser());
+        }
+
+    }
 
 }

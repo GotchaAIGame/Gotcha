@@ -25,5 +25,8 @@ public class GameInfoResponse {
     @Schema(description = "이벤트 제목")
     private String title;
 
+    @Schema(description = "리워드 존재 여부")
+    private Boolean hasReward;
+
 }
 

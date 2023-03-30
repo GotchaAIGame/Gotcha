@@ -22,9 +22,6 @@ public class Problem {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "hint")
     private String hint;
 
@@ -36,20 +33,18 @@ public class Problem {
     private String imageUrl;
 
     @Builder
-    public Problem(String name, String description, String hint, String imageUrl, Room room) {
+    public Problem(String name, String hint, String imageUrl, Room room) {
         this.name = name;
-        this.description = description;
         this.hint = hint;
         this.imageUrl = imageUrl;
         this.room = room;
     }
 
-    public String updateProblem(String newImageUrl, String description, String name, String hint) {
+    public String updateProblem(String newImageUrl, String name, String hint) {
         String prevImage = this.imageUrl;
         if (newImageUrl != null) {
             this.imageUrl = newImageUrl;
         }
-        this.description = description;
         this.name = name;
         this.hint = hint;
         return prevImage;

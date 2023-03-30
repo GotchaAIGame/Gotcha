@@ -19,4 +19,7 @@ public class RewardListResponse {
     @Schema(description = "상품명")
     private String rewardName;
 
+    @Schema(description = "이미지 URL")
+    private String image;
+
 }

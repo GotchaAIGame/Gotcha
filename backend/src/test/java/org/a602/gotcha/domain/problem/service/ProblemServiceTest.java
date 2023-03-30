@@ -41,7 +41,6 @@ class ProblemServiceTest {
         for (int i = 0; i < 5; i++) {
             problemList.add(Problem.builder()
                     .name("이름" + i)
-                    .description("설명" + i)
                     .imageUrl("imageUrl" + i)
                     .hint("힌트" + i).build());
         }

@@ -2,36 +2,28 @@ package org.a602.gotcha.domain.problem.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.problem.request.DeleteProblemRequest;
 import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
+import org.a602.gotcha.domain.problem.response.ProblemDetailResponse;
 import org.a602.gotcha.domain.problem.service.ProblemService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.a602.gotcha.domain.problem.service.ProblemService;
-import org.a602.gotcha.global.common.BaseResponse;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@Tag(name = "Participant", description = "게임 참여자 관련 API")
+@Tag(name = "Problem", description = "보물 문제 관련 API")
 @Slf4j
 public class ProblemController {
     private final ProblemService problemService;
-
 
     @PutMapping("/set/problem")
     @ApiResponse(responseCode = "200", description = "수정 성공")
@@ -57,6 +49,24 @@ public class ProblemController {
     public BaseResponse<String> getProblemHint(@RequestParam Long problemId) {
         String hint = problemService.findHint(problemId);
         return new BaseResponse<>(hint);
+    }
+
+    @Operation(description = "문제 조회하기", summary = "문제 조회하기")
+    @ApiResponse(responseCode = "200", description = "문제 조회")
+    @GetMapping("/problem/{problemId}")
+    public BaseResponse<ProblemDetailResponse> getProblemDetail(@PathVariable Long problemId) {
+
+        Optional<Problem> problemDetail = problemService.getProblemDetail(problemId);
+        if (problemDetail.isPresent()) {
+            Problem problem = problemDetail.get();
+            ProblemDetailResponse problemDetailResponse = new ProblemDetailResponse(
+                    problem.getHint(),
+                    problem.getImageUrl(),
+                    problem.getName(),
+                    problem.getId()
+            );
+            return new BaseResponse<>(problemDetailResponse);
+        } else return new BaseResponse<>(new ProblemDetailResponse());
     }
 
 }

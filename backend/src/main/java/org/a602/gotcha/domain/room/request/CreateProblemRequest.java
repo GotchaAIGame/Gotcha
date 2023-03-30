@@ -14,16 +14,11 @@ import javax.validation.constraints.NotBlank;
 public class CreateProblemRequest {
 
     @Schema(description = "Base64 인코딩된 이미지")
-    @NotBlank
     String image;
 
     @Schema(description = "문제 이름")
     @NotBlank
     String name;
-
-    @Schema(description = "문제 설명")
-    @NotBlank
-    String description;
 
     @Schema(description = "힌트")
     String hint;

@@ -1,6 +1,5 @@
 package org.a602.gotcha.domain.room.entity;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "room")
 public class Room {
     @Id
@@ -53,25 +52,21 @@ public class Room {
     @Column(name = "has_reward")
     private Boolean hasReward;
 
-    @Column(name = "reward_desc")
-    private String rewardDesc;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "room", orphanRemoval = true)
+    @OneToMany(mappedBy = "room", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Participant> participants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room", orphanRemoval = true)
-    private List<Reward> rewards = new ArrayList<>();
+    @OneToMany(mappedBy = "room", orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Reward> rewards = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "room", orphanRemoval = true)
+    @OneToMany(mappedBy = "room", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Problem> problems = new LinkedHashSet<>();
 
     @Builder
-    public Room(String color, String logoUrl, String title, String eventUrl, String eventDesc, int code, String description, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, String rewardDesc, Member member) {
+    public Room(String color, String logoUrl, String title, String eventUrl, String eventDesc, int code, LocalDateTime startTime, LocalDateTime endTime, Boolean hasReward, Member member) {
         this.color = color;
         this.logoUrl = logoUrl;
         this.title = title;
@@ -81,16 +76,15 @@ public class Room {
         this.startTime = startTime;
         this.endTime = endTime;
         this.hasReward = hasReward;
-        this.rewardDesc = rewardDesc;
         this.member = member;
     }
 
-    public void updateRoom(String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+    public void updateRoom(String color, String logoUrl, String title, String eventUrl, String eventDesc, LocalDateTime startTime, LocalDateTime endTime) {
         this.color = color;
         this.logoUrl = logoUrl;
         this.title = title;
         this.eventUrl = eventUrl;
-        this.eventDesc = description;
+        this.eventDesc = eventDesc;
         this.startTime = startTime;
         this.endTime = endTime;
     }

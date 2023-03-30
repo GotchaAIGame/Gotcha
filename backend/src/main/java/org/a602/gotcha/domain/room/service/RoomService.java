@@ -11,9 +11,13 @@ import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.request.CreateProblemRequest;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
+import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
+import org.a602.gotcha.domain.room.response.RoomSummaryInfo;
 import org.a602.gotcha.global.common.S3Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,11 +51,13 @@ public class RoomService {
                 .color(gameRoom.getColor())
                 .logoUrl(gameRoom.getLogoUrl())
                 .title(gameRoom.getTitle())
+                .hasReward(gameRoom.getHasReward())
                 .build();
     }
 
     @Transactional(readOnly = true)
     public List<RewardListResponse> getGameRewardList(Long roomId) {
+        checkRoomValidation(roomId);
         List<Reward> rewards = rewardRepository.findRewardsByRoomId(roomId);
         if (rewards.isEmpty()) {
             throw new RewardNotFoundException();
@@ -61,15 +67,25 @@ public class RoomService {
                         RewardListResponse.builder()
                                 .grade(reward.getGrade())
                                 .rewardName(reward.getName())
+                                .image(reward.getImage())
                                 .build()).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public EventDetailResponse getEventDetail(Long roomId) {
+        Room room = findRoom(roomId);
+        return EventDetailResponse.builder()
+                .eventDesc(room.getEventDesc())
+                .eventUrl(room.getEventUrl())
+                .build();
+    }
 
-    public void createRoom(CreateRoomRequest request) {
+
+    public int createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
 
-        int code = random.nextInt(100_0000);
+        int code = random.nextInt(90_0000) + 100_000;
         Room room = Room.builder()
                 .color(request.getBrandColor())
                 .title(request.getTitle())
@@ -77,9 +93,9 @@ public class RoomService {
                 .logoUrl(request.getLogoUrl())
                 .eventUrl(request.getEventUrl())
                 .startTime(request.getStartTime())
-                .description(request.getDescription())
                 .code(code)
                 .build();
+
         for (CreateProblemRequest problem : problems) {
 
             String uploadImageUrl = s3Service.uploadImage(problem.getImage());
@@ -89,13 +105,14 @@ public class RoomService {
                     .name(problem.getName())
                     .room(room)
                     .imageUrl(uploadImageUrl)
-                    .description(problem.getDescription()).build();
+                    .build();
             problemList.add(build);
             room.getProblems().addAll(problemList);
 
         }
-
         roomRepository.save(room);
+        return code;
+
     }
 
 
@@ -103,11 +120,11 @@ public class RoomService {
         roomRepository.deleteById(roomId);
     }
 
-    public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String description, LocalDateTime startTime, LocalDateTime endTime) {
+    public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String eventDesc, LocalDateTime startTime, LocalDateTime endTime) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> {
             throw new RoomNotFoundException();
         });
-        room.updateRoom(color, logoUrl, title, eventUrl, description, startTime, endTime);
+        room.updateRoom(color, logoUrl, title, eventUrl, eventDesc, startTime, endTime);
 
     }
 
@@ -115,5 +132,26 @@ public class RoomService {
         return roomRepository.findById(roomId).orElseThrow(() -> {
             throw new RoomNotFoundException();
         });
+    }
+
+    private void checkRoomValidation(Long roomID) {
+        roomRepository.findById(roomID)
+                .orElseThrow(RoomNotFoundException::new);
+    }
+
+    private Room findRoom(Long roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Room getRoomWithAllRelations(Long roomId) {
+        return roomRepository.findOneWithAllRelationships(roomId);
+    }
+
+    public Page<RoomSummaryInfo> getRoomIdsByMemberId(Long memberID, Pageable pageable) {
+
+        return roomRepository.findByMember_Id(memberID, pageable);
+
     }
 }
