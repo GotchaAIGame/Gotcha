@@ -20,7 +20,7 @@ export default function MainPage() {
       {/* 임시 바로가기 모음 */}
       <div className="temps-container">
         <p>🚀 임시 바로가기 모음 🚀</p>
-        <Link to="/creator">
+        <Link to={`/mypage/${nickname}`}>
           <button type="button">출제자 메인 페이지</button>
         </Link>
         <Link to="/create/game">

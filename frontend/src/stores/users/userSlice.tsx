@@ -31,6 +31,17 @@ export const userSlice = createSlice({
         profileImage: action.payload.profileImage,
       };
     },
+
+    // 회원정보 수정
+    putUser: (state, action: PayloadAction<UserState>) => {
+      return {
+        ...state,
+        nickname: action.payload.nickname,
+        organization: action.payload.organization,
+        profileImage: action.payload.profileImage,
+      };
+    },
+
     // 로그아웃
     setLogout: (state) => {
       return {
@@ -45,5 +56,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setLogin, setLogout } = userSlice.actions;
+export const { setLogin, putUser, setLogout } = userSlice.actions;
 export default userSlice.reducer;

@@ -5,6 +5,7 @@ import MainPage from "./MainPage";
 import SignUpPage from "./SignUpPage";
 import LogInPage from "./LogInPage";
 import CreatorMainPage from "./CreatorMainPage";
+import EditProfilePage from "./EditProfilePage";
 import CreateGamePage from "./CreateGamePage";
 import CustomGamePage from "./CustomGamePage";
 import PlayerNewGamePage from "./PlayerNewGamePage";
@@ -24,7 +25,12 @@ export default function Routers() {
       {/* <Route path="/" element={<MainPage />} /> */}
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/login" element={<LogInPage />} />
-      <Route path="/creator" element={<CreatorMainPage />} />
+
+      {/* Creator */}
+      <Route path="mypage">
+        <Route path=":memberID" element={<CreatorMainPage />} />
+        <Route path=":memberID/edit" element={<EditProfilePage />} />
+      </Route>
       <Route path="/create/game" element={<CreateGamePage />} />
       <Route path="/custom/game" element={<CustomGamePage />} />
       <Route path="/newgame" element={<PlayerNewGamePage />} />
