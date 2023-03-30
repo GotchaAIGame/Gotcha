@@ -5,6 +5,7 @@ interface gameState {
   brandColor: string;
   logoUrl: string;
   title: string;
+  eventDesc: string;
   eventUrl: string;
   hasReward: boolean;
   startTime: string;
@@ -25,6 +26,7 @@ const initialState: gameState = {
   logoUrl: "",
   title: "",
   eventUrl: "",
+  eventDesc: "",
   hasReward: false,
   startTime: "",
   endTime: "",
@@ -32,7 +34,6 @@ const initialState: gameState = {
     {
       image: "",
       name: "",
-      description: "",
       hint: "",
     },
   ],
@@ -48,12 +49,14 @@ export const gameSlice = createSlice({
       action: PayloadAction<{
         title: string;
         startTime: string;
+        eventDesc: string;
         endTime: string;
       }>
     ) => {
       return {
         ...state,
         title: action.payload.title,
+        eventDesc: action.payload.eventDesc,
         startTime: action.payload.startTime,
         endTime: action.payload.endTime,
       };
@@ -64,7 +67,6 @@ export const gameSlice = createSlice({
       state.problems.push({
         image: "",
         name: "",
-        description: "",
         hint: "",
       });
     },
