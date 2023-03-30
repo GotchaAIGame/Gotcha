@@ -16,6 +16,17 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: ${REDIRECT_URI}
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            scope:
+              - profile
+              - email
 notification:
   mattermost:
     enabled: true # mmSender를 사용할 지 여부, false면 알림이 오지 않는다

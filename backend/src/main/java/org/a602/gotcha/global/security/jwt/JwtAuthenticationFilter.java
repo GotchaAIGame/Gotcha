@@ -1,6 +1,6 @@
-package org.a602.gotcha.global.security;
+package org.a602.gotcha.global.security.jwt;
 
-import static org.a602.gotcha.global.security.JwtTokenProvider.*;
+import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.*;
 
 import java.io.IOException;
 

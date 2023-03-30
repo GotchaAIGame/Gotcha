@@ -68,8 +68,8 @@ public class Member implements UserDetails {
 		this.password = passwordEncoder.encode(password);
 	}
 
-	public void addDefaultRegistrationId(){
-		this.registrationId = "normal";
+	public void insertDefaultRegistrationId(){
+		this.registrationId = "NORMAL";
 	}
 
 	public void updateMember(final Member member) {

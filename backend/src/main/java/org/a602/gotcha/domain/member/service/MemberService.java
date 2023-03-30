@@ -1,9 +1,8 @@
 package org.a602.gotcha.domain.member.service;
 
-import static org.a602.gotcha.global.security.JwtTokenProvider.*;
+import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.*;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
@@ -16,7 +15,7 @@ import org.a602.gotcha.domain.member.response.MemberInformationResponse;
 import org.a602.gotcha.domain.member.response.MemberLoginResponse;
 import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
-import org.a602.gotcha.global.security.JwtTokenProvider;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class MemberService {
 	public Long signup(final MemberSignupRequest memberSignupRequest) {
 		final Member member = memberRepository.save(memberSignupRequest.toEntity());
 		member.encodePassword(passwordEncoder);
-		member.addDefaultRegistrationId();
+		member.insertDefaultRegistrationId();
 
 		return member.getId();
 	}
@@ -50,10 +49,9 @@ public class MemberService {
 
 	@Transactional(readOnly = true)
 	public MemberLoginResponse login(final MemberLoginRequest memberLoginRequest) {
-		final Optional<Member> memberByEmail = memberRepository.findMemberByEmail(memberLoginRequest.getEmail());
-		memberByEmail.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+		final Member member = memberRepository.findMemberByEmail(memberLoginRequest.getEmail())
+			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
 
-		final Member member = memberByEmail.get();
 		String accessToken;
 		String refreshToken;
 
