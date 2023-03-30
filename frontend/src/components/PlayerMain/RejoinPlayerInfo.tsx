@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React, { useRef, useState } from "react";
 import { gamePlayAPI } from "@apis/apis";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,16 +12,18 @@ import Button from "@components/common/Button";
 // 3. isFinished == false (이어하기)
 
 export default function RejoinPlayerInfo() {
-  const [otp, setOtp] = useState("");
-  const nicknameHandler = useRef<HTMLInputElement>(null);
-  const changeHandler = (value: string) => setOtp(value);
-
-  const currentRef = nicknameHandler.current;
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [otp, setOtp] = useState(""); // 비밀번호 state
+  const [isClicked, setIsClicked] = useState(false); // 입장하기 버튼 클릭 여부
+  const [isFinish, setIsFinish] = useState(false); // 참여자 게임 종료여부
+  const [startedTime, setStartedTime] = useState(""); // 참여자 게임시작했던시간
+  const location = useLocation(); // roomId props로 받기
+  const navigate = useNavigate(); // 리다이렉트
+  const nicknameHandler = useRef<HTMLInputElement>(null); // 닉네임 input
+  const changeHandler = (value: string) => setOtp(value); // 비밀번호 input
 
   // 재참여 로그인
   const rejoinGameHandler = () => {
+    const currentRef = nicknameHandler.current;
     if (otp.length < 4) {
       alert("비밀번호 4자리를 입력해주세요.");
     }
@@ -37,7 +40,12 @@ export default function RejoinPlayerInfo() {
 
       request
         .then((res) => {
-          console.log(res);
+          setIsFinish(res.data.result.isFinished);
+          setStartedTime(res.data.result.startTime);
+          setIsClicked(true);
+          console.log(isFinish);
+          console.log(startedTime);
+          console.log(isClicked);
         })
         .catch((err) => {
           const errCode = err.response.data.status;
@@ -66,12 +74,18 @@ export default function RejoinPlayerInfo() {
       <InputBox type="text" text="닉네임" ref={nicknameHandler} />
       <OTPInput value={otp} valueLength={4} onChange={changeHandler} />
       <div className="enter-button">
-        <Button
-          text="입장하기"
-          type="submit"
-          color="gray-blue"
-          onClick={rejoinGameHandler}
-        />
+        {isClicked ? (
+          <>
+            {isFinish ? <Button text="랭킹보기" /> : <Button text="이어하기" />}
+          </>
+        ) : (
+          <Button
+            text="입장하기"
+            type="submit"
+            color="gray-blue"
+            onClick={rejoinGameHandler}
+          />
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import { gamePlayAPI } from "@apis/apis";
 export default function InputPinNum() {
   const [inputPin, setInputPin] = useState<any>("");
 
+
+  // 
   const navigate = useNavigate();
   const enterHandler = (type: number) => {
     // Pin번호 6자리
