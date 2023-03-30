@@ -91,7 +91,7 @@ public class InsertMockData {
                 .password(HASH_PWD)
                 .startTime(startTime)
                 .endTime(startTime.plusHours(2).plusMinutes(30))
-                .duration(Duration.between(startTime, endTime))
+                .duration(Duration.between(startTime, startTime.plusHours(2).plusMinutes(30)))
                 .isFinished(true)
                 .solvedCnt(4)
                 .room(roomWithReward)
@@ -123,6 +123,7 @@ public class InsertMockData {
                     .name("규튜리의 사랑 크기" + (101 - i))
                     .grade(i)
                     .room(roomWithReward)
+                    .image("http://cdn.ggilbo.com/news/photo/202007/782407_615776_4413.jpg")
                     .build();
             rewardRepository.save(reward);
         }
