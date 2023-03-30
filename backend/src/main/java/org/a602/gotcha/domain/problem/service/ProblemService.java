@@ -23,7 +23,6 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
     private final S3Service s3Service;
-    private final RoomRepository roomRepository;
 
     @Transactional
     public void updateProblem(UpdateProblemRequest request) {
