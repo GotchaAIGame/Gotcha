@@ -24,19 +24,14 @@ public class Reward {
     @Column(name = "grade")
     private Integer grade;
 
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
     @Builder
-    public Reward(String name, Integer grade, Room room) {
-        this.name = name;
-        this.grade = grade;
-        this.room = room;
-    }
-
-    private String image;
-
     public Reward(String name, Integer grade, Room room, String image) {
         this.name = name;
         this.grade = grade;

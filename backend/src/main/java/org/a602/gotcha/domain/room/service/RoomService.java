@@ -64,6 +64,7 @@ public class RoomService {
                         RewardListResponse.builder()
                                 .grade(reward.getGrade())
                                 .rewardName(reward.getName())
+                                .image(reward.getImage())
                                 .build()).collect(Collectors.toList());
     }
 
