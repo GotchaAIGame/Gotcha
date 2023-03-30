@@ -21,7 +21,6 @@ public class RoomDetailResponse {
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
     private final Boolean hasReward;
-    private final String rewardDesc;
     private final List<RewardDto> rewards;
     private final Set<ProblemDto> problems;
 
@@ -43,7 +42,6 @@ public class RoomDetailResponse {
     public static class ProblemDto {
         private final Long id;
         private final String name;
-        private final String description;
         private final String hint;
         private final String imageUrl;
     }
