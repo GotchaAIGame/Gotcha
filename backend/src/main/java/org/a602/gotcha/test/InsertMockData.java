@@ -122,6 +122,7 @@ public class InsertMockData {
             Reward reward = Reward.builder()
                     .name("규튜리의 사랑 크기" + (101 - i))
                     .grade(i)
+                    .room(roomWithReward)
                     .build();
             rewardRepository.save(reward);
         }
