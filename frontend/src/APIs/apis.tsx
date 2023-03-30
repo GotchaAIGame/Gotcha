@@ -58,6 +58,11 @@ const creatorAPI = {
       }
     ];
   }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
+
+  getAllGameRoom: (userId: number, page: number): Promise<AxiosResponse> =>
+    request.authGet(`member/room/${userId}`, {
+      params: { page },
+    }),
 };
 
 export { gamePlayAPI, memberAPI, MLAPI, creatorAPI };
