@@ -16,9 +16,14 @@ import org.a602.gotcha.domain.room.response.*;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -60,7 +65,7 @@ public class RoomController {
     @PostMapping("/set/room")
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
-    public BaseResponse<CreateRoomResponse> createRoom(@RequestBody CreateRoomRequest request) {
+    public BaseResponse<CreateRoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
         int code = roomService.createRoom(request);
         CreateRoomResponse createRoomResponse = new CreateRoomResponse(code);
         return new BaseResponse<>(createRoomResponse);
@@ -69,7 +74,7 @@ public class RoomController {
     @DeleteMapping("/set/room")
     @ApiResponse(description = "방 종료 성공", responseCode = "200")
     @Operation(description = "방 종료 API", summary = "방 종료 API")
-    public BaseResponse<Void> closeRoom(@RequestBody CloseRoomRequest request) {
+    public BaseResponse<Void> closeRoom(@RequestBody @Valid CloseRoomRequest request) {
         roomService.closeRoom(request.getRoomId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
@@ -78,7 +83,7 @@ public class RoomController {
     @PutMapping("/set/room")
     @ApiResponse(description = "방 수정 성공", responseCode = "200")
     @Operation(description = "방 수정 API", summary = "방 수정 API")
-    public BaseResponse<Void> updateRoom(@RequestBody UpdateRoomRequest request) {
+    public BaseResponse<Void> updateRoom(@RequestBody @Valid UpdateRoomRequest request) {
         roomService.updateRoom(
                 request.getId(),
                 request.getColor(),
@@ -97,4 +102,11 @@ public class RoomController {
         RoomDetailResponse roomDetailResponse = RoomToRoomDetailResponseMapper.INSTANCE.roomToRoomDetailResponse(roomWithAllRelations);
         return new BaseResponse<>(roomDetailResponse);
     }
+
+    @GetMapping("/member/room/{memberID}")
+    public BaseResponse<Page<RoomSummaryInfo>> getRoomIdsByMemberId(@PageableDefault Pageable pageable, @PathVariable @Valid @Positive Long memberID) {
+        return new BaseResponse<>(roomService.getRoomIdsByMemberId(memberID, pageable));
+
+    }
+
 }
