@@ -91,7 +91,7 @@ public class InsertMockData {
                 .password(HASH_PWD)
                 .startTime(startTime)
                 .endTime(startTime.plusHours(2).plusMinutes(30))
-                .duration(Duration.between(startTime, endTime))
+                .duration(Duration.between(startTime, startTime.plusHours(2).plusMinutes(30)))
                 .isFinished(true)
                 .solvedCnt(4)
                 .room(roomWithReward)
