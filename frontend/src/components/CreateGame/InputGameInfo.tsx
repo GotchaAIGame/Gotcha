@@ -9,7 +9,7 @@ export default function InputGameInfo() {
   const changeInfoHanlder = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newGeameInfo = {
       title: gameInfo.title,
-      description: gameInfo.description,
+      eventDesc: gameInfo.eventDesc,
       startTime: gameInfo.startTime,
       endTime: gameInfo.endTime,
     };
@@ -31,7 +31,7 @@ export default function InputGameInfo() {
     // console.log(e.target.value);
     const newGeameInfo = {
       title: gameInfo.title,
-      description: e.target.value,
+      eventDesc: e.target.value,
       startTime: gameInfo.startTime,
       endTime: gameInfo.endTime,
     };
@@ -78,7 +78,7 @@ export default function InputGameInfo() {
           <div className="right-inputs-container">
             <textarea
               placeholder="게임의 정보를 입력해 주세요."
-              value={gameInfo.description}
+              value={gameInfo.eventDesc}
               onChange={changeDescriptionHanlder}
             />
           </div>
