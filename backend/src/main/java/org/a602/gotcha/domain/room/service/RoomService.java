@@ -14,7 +14,10 @@ import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.response.EventDetailResponse;
 import org.a602.gotcha.domain.room.response.GameInfoResponse;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
+import org.a602.gotcha.domain.room.response.RoomSummaryInfo;
 import org.a602.gotcha.global.common.S3Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -146,4 +149,9 @@ public class RoomService {
         return roomRepository.findOneWithAllRelationships(roomId);
     }
 
+    public Page<RoomSummaryInfo> getRoomIdsByMemberId(Long memberID, Pageable pageable) {
+
+        return roomRepository.findByMember_Id(memberID, pageable);
+
+    }
 }

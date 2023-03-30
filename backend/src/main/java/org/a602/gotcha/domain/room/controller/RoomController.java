@@ -16,10 +16,14 @@ import org.a602.gotcha.domain.room.response.*;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -98,4 +102,11 @@ public class RoomController {
         RoomDetailResponse roomDetailResponse = RoomToRoomDetailResponseMapper.INSTANCE.roomToRoomDetailResponse(roomWithAllRelations);
         return new BaseResponse<>(roomDetailResponse);
     }
+
+    @GetMapping("/member/room/{memberID}")
+    public BaseResponse<Page<RoomSummaryInfo>> getRoomIdsByMemberId(@PageableDefault Pageable pageable, @PathVariable @Valid @Positive Long memberID) {
+        return new BaseResponse<>(roomService.getRoomIdsByMemberId(memberID, pageable));
+
+    }
+
 }
