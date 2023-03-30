@@ -2,15 +2,19 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import logo from "@assets/logo.svg";
 
 interface ThemeState {
-  themeColor: string;
-  themeLogo: string;
-  themeTitle: string;
+  room: number; // roomId
+  reward: boolean; // hasReward
+  themeColor: string; // color
+  themeLogo: string; // logoUrl
+  themeTitle: string; // title
 }
 
 const initialState: ThemeState = {
+  room: 0,
+  reward: false,
   themeColor: "#5551FF",
   themeLogo: logo,
-  themeTitle: "일이삼사오육칠팔구십일이삼사오육칠팔구십"
+  themeTitle: "",
 };
 
 export const themeSlice = createSlice({
@@ -20,6 +24,8 @@ export const themeSlice = createSlice({
     setTheme: (
       state,
       action: PayloadAction<{
+        room: string;
+        reward: boolean;
         themeColor: string;
         themeLogo: string;
         themeTitle: string;

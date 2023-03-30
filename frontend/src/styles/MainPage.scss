@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  .newgame-link,
+  button,
   input {
     @include desktop {
       font-size: 2rem;
@@ -61,11 +61,10 @@
     background-color: $lime;
   }
   .rejoin-link {
-    border: none;
-    background-color: transparent;
-    text-decoration: underline;
     cursor: pointer;
-    // color: white; // 나중에 찐 배경화면 바꾸면 적용할 것
+    box-shadow: 3px 3px $gray-1;
+    background-color: $blue-1;
+    color: white;
   }
   h3 {
     @include desktop {

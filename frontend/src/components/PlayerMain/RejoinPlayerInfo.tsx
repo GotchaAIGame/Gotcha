@@ -25,6 +25,7 @@ export default function RejoinPlayerInfo() {
   const roomPin = location.state.inputPin;
 
   const currentRef = nicknameHandler.current;
+
   // 재참여 로그인
   const rejoinGameHandler = () => {
     if (otp.length < 4) {
@@ -63,6 +64,7 @@ export default function RejoinPlayerInfo() {
     }
   };
 
+  // <이어하기> 버튼 클릭
   const rejoinClickHandler = () => {
     if (currentRef) {
       const nicknameValue = currentRef.value;
@@ -74,6 +76,7 @@ export default function RejoinPlayerInfo() {
     }
   };
 
+  // <랭킹보기> 버튼 클릭
   const rankClickHandler = () => {
     navigate(`/game/${roomPin}/rank`);
   };
