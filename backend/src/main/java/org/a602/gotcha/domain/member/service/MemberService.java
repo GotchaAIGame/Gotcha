@@ -1,6 +1,6 @@
 package org.a602.gotcha.domain.member.service;
 
-import static org.a602.gotcha.global.security.JwtTokenProvider.*;
+import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.*;
 
 import java.util.NoSuchElementException;
 
@@ -15,7 +15,7 @@ import org.a602.gotcha.domain.member.response.MemberInformationResponse;
 import org.a602.gotcha.domain.member.response.MemberLoginResponse;
 import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.global.error.GlobalErrorCode;
-import org.a602.gotcha.global.security.JwtTokenProvider;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
