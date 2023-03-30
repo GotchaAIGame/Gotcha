@@ -244,6 +244,7 @@ input.invisible {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 .AIModal-content {
@@ -256,6 +257,7 @@ input.invisible {
   box-shadow: 3px $gray-1;
   // overflow: none;
   overflow: hidden;
+  z-index: 3;
 
   .AIModal-evaluation {
     position: relative;
@@ -435,6 +437,7 @@ input.invisible {
   flex-direction: column;
   align-items: center;
   transform: translate(-50%, -50%);
+  z-index: 3;
 
   .image-editor-image {
     margin: 10px;

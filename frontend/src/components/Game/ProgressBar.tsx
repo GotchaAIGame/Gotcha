@@ -21,8 +21,13 @@ function ProgressBar(props: progressBarProps) {
   // ProgresBar가 끝까지 갔을 때
   useEffect(() => {
     return () => {
-      console.log("바뀜!");
-      resultHandler(2);
+      if (progressBarRef.current) {
+        // 로딩이 끝까지 갔을 때
+        resultHandler(2);
+      } else {
+        // if null (모달 창이 꺼졌을 때)
+        resultHandler(0);
+      }
     };
   }, [progressBarRef.current]);
 

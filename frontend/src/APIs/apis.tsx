@@ -8,6 +8,13 @@ const gamePlayAPI = {
   // 게임 재참여
   rejoin: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/rejoin", { params: { roomId, nickname } }),
+  start: (
+    roomId: number,
+    nickname: string,
+    startTime: string
+  ): Promise<AxiosResponse> => {
+    return request.post("/game/start", { roomId, nickname, startTime });
+  },
 };
 
 const memberAPI = {

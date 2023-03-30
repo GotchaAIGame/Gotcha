@@ -19,8 +19,15 @@ function AIModal(props: AIModalProps) {
       <div className="AIModal-wrapper">
         <div
           className="AIModal-overlay"
-          onClick={openHandler}
-          onKeyDown={openHandler}
+          onClick={() => {
+            resultHandler(0);
+            openHandler();
+            console.log(resultStatus, "X");
+          }}
+          onKeyDown={() => {
+            resultHandler(0);
+            openHandler();
+          }}
           role="presentation"
         >
           <div className="AIModal-content">
