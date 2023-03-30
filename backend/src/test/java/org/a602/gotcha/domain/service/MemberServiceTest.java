@@ -29,8 +29,7 @@ public class MemberServiceTest {
 				"user1",
 				"1234",
 				"ssafy",
-				"asdf1@naver.com",
-				"일반"
+				"asdf1@naver.com"
 			);
 
 			final Member originalMember = memberSignupRequest.toEntity();
@@ -46,8 +45,7 @@ public class MemberServiceTest {
 				"user2",
 				"1234",
 				"ssafy",
-				"asdf2@naver.com",
-				"일반"
+				"asdf2@naver.com"
 			);
 
 			memberService.signup(memberSignupRequest1);
@@ -56,8 +54,7 @@ public class MemberServiceTest {
 				"user2",
 				"1234",
 				"ssafy",
-				"asdf3@naver.com",
-				"일반"
+				"asdf3@naver.com"
 			);
 
 			final Boolean duplicateNickname = memberService.isDuplicateNickname(memberSignupRequest2.getNickname());
@@ -72,8 +69,7 @@ public class MemberServiceTest {
 				"user2",
 				"1234",
 				"ssafy",
-				"asdf2@naver.com",
-				"일반"
+				"asdf2@naver.com"
 			);
 
 			memberService.signup(memberSignupRequest1);
@@ -82,8 +78,7 @@ public class MemberServiceTest {
 				"user3",
 				"1234",
 				"ssafy",
-				"asdf2@naver.com",
-				"일반"
+				"asdf2@naver.com"
 			);
 
 			final Boolean duplicateEmail = memberService.isDuplicateEmail(memberSignupRequest2.getEmail());
