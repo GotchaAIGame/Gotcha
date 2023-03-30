@@ -1,6 +1,16 @@
 package org.a602.gotcha.domain.room.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
 import org.a602.gotcha.CustomSpringBootTest;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.reward.entity.Reward;
@@ -9,7 +19,7 @@ import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.global.common.BaseResponse;
-import org.a602.gotcha.global.security.JwtTokenProvider;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,17 +32,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @CustomSpringBootTest
