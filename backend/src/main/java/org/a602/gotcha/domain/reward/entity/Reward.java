@@ -28,15 +28,9 @@ public class Reward {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @Builder
-    public Reward(String name, Integer grade, Room room) {
-        this.name = name;
-        this.grade = grade;
-        this.room = room;
-    }
-
     private String image;
 
+    @Builder
     public Reward(String name, Integer grade, Room room, String image) {
         this.name = name;
         this.grade = grade;

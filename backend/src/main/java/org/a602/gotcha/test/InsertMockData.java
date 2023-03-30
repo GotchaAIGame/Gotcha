@@ -123,6 +123,7 @@ public class InsertMockData {
                     .name("규튜리의 사랑 크기" + (101 - i))
                     .grade(i)
                     .room(roomWithReward)
+                    .image("http://cdn.ggilbo.com/news/photo/202007/782407_615776_4413.jpg")
                     .build();
             rewardRepository.save(reward);
         }
