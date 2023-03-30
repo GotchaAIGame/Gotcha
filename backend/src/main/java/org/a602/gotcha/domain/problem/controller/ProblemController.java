@@ -60,7 +60,6 @@ public class ProblemController {
         if (problemDetail.isPresent()) {
             Problem problem = problemDetail.get();
             ProblemDetailResponse problemDetailResponse = new ProblemDetailResponse(
-                    problem.getDescription(),
                     problem.getHint(),
                     problem.getImageUrl(),
                     problem.getName(),

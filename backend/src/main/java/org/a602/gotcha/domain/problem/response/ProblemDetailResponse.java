@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ProblemDetailResponse {
-    private String description;
     private String hint;
     private String imageUrl;
     private String name;
