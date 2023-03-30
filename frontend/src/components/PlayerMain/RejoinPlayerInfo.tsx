@@ -31,8 +31,6 @@ export default function RejoinPlayerInfo() {
     const roomId = location.state.room;
     const roomPin = location.state.inputPin;
 
-    console.log("roomId: ", roomId, "roomPin: ", roomPin);
-
     if (currentRef) {
       let nicknameValue = currentRef.value;
       const password = parseInt(otp.slice(0, 4), 10);
@@ -43,9 +41,6 @@ export default function RejoinPlayerInfo() {
           setIsFinish(res.data.result.isFinished);
           setStartedTime(res.data.result.startTime);
           setIsClicked(true);
-          console.log(isFinish);
-          console.log(startedTime);
-          console.log(isClicked);
         })
         .catch((err) => {
           const errCode = err.response.data.status;
