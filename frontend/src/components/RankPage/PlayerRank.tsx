@@ -1,13 +1,34 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/no-array-index-key */
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { gamePlayAPI } from "@apis/apis";
 import { Grid } from "@mui/material";
 import RankInfo from "./RankInfo";
 import "@styles/RankPage.scss";
 import ShareButton from "./ShareButton";
 
+interface IUser {
+  grade: number;
+  nickname: string;
+  duration: string;
+  isUser: boolean;
+  solvedCnt: number;
+}
+
 export default function PlayerRank() {
-  // useEffect(() => {
-  //   const request = 
-  // })
+  const [isUser, setIsUser] = useState(false);
+  const [userArray, setUserArray] = useState<IUser[]>([]);
+
+  const location = useLocation(); // roomId, nickname props로 받기
+  const room = location.state.roomId;
+  const nickname = location.state.nicknameValue;
+  useEffect(() => {
+    const request = gamePlayAPI.rank(room, nickname);
+    request.then((res) => {
+      const users = res.data.result;
+      setUserArray(users);
+    });
+  }, [room, nickname]);
 
   return (
     <section className="player-rank-wrapper">
@@ -26,10 +47,14 @@ export default function PlayerRank() {
             <h5 className="rank-box3">시간</h5>
           </Grid>
         </Grid>
-        <RankInfo rank={1} nickname="솜따" />
-        <RankInfo rank={2} nickname="규투리" />
-        <RankInfo rank={3} nickname="냄궁민수" />
-        <RankInfo rank={602} nickname="예지는꼴지" time="" />
+        {userArray.map((user: IUser, index: number) => (
+          <RankInfo
+            key={index}
+            rank={user.grade}
+            nickname={user.nickname}
+            time={user.duration}
+          />
+        ))}
       </div>
       <ShareButton />
     </section>
