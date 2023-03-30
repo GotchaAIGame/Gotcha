@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import RankInfo from "./RankInfo";
 import "@styles/RankPage.scss";
 import ShareButton from "./ShareButton";
-// import title from "@assets/RankingFlag.svg";
 
 export default function PlayerRank() {
+  // useEffect(() => {
+  //   const request = 
+  // })
+
   return (
     <section className="player-rank-wrapper">
       <header className="ranking-title-flag">

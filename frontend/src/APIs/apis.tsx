@@ -23,6 +23,8 @@ const gamePlayAPI = {
   ): Promise<AxiosResponse> =>
     request.post("/game/login", { roomId, nickname, password }),
   // 랭킹 불러오기
+  rank: (roomId: number, nickname: string): Promise<AxiosResponse> =>
+    request.post("/game/rank", { roomId, nickname }),
 };
 
 const memberAPI = {

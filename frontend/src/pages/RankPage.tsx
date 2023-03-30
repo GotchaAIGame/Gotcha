@@ -16,7 +16,7 @@ export default function RankPage() {
           width={size.width}
           height={size.height}
           numberOfPieces={100}
-          gravity={0.01}
+          gravity={0.02}
           colors={[
             "#FF8577",
             "#e91e63",
