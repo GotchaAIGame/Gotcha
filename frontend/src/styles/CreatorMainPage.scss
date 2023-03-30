@@ -140,6 +140,13 @@
   margin: 2%;
   justify-content: flex-start;
 
+  .detail-move-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
   header {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;

@@ -8,6 +8,7 @@ import CreatorMainPage from "./CreatorMainPage";
 import EditProfilePage from "./EditProfilePage";
 import CreateGamePage from "./CreateGamePage";
 import CustomGamePage from "./CustomGamePage";
+import CreatorGameDetailPage from "./CreatorGameDetailPage";
 import PlayerNewGamePage from "./PlayerNewGamePage";
 import GamePage from "./GamePage";
 import ModalTestPage from "./ModalTestPage";
@@ -23,16 +24,19 @@ export default function Routers() {
       <Route path="/main" element={<MainPage />} />
       {/* 추후 최종 배포시 아래로 Main 주소 변경 */}
       {/* <Route path="/" element={<MainPage />} /> */}
-      <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/login" element={<LogInPage />} />
 
       {/* Creator */}
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/login" element={<LogInPage />} />
       <Route path="mypage">
         <Route path=":memberID" element={<CreatorMainPage />} />
         <Route path=":memberID/edit" element={<EditProfilePage />} />
       </Route>
       <Route path="/create/game" element={<CreateGamePage />} />
       <Route path="/custom/game" element={<CustomGamePage />} />
+      <Route path="/game/detail/:gamepin" element={<CreatorGameDetailPage />} />
+
+      {/* Player */}
       <Route path="/newgame" element={<PlayerNewGamePage />} />
       <Route path="/rejoin" element={<PlayerRejoinPage />} />
       <Route path="game">
