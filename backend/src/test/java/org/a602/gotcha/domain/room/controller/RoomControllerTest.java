@@ -79,7 +79,6 @@ class RoomControllerTest {
                 .endTime(GAME_END_TIME)
                 .member(member)
                 .build();
-        ROOM_ID_WITH_REWARD = room.getId();
         // 리워드 생성
         for (int i = 1; i <= 3; i++) {
             Reward reward = Reward.builder()
@@ -91,6 +90,7 @@ class RoomControllerTest {
             room.getRewards().add(reward);
         }
         em.persist(room);
+        ROOM_ID_WITH_REWARD = room.getId();
         // 방 생성(리워드 없음)
         Room roomB = Room.builder()
                 .color("blue")
