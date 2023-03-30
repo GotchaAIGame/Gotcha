@@ -10,7 +10,10 @@ import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.a602.gotcha.global.security.JwtTokenProvider;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +28,10 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @CustomSpringBootTest
@@ -74,7 +79,6 @@ class RoomControllerTest {
                 .endTime(GAME_END_TIME)
                 .member(member)
                 .build();
-        em.persist(room);
         ROOM_ID_WITH_REWARD = room.getId();
         // 리워드 생성
         for (int i = 1; i <= 3; i++) {
@@ -84,7 +88,9 @@ class RoomControllerTest {
                     .room(room)
                     .build();
             em.persist(reward);
+            room.getRewards().add(reward);
         }
+        em.persist(room);
         // 방 생성(리워드 없음)
         Room roomB = Room.builder()
                 .color("blue")
@@ -242,5 +248,13 @@ class RoomControllerTest {
         assertEquals("변경내용", updateRoom.getEventDesc());
         assertEquals(LocalDateTime.of(2023, 3, 17, 12, 0, 0), updateRoom.getStartTime());
         assertEquals(LocalDateTime.of(2023, 3, 17, 12, 5, 0), updateRoom.getEndTime());
+    }
+
+    @Test
+    @DisplayName("룸 조회")
+    void roomDetail() throws Exception {
+        mockMvc.perform(get(url + "/room/{roomId}", room.getId())
+                .header(HttpHeaders.AUTHORIZATION, token)).andExpect(status().isOk());
+
     }
 }
