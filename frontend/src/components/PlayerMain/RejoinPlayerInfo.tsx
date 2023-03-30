@@ -1,7 +1,10 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable react/jsx-no-useless-fragment */
 import React, { useRef, useState } from "react";
 import { gamePlayAPI } from "@apis/apis";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPlayer } from "@stores/player/themeSlice";
 import InputBox from "@components/common/InputBox";
 import OTPInput from "@components/common/OTPInput";
 import Button from "@components/common/Button";
@@ -26,6 +29,7 @@ export default function RejoinPlayerInfo() {
   const [startedTime, setStartedTime] = useState(""); // 참여자 게임시작했던시간
   const location = useLocation(); // roomId props로 받기
   const navigate = useNavigate(); // 리다이렉트
+  const dispatch = useDispatch();
   const nicknameHandler = useRef<HTMLInputElement>(null); // 닉네임 input
   const changeHandler = (value: string) => setOtp(value); // 비밀번호 input
 
@@ -46,9 +50,20 @@ export default function RejoinPlayerInfo() {
 
       request
         .then((res) => {
-          setIsFinish(res.data.result.isFinished);
-          setStartedTime(res.data.result.startTime);
+          console.log(res.data.result);
+          const { isFinished, startTime } = res.data.result;
+          setIsFinish(isFinished);
+          setStartedTime(startTime);
           setIsClicked(true);
+
+          // 참여자 정보 store에 올리기
+          dispatch(
+            setPlayer({
+              room: roomId,
+              nickname: nicknameValue,
+              startTime: startTime,
+            })
+          );
         })
         .catch((err) => {
           const errCode = err.response.data.status;
@@ -68,7 +83,7 @@ export default function RejoinPlayerInfo() {
           }
         });
       nicknameValue = ""; // 수정필요 -> 비워지지않음
-      // setOtp("");
+      setOtp("");
     }
   };
 
@@ -86,10 +101,7 @@ export default function RejoinPlayerInfo() {
 
   // <랭킹보기> 버튼 클릭
   const rankClickHandler = () => {
-    if (currentRef) {
-      const nicknameValue = currentRef.value;
-      navigate(`/game/${roomPin}/rank`, { state: { roomId, nicknameValue } });
-    }
+    navigate(`/game/${roomPin}/rank`);
   };
 
   return (

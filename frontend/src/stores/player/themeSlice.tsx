@@ -1,3 +1,5 @@
+// 사용하는 곳 (참여자 관련된 모든 곳)
+// 1. 커스텀 네브바 2. 새게임, 재참여페이지 3. 게임페이지 4. 랭킹페이지
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import logo from "@assets/logo.svg";
 
@@ -21,6 +23,7 @@ export const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
+    // 방정보
     setTheme: (
       state,
       action: PayloadAction<{
@@ -39,8 +42,26 @@ export const themeSlice = createSlice({
         themeTitle,
       };
     },
+
+    // 참여자 정보
+    setPlayer: (
+      state,
+      action: PayloadAction<{
+        room: number; // roomId
+        nickname: string; // 닉네임
+        startTime: string; // 시작시간
+      }>
+    ) => {
+      const { room, nickname, startTime } = action.payload;
+      return {
+        ...state,
+        room,
+        nickname,
+        startTime,
+      };
+    },
   },
 });
 
-export const { setTheme } = themeSlice.actions;
+export const { setTheme, setPlayer } = themeSlice.actions;
 export default themeSlice.reducer;

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { gamePlayAPI } from "@apis/apis";
-import { addProblem } from "@stores/game/gameSlice";
-import { setTheme } from "@stores/users/themeSlice";
+import { setTheme } from "@stores/player/themeSlice";
 import { useDispatch } from "react-redux";
 
 export default function InputPinNum() {
