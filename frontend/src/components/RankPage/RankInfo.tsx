@@ -9,9 +9,10 @@ interface RankInfoProps {
   rank?: number;
   nickname?: string;
   time?: string;
+  cnt?: number;
 }
 
-export default function RankInfo({ rank, nickname, time }: RankInfoProps) {
+export default function RankInfo({ rank, nickname, time, cnt }: RankInfoProps) {
   let medal = null;
   if (rank === 1) {
     medal = gold;
@@ -25,7 +26,7 @@ export default function RankInfo({ rank, nickname, time }: RankInfoProps) {
 
   return (
     <Grid container className="rank-info-wrapper">
-      <Grid item xs={3} md={3}>
+      <Grid item xs={2} md={2}>
         {medal == null ? (
           <>
             <hr />
@@ -40,8 +41,11 @@ export default function RankInfo({ rank, nickname, time }: RankInfoProps) {
       <Grid item xs={4} md={4}>
         <h5>{nickname}</h5>
       </Grid>
-      <Grid item xs={3} md={3}>
+      <Grid item xs={4} md={4}>
         <p>{time}</p>
+      </Grid>
+      <Grid item xs={2} md={2}>
+        <p>{cnt}</p>
       </Grid>
     </Grid>
   );
@@ -51,4 +55,5 @@ RankInfo.defaultProps = {
   rank: 1,
   nickname: "닉네임",
   time: '00"00"00"',
+  cnt: 0,
 };
