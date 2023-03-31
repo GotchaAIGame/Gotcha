@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAppSelector } from "@stores/storeHooks";
 
 function Timer() {
   // Temp Data
@@ -8,6 +9,7 @@ function Timer() {
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
   const stopFlag = false;
+  const { themeColor } = useAppSelector((state) => state.theme);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,7 +34,7 @@ function Timer() {
   }, [stopFlag]);
 
   return (
-    <div className="timer-wrapper">
+    <div className="timer-wrapper" style={{ backgroundColor: `${themeColor}` }}>
       {!days ? (
         <h5>Loading ...</h5>
       ) : (
