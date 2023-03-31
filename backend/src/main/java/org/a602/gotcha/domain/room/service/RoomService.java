@@ -90,7 +90,7 @@ public class RoomService {
     public int createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
-        Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         member = memberRepository.findMemberByEmail(member.getEmail()).orElseThrow();
 
 

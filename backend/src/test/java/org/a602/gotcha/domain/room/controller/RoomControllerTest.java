@@ -1,21 +1,13 @@
 package org.a602.gotcha.domain.room.controller;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.a602.gotcha.CustomSpringBootTest;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.a602.gotcha.domain.room.request.CreateProblemRequest;
+import org.a602.gotcha.domain.room.request.CreateRoomRequest;
 import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.global.common.BaseResponse;
@@ -26,13 +18,23 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @CustomSpringBootTest
@@ -66,7 +68,7 @@ class RoomControllerTest {
         member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
-        token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);
+        token = JwtTokenProvider.BEARER + jwtTokenProvider.createAccessToken(member);
         em.persist(member);
         // 방 생성(리워드 있음)
         room = Room.builder()
@@ -237,7 +239,7 @@ class RoomControllerTest {
 
         mockMvc.perform(put(url + "set/room")
                 .content(objectMapper.writeValueAsBytes(updateRoomRequest))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
 
         em.flush();
@@ -256,7 +258,7 @@ class RoomControllerTest {
     @DisplayName("룸 조회")
     void roomDetail() throws Exception {
         mockMvc.perform(get(url + "/room/{roomId}", room.getId())
-                .header(HttpHeaders.AUTHORIZATION, token)).andExpect(status().isOk());
+                .header(AUTHORIZATION, token)).andExpect(status().isOk());
 
     }
 
@@ -265,7 +267,26 @@ class RoomControllerTest {
     void findByMember() throws Exception {
         mockMvc.perform(
                 get(url + "member/room/{memberId}", member.getId())
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .header(AUTHORIZATION, token)
         ).andDo(print());
+    }
+
+    @Test
+    @DisplayName("방생성")
+    void createRoom() throws Exception {
+        CreateRoomRequest request;
+        List<CreateProblemRequest> createProblemRequests = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            createProblemRequests.add(new CreateProblemRequest(null, "name " + i, "hint " + i));
+        }
+
+        request = new CreateRoomRequest("색깔", "로고 경로", "제목", "이벤트 경로", "설명", false, LocalDateTime.now(), LocalDateTime.of(2024, 1, 1, 1, 1), createProblemRequests);
+        mockMvc.perform(
+                post(url + "set/room")
+                        .content(objectMapper.writeValueAsString(request))
+                        .header(AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
+
     }
 }
