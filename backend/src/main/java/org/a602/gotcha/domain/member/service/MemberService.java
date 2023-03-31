@@ -90,7 +90,9 @@ public class MemberService {
 	}
 
 	public Long deleteMemberById(final Long id) {
-		memberRepository.deleteById(id);
+		final Member member = memberRepository.findById(id)
+			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+		memberRepository.deleteById(member.getId());
 
 		return id;
 	}
