@@ -136,8 +136,10 @@
 .card-wrapper {
   display: inline-flex;
   flex-direction: column;
+  position: relative;
   width: 255px;
-  min-height: 405px;
+  min-height: 400px;
+  max-height: 410px;
   border: 1px solid $gray-1;
   border-radius: 15px;
   margin: 2%;
@@ -185,6 +187,14 @@
       align-items: baseline;
       margin: 5px;
       // flex-wrap: wrap;
+
+      .card-content-desc-text {
+        width: auto;
+        min-height: 30px;
+        max-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     .card-content-title-wrapper {
@@ -214,6 +224,9 @@
   footer {
     display: inline-flex;
     justify-content: center;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 10px;
 
     Button {
       width: 100px !important;

@@ -37,7 +37,9 @@ export default function CreateGamePage() {
       result
         .then((res) => {
           console.log(res, "됐다");
-          navigate("/creator");
+          const gamePin = res.data.result.code;
+          const roomId = res.data.result.id;
+          navigate(`/custom/${gamePin}`, { state: { roomId } });
         })
         .catch((res) => {
           console.log(res, "안됐다");
