@@ -47,8 +47,8 @@ public class InsertMockData {
         LocalDateTime startTime = LocalDateTime.now().minusDays(2);
         LocalDateTime endTime = LocalDateTime.now().plusDays(12);
         Room roomWithReward = Room.builder()
-                .color("blue")
-                .logoUrl("logoImageUrl")
+                .color("#5551FF")
+                .logoUrl("https://a602gotcha.s3.ap-northeast-2.amazonaws.com/Gotcha!+logo.svg")
                 .title("싸피 팝업스토어")
                 .eventUrl("eventUrl")
                 .code(602602)
