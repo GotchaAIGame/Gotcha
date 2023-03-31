@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class RoomService {
     private final RoomRepository roomRepository;
 
@@ -152,9 +153,10 @@ public class RoomService {
         return roomRepository.findOneWithAllRelationships(roomId);
     }
 
+    @Transactional(readOnly = true)
     public Page<RoomSummaryInfo> getRoomIdsByMemberId(Long memberID, Pageable pageable) {
 
-        return roomRepository.findByMember_Id(memberID, pageable);
+        return roomRepository.findByMemberId(memberID, pageable);
 
     }
 }
