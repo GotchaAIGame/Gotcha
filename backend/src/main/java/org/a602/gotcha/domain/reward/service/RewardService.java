@@ -32,6 +32,8 @@ public class RewardService {
             Reward reward = new Reward(rewardDTO.getName(), rewardDTO.getGrade(), room, uploadImage);
             rewardEntityList.add(reward);
         }
+        room.setHasReward(true);
+
         rewardRepository.saveAll(rewardEntityList);
     }
 
