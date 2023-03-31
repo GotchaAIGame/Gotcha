@@ -48,7 +48,7 @@ public class RoomController {
     @ApiResponse(responseCode = "200", description = "우승 상품 불러오기 성공", content = @Content(schema = @Schema(implementation = RewardListResponse.class)))
     @ApiResponse(responseCode = "404", description = "1. 방을 찾을 수 없음 \t\n 2. 우승 상품 찾을 수 없음")
     @GetMapping("/game/reward")
-    public BaseResponse<List<RewardListResponse>> getGameRewardList(@RequestParam Long roomId) {
+    public BaseResponse<List<RewardListResponse>> getGameRewardList(@NotNull @RequestParam Long roomId) {
         List<RewardListResponse> rewardList = roomService.getGameRewardList(roomId);
         return new BaseResponse<>(rewardList);
     }

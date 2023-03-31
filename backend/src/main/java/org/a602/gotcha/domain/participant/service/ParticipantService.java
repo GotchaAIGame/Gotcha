@@ -157,13 +157,17 @@ public class ParticipantService {
     }
 
     private void checkRoomValidation(Long roomID) {
-        roomRepository.findById(roomID)
-                .orElseThrow(RoomNotFoundException::new);
+        Optional<Room> room = roomRepository.findById(roomID);
+        if(room.isEmpty()) {
+            throw new RoomNotFoundException();
+        }
     }
 
     private void checkParticipantValidation(Long roomId, String nickname) {
-        participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname)
-                .orElseThrow(ParticipantNotFoundException::new);
+        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
+        if(participant.isEmpty()) {
+            throw new ParticipantNotFoundException();
+        }
     }
 
     private Room findRoom(Long roomId) {
