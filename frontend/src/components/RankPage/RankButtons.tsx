@@ -1,17 +1,17 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { gamePlayAPI } from "@apis/apis";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import InputBox from "@components/common/InputBox";
-import gold from "@assets/goldmedal.png";
-import silver from "@assets/silvermedal.png";
-import bronze from "@assets/bronzemedal.png";
+import Reward from "@components/RankPage/Reward";
 
 interface IReward {
   grade: number;
   image: string;
-  nickname: string;
+  rewardName: string;
 }
 
 export default function RankButtons() {
@@ -20,24 +20,26 @@ export default function RankButtons() {
   const [rewardArray, setRewardArray] = useState<IReward[]>([]);
   const roomId = useSelector((state: any) => state.theme.room);
 
-  const handleModalRequest = async () => {
-    try {
-      const res = await gamePlayAPI.reward(roomId);
-      const rewards = res.data.result;
-      setRewardArray(rewards);
-    } catch (err) {
-      console.error(err);
+  useEffect(() => {
+    const handleModalRequest = async () => {
+      try {
+        const res = await gamePlayAPI.reward(roomId);
+        const rewards = res.data.result;
+        setRewardArray(rewards);
+        console.log(rewards);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    if (modalFiveOpen || modalSixOpen) {
+      handleModalRequest();
     }
-  };
+  }, [modalFiveOpen, modalSixOpen, roomId]);
 
   const modalHandler = (modalNumber: number) => {
     const modalStates = [modalFiveOpen, modalSixOpen];
     const modalStatesHandler = [setModalFiveOpen, setModalSixOpen];
     modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
-
-    if (modalFiveOpen || modalSixOpen) {
-      handleModalRequest();
-    }
   };
   return (
     <>
@@ -75,30 +77,15 @@ export default function RankButtons() {
           className="modal-six"
           closeType
         >
-          <div className="rank-one">
-            <img src={gold} alt="1등" className="medal" />
-            <img
-              src="https://cdn.icoda.co.kr/asset/img_thumbnail/9/1301179_0.jpg"
-              alt=""
+          {rewardArray.map((rewards: IReward, idx: number) => (
+            <Reward
+              key={idx}
+              grade={rewards.grade}
+              imgUrl={rewards.image}
+              rewardName={rewards.rewardName}
             />
-            <p>갤럭시북</p>
-          </div>
-          <div className="rank-two">
-            <img src={silver} alt="2등" className="medal" />
-            <img
-              src="https://m.etlandmall.co.kr/nas/cdn/attach/product/2021/08/12/S3573918/SYS_2021081211390_0_600.png"
-              alt=""
-            />
-            <p>갤럭시버즈</p>
-          </div>
-          <div className="rank-three">
-            <img src={bronze} alt="3등" className="medal" />
-            <img
-              src="https://cdn.icoda.co.kr/asset/img_thumbnail/9/1301179_0.jpg"
-              alt=""
-            />
-            <p>스타벅스 아메리카노 Tall</p>
-          </div>
+          ))}
+
           <div className="reward-explanation">
             <p className="h5-text">꼭 알아두세요!</p>
             <p className="text">
