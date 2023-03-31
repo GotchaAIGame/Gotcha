@@ -86,7 +86,7 @@ public class RoomService {
                 .build();
     }
 
-
+    @Transactional
     public Room createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
@@ -125,17 +125,16 @@ public class RoomService {
 
     }
 
-
+    @Transactional
     public void closeRoom(Long roomId) {
         roomRepository.deleteById(roomId);
     }
 
+    @Transactional
     public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String eventDesc, LocalDateTime startTime, LocalDateTime endTime) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> {
-            throw new RoomNotFoundException();
-        });
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
         room.updateRoom(color, logoUrl, title, eventUrl, eventDesc, startTime, endTime);
-
     }
 
     public Room findById(Long roomId) {
