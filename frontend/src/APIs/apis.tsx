@@ -3,6 +3,9 @@ import request from "./agents";
 
 // APis about game play
 const gamePlayAPI = {
+  register : (roomId: number, nickname : string, password : string ) : Promise<AxiosResponse> => 
+  request.post("/game/register", { roomId, nickname, password}),
+  
   enter: (roomCode: number): Promise<AxiosResponse> =>
     request.get("/game/enter", { params: { roomCode } }),
   // 게임 신규참여
