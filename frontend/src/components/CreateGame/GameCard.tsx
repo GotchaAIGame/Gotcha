@@ -57,7 +57,8 @@ export default function GameCard(Props: any) {
 
   // 문제 저장
   const saveProblem = () => {
-    const postImg = inputImage.replace("data:image/png;base64,", "");
+    // const postImg = inputImage.replace("data:image/png;base64,", "");
+    const postImg = inputImage;
     if ((problemInfo.name, problemInfo.hint)) {
       if (postImg) {
         const problemState = {
