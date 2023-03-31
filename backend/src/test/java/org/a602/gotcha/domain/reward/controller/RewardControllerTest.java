@@ -12,7 +12,7 @@ import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO
 import org.a602.gotcha.domain.reward.service.RewardService;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.global.common.S3Service;
-import org.a602.gotcha.global.security.JwtTokenProvider;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -66,7 +66,6 @@ class RewardControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     String token;
-    private Member member;
 
     @BeforeEach
     void setUp() {
@@ -80,7 +79,7 @@ class RewardControllerTest {
         entityManager.persist(reward1);
         entityManager.persist(reward2);
 
-        member = Member.builder()
+        Member member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
         token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);

@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -135,8 +136,10 @@ public class RoomService {
     }
 
     private void checkRoomValidation(Long roomID) {
-        roomRepository.findById(roomID)
-                .orElseThrow(RoomNotFoundException::new);
+        Optional<Room> room = roomRepository.findById(roomID);
+        if(room.isEmpty()) {
+            throw new RoomNotFoundException();
+        }
     }
 
     private Room findRoom(Long roomId) {
