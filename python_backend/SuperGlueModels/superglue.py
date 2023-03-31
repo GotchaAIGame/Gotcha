@@ -233,12 +233,13 @@ class SuperGlue(nn.Module):
         kpts0, kpts1 = data['keypoints0'], data['keypoints1']
 
         if kpts0.shape[1] == 0 or kpts1.shape[1] == 0:  # no keypoints
-            shape0, shape1 = kpts0.shape[:-1], kpts1.shape[:-1]
+            # shape0, shape1 = kpts0.shape[:-1], kpts1.shape[:-1]
+            shape0 = kpts0.shape[:-1]
             return {
                 'matches0': kpts0.new_full(shape0, -1, dtype=torch.int),
-                'matches1': kpts1.new_full(shape1, -1, dtype=torch.int),
-                'matching_scores0': kpts0.new_zeros(shape0),
-                'matching_scores1': kpts1.new_zeros(shape1),
+                # 'matches1': kpts1.new_full(shape1, -1, dtype=torch.int),
+                # 'matching_scores0': kpts0.new_zeros(shape0),
+                # 'matching_scores1': kpts1.new_zeros(shape1),
             }
 
         # Keypoint normalization.
@@ -265,21 +266,22 @@ class SuperGlue(nn.Module):
             iters=self.config['sinkhorn_iterations'])
 
         # Get the matches with score above "match_threshold".
+        # "matches0만 살린다."
         max0, max1 = scores[:, :-1, :-1].max(2), scores[:, :-1, :-1].max(1)
         indices0, indices1 = max0.indices, max1.indices
         mutual0 = arange_like(indices0, 1)[None] == indices1.gather(1, indices0)
-        mutual1 = arange_like(indices1, 1)[None] == indices0.gather(1, indices1)
+        # mutual1 = arange_like(indices1, 1)[None] == indices0.gather(1, indices1)
         zero = scores.new_tensor(0)
         mscores0 = torch.where(mutual0, max0.values.exp(), zero)
-        mscores1 = torch.where(mutual1, mscores0.gather(1, indices1), zero)
+        # mscores1 = torch.where(mutual1, mscores0.gather(1, indices1), zero)
         valid0 = mutual0 & (mscores0 > self.config['match_threshold'])
-        valid1 = mutual1 & valid0.gather(1, indices1)
+        # valid1 = mutual1 & valid0.gather(1, indices1)
         indices0 = torch.where(valid0, indices0, indices0.new_tensor(-1))
-        indices1 = torch.where(valid1, indices1, indices1.new_tensor(-1))
+        # indices1 = torch.where(valid1, indices1, indices1.new_tensor(-1))
 
         return {
             'matches0': indices0, # use -1 for invalid match
-            'matches1': indices1, # use -1 for invalid match
-            'matching_scores0': mscores0,
-            'matching_scores1': mscores1,
+            # 'matches1': indices1, # use -1 for invalid match
+            # 'matching_scores0': mscores0,
+            # 'matching_scores1': mscores1,
         }

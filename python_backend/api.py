@@ -6,7 +6,7 @@ from fastapi import FastAPI, Form, UploadFile, File
 from PIL import Image, ImageOps
 from io import BytesIO
 import requests
-from utils import infer
+from utils import infer, memory_usage
 
 
 api = FastAPI()
@@ -19,7 +19,9 @@ async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(
     """
 
     # get target image through the original image url
+    # memory_usage("#0. init")
     response = requests.get(originalUrl)
+
     original_image = Image.open(BytesIO(response.content))
     original_image = ImageOps.exif_transpose(original_image)
 
@@ -28,6 +30,8 @@ async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(
     input_image = ImageOps.exif_transpose(input_image)
 
     result, similarity = infer(original_image, input_image)
+
+    # memory_usage("#-1. end")    
     
     return {
         'result' : result,

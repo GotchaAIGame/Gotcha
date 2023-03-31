@@ -8,6 +8,7 @@ import torchvision.transforms as transforms
 from SuperGlueModels.matching import Matching
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+import psutil
 
 model = None
 similarity_threshold = 40
@@ -72,29 +73,47 @@ def infer(original_image, input_image):
         - similarity : similarity between two images (yet to be implement)
     """
 
+    # memory_usage("#1 initial")
     result = None
     similarity = -1
 
     original = transform(original_image).to(device).unsqueeze(1)
     input_ = transform(input_image).to(device).unsqueeze(1)
 
+    # memory_usage("#2 transform")
+ 
     last_data = model.superpoint({'image' : original})
     last_data = {k+'0' : last_data[k] for k in keys}
     last_data['image0'] = original
 
-    pred = model({**last_data, 'image1': input_})
-    kpts0 = last_data['keypoints0'][0].detach().cpu().numpy()
-    kpts1 = pred['keypoints1'][0].detach().cpu().numpy()
-    matches = pred['matches0'][0].detach().cpu().numpy()
-    # confidence = pred['matching_scores0'][0].detach().cpu().numpy()
+    
+    # memory_usage("#3 lastdata")
+
+    kpts1, matches = model({**last_data, 'image1': input_})
+
+    # # kpts0 = last_data['keypoints0'][0].detach().cpu().numpy()
+    # kpts1 = pred['keypoints1'][0].detach().cpu().numpy()
+    # matches = pred['matches0'][0].detach().cpu().numpy()
+    # # confidence = pred['matching_scores0'][0].detach().cpu().numpy()
+
+    # del pred # pred 용량이 꽤 크니, 필요한 것만 받아오자.
+
+    # memory_usage("#4 result")
 
     valid = matches > -1
-    mkpts0 = kpts0[valid]
+    # mkpts0 = kpts0[valid]
     mkpts1 = kpts1[matches[valid]]
 
-    if len(mkpts0) >= similarity_threshold:
+    if len(mkpts1) >= similarity_threshold:
         result = True
     else:
         result = False
 
+    # memory_usage("#5 over")
+
     return result, similarity
+
+def memory_usage(message : str = 'debug'):
+    p = psutil.Process()
+    rss = p.memory_info().rss / 2 ** 20
+    print(f"{message} memory usage : {rss:10.5f} MB")

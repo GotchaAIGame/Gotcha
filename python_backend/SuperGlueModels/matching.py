@@ -78,7 +78,11 @@ class Matching(torch.nn.Module):
             if isinstance(data[k], (list, tuple)):
                 data[k] = torch.stack(data[k])
 
-        # Perform the matching
-        pred = {**pred, **self.superglue(data)}
+        glue_result = self.superglue(data) 
 
-        return pred
+        # Perform the matching
+        # print(pred.keys(), "predkeys") # keypoints1만 취하자
+        # print(self.superglue(data).keys(), "XX") # matches0만 취하자
+        # pred = {**pred, **self.superglue(data)}
+
+        return pred['keypoints1'][0].detach().numpy(),  glue_result['matches0'][0].detach().numpy()
