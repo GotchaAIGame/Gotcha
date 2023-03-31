@@ -6,6 +6,7 @@ import ProblemTitle from "@components/Game/ProblemTitle";
 import Timer from "@components/Game/Timer";
 import ProblemCardList from "@components/Game/ProblemCardList";
 import { useLocation, useNavigate } from "react-router-dom";
+import CustomNavbar from "@components/common/CustomNavbar";
 
 export default function GamePage() {
   const location = useLocation();
@@ -26,20 +27,23 @@ export default function GamePage() {
   }, []);
 
   return (
-    <Grid container className="gamepage-container">
-      <Grid item xs={11} md={9} className="gamepage-item">
-        <ProblemTitle />
-        <Timer />
-        <button
-          type="button"
-          onClick={() => {
-            console.log({ problems });
-          }}
-        >
-          상태 확인
-        </button>
-        <ProblemCardList />
+    <>
+      <CustomNavbar />
+      <Grid container className="gamepage-container">
+        <Grid item xs={11} md={9} className="gamepage-item">
+          {/* <ProblemTitle /> */}
+          <Timer />
+          <button
+            type="button"
+            onClick={() => {
+              console.log({ problems });
+            }}
+          >
+            상태 확인
+          </button>
+          <ProblemCardList />
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }

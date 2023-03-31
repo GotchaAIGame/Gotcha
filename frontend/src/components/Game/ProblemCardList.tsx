@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { useAppSelector } from "@stores/storeHooks";
 import ProblemCard from "./ProblemCard";
-import temporaryData from "./temporarydata";
 import Scroller from "./Scroller";
 
 function ProblemCardList() {
+  const { themeColor } = useAppSelector((state) => state.theme);
   const { solved, problems } = useAppSelector((state) => state.gamePlay);
   const cardList = useRef<HTMLDivElement>(null);
   // temporary data
@@ -71,7 +71,7 @@ function ProblemCardList() {
               buttonHandler("left");
             }}
           >
-            <h1>◀</h1>
+            <h1 style={{ color: `${themeColor}` }}>◀</h1>
           </button>
           <button
             type="button"
@@ -80,7 +80,7 @@ function ProblemCardList() {
               buttonHandler("right");
             }}
           >
-            <h1>▶</h1>
+            <h1 style={{ color: `${themeColor}` }}>▶</h1>
           </button>
         </div>
       </div>

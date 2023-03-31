@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
+import { useAppSelector } from "@stores/storeHooks";
 import Cropper, { ReactCropperElement } from "react-cropper";
+
 import "@styles/cropper.scss";
 import Button from "@components/common/Button";
 import AIModal from "./AIModal";
@@ -14,6 +16,8 @@ interface problemProps {
 }
 
 function ProblemCard(props: problemProps) {
+  const { themeColor } = useAppSelector((state) => state.theme);
+
   const uploadImage = useRef<HTMLInputElement>(null);
   const croppedImageRef = useRef<ReactCropperElement>(null);
 
@@ -50,7 +54,10 @@ function ProblemCard(props: problemProps) {
   return (
     <>
       <div className="outer-card-wrapper">
-        <div className="problem-title-container">
+        <div
+          className="problem-title-container"
+          style={{ backgroundColor: `${themeColor}` }}
+        >
           <h5>{problemName}</h5>
         </div>
         <div className="inner-card-container">
@@ -93,6 +100,7 @@ function ProblemCard(props: problemProps) {
             onKeyDown={() => setEditorOpen(false)}
             role="presentation"
           />
+
           <div className="image-editor-content">
             <div className="image-editor-image">
               <Cropper
