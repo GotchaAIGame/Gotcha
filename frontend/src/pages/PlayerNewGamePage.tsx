@@ -14,7 +14,7 @@ export default function PlayerNewGamePage() {
 
   const tempHandler = () => {
     dispatch(getProblemList({ roomId: 2, nickname: "veomchan" }));
-    navigate("/game", { state: { roomId: 2, authorized: true } });
+    navigate("/game/602602", { state: { roomId: 2, authorized: true } });
   };
   const tempHandler2 = () => {
     dispatch(registerUser({ roomId: 2, nickname: "veomchan", password: 1234 }));
