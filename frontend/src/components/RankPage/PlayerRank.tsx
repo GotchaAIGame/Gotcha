@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { gamePlayAPI } from "@apis/apis";
 import { Grid } from "@mui/material";
 import RankInfo from "./RankInfo";
@@ -19,17 +19,19 @@ export default function PlayerRank() {
   const [isUser, setIsUser] = useState(false);
   const [userArray, setUserArray] = useState<IUser[]>([]);
 
-  const location = useLocation(); // roomId, nickname props로 받기
-  const room = location.state.roomId;
-  const nickname = location.state.nicknameValue;
+  // useSelctor로 뽑아쓰기
+  const room = useSelector((state: any) => state.theme.room);
+  const nickname = useSelector((state: any) => state.theme.nickname);
+
   useEffect(() => {
+    console.log(room);
+    console.log(nickname);
     const request = gamePlayAPI.rank(room, nickname);
     request.then((res) => {
       const users = res.data.result;
       setUserArray(users);
     });
   }, [room, nickname]);
-
 
   // 해야할 것
   // 1. 문제수 추가할 것

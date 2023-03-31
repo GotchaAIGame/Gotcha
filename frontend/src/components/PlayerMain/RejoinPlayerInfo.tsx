@@ -44,13 +44,13 @@ export default function RejoinPlayerInfo() {
       alert("비밀번호 4자리를 입력해주세요.");
     }
     if (currentRef) {
-      let nicknameValue = currentRef.value;
+      const nicknameValue = currentRef.value;
       const password = parseInt(otp.slice(0, 4), 10);
       const request = gamePlayAPI.login(roomId, nicknameValue, password);
 
       request
         .then((res) => {
-          console.log(res.data.result);
+          console.log(currentRef.value);
           const { isFinished, startTime } = res.data.result;
           setIsFinish(isFinished);
           setStartedTime(startTime);
@@ -60,7 +60,7 @@ export default function RejoinPlayerInfo() {
           dispatch(
             setPlayer({
               room: roomId,
-              nickname: nicknameValue,
+              nickname: currentRef.value,
               startTime: startTime,
             })
           );
@@ -82,7 +82,7 @@ export default function RejoinPlayerInfo() {
               console.error(err);
           }
         });
-      nicknameValue = ""; // 수정필요 -> 비워지지않음
+      // currentRef.value = ""; // 비우면 store에 올라가지 않는 에러 발생
       setOtp("");
     }
   };

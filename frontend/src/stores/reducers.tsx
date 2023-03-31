@@ -8,7 +8,7 @@ import game from "./game/gameSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["users"],
+  whitelist: ["users", "theme"],
 };
 
 const reducers = combineReducers({

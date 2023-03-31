@@ -6,22 +6,30 @@ import InputBox from "@components/common/InputBox";
 import gold from "@assets/goldmedal.png";
 import silver from "@assets/silvermedal.png";
 import bronze from "@assets/bronzemedal.png";
+import { useSelector } from "react-redux";
 
 export default function RankButtons() {
   const [rewradState, setRewardState] = useState(false);
   const [joinState, setJoinState] = useState(false);
+  const room = useSelector((state: any) => state.theme.roomId);
+
+  const handleModalRequest = async () => {
+    try {
+      const res = await gamePlayAPI.reward(room);
+      console.log(res.data.result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const modalHandler = (modalNumber: number) => {
     const modalStates = [rewradState, joinState];
     const modalStatesHandler = [setRewardState, setJoinState];
     modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
 
-    // if (rewradState || joinState) {
-    //   useEffect(() => {
-    //     // store에 넣어서 해결해야될 것 같은데..
-    //     const request = gamePlayAPI.reward();
-    //   });
-    // }
+    if (rewradState || joinState) {
+      handleModalRequest();
+    }
   };
   return (
     <>
