@@ -20,8 +20,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "WHERE r.id = :id")
     Room findOneWithAllRelationships(@Param("id") Long id);
 
-    @Query(value = "select r from Room r where r.member.id = :id", nativeQuery = false)
-    Page<RoomSummaryInfo> findByMember_Id(@Param("id") Long id, Pageable pageable);
+    @Query(value = "select new org.a602.gotcha.domain.room.response.RoomSummaryInfo(r.id, r.logoUrl, r.eventDesc, r.code, r.startTime, r.endTime,r.title,r.problems.size) from Room r where r.member.id = :id")
+    Page<RoomSummaryInfo> findByMemberId(@Param("id") Long id, Pageable pageable);
 
 
 }
