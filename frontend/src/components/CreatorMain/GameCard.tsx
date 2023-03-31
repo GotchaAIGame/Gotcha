@@ -15,6 +15,7 @@ export default function GameCard(props: any) {
   };
 
   if (gameInfo) {
+    console.log(gameInfo);
     return (
       <div className="card-wrapper">
         <button type="button" className="detail-move-button" onClick={goDetail}>
