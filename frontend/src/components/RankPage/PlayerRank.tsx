@@ -16,7 +16,6 @@ interface IUser {
 }
 
 export default function PlayerRank() {
-  const [isUser, setIsUser] = useState(false);
   const [userArray, setUserArray] = useState<IUser[]>([]);
 
   // useSelctor로 뽑아쓰기
@@ -56,13 +55,18 @@ export default function PlayerRank() {
           </Grid>
         </Grid>
         {userArray.map((user: IUser, index: number) => (
-          <RankInfo
-            key={index}
-            rank={user.grade}
-            nickname={user.nickname}
-            time={user.duration}
-            cnt={user.solvedCnt}
-          />
+          <div
+            style={{ backgroundColor: user.isUser ? "#E8E8E8" : "transparent" }}
+            className="rankInfo-wrapper"
+          >
+            <RankInfo
+              key={index}
+              rank={user.grade}
+              nickname={user.nickname}
+              time={user.duration}
+              cnt={user.solvedCnt}
+            />
+          </div>
         ))}
       </div>
       <ShareButton />

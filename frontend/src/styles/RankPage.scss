@@ -65,6 +65,10 @@
         margin: auto;
       }
 
+      .rankInfo-wrapper {
+        margin: 10px;
+      }
+
       // 등수, 닉네임, 시간
       .rank-header {
         justify-content: space-around;
@@ -106,7 +110,9 @@
         }
 
         hr {
-          width: 376%;
+          width: 598%;
+          position: relative;
+          top: -15px;
         }
 
         .no-medal-wrapper {
