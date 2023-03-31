@@ -12,7 +12,6 @@ export default function GameCard(Props: any) {
   const [inputImage, setInputImage] = useState<string>("");
   const [problemInfo, setProblemInfo] = useState({
     name: "",
-    description: "",
     hint: "",
   });
   const [isTyping, setIsTyping] = useState<boolean>(true);
@@ -49,11 +48,7 @@ export default function GameCard(Props: any) {
     const newProblemInfo = { ...problemInfo };
     if (e.target.id === "name") {
       newProblemInfo.name = e.target.value;
-    }
-    if (e.target.id === "description") {
-      newProblemInfo.description = e.target.value;
-    }
-    if (e.target.id === "hint") {
+    } else if (e.target.id === "hint") {
       newProblemInfo.hint = e.target.value;
     }
     setProblemInfo(newProblemInfo);
@@ -62,13 +57,13 @@ export default function GameCard(Props: any) {
 
   // 문제 저장
   const saveProblem = () => {
-    const postImg = inputImage.replace("data:image/png;base64,", "");
+    // const postImg = inputImage.replace("data:image/png;base64,", "");
+    const postImg = inputImage;
     if ((problemInfo.name, problemInfo.hint)) {
       if (postImg) {
         const problemState = {
           image: postImg,
           name: problemInfo.name,
-          description: problemInfo.description,
           hint: problemInfo.hint,
         };
         dispatch(setProblem({ problemState, idx }));
