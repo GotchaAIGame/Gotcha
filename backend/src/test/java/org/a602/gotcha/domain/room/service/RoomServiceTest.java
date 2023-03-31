@@ -99,7 +99,7 @@ class RoomServiceTest {
             @DisplayName("방 정보가 없을 경우 RoomNotFoud 예외 발생")
             void notValidRoomId() {
                 // when
-                when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+                when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
                 // then
                 assertThrows(RoomNotFoundException.class, () -> roomService.getGameRewardList(INVALID_ROOM_ID));
             }
@@ -110,7 +110,7 @@ class RoomServiceTest {
                 // given
                 List<Reward> emptyList = new ArrayList<>();
                 // when
-                when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+                when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
                 when(rewardRepository.findRewardsByRoomId(ROOM_ID)).thenReturn(emptyList);
                 // then
                 assertThrows(RewardNotFoundException.class, () -> roomService.getGameRewardList(ROOM_ID));
@@ -128,7 +128,7 @@ class RoomServiceTest {
                             .build());
                 }
                 // when
-                when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+                when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
                 when(rewardRepository.findRewardsByRoomId(ROOM_ID)).thenReturn(rewardList);
                 List<RewardListResponse> gameRewardList = roomService.getGameRewardList(ROOM_ID);
                 // then

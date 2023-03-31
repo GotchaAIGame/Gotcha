@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -157,15 +156,16 @@ public class ParticipantService {
     }
 
     private void checkRoomValidation(Long roomID) {
-        Optional<Room> room = roomRepository.findById(roomID);
-        if(room.isEmpty()) {
+        boolean isExist= roomRepository.existsById(roomID);
+        if(!isExist) {
             throw new RoomNotFoundException();
         }
     }
 
     private void checkParticipantValidation(Long roomId, String nickname) {
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
-        if(participant.isEmpty()) {
+
+        boolean isExist = participantRepository.existsParticipantByRoomIdAndNickname(roomId, nickname);
+        if(!isExist) {
             throw new ParticipantNotFoundException();
         }
     }
@@ -182,11 +182,12 @@ public class ParticipantService {
 
 
     private boolean checkDuplicateNickname(Long roomId, String nickname) {
-        Optional<Participant> participant = participantRepository.findParticipantByRoomIdAndNickname(roomId, nickname);
-        if (participant.isEmpty()) {
-            return false;
-        } else {
+
+        boolean isExist = participantRepository.existsParticipantByRoomIdAndNickname(roomId, nickname);
+        if(isExist) {
             throw new DuplicateNicknameException();
+        } else {
+            return false;
         }
     }
 
