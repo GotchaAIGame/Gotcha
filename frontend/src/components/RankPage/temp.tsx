@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { gamePlayAPI } from "@apis/apis";
+import React, { useState } from "react";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import InputBox from "@components/common/InputBox";
 import gold from "@assets/goldmedal.png";
 import silver from "@assets/silvermedal.png";
 import bronze from "@assets/bronzemedal.png";
-import { useSelector } from "react-redux";
 
 export default function RankButtons() {
   const [modalFiveOpen, setModalFiveOpen] = useState(false);
   const [modalSixOpen, setModalSixOpen] = useState(false);
-  const room = useSelector((state: any) => state.theme.roomId);
-
-  const handleModalRequest = async () => {
-    try {
-      const res = await gamePlayAPI.reward(room);
-      console.log(res.data.result);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const modalHandler = (modalNumber: number) => {
     const modalStates = [modalFiveOpen, modalSixOpen];
     const modalStatesHandler = [setModalFiveOpen, setModalSixOpen];
-    modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
 
-    if (modalFiveOpen || modalSixOpen) {
-      handleModalRequest();
-    }
+    modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
   };
   return (
     <>
