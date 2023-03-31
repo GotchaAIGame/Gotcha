@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 // AuthenticationProvider 역할도 겸임.
 public class JwtTokenProvider {
 	private String secretKey = "gotcha";
-	public static final String BEARER = "Bearer";
+	public static final String BEARER = "Bearer ";
 
 	private final MemberDetailService memberDetailService;
 	private final RedisRefreshTokenRepository redisRefreshTokenRepository;
@@ -64,7 +64,6 @@ public class JwtTokenProvider {
 
 	// refreshToken 생성.
 	public String createRefreshToken(final String accessToken, final String email) {
-		//		final RefreshToken refreshToken = new RefreshToken(accessToken, UUID.randomUUID().toString());
 		final long refreshTokenValidSecond = Duration.ofDays(14).toMillis(); //refresh토큰 유효시간
 		final Date now = new Date();
 

@@ -6,7 +6,6 @@ import org.a602.gotcha.domain.member.entity.Member;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -25,7 +24,6 @@ public class MemberSignupRequest {
 	@Schema(description = "이메일")
 	private String email;
 
-	@Builder
 	public Member toEntity() {
 		return Member.builder()
 			.nickname(nickname)

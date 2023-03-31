@@ -34,7 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// 키에 해당하는 헤더가 존재하고 그 값이 BEARER로 시작한다면 (JWT가 있다면)
 		if (header != null && header.startsWith(BEARER)) {
 			// prefix부분을 날리고 JWT만 token에 할당한다.
-			token = header.substring(BEARER.length());
+			token = header.split(" ")[1];
+			//			token = header.substring(BEARER.length());
 		}
 
 		if (token != null && jwtTokenProvider.validAccessToken(token)) {
