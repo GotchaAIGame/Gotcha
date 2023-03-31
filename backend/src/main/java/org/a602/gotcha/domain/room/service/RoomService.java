@@ -87,7 +87,7 @@ public class RoomService {
     }
 
 
-    public int createRoom(CreateRoomRequest request) {
+    public Room createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
         Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -121,7 +121,7 @@ public class RoomService {
 
         }
         roomRepository.save(room);
-        return code;
+        return room;
 
     }
 

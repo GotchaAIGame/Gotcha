@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.mapper.RoomToRoomDetailResponseMapper;
 import org.a602.gotcha.domain.room.request.CloseRoomRequest;
@@ -20,7 +19,6 @@ import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -67,9 +65,9 @@ public class RoomController {
     @PostMapping("/set/room")
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
-    public BaseResponse<CreateRoomResponse> createRoom(@AuthenticationPrincipal Member member, @RequestBody @Valid CreateRoomRequest request) {
-        int code = roomService.createRoom(request);
-        CreateRoomResponse createRoomResponse = new CreateRoomResponse(code);
+    public BaseResponse<CreateRoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
+        Room room = roomService.createRoom(request);
+        CreateRoomResponse createRoomResponse = new CreateRoomResponse(room.getCode(), room.getId());
         return new BaseResponse<>(createRoomResponse);
     }
 

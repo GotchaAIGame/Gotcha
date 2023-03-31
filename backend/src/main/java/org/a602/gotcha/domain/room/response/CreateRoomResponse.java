@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateRoomResponse {
     private int code;
+    private Long id;
 }
