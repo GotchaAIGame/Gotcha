@@ -24,8 +24,6 @@ export default function PlayerRank() {
   const nickname = useSelector((state: any) => state.theme.nickname);
 
   useEffect(() => {
-    console.log(room);
-    console.log(nickname);
     const request = gamePlayAPI.rank(room, nickname);
     request.then((res) => {
       const users = res.data.result;

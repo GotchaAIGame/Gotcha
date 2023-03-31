@@ -28,6 +28,13 @@ const gamePlayAPI = {
   // 우승상품 확인하기
   reward: (roomId: number): Promise<AxiosResponse> =>
     request.get("/game/reward", { params: { roomId } }),
+  // 휴대폰 번호 입력하기
+  phone: (
+    roomId: number,
+    nickname: string,
+    phoneNumber: string
+  ): Promise<AxiosResponse> =>
+    request.post("/game/phonenumber", { roomId, nickname, phoneNumber }),
 };
 
 const memberAPI = {

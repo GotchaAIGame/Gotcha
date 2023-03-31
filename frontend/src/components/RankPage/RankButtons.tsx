@@ -1,5 +1,4 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { gamePlayAPI } from "@apis/apis";
@@ -17,8 +16,10 @@ interface IReward {
 export default function RankButtons() {
   const [modalFiveOpen, setModalFiveOpen] = useState(false);
   const [modalSixOpen, setModalSixOpen] = useState(false);
+  const [phonenum, setPhonenum] = useState("");
   const [rewardArray, setRewardArray] = useState<IReward[]>([]);
   const roomId = useSelector((state: any) => state.theme.room);
+  const nickname = useSelector((state: any) => state.theme.nickname);
 
   useEffect(() => {
     const handleModalRequest = async () => {
@@ -26,7 +27,6 @@ export default function RankButtons() {
         const res = await gamePlayAPI.reward(roomId);
         const rewards = res.data.result;
         setRewardArray(rewards);
-        console.log(rewards);
       } catch (err) {
         console.error(err);
       }
@@ -41,6 +41,47 @@ export default function RankButtons() {
     const modalStatesHandler = [setModalFiveOpen, setModalSixOpen];
     modalStatesHandler[modalNumber - 1](!modalStates[modalNumber - 1]);
   };
+
+  const phonenumHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    let input = target.value.replace(/-/g, ""); // 기존에 입력된 - 제거
+    input = input.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"); // 번호 포맷팅
+
+    if (
+      input.length > 13 ||
+      (input.length === 13 && !input.startsWith("010"))
+    ) {
+      // 숫자 11자 이상이거나 010으로 시작하지 않을 때
+      alert("올바른 휴대폰 번호를 입력해주세요.");
+      setPhonenum("");
+      target.value = "";
+    } else {
+      target.value = input; // 포맷팅된 번호로 input 값 변경
+      setPhonenum(input);
+    }
+  };
+
+  const submitHandler = () => {
+    // 유효성 검사
+    if (
+      phonenum.length !== 13 ||
+      !phonenum.startsWith("010") ||
+      isNaN(parseInt(phonenum.replace(/-/g, "").slice(3))) // '-' 제외 숫자가 아닌 문자가 포함된 경우
+    ) {
+      alert("전화번호를 다시 입력해주세요.");
+      return;
+    }
+
+    const request = gamePlayAPI.phone(roomId, nickname, phonenum);
+    request.then((res) => {
+      console.log(res.data);
+    });
+
+    setPhonenum("");
+    modalHandler(1);
+    alert("참여해주셔서 감사합니다!");
+  };
+
   return (
     <>
       <div className="buttons-container">
@@ -58,16 +99,21 @@ export default function RankButtons() {
             modalHandler(1);
           }}
           className="modal-five"
-          btnType="submit"
           closeType
         >
           <h5>전화번호</h5>
-          <InputBox text="010-XXXX-XXXX" />
+          <InputBox text="010-XXXX-XXXX" onChange={phonenumHandler} />
           <p>
             ※ 본인 명의의 휴대폰 정보를 정확히 입력해 주시기 바랍니다. ※ 타인의
             명의를 도용하는 부정인증을 시도한 경우, 관련 법령에 따라 처벌(3년
             이하의 징역 또는 1천만원 이하의 벌금)을 받을 수 있습니다.
           </p>
+          <Button
+            size="xxsmall"
+            text="제출하기"
+            color="lime"
+            onClick={submitHandler}
+          />
         </Modal>
         <Modal
           open={modalSixOpen}
