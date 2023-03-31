@@ -68,7 +68,6 @@ class RewardControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     String token;
-    private Member member;
 
     @BeforeEach
     void setUp() {
@@ -82,7 +81,7 @@ class RewardControllerTest {
         entityManager.persist(reward1);
         entityManager.persist(reward2);
 
-        member = Member.builder()
+        Member member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
         token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);

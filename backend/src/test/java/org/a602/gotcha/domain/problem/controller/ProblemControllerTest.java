@@ -107,7 +107,7 @@ class ProblemControllerTest {
     @Test
     @DisplayName("문제 업데이트 API 테스트")
     void updateProblem() throws Exception {
-        UpdateProblemRequest updateProblemRequest = new UpdateProblemRequest(base64Image, "업데이트 이름", "업데이트 힌트", problem.getId());
+        UpdateProblemRequest updateProblemRequest = new UpdateProblemRequest(null, "업데이트 이름", "업데이트 힌트", problem.getId());
 
         mvc.perform(put(url + "/set/problem")
                         .contentType(MediaType.APPLICATION_JSON)

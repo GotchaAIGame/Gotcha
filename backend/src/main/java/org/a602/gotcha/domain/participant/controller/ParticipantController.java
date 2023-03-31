@@ -103,7 +103,7 @@ public class ParticipantController {
     @ApiResponse(responseCode = "404", description = "1. 해당하는 방 없음 \t\n 2. 해당하는 유저 없음")
     @PostMapping("/phonenumber")
     public BaseResponse<Object> registerPhoneNumber(@Valid @RequestBody RegisterPhonenumberRequest request) {
-        if (!request.getPhoneNumber().matches("^01([0-9])-([0-9]{3,4})-([0-9]{4})$")) {
+        if (!request.getPhoneNumber().matches("^01(\\d)-(\\d{3,4})-(\\d{4})$")) {
             throw new InvalidPhoneNumberException();
         }
         participantService.updatePhoneNumber(request);

@@ -22,15 +22,6 @@ import javax.validation.Valid;
 public class RewardController {
     private final RewardService rewardService;
 
-    @GetMapping("/set/reward")
-    @ApiResponse(description = "방에 리워드 설정", responseCode = "200")
-    @Operation(description = "게임에 리워드 설정", summary = "게임에 리워드 설정")
-    public BaseResponse<Void> getReward(@Valid @RequestBody SetRewardRequest request) {
-
-        rewardService.setReward(request.getRewards(), request.getRoomId());
-        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
-    }
-
     @PostMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 설정", responseCode = "200")
     @Operation(description = "게임에 리워드 설정", summary = "게임에 리워드 설정")
