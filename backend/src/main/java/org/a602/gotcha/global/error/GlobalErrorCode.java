@@ -29,14 +29,15 @@ public enum GlobalErrorCode {
     UPDATE_FAILED(500, "P400", "참여자 정보 업데이트에 실패했습니다."),
     REWARD_NOT_FOUND(404, "RW100", "리워드를 찾을 수 없습니다"),
     /*member 관련 에러코드*/
-	EMAIL_NOT_FOUND(400, "M100", "존재하지 않는 이메일입니다."),
-	DUPLICATE_NICKNAME(400, "M200", "이미 존재하는 닉네임입니다."),
-	DUPLICATE_EMAIL(400, "M300", "이미 존재하는 이메일입니다."),
-	MISMATCH_PASSWORD(400, "M400", "비밀번호가 다릅니다.");
+    EMAIL_NOT_FOUND(400, "M100", "존재하지 않는 이메일입니다."),
+    DUPLICATE_NICKNAME(400, "M200", "이미 존재하는 닉네임입니다."),
+    DUPLICATE_EMAIL(400, "M300", "이미 존재하는 이메일입니다."),
+    MISMATCH_PASSWORD(400, "M400", "비밀번호가 다릅니다."), INVALID_DATA_TYPE(400, "S100", "지원하는 데이터 타입이 아닙니다. 이미지 타입이어야 함"),
+    ;
 
-	private final String code;
-	private final String message;
-	private final int status;
+    private final String code;
+    private final String message;
+    private final int status;
 
     GlobalErrorCode(final int status, final String code, final String message) {
         this.status = status;
