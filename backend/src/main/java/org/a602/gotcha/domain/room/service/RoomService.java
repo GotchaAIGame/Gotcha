@@ -1,6 +1,8 @@
 package org.a602.gotcha.domain.room.service;
 
 import lombok.RequiredArgsConstructor;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
@@ -18,6 +20,7 @@ import org.a602.gotcha.domain.room.response.RoomSummaryInfo;
 import org.a602.gotcha.global.common.S3Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +42,7 @@ public class RoomService {
     private final S3Service s3Service;
 
     private final RewardRepository rewardRepository;
+    private final MemberRepository memberRepository;
 
 
     @Transactional(readOnly = true)
@@ -86,6 +90,9 @@ public class RoomService {
     public int createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
+        Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        member = memberRepository.findMemberByEmail(member.getEmail()).orElseThrow();
+
 
         int code = random.nextInt(90_0000) + 100_000;
         Room room = Room.builder()
@@ -95,6 +102,7 @@ public class RoomService {
                 .logoUrl(request.getLogoUrl())
                 .eventUrl(request.getEventUrl())
                 .startTime(request.getStartTime())
+                .member(member)
                 .code(code)
                 .build();
 
@@ -138,7 +146,7 @@ public class RoomService {
 
     private void checkRoomValidation(Long roomID) {
         Optional<Room> room = roomRepository.findById(roomID);
-        if(room.isEmpty()) {
+        if (room.isEmpty()) {
             throw new RoomNotFoundException();
         }
     }
