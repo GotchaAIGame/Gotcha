@@ -9,7 +9,7 @@ import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
 import org.a602.gotcha.domain.room.response.RewardListResponse;
 import org.a602.gotcha.global.common.BaseResponse;
-import org.a602.gotcha.global.security.JwtTokenProvider;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

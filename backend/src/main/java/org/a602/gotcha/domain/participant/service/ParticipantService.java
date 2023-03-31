@@ -90,7 +90,7 @@ public class ParticipantService {
         Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
         participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
         // 잘 업데이트 되었는지 확인
-        if (participant.getIsFinished()
+        if (participant.getIsFinished().equals(true)
                 && participant.getEndTime().equals(request.getEndTime())
                 && participant.getDuration().equals(duration)
                 && participant.getSolvedCnt().equals(request.getSolvedCnt())) {
