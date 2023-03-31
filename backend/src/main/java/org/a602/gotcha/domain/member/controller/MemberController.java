@@ -2,19 +2,19 @@ package org.a602.gotcha.domain.member.controller;
 
 import javax.validation.Valid;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.a602.gotcha.domain.member.response.MemberInformationResponse;
-import org.a602.gotcha.domain.member.response.MemberLoginResponse;
-import org.a602.gotcha.domain.member.service.MemberService;
-import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
-import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
 import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
+import org.a602.gotcha.domain.member.response.MemberInformationResponse;
+import org.a602.gotcha.domain.member.response.MemberLoginResponse;
+import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
+import org.a602.gotcha.domain.member.service.MemberService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -87,8 +88,8 @@ public class MemberController {
 		return new BaseResponse<>(memberInformation);
 	}
 
-	@DeleteMapping("/member")
-	public BaseResponse<Long> deleteMember(@Valid @RequestParam Long id) {
+	@DeleteMapping("/member/{id}")
+	public BaseResponse<Long> deleteMember(@Valid @PathVariable Long id) {
 		final Long deleteId = memberService.deleteMemberById(id);
 
 		return new BaseResponse<>(deleteId);
