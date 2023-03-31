@@ -171,16 +171,25 @@
           max-width: 250px;
           margin: -20px;
         }
+        p {
+          font-size: 1.125rem;
+          color: $gray-1;
+          font-weight: 700;
+        }
       }
-      p {
+      .reward-explanation {
         .h5-text {
           color: $gray-3;
           font-weight: 900;
           margin-bottom: 10px;
+          font-size: 1.125rem;
+          text-align: left;
         }
-        color: $gray-3;
-        text-align: left;
-        max-width: 300px;
+        .text {
+          color: $gray-3;
+          text-align: left;
+          max-width: 300px;
+        }
       }
     }
   }
