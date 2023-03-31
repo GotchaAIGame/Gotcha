@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { creatorAPI } from "@apis/apis";
 import { useLocation } from "react-router-dom";
+import GameDetail from "@components/CreatorGameDeatil/GameDetail";
 import "@styles/CreatorGameDetailPage.scss";
 
 interface IgameInfo {
@@ -88,6 +89,7 @@ export default function CreatorGameDetailPage() {
         </button>
         <button type="button">삭제하기</button>
         {gameInfo.color && <p>ㅋ</p>}
+        <GameDetail gameInfo={gameInfo} setGameInfo={setGameInfo} />
       </div>
     );
   }

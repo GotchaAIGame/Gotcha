@@ -81,6 +81,21 @@ const creatorAPI = {
 
   getGameDetail: (roomId: number): Promise<AxiosResponse> =>
     request.authGet(`room/${roomId}`),
+
+  // 보상 생성
+  setRewards: (rewardsInfo: {
+    roomId: number;
+    rewards: Array<
+      {
+        name: string;
+        grade: number;
+        image: string;
+      }>
+    ;
+  }): Promise<AxiosResponse> => request.authPost("set/reward", rewardsInfo),
+
+  // 수정 관련 Apis
+  
 };
 
 export { gamePlayAPI, memberAPI, MLAPI, creatorAPI };
