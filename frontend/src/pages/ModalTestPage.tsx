@@ -175,7 +175,6 @@ export default function ModalTestPage() {
             modalHandler(5);
           }}
           className="modal-five"
-          btnType="submit"
           closeType
         >
           <h5>전화번호</h5>
