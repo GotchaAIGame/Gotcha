@@ -9,4 +9,6 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 
     Optional<Participant> findParticipantByRoomIdAndNickname(Long roomId, String nickname);
 
+    boolean existsParticipantByRoomIdAndNickname(Long roomId, String nickname);
+
 }
