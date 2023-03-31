@@ -1,6 +1,14 @@
-import React, { useState, Dispatch, SetStateAction, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "@stores/player/themeSlice";
 import { setGameCustom } from "@stores/game/gameSlice";
+import { creatorAPI } from "@apis/apis";
 import Button from "@components/common/Button";
 import closeImg from "@assets/closeButton.svg";
 import LogoInput from "./LogoInput";
@@ -12,9 +20,15 @@ interface modalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function CustomModal({ isOpen, setIsOpen }: modalProps) {
-  const [themeImg, setThemeImg] = useState<string>("");
-  const [themeColor, setThemeColor] = useState<string>("5551FF");
+export default function CustomModal(props: any) {
+  const { isOpen, setIsOpen, gameInfo, setGameInfo } = props;
+  // const [previewImg, setPreviewImg] = useState<string>("");
+  // const [themeColor, setThemeColor] = useState<string>("5551FF");
+
+  // store에 저장된 값
+  const themeColor = useSelector((state: any) => state.theme.themeColor);
+  const themeLogo = useSelector((state: any) => state.theme.themeLogo);
+  const themeTitle = useSelector((state: any) => state.theme.themeTitle);
 
   const dispatch = useDispatch();
 
@@ -30,22 +44,76 @@ export default function CustomModal({ isOpen, setIsOpen }: modalProps) {
 
       reader.onload = function (e: ProgressEvent<FileReader>): void {
         const base64 = e.target?.result as string;
-        setThemeImg(base64);
+        dispatch(
+          setTheme({
+            room: gameInfo.id,
+            reward: gameInfo.hasReward,
+            themeColor,
+            themeLogo: base64,
+            themeTitle,
+          })
+        );
       };
 
       reader.readAsDataURL(file);
     }
   };
 
-  const colorHandler = useCallback(
-    (color: string) => {
-      setThemeColor(color);
-      const brandColor = color;
-      const logoUrl = themeImg;
-      dispatch(setGameCustom({ brandColor, logoUrl }));
-    },
-    [themeColor]
-  );
+  const colorHandler = (color: string) => {
+    dispatch(
+      setTheme({
+        room: gameInfo.id,
+        reward: gameInfo.hasReward,
+        themeColor: color,
+        themeLogo,
+        themeTitle,
+      })
+    );
+  };
+
+  const postTheme = () => {
+    console.log(gameInfo);
+    console.log(themeColor);
+    // 변경된 값으로 게임 정보 변경
+    const newGameInfo = gameInfo;
+    newGameInfo.color = themeColor;
+    newGameInfo.logoUrl = themeLogo;
+    setGameInfo(newGameInfo);
+
+    // 테마 API
+
+    const result = creatorAPI.putGameRoom({
+      id: gameInfo.id,
+      color: themeColor,
+      logoUrl: themeLogo,
+      title: gameInfo.title,
+      eventUrl: gameInfo.eventUrl,
+      eventDesc: gameInfo.eventDesc,
+      startTime: gameInfo.startTime,
+      endTime: gameInfo.endTime,
+    });
+
+    result
+      .then((res) => {
+        console.log("수정됨?");
+        console.log(res);
+      })
+      .catch((res) => {
+        console.log("수정안됨");
+        console.log(res);
+      });
+
+    // 리워드 API
+  };
+
+  // useEffect(() => {
+  //   if (gameInfo) {
+  //     const gotThemeColor = gameInfo.brandColor;
+  //     const gotThemeImg = gameInfo.LogoUrl;
+  //     setThemeColor(gotThemeColor);
+  //     setThemeImg(gotThemeImg);
+  //   }
+  // }, []);
 
   return (
     <div
@@ -55,15 +123,15 @@ export default function CustomModal({ isOpen, setIsOpen }: modalProps) {
       <button type="button" onClick={modalHandler} className="close-button">
         <img src={closeImg} alt="닫기" />
       </button>
-      <LogoInput />
-      <ColorInput />
+      <LogoInput themeLogo={themeLogo} imgHandler={imgHandler} />
+      <ColorInput themeColor={themeColor} colorHandler={colorHandler} />
       <button type="button" className="add-reward-button">
         <p className="plus-button">+</p>
         <p>경품 등록하기</p>
       </button>
       <RewardsList />
       <br />
-      <Button size="medium" text="확인" />
+      <Button size="medium" text="확인" onClick={postTheme} />
     </div>
   );
 }

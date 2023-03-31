@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { creatorAPI } from "@apis/apis";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GameDetail from "@components/CreatorGameDeatil/GameDetail";
 import "@styles/CreatorGameDetailPage.scss";
 
@@ -80,14 +80,21 @@ export default function CreatorGameDetailPage() {
     console.log(gameInfo, "있음");
   };
 
+  const navigate = useNavigate();
+  const goEdit = () => {
+    navigate(`/custom/${gameInfo.code}`, { state: { roomId } });
+  };
+
   if (gameInfo) {
     return (
       <div>
         <p>이곳에서 게임 정보를 조회, 수정하고, Custom할 수 있어야합니다</p>
         <button type="button" onClick={check}>
+          내용 확인
+        </button>
+        <button type="button" onClick={goEdit}>
           수정하기
         </button>
-        <button type="button">삭제하기</button>
         {gameInfo.color && <p>ㅋ</p>}
         <GameDetail gameInfo={gameInfo} setGameInfo={setGameInfo} />
       </div>

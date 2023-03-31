@@ -86,6 +86,18 @@ const creatorAPI = {
     ];
   }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
 
+  // 게임 정보 수정, 테마 변경
+  putGameRoom: (gameInfo: {
+    id: number;
+    color: string;
+    logoUrl: string;
+    title: string;
+    eventUrl: string;
+    eventDesc: string;
+    startTime: string;
+    endTime: string;
+  }): Promise<AxiosResponse> => request.authPut("set/room", gameInfo),
+
   getAllGameRoom: (userId: number, page: number): Promise<AxiosResponse> =>
     request.authGet(`member/room/${userId}`, {
       params: { page },
@@ -97,17 +109,14 @@ const creatorAPI = {
   // 보상 생성
   setRewards: (rewardsInfo: {
     roomId: number;
-    rewards: Array<
-      {
-        name: string;
-        grade: number;
-        image: string;
-      }>
-    ;
+    rewards: Array<{
+      name: string;
+      grade: number;
+      image: string;
+    }>;
   }): Promise<AxiosResponse> => request.authPost("set/reward", rewardsInfo),
 
   // 수정 관련 Apis
-  
 };
 
 export { gamePlayAPI, memberAPI, MLAPI, creatorAPI };
