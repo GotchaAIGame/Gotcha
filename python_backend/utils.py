@@ -7,6 +7,7 @@ import torch
 import torchvision.transforms as transforms
 from SuperGlueModels.matching import Matching
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
 model = None
 similarity_threshold = 40
@@ -19,6 +20,7 @@ transform = transforms.Compose([
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print('Running inference on device \"{}\"'.format(device))
 
+@asynccontextmanager
 async def lifespan(app : FastAPI):
     # set lifespan of the main application
     # it loads model when the server is on, and remove it when the server is down
