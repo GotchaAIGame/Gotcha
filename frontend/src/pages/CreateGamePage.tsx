@@ -29,7 +29,7 @@ export default function CreateGamePage() {
       (gameInfo.title,
       gameInfo.startTime,
       gameInfo.endTime,
-      gameInfo.description,
+      gameInfo.eventDesc,
       gameInfo.problems[0].image)
     ) {
       // 문제 중 마지막 미입력값 배열이 있으면 제거
