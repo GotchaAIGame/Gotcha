@@ -1,7 +1,10 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable react/jsx-no-useless-fragment */
 import React, { useRef, useState } from "react";
 import { gamePlayAPI } from "@apis/apis";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPlayer } from "@stores/player/themeSlice";
 import InputBox from "@components/common/InputBox";
 import OTPInput from "@components/common/OTPInput";
 import Button from "@components/common/Button";
@@ -18,6 +21,7 @@ export default function RejoinPlayerInfo() {
   const [startedTime, setStartedTime] = useState(""); // 참여자 게임시작했던시간
   const location = useLocation(); // roomId props로 받기
   const navigate = useNavigate(); // 리다이렉트
+  const dispatch = useDispatch();
   const nicknameHandler = useRef<HTMLInputElement>(null); // 닉네임 input
   const changeHandler = (value: string) => setOtp(value); // 비밀번호 input
 
@@ -25,21 +29,33 @@ export default function RejoinPlayerInfo() {
   const roomPin = location.state.inputPin;
 
   const currentRef = nicknameHandler.current;
+
   // 재참여 로그인
   const rejoinGameHandler = () => {
     if (otp.length < 4) {
       alert("비밀번호 4자리를 입력해주세요.");
     }
     if (currentRef) {
-      let nicknameValue = currentRef.value;
+      const nicknameValue = currentRef.value;
       const password = parseInt(otp.slice(0, 4), 10);
       const request = gamePlayAPI.login(roomId, nicknameValue, password);
 
       request
         .then((res) => {
-          setIsFinish(res.data.result.isFinished);
-          setStartedTime(res.data.result.startTime);
+          console.log(currentRef.value);
+          const { isFinished, startTime } = res.data.result;
+          setIsFinish(isFinished);
+          setStartedTime(startTime);
           setIsClicked(true);
+
+          // 참여자 정보 store에 올리기
+          dispatch(
+            setPlayer({
+              room: roomId,
+              nickname: currentRef.value,
+              startTime: startTime,
+            })
+          );
         })
         .catch((err) => {
           const errCode = err.response.data.status;
@@ -58,11 +74,12 @@ export default function RejoinPlayerInfo() {
               console.error(err);
           }
         });
-      nicknameValue = ""; // 수정필요 -> 비워지지않음
-      // setOtp("");
+      // currentRef.value = ""; // 비우면 store에 올라가지 않는 에러 발생
+      setOtp("");
     }
   };
 
+  // <이어하기> 버튼 클릭
   const rejoinClickHandler = () => {
     if (currentRef) {
       const nicknameValue = currentRef.value;
@@ -74,6 +91,7 @@ export default function RejoinPlayerInfo() {
     }
   };
 
+  // <랭킹보기> 버튼 클릭
   const rankClickHandler = () => {
     navigate(`/game/${roomPin}/rank`);
   };
