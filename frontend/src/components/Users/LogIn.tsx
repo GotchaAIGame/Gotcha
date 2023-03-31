@@ -39,18 +39,19 @@ export default function LogIn() {
           console.log(res);
           console.log(res.data.result);
           const gotUserInfo = res.data.result;
+          const { nickname } = res.data.result;
           // Store에 user 정보 저장
           dispatch(setLogin(gotUserInfo));
           // console.log(gotUserInfo.accessToken, "됐다!");
+          // userNickname
 
           // token 저장
           const { accessToken, refreshToken } = gotUserInfo;
           sessionStorage.setItem("accessToken", accessToken);
           setCookie("refreshToken", refreshToken);
-          console.log("저장?");
 
           alert("환영합니다!");
-          navigate("/creator");
+          navigate(`/mypage/${nickname}`);
         })
         .catch((res) => {
           alert(res);

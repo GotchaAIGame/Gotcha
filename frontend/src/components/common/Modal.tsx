@@ -9,7 +9,7 @@ interface modalProps {
   className?: string; // the modal's name
   children?: any; // sames as props.children
   overlay?: boolean; // if true, make background overlay black
-  btnType?: "right-one" | "right-two" | "center" | "submit" | "none";
+  btnType?: "right-one" | "right-two" | "center" | "none";
   exclamationType?: "inside" | "outside"; // if inside, exclamation mark located inside.
   closeType?: boolean; // if true, explicitly shows close botton on the right top corner
   modalHandler: () => void; // modal handler function
@@ -68,19 +68,6 @@ function Modal(props: modalProps) {
         color="gray-blue"
         onClick={() => {
           mainBtnHandler();
-        }}
-      />
-    );
-  } else if (btnType === "submit") {
-    buttons = (
-      <Button
-        size="xxsmall"
-        text="제출하기"
-        color="gray-lime"
-        onClick={() => {
-          // modalHandler();
-          console.log("제출하기");
-          modalHandler();
         }}
       />
     );

@@ -82,7 +82,7 @@ export default function OTPInput({
         <input
           className="otp-input"
           key={idx}
-          type="password"
+          type="number"
           inputMode="numeric"
           autoComplete="one-time-code"
           pattern="\d{1}"
