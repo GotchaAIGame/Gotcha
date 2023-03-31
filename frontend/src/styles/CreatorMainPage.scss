@@ -3,10 +3,23 @@
 .creator-main-container {
   justify-content: center;
 
+  .welcome-text-wrapper {
+    text-align: left;
+    margin: 2% 0 3% 3%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    .welcome-name {
+      font-size: 1.7rem;
+      color: $blue-1;
+      -webkit-text-stroke: 1px #000;
+    }
+  }
+
   .creator-main-items-container {
     border-radius: 30px;
     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
-    padding: 1% 0;
+    padding-top: 1%;
+    padding-bottom: 3%;
   }
 
   .profile-wrapper {
@@ -18,7 +31,9 @@
 // Profile.tsx
 
 .profile-infos-container {
+  margin-top: 5%;
   padding-bottom: 5%;
+  align-items: center;
 
   // 프로필 이미지 영역
   .profile-wrapper {
@@ -29,6 +44,7 @@
       aspect-ratio: 1 / 1;
       border-radius: 50%;
       // margin: 10px;
+      border: 1px solid $gray-1;
     }
 
     // md영역 기점으로 크기 조정
@@ -47,13 +63,25 @@
 
   // 프로필 정보
   .profile-texts-container {
+    // display: inline-block;
+    align-items: center;
     Button {
       display: inline-block;
+      max-width: 100%;
+    }
+    p {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: 20px auto;
+
+      span {
+        font-weight: 700;
+      }
     }
 
     // sm영역 기점으로 글씨 크기 조정
     @media (max-width: 600px) {
-      h3 {
+      p {
         font-size: 1.125rem;
       }
     }
@@ -71,15 +99,19 @@
 
   .create-button-wrapper {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     text-decoration: none;
+    width: 150px;
+    margin: auto;
   }
 
   .game-tab-buttons-container {
     display: flex;
-    padding: 1% 0;
-    border-top: 1px solid $gray-1;
-    border-bottom: 1px solid $gray-1;
+    padding: 0;
+    padding-top: 1%;
+    border-top: 1px solid $gray-2;
+    border-bottom: 1px solid $gray-2;
+    margin-bottom: 2%;
     justify-content: space-around;
 
     button {
@@ -87,13 +119,14 @@
       border: none;
       cursor: pointer;
       min-width: 20%;
+      font-weight: 500;
+      padding-bottom: 1%;
     }
     button:hover,
     .button-active {
-      background-color: $gray-5;
-      border: 1px solid $gray-2;
-      border-radius: 30px;
-      cursor: pointer;
+      background-color: $lime;
+      border-top-right-radius: 12px;
+      border-top-left-radius: 12px;
     }
   }
 }
@@ -109,6 +142,13 @@
   border-radius: 15px;
   margin: 2%;
   justify-content: flex-start;
+
+  .detail-move-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
 
   header {
     border-top-left-radius: 15px;

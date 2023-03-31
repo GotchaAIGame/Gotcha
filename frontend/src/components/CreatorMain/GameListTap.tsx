@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { creatorAPI } from "@apis/apis";
 import Button from "@components/common/Button";
 import EntireGames from "./EntireGames";
 import OnGoingGames from "./OnGoingGames";
@@ -7,12 +9,16 @@ import BeforeStartedGames from "./BeforeStartedGames";
 import FinishedGames from "./FinishedGames";
 
 export default function GameListTap() {
+  const userId = useSelector((state: any) => state.users.id);
+
   const [isOpen, setIsOpen] = useState({
     entire: true,
     ongoing: false,
     before: false,
     finished: false,
   });
+
+  const [createGames, setCreateGames] = useState<object[]>([]);
 
   const tabHandler = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -26,6 +32,15 @@ export default function GameListTap() {
     newTab[newtarget] = true;
     setIsOpen(newTab);
   };
+
+  useEffect(() => {
+    console.log("렌더링!");
+    const result = creatorAPI.getAllGameRoom(userId, 0);
+    result.then((res) => {
+      console.log(res.data.result);
+      setCreateGames(res.data.result.content);
+    });
+  }, []);
 
   return (
     <div className="game-tabs-container">
@@ -64,7 +79,7 @@ export default function GameListTap() {
           종료
         </button>
       </div>
-      {isOpen.entire && <EntireGames />}
+      {isOpen.entire && <EntireGames createGames={createGames} />}
       {isOpen.ongoing && <OnGoingGames />}
       {isOpen.before && <BeforeStartedGames />}
       {isOpen.finished && <FinishedGames />}
