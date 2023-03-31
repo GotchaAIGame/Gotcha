@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
+import { useAppSelector } from "@stores/storeHooks";
 import ProblemCard from "./ProblemCard";
 import temporaryData from "./temporarydata";
 import Scroller from "./Scroller";
 
 function ProblemCardList() {
+  const { solved, problems } = useAppSelector((state) => state.gamePlay);
   const cardList = useRef<HTMLDivElement>(null);
   // temporary data
-  const problems = temporaryData;
   const [locs, setLocs] = useState([1]);
 
   useEffect(() => {
