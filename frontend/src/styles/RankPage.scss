@@ -149,9 +149,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      .rank-one,
-      .rank-two,
-      .rank-three {
+      .reward-box {
         width: 300px;
         border-radius: 10px;
         background-color: white;
@@ -164,14 +162,15 @@
         .medal {
           width: 45px;
           position: relative;
-          top: -20px;
+          top: -30px;
           left: -100px;
         }
-        img {
+        .reward-img {
           max-width: 250px;
           margin: -20px;
         }
         p {
+          margin-top: 40px;
           font-size: 1.125rem;
           color: $gray-1;
           font-weight: 700;
