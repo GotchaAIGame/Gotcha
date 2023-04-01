@@ -21,7 +21,7 @@ export default function CreateGamePage() {
 
   const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
-    console.log("최종적으로 쏘는 정보")
+    console.log("최종적으로 쏘는 정보");
     console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
 
@@ -37,6 +37,9 @@ export default function CreateGamePage() {
       const result = creatorAPI.createGameRoom(gameInfo);
       result
         .then((res) => {
+          // 보내는 정보
+          console.log("보낸거");
+          console.log(gameInfo);
           console.log(res, "됐다");
           const gamePin = res.data.result.code;
           const roomId = res.data.result.id;

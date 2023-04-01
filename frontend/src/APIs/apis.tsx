@@ -69,18 +69,16 @@ const MLAPI = {
 const creatorAPI = {
   createGameRoom: (gameInfo: {
     brandColor: string;
-    logoUrl: string;
+    logoImage: string;
     title: string;
     eventUrl: string;
     eventDesc: string;
-    hasReward: boolean;
     startTime: string;
     endTime: string;
     problems: Array<
       {
         image: string;
         name: string;
-        description: string;
         hint: string;
       }
     >;
@@ -88,9 +86,9 @@ const creatorAPI = {
 
   // 게임 정보 수정, 테마 변경
   putGameRoom: (gameInfo: {
-    id: number;
+    roomId: number;
     color: string;
-    logoUrl: string;
+    logoImage: string;
     title: string;
     eventUrl: string;
     eventDesc: string;

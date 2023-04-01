@@ -83,9 +83,9 @@ export default function CustomModal(props: any) {
     // 테마 API
 
     const result = creatorAPI.putGameRoom({
-      id: gameInfo.id,
+      roomId: gameInfo.id,
       color: themeColor,
-      logoUrl: themeLogo,
+      logoImage: themeLogo,
       title: gameInfo.title,
       eventUrl: "test",
       eventDesc: gameInfo.eventDesc,
@@ -95,6 +95,8 @@ export default function CustomModal(props: any) {
 
     result
       .then((res) => {
+        console.log("보낸거");
+        console.log(gameInfo);
         console.log("수정됨?");
         console.log(res);
       })
