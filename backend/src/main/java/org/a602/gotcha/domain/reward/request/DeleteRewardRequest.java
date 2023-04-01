@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class DeleteRewardRequest {
 
+    @NotNull
+    private Long roomId;
 
     @NotNull
     private Long rewardId;

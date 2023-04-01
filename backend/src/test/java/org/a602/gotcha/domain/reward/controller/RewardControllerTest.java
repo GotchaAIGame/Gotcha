@@ -249,7 +249,7 @@ class RewardControllerTest {
         assertFalse(rewardList.isEmpty());
         Reward reward = rewardList.get(0);
         mockMvc.perform(delete(url + "/set/reward")
-                .content(objectMapper.writeValueAsString(new DeleteRewardRequest(reward.getId())))
+                .content(objectMapper.writeValueAsString(new DeleteRewardRequest(room.getId(), reward.getId())))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
         int removeAfterSize = rewardRepository.findByRoomId(room.getId()).size();

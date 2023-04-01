@@ -7,6 +7,8 @@ import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest.RewardDTO;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
 import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
+import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.S3Service;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class RewardService {
     private final RewardRepository rewardRepository;
     private final RoomService roomService;
     private final S3Service s3Service;
+    private final RoomRepository roomRepository;
 
 
     @Transactional
@@ -63,7 +66,10 @@ public class RewardService {
         rewardRepository.saveAll(newRewardList);
     }
 
-    public void deleteReward(Long rewardId) {
+    public void deleteReward(Long roomId, Long rewardId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
+        room.setHasReward(false);
         rewardRepository.deleteById(rewardId);
     }
 }

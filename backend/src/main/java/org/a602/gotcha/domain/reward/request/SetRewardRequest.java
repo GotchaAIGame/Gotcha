@@ -16,6 +16,7 @@ import java.util.List;
 public class SetRewardRequest {
     @Valid
     private List<RewardDTO> rewards;
+    @NotNull
     private Long roomId;
 
     @Getter

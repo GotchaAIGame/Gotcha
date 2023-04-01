@@ -45,7 +45,7 @@ public class RewardController {
     @Operation(description = "게임에 리워드 삭제", summary = "게임에 리워드 삭제")
     public BaseResponse<Void> deleteReward(@Valid @RequestBody DeleteRewardRequest request) {
 
-        rewardService.deleteReward(request.getRewardId());
+        rewardService.deleteReward(request.getRoomId(), request.getRewardId());
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 }
