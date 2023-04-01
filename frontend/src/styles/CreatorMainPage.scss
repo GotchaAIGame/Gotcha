@@ -23,8 +23,16 @@
   }
 
   .profile-wrapper {
-    // 수직 중앙정렬
-    margin: auto;
+    // 상단 위치
+    margin-top: 85px;
+  }
+
+  // md영역 기점으로 크기 조정
+  @media (max-width: 900px) {
+    .profile-wrapper {
+      // 수직 중앙정렬
+      margin: auto;
+    }
   }
 }
 
@@ -108,7 +116,7 @@
   .game-tab-buttons-container {
     display: flex;
     padding: 0;
-    padding-top: 1%;
+    // padding-top: 1%;
     border-top: 1px solid $gray-2;
     border-bottom: 1px solid $gray-2;
     margin-bottom: 2%;
@@ -120,7 +128,9 @@
       cursor: pointer;
       min-width: 20%;
       font-weight: 500;
+      height: 2.25rem;
       padding-bottom: 1%;
+      padding-top: 1%;
     }
     button:hover,
     .button-active {
@@ -136,8 +146,10 @@
 .card-wrapper {
   display: inline-flex;
   flex-direction: column;
+  position: relative;
   width: 255px;
-  min-height: 405px;
+  min-height: 400px;
+  max-height: 410px;
   border: 1px solid $gray-1;
   border-radius: 15px;
   margin: 2%;
@@ -185,6 +197,13 @@
       align-items: baseline;
       margin: 5px;
       // flex-wrap: wrap;
+
+      .card-content-desc-text-wrapper {
+        max-height: 80px;
+        // max-height: 30px;
+        overflow: hidden;
+        width: 171px;
+      }
     }
 
     .card-content-title-wrapper {
@@ -214,6 +233,10 @@
   footer {
     display: inline-flex;
     justify-content: center;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 10px;
+    width: 100%;
 
     Button {
       width: 100px !important;
