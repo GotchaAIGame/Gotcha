@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import store from "@stores/store";
 import InputPinNum from "@components/MainPage/InputPinNum";
@@ -7,8 +7,17 @@ import "@styles/MainPage.scss";
 import logo from "@assets/logo.svg";
 
 export default function MainPage() {
-  const email = useSelector((state: any) => state.users.email);
   const nickname = useSelector((state: any) => state.users.nickname);
+  const token = sessionStorage.getItem("accessToken");
+
+  const navigate = useNavigate();
+  const userCheck = () => {
+    if (token) {
+      navigate(`/mypage/${nickname}`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     // 그리드 테스트 용입니다.
@@ -17,11 +26,13 @@ export default function MainPage() {
         <img src={logo} alt="로고" />
         {/* {nickname && <p>{nickname}님, 어서오세요!</p>} */}
         <InputPinNum />
-        <Link to="/login">
-          <button type="button" className="create-button">
-            문제 만들기
-          </button>
-        </Link>
+        <button
+          type="button"
+          className="main-creator-button"
+          onClick={userCheck}
+        >
+          문제 만들기
+        </button>
       </div>
       {/* 임시 바로가기 모음 */}
       {/* <div className="temps-container">
