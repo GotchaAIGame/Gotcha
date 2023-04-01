@@ -6,6 +6,7 @@ import InputValidBox from "@components/common/InputValidBox";
 import InputBox from "@components/common/InputBox";
 import { putUser } from "@stores/users/userSlice";
 import { memberAPI } from "@apis/apis";
+import tmp from "@assets/favicon.png";
 
 export default function EditProfile() {
   const userInfo = useSelector((state: any) => state.users);
@@ -57,51 +58,66 @@ export default function EditProfile() {
 
   const editHandler = () => {
     console.log("변경!");
+    // api 연결 필요
   };
 
   return (
-    <div className="edit-profile-main-container">
+    <div>
       <h3>회원정보 수정</h3>
+      <div className="edit-profile-main-container">
+        <div className="profile-container">
+          {/* <img src={userInfo.profileImage} alt="프로필 이미지" /> */}
+          <img src={tmp} alt="프로필 이미지" />
+          <Button
+            type="submit"
+            text="사진업로드"
+            size="small"
+            color="skyblue"
+          />
+        </div>
 
-      <form action="submit" className="edit-profile-form">
-        <label htmlFor="">
-          <h5>이메일</h5>
-          <InputBox
-            type="text"
-            text={userInfo.email}
-            className="email-input"
-            disabled
-          />
-        </label>
-      </form>
+        <div className="userinfo-container">
+          <form action="submit" className="edit-profile-form">
+            <label htmlFor="">
+              <h5>이메일</h5>
+              <InputBox
+                type="text"
+                text={userInfo.email}
+                className="email-input"
+                disabled
+              />
+            </label>
+          </form>
 
-      <form action="submit" className="edit-profile-form">
-        <label htmlFor="sign-up-nickname">
-          <h5>닉네임</h5>
-          <InputValidBox
-            type="text"
-            text={userInfo.nickname}
-            onClick={nicknameChecker}
-            onChange={nicknameHandler}
-            checked={nicknameValid}
-          />
-          <p className="nickname-intro">
-            ※ 닉네임은 특수문자와 공백 없이 2~10자로
-            <br />
-            입력해주세요.
-          </p>
-        </label>
-      </form>
-      <form action="submit" className="edit-profile-form">
-        <label htmlFor="sign-up-company">
-          <h5>소속</h5>
-          <InputBox
-            type="text"
-            text={userInfo.organization}
-            // onChange={organizationHandler}
-          />
-        </label>
-      </form>
+          <form action="submit" className="edit-profile-form">
+            <label htmlFor="sign-up-nickname">
+              <h5>닉네임</h5>
+              <InputValidBox
+                type="text"
+                text={userInfo.nickname}
+                onClick={nicknameChecker}
+                onChange={nicknameHandler}
+                checked={nicknameValid}
+              />
+              <p className="nickname-intro">
+                ※ 닉네임은 특수문자와 공백 없이 2~10자로
+                <br />
+                입력해주세요.
+              </p>
+            </label>
+          </form>
+          <form action="submit" className="edit-profile-form">
+            <label htmlFor="sign-up-company">
+              <h5>소속</h5>
+              <InputBox
+                type="text"
+                text={userInfo.organization}
+                // onChange={organizationHandler}
+              />
+            </label>
+          </form>
+        </div>
+      </div>
       <Button
         text="변경 완료"
         type="submit"

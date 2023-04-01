@@ -54,6 +54,14 @@ const memberAPI = {
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
   logIn: (email: string, password: string): Promise<AxiosResponse> =>
     request.post("member/login", { email, password }),
+  editUser: (userInfo: {
+    id: number;
+    nickname: string;
+    organization: string;
+    email: string;
+    registrationId: string;
+    profilImage: string;
+  }): Promise<AxiosResponse> => request.put("member", userInfo),
 };
 
 const MLAPI = {

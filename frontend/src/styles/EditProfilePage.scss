@@ -1,7 +1,6 @@
 @import "@styles/Colors.scss";
 
 .edit-profile-main-container {
-  margin: 5% auto;
   h3 {
     margin-bottom: 0;
   }
@@ -9,21 +8,42 @@
     margin-top: 10px;
     font-weight: 400;
   }
-  .edit-profile-form {
+  gap: 5%;
+  margin: 5% auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .profile-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin: 10px auto;
-    h5 {
-      margin: 0 auto;
-      text-align: left;
-      color: $blue-1;
-      font-weight: 700;
+    align-items: center;
+    gap: 10px;
+    img {
+        border: 3px solid $gray-1;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+      }
     }
-    .nickname-intro,
-    .passwod-intro {
-      color: $green;
-      width: 325px;
-      text-align: left;
+  .userinfo-container {
+    .edit-profile-form {
+      display: flex;
+      justify-content: center;
+      margin: 10px auto;
+      h5 {
+        margin: 0 auto;
+        text-align: left;
+        color: $blue-1;
+        font-weight: 700;
+      }
+      .nickname-intro,
+      .passwod-intro {
+        color: $green;
+        width: 325px;
+        text-align: left;
+      }
     }
   }
 }
