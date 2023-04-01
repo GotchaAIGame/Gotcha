@@ -103,13 +103,15 @@ public class RoomService {
 
         Room room = Room.builder()
                 .color(request.getBrandColor())
-                .title(request.getTitle())
-                .endTime(request.getEndTime())
                 .logoUrl(uploadLogoUrl)
+                .title(request.getTitle())
                 .eventUrl(request.getEventUrl())
-                .startTime(request.getStartTime())
-                .member(member)
+                .eventDesc(request.getEventDesc())
                 .code(code)
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .hasReward(false)
+                .member(member)
                 .build();
 
         for (CreateProblemRequest problem : problems) {
