@@ -272,18 +272,26 @@ class RoomControllerTest {
     @Test
     @DisplayName("방생성")
     void createRoom() throws Exception {
-        CreateRoomRequest request;
         List<CreateProblemRequest> createProblemRequests = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             createProblemRequests.add(new CreateProblemRequest(null, "name " + i, "hint " + i));
         }
-        request = new CreateRoomRequest("색깔", null, "제목", "이벤트 경로", "설명", false, LocalDateTime.now(), LocalDateTime.of(2024, 1, 1, 1, 1), createProblemRequests);
-        mockMvc.perform(
-                post(url + "set/room")
-                        .content(objectMapper.writeValueAsString(request))
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .brandColor("색깔")
+                .title("제목")
+                .eventUrl("이벤트경로")
+                .eventDesc("이벤트설명")
+                .startTime(LocalDateTime.now())
+                .endTime(LocalDateTime.of(2024, 1, 1, 1, 1))
+                .problems(createProblemRequests)
+                .build();
+        mockMvc
+                .perform(post(url + "set/room")
                         .header(AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
-
+                        .content(objectMapper.writeValueAsBytes(request))
+                )
+                .andExpect(jsonPath("$.status", is(200)))
+                .andDo(print());
     }
 }

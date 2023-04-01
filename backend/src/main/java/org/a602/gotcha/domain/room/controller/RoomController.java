@@ -87,6 +87,8 @@ public class RoomController {
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
+    @Operation(description = "방 조회 API", summary = "방 조회 API")
+    @ApiResponse(responseCode = "200", description = "방 정보 불러오기 성공", content = @Content(schema = @Schema(implementation = RoomDetailResponse.class)))
     @GetMapping("/room/{roomId}")
     public BaseResponse<RoomDetailResponse> getRoomDetail(@PathVariable Long roomId) {
         Room roomWithAllRelations = roomService.getRoomWithAllRelations(roomId);
@@ -94,6 +96,7 @@ public class RoomController {
         return new BaseResponse<>(roomDetailResponse);
     }
 
+    @Operation(description = "유저에 해당하는 방 ID들 가져오기 API", summary = "유저에 해당하는 방 ID들 가져오기 API")
     @GetMapping("/member/room/{memberID}")
     public BaseResponse<Page<RoomSummaryInfo>> getRoomIdsByMemberId(@PageableDefault Pageable pageable, @PathVariable @Valid @Positive Long memberID) {
         return new BaseResponse<>(roomService.getRoomIdsByMemberId(memberID, pageable));

@@ -12,9 +12,9 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 public class UpdateRoomRequest {
     @NotNull
     @Positive
@@ -37,9 +37,6 @@ public class UpdateRoomRequest {
     @Schema(description = "이벤트 설명")
     @NotBlank
     String eventDesc;
-
-    @Schema(description = "리워드가 있는지")
-    boolean hasReward;
 
     @Schema(description = "게임 시작 시간")
     @NotNull

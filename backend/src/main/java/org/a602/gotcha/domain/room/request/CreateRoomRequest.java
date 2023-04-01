@@ -3,6 +3,7 @@ package org.a602.gotcha.domain.room.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,8 +14,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@NoArgsConstructor
+@Builder
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class CreateRoomRequest {
 
@@ -35,9 +37,6 @@ public class CreateRoomRequest {
     @Schema(description = "이벤트 설명")
     @NotBlank
     String eventDesc;
-
-    @Schema(description = "리워드가 있는지")
-    boolean hasReward;
 
     @Schema(description = "게임 시작 시간")
     @NotNull

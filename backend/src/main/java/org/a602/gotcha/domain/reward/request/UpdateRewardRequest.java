@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 public class UpdateRewardRequest {
     private List<UpdateRewardDTO> rewards;
+    @NotNull
     private Long roomId;
 
     @Getter
