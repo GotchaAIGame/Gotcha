@@ -10,7 +10,7 @@ export default function GameCard(props: any) {
   const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
     // console.log(e);
     navigate(`/custom/${gameInfo.code}`, {
-      state: { gameId: gameInfo.id },
+      state: { roomId: gameInfo.id },
     });
   };
 
