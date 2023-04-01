@@ -3,6 +3,7 @@ package org.a602.gotcha.domain.room.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.problem.entity.Problem;
@@ -50,6 +51,7 @@ public class Room {
     private LocalDateTime endTime;
 
     @Column(name = "has_reward")
+    @Setter
     private Boolean hasReward;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -88,4 +90,6 @@ public class Room {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+
 }

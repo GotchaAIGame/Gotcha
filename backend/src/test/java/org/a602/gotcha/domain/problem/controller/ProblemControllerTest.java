@@ -1,8 +1,24 @@
 package org.a602.gotcha.domain.problem.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.a602.gotcha.CustomSpringBootTest;
+import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.problem.entity.Problem;
+import org.a602.gotcha.domain.problem.repository.ProblemRepository;
+import org.a602.gotcha.domain.problem.request.DeleteProblemRequest;
+import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
+import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,30 +29,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 
-import javax.persistence.EntityManager;
-
-import org.a602.gotcha.CustomSpringBootTest;
-import org.a602.gotcha.domain.member.entity.Member;
-import org.a602.gotcha.domain.problem.entity.Problem;
-import org.a602.gotcha.domain.problem.repository.ProblemRepository;
-import org.a602.gotcha.domain.problem.request.DeleteProblemRequest;
-import org.a602.gotcha.domain.problem.request.UpdateProblemRequest;
-import org.a602.gotcha.domain.room.entity.Room;
-import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @CustomSpringBootTest
 @Transactional
@@ -98,7 +93,7 @@ class ProblemControllerTest {
         member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
-        token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);
+        token = JwtTokenProvider.BEARER + jwtTokenProvider.createAccessToken(member);
         em.persist(member);
         em.flush();
         em.clear();

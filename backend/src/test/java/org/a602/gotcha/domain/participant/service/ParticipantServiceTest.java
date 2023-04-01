@@ -66,7 +66,7 @@ class ParticipantServiceTest {
                     .nickname(NOT_REGISTERED_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.existDuplicateNickname(request));
         }
@@ -80,9 +80,9 @@ class ParticipantServiceTest {
                     .nickname(USER_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
-            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
-                    .thenReturn(Optional.of(Participant.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
+            when(participantRepository.existsParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(true);
             // then
             assertThrows(DuplicateNicknameException.class, () -> participantService.existDuplicateNickname(request));
         }
@@ -96,9 +96,9 @@ class ParticipantServiceTest {
                     .nickname(NOT_REGISTERED_NICKNAME)
                     .build();
             //when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
-            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
-                    .thenReturn(Optional.empty());
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
+            when(participantRepository.existsParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(false);
             // then
             assertFalse(participantService.existDuplicateNickname(request));
         }
@@ -134,8 +134,8 @@ class ParticipantServiceTest {
                     .build();
             // when
             when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
-            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
-                    .thenReturn(Optional.of(Participant.builder().build()));
+            when(participantRepository.existsParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(true);
             // then
             assertThrows(DuplicateNicknameException.class, () -> participantService.registerParticipant(request));
         }
@@ -151,8 +151,8 @@ class ParticipantServiceTest {
                     .build();
             // when
             when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
-            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
-                    .thenReturn(Optional.empty());
+            when(participantRepository.existsParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(false);
             when(participantRepository.save(any())).thenReturn(Participant.builder()
                     .room(Room.builder().build())
                     .nickname(NOT_REGISTERED_NICKNAME)
@@ -179,7 +179,7 @@ class ParticipantServiceTest {
                     .password(USER_PASSWORD)
                     .build();
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.getParticipantInfo(request));
         }
@@ -194,7 +194,7 @@ class ParticipantServiceTest {
                     .password(USER_PASSWORD)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
                     .thenReturn(Optional.empty());
             // then
@@ -211,7 +211,7 @@ class ParticipantServiceTest {
                     .password(NOT_VALID_PASSWORD)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname()))
                     .thenReturn(Optional.of(Participant.builder()
                             .nickname(USER_NICKNAME)
@@ -231,7 +231,7 @@ class ParticipantServiceTest {
                     .password(USER_PASSWORD)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname()))
                     .thenReturn(Optional.of(Participant.builder()
                             .nickname(USER_NICKNAME)
@@ -259,7 +259,7 @@ class ParticipantServiceTest {
                     .startTime(LocalDateTime.of(2023, 3, 24, 9, 15, 30))
                     .build();
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.updateStartTime(request));
         }
@@ -274,7 +274,7 @@ class ParticipantServiceTest {
                     .startTime(LocalDateTime.of(2023, 3, 24, 9, 15, 30))
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
                     .thenReturn(Optional.empty());
             // then
@@ -292,7 +292,7 @@ class ParticipantServiceTest {
                     .startTime(updateTime)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(request.getRoomId(), request.getNickname()))
                     .thenReturn(Optional.of(Participant.builder()
                             .nickname(USER_NICKNAME)
@@ -313,7 +313,7 @@ class ParticipantServiceTest {
         void notValidRoomId() {
 
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.checkUserValidation(INVALID_ROOM_ID, USER_NICKNAME));
         }
@@ -322,9 +322,9 @@ class ParticipantServiceTest {
         @DisplayName("해당하는 참여자가 없을 경우 ParticipantNotFound 예외 발생")
         void notValidParticipant() {
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
-            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
-                    .thenReturn(Optional.empty());
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
+            when(participantRepository.existsParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
+                    .thenReturn(false);
             // then
             assertThrows(ParticipantNotFoundException.class, () -> participantService.checkUserValidation(ROOM_ID, NOT_REGISTERED_NICKNAME));
         }
@@ -333,9 +333,9 @@ class ParticipantServiceTest {
         @DisplayName("방에 해당 참여자가 있을 경우 TRUE 리턴")
         void checkUserValidation() {
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
-            when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
-                    .thenReturn(Optional.of(Participant.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
+            when(participantRepository.existsParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
+                    .thenReturn(true);
             // then
             assertTrue(participantService.checkUserValidation(ROOM_ID, USER_NICKNAME));
         }
@@ -369,7 +369,7 @@ class ParticipantServiceTest {
                     .endTime(endTime)
                     .build();
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.updateGameRecord(request));
         }
@@ -385,7 +385,7 @@ class ParticipantServiceTest {
                     .endTime(endTime)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(room));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
                     .thenReturn(Optional.empty());
             // then
@@ -403,7 +403,7 @@ class ParticipantServiceTest {
                     .endTime(endTime)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(room));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
                     .thenReturn(Optional.of(participant));
             // then
@@ -425,7 +425,7 @@ class ParticipantServiceTest {
                     .phoneNumber("010-1111-1111")
                     .build();
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.updatePhoneNumber(request));
         }
@@ -440,7 +440,7 @@ class ParticipantServiceTest {
                     .phoneNumber("010-1111-1111")
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
                     .thenReturn(Optional.empty());
             // then
@@ -457,7 +457,7 @@ class ParticipantServiceTest {
                     .phoneNumber("010-1111-1111")
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
                     .thenReturn(Optional.of(Participant.builder().build()));
             // then
@@ -479,7 +479,7 @@ class ParticipantServiceTest {
                     .nickname(USER_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(INVALID_ROOM_ID)).thenReturn(Optional.empty());
+            when(roomRepository.existsById(INVALID_ROOM_ID)).thenReturn(false);
             // then
             assertThrows(RoomNotFoundException.class, () -> participantService.getRankList(request));
         }
@@ -493,7 +493,7 @@ class ParticipantServiceTest {
                     .nickname(NOT_REGISTERED_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, NOT_REGISTERED_NICKNAME))
                     .thenReturn(Optional.empty());
             // then
@@ -525,7 +525,7 @@ class ParticipantServiceTest {
                     .nickname(USER_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
                     .thenReturn(Optional.of(participant));
             when(participantQueryRepository.getTop3Rank(ROOM_ID))
@@ -561,7 +561,7 @@ class ParticipantServiceTest {
                     .nickname(USER_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
                     .thenReturn(Optional.of(participant));
             when(participantQueryRepository.getTop3Rank(ROOM_ID))
@@ -596,7 +596,7 @@ class ParticipantServiceTest {
                     .nickname(USER_NICKNAME)
                     .build();
             // when
-            when(roomRepository.findById(ROOM_ID)).thenReturn(Optional.of(Room.builder().build()));
+            when(roomRepository.existsById(ROOM_ID)).thenReturn(true);
             when(participantRepository.findParticipantByRoomIdAndNickname(ROOM_ID, USER_NICKNAME))
                     .thenReturn(Optional.of(participant));
             when(participantQueryRepository.getTop3Rank(ROOM_ID))

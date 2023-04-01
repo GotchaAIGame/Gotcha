@@ -1,17 +1,6 @@
 package org.a602.gotcha.domain.reward.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.a602.gotcha.CustomSpringBootTest;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.reward.entity.Reward;
@@ -39,7 +28,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @CustomSpringBootTest
 @AutoConfigureMockMvc
@@ -84,7 +82,7 @@ class RewardControllerTest {
         Member member = Member.builder()
                 .email("suker80@naver.com")
                 .organization("삼성").build();
-        token = JwtTokenProvider.BEARER + " " + jwtTokenProvider.createAccessToken(member);
+        token = JwtTokenProvider.BEARER + jwtTokenProvider.createAccessToken(member);
         entityManager.persist(member);
     }
 

@@ -66,8 +66,8 @@ public class RoomController {
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
     public BaseResponse<CreateRoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
-        int code = roomService.createRoom(request);
-        CreateRoomResponse createRoomResponse = new CreateRoomResponse(code);
+        Room room = roomService.createRoom(request);
+        CreateRoomResponse createRoomResponse = new CreateRoomResponse(room.getCode(), room.getId());
         return new BaseResponse<>(createRoomResponse);
     }
 
