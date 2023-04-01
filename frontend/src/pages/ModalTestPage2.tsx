@@ -1,68 +1,15 @@
 import React, { useState, useEffect, useRef, MouseEventHandler } from "react";
-import ProgressBar from "@components/Game/ProgressBar";
-import right from "@assets/right.svg";
-import wrong from "@assets/wrong.svg";
+import AIModal from "@components/Game/AIModal";
 import { MLAPI, memberAPI } from "@apis/apis";
 import axios from "axios";
-
-interface AIModalProps {
-  open: boolean;
-  openHandler: () => void;
-  resultStatus: number;
-  resultHandler: (status: number) => void;
-}
-
-function AIModal(props: AIModalProps) {
-  const { open, openHandler, resultStatus, resultHandler } = props;
-
-  if (open) {
-    return (
-      <div className="AIModal-wrapper">
-        <div
-          className="AIModal-overlay"
-          onClick={openHandler}
-          onKeyDown={openHandler}
-          role="presentation"
-        >
-          <div className="AIModal-content">
-            <h2>Modal</h2>
-            <div className="AIModal-evaluation">
-              <div className="circular-img">
-                {resultStatus === 1 && (
-                  <img src={right} alt={right} className="right" />
-                )}
-                {resultStatus === 2 && (
-                  <img src={wrong} alt={wrong} className="wrong" />
-                )}
-              </div>
-              <ProgressBar
-                resultHandler={(status: number) => {
-                  resultHandler(status);
-                }}
-              />
-            </div>
-            <div className="AIModal-description">
-              {resultStatus === 0 && <h1 className="blue"> AI 판독중 ... </h1>}
-              {resultStatus === 1 && <h1 className="green"> 맞았습니다! </h1>}
-              {resultStatus === 2 && (
-                <h1 className="orange"> 틀렸습니다! ㅋㅋ </h1>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return null;
-}
 
 export default function ModalTestPage2() {
   const [modalOpen1, setModalOpen1] = useState(false);
   const [resultStatus, setResultStatus] = useState(0); // 0 : loading, 1 : correct, 2: wrong
 
   const imgURL =
-    // "https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png"; 월계
-    "https://user-images.githubusercontent.com/47023884/228404315-2409f506-04b5-46c1-90fd-ea45e5215f6a.jpg";
+    "https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png";
+  // "https://user-images.githubusercontent.com/47023884/228404315-2409f506-04b5-46c1-90fd-ea45e5215f6a.jpg";
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -105,6 +52,7 @@ export default function ModalTestPage2() {
         }}
         resultStatus={resultStatus}
         resultHandler={resultHandler}
+        imageURL=""
       />
       <div className="ml-test-div">
         <p> 원본 데이터 </p>

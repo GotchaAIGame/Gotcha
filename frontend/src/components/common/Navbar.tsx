@@ -17,6 +17,7 @@ export default function Navbar() {
     location.pathname === "/main" || 
     location.pathname.startsWith("/newgame") || // /newgame으로 시작하는 경로(새게임페이지)
     location.pathname.startsWith("/rejoin") || // /rejoin 시작하는 경로(재참여페이지)
+    location.pathname.startsWith("/game") || // /rejoin 시작하는 경로(재참여페이지)
     location.pathname.endsWith("/rank") // /rank으로 끝나는 경로(랭킹페이지)
   ) {
     return null;

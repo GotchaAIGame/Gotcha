@@ -35,7 +35,7 @@ export default function MainPage() {
         <Link to="/signup">
           <button type="button">회원가입</button>
         </Link>
-        <Link to="/game/1">
+        <Link to="/game">
           <button type="button">게임 방</button>
         </Link>
         <Link to="/game/1/rank">
