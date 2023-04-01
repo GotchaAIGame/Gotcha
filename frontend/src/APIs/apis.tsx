@@ -72,18 +72,18 @@ const creatorAPI = {
     logoUrl: string;
     title: string;
     eventUrl: string;
-    description: string;
+    eventDesc: string;
     hasReward: boolean;
     startTime: string;
     endTime: string;
-    problems: [
+    problems: Array<
       {
         image: string;
         name: string;
         description: string;
         hint: string;
       }
-    ];
+    >;
   }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
 
   // 게임 정보 수정, 테마 변경

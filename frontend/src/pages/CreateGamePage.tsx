@@ -21,6 +21,7 @@ export default function CreateGamePage() {
 
   const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
+    console.log("최종적으로 쏘는 정보")
     console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
 

@@ -87,7 +87,7 @@ export default function CustomModal(props: any) {
       color: themeColor,
       logoUrl: themeLogo,
       title: gameInfo.title,
-      eventUrl: gameInfo.eventUrl,
+      eventUrl: "test",
       eventDesc: gameInfo.eventDesc,
       startTime: gameInfo.startTime,
       endTime: gameInfo.endTime,
