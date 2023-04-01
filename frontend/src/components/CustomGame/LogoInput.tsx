@@ -15,19 +15,17 @@ export default function LogoInput(props: any) {
       </div>
       <div className="file-input-wrapper">
         {themeLogo ? (
-          <div>
-            <label htmlFor="upload-brand-logo" className="file-input-label">
-              <p>임시 미리보기</p>
-              <img src={themeLogo} id="temp" alt="logo" />
-              <input
-                id="upload-brand-logo"
-                type="file"
-                accept="image/*"
-                onChange={imgHandler}
-                // ref={themeLogo}
-              />
-            </label>
-          </div>
+          <label htmlFor="upload-brand-logo" className="file-input-label">
+            {/* <p>임시 미리보기</p> */}
+            <img src={themeLogo} id="temp" alt="logo" />
+            <input
+              id="upload-brand-logo"
+              type="file"
+              accept="image/*"
+              onChange={imgHandler}
+              // ref={themeLogo}
+            />
+          </label>
         ) : (
           <label htmlFor="upload-brand-logo" className="file-input-label">
             <p className="file-input-label-plus">+</p>

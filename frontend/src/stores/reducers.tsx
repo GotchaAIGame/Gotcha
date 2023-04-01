@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage/session";
 import users from "./users/userSlice";
 import theme from "./player/themeSlice";
 import game from "./game/gameSlice";
+import rewards from "./game/rewardsSlice";
 
 const persistConfig = {
   key: "root",
@@ -12,7 +13,10 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  users,theme, game
+  users,
+  theme,
+  game,
+  rewards,
 });
 
 export default persistReducer(persistConfig, reducers);

@@ -93,6 +93,8 @@
 
 // LogoInput
 .logo-input-container {
+  position: absolute;
+
   width: 255px;
   min-height: 180px;
   border: 1px solid $gray-1;
@@ -103,12 +105,16 @@
 
   .modal-input-header {
     height: 43px;
-    position: absolute;
+    position: relative;
     width: 255px;
     top: 0;
     background-color: $gray-4;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    p {
+      margin-top: 0;
+      padding-top: 10px;
+    }
   }
 
   .file-input-wrapper {
@@ -124,6 +130,13 @@
     .file-input-label {
       color: $gray-2;
       cursor: pointer;
+
+      img {
+        margin-top: 4px;
+        max-width: 200px;
+        max-height: 80px;
+        border: none;
+      }
 
       .file-input-label-plus {
         font-size: 50px;
