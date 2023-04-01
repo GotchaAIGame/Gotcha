@@ -224,21 +224,20 @@ class RoomControllerTest {
     }
 
     @Test
-    @DisplayName("새로운 게임룸 생성하기 성공")
+    @DisplayName("방 업데이트 성공")
     void updateRoom() throws Exception {
-        UpdateRoomRequest updateRoomRequest = new UpdateRoomRequest(
-                room.getId(),
-                "변경색깔",
-                "변경로고",
-                "변경제목",
-                "변경이벤트",
-                "변경내용",
-                LocalDateTime.of(2023, 3, 17, 12, 0, 0),
-                LocalDateTime.of(2023, 3, 17, 12, 5, 0)
-        );
+        UpdateRoomRequest request = UpdateRoomRequest.builder()
+                .roomId(room.getId())
+                .color("변경색깔")
+                .title("변경제목")
+                .eventUrl("변경이벤트")
+                .eventDesc("변경내용")
+                .startTime(LocalDateTime.of(2023, 3, 17, 12, 0, 0))
+                .endTime(LocalDateTime.of(2023, 3, 17, 12, 5, 0))
+                .build();
 
         mockMvc.perform(put(url + "set/room")
-                .content(objectMapper.writeValueAsBytes(updateRoomRequest))
+                .content(objectMapper.writeValueAsBytes(request))
                 .header(AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -247,7 +246,6 @@ class RoomControllerTest {
         Room updateRoom = em.find(Room.class, room.getId());
         assertEquals("변경이벤트", updateRoom.getEventUrl());
         assertEquals("변경색깔", updateRoom.getColor());
-        assertEquals("변경로고", updateRoom.getLogoUrl());
         assertEquals("변경이벤트", updateRoom.getEventUrl());
         assertEquals("변경내용", updateRoom.getEventDesc());
         assertEquals(LocalDateTime.of(2023, 3, 17, 12, 0, 0), updateRoom.getStartTime());
@@ -279,8 +277,7 @@ class RoomControllerTest {
         for (int i = 0; i < 2; i++) {
             createProblemRequests.add(new CreateProblemRequest(null, "name " + i, "hint " + i));
         }
-
-        request = new CreateRoomRequest("색깔", "로고 경로", "제목", "이벤트 경로", "설명", false, LocalDateTime.now(), LocalDateTime.of(2024, 1, 1, 1, 1), createProblemRequests);
+        request = new CreateRoomRequest("색깔", null, "제목", "이벤트 경로", "설명", false, LocalDateTime.now(), LocalDateTime.of(2024, 1, 1, 1, 1), createProblemRequests);
         mockMvc.perform(
                 post(url + "set/room")
                         .content(objectMapper.writeValueAsString(request))

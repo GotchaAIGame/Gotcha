@@ -29,7 +29,7 @@ public class Room {
     @Column(name = "color", length = 20)
     private String color;
 
-    @Column(name = "logo_url", length = 100)
+    @Column(name = "logo_url")
     private String logoUrl;
 
     @Column(name = "title", length = 30)
@@ -90,6 +90,5 @@ public class Room {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-
 
 }

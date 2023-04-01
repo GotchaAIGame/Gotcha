@@ -67,7 +67,7 @@ class ProblemControllerTest {
                 .color("색")
                 .logoUrl("로고")
                 .title("제목")
-                .eventDesc("이벤트 url")
+                .eventUrl("이벤트 url")
                 .eventDesc("이벤트 설명")
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plus(10, ChronoUnit.MINUTES))
