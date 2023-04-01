@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@components/common/Button";
 import GoogleButton from "./GoogleButton";
+import KakaoButton from "./KakaoButton";
 
 export default function SNSLogin() {
   return (
@@ -13,7 +14,7 @@ export default function SNSLogin() {
       </div>
 
       <GoogleButton />
-      <Button text="카카오톡 로그인" color="kakao" />
+      <KakaoButton />
       <Link to="/signup">
         <Button text="회원가입" color="skyblue" />
       </Link>
