@@ -58,9 +58,9 @@ export default function PlayerRank() {
           <div
             style={{ backgroundColor: user.isUser ? "#E8E8E8" : "transparent" }}
             className="rankInfo-wrapper"
+            key={index}
           >
             <RankInfo
-              key={index}
               rank={user.grade}
               nickname={user.nickname}
               time={user.duration}
