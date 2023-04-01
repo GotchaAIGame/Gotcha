@@ -14,6 +14,10 @@ export default function GameCard(props: any) {
     });
   };
 
+  const goRanking = () => {
+    console.log("ranking보기로 갈 것입니다")
+  }
+
   // 날짜 파싱
   function formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -61,13 +65,15 @@ export default function GameCard(props: any) {
             </div>
             <div className="card-content-wrapper">
               <div className="card-content-title-wrapper">설명</div>
-              <p className="card-content-desc-text">{gameInfo.eventDesc}</p>
+              <div className="card-content-desc-text-wrapper">
+                <p className="card-content-desc-text">{gameInfo.eventDesc}</p>
+              </div>
             </div>
           </article>
         </button>
         <footer>
-          <Button text="조기종료" size="small" color="gray" />
-          <Button text="랭킹보기" size="small" color="gray" />
+          <Button text="게임보기" size="small" color="gray" onClick={goDetail}/>
+          <Button text="랭킹보기" size="small" color="gray" onClick={goRanking}/>
         </footer>
       </div>
     );
