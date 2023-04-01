@@ -30,7 +30,7 @@ export default function InputValidBox({
   console.log(inputRef);
 
   return (
-    <div className="inputvalidBoxContainer">
+    <div className="common-input-box-container">
       <input
         type={type}
         placeholder={text}

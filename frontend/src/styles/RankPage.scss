@@ -65,13 +65,18 @@
         margin: auto;
       }
 
+      .rankInfo-wrapper {
+        margin: 10px;
+      }
+
       // 등수, 닉네임, 시간
       .rank-header {
         justify-content: space-around;
 
         .rank-box1,
         .rank-box2,
-        .rank-box3 {
+        .rank-box3,
+        .rank-box4 {
           border-radius: 10px;
           border: 1px solid $gray-1;
           background-color: $gray-5;
@@ -79,6 +84,9 @@
           margin: auto;
           padding: 5px;
           max-width: 50px;
+          @include mobile {
+            padding: 1px;
+          }
         }
       }
       .rank-info-wrapper {
@@ -88,15 +96,23 @@
           width: 45px;
           margin: 10px;
         }
-        h5,
+        h5 {
+          justify-content: center;
+          margin: 10px;
+          font-size: 1rem;
+          @include mobile {
+            margin: 25px;
+          }
+        }
         p {
-          // height: 100%;
           justify-content: center;
           margin: 10px;
         }
 
         hr {
-          width: 376%;
+          width: 598%;
+          position: relative;
+          top: -15px;
         }
 
         .no-medal-wrapper {
