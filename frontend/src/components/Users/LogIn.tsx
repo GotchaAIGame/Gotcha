@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { setLogin } from "@stores/users/userSlice";
@@ -60,7 +61,7 @@ export default function LogIn() {
     }
   };
   return (
-    <div className="login-inputs-container">
+    <>
       <form action="submit" onSubmit={loginHandler}>
         <InputBox
           type="text"
@@ -76,21 +77,6 @@ export default function LogIn() {
         />
         <Button text="로그인하기" type="submit" />
       </form>
-
-      {/* <Button> color랑 이미지 수정할 것!!! */}
-      <div className="social-logins-container">
-        <div className="social-login-title">
-          <hr />
-          <h5>SNS 로그인 / 회원가입</h5>
-          <hr />
-        </div>
-
-        <Button text="Google 로그인" color="google" />
-        <Button text="카카오톡 로그인" color="kakao" />
-        <Link to="/signup">
-          <Button text="회원가입" color="skyblue" />
-        </Link>
-      </div>
-    </div>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import LogIn from "@components/Users/LogIn";
 import "@styles/LogInPage.scss";
 import banner from "@assets/TopBanner.svg";
 import logo from "@assets/logo.svg";
+import SNSLogin from "@components/Users/SNSLogin";
 
 export default function LogInPage() {
   return (
@@ -16,7 +17,10 @@ export default function LogInPage() {
       <Link to="/">
         <img src={logo} alt="" className="login-banner" />
       </Link>
-      <LogIn />
+      <div className="login-inputs-container">
+        <LogIn />
+        <SNSLogin />
+      </div>
     </div>
   );
 }
