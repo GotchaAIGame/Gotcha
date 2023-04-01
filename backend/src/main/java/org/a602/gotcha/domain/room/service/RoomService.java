@@ -2,6 +2,7 @@ package org.a602.gotcha.domain.room.service;
 
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.exception.MemberNotFoundException;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.reward.entity.Reward;
@@ -13,10 +14,8 @@ import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.request.CreateProblemRequest;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
-import org.a602.gotcha.domain.room.response.EventDetailResponse;
-import org.a602.gotcha.domain.room.response.GameInfoResponse;
-import org.a602.gotcha.domain.room.response.RewardListResponse;
-import org.a602.gotcha.domain.room.response.RoomSummaryInfo;
+import org.a602.gotcha.domain.room.request.UpdateRoomRequest;
+import org.a602.gotcha.domain.room.response.*;
 import org.a602.gotcha.global.common.S3Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -86,19 +85,27 @@ public class RoomService {
     }
 
     @Transactional
-    public Room createRoom(CreateRoomRequest request) {
+    public CreateRoomResponse createRoom(CreateRoomRequest request) {
         List<CreateProblemRequest> problems = request.getProblems();
         List<Problem> problemList = new ArrayList<>();
         Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        member = memberRepository.findMemberByEmail(member.getEmail()).orElseThrow();
-
+        member = memberRepository.findMemberByEmail(member.getEmail()).orElseThrow(MemberNotFoundException::new);
 
         int code = random.nextInt(90_0000) + 100_000;
+        // 이미지가 없으면 기본 로고를 넣어주고, 있으면 s3에 업로드 후 url 값으로 넣어줌
+        String uploadLogoUrl;
+        if(request.getLogoImage() == null) {
+            uploadLogoUrl = "https://a602gotcha.s3.ap-northeast-2.amazonaws.com/Gotcha!+logo.svg";
+        } else {
+            String fileName = System.currentTimeMillis() + request.getTitle() + "logo";
+            uploadLogoUrl = s3Service.uploadImage(request.getLogoImage(), fileName);
+        }
+
         Room room = Room.builder()
                 .color(request.getBrandColor())
                 .title(request.getTitle())
                 .endTime(request.getEndTime())
-                .logoUrl(request.getLogoUrl())
+                .logoUrl(uploadLogoUrl)
                 .eventUrl(request.getEventUrl())
                 .startTime(request.getStartTime())
                 .member(member)
@@ -106,8 +113,8 @@ public class RoomService {
                 .build();
 
         for (CreateProblemRequest problem : problems) {
-
-            String uploadImageUrl = s3Service.uploadImage(problem.getImage());
+            String problemFileName = System.currentTimeMillis() + room.getTitle() + "problem";
+            String uploadImageUrl = s3Service.uploadImage(problem.getImage(), problemFileName);
 
             Problem build = Problem.builder()
                     .hint(problem.getHint())
@@ -119,8 +126,12 @@ public class RoomService {
             room.getProblems().addAll(problemList);
 
         }
-        roomRepository.save(room);
-        return room;
+        Room savedRoom = roomRepository.save(room);
+
+        return CreateRoomResponse.builder()
+                .id(savedRoom.getId())
+                .code(savedRoom.getCode())
+                .build();
 
     }
 
@@ -130,10 +141,18 @@ public class RoomService {
     }
 
     @Transactional
-    public void updateRoom(Long roomId, String color, String logoUrl, String title, String eventUrl, String eventDesc, LocalDateTime startTime, LocalDateTime endTime) {
-        Room room = roomRepository.findById(roomId)
+    public void updateRoom(UpdateRoomRequest request) {
+        Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        room.updateRoom(color, logoUrl, title, eventUrl, eventDesc, startTime, endTime);
+        // 이미지가 없으면 기존에 있던 로고 유알엘을 넣어줌.
+        String uploadLogoUrl;
+        if(request.getLogoImage() == null) {
+            uploadLogoUrl = room.getLogoUrl();
+        } else {
+            String fileName = System.currentTimeMillis() + request.getTitle() + "logo";
+            uploadLogoUrl = s3Service.uploadImage(request.getLogoImage(), fileName);
+        }
+        room.updateRoom(request.getColor(), uploadLogoUrl, request.getTitle(), request.getEventUrl(), request.getEventDesc(), request.getStartTime(), request.getEndTime());
     }
 
     public Room findById(Long roomId) {

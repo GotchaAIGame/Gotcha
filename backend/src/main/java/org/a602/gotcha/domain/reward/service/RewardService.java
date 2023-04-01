@@ -28,7 +28,8 @@ public class RewardService {
         Room room = roomService.findById(roomId);
         List<Reward> rewardEntityList = new ArrayList<>();
         for (RewardDTO rewardDTO : rewards) {
-            String uploadImage = s3Service.uploadImage(rewardDTO.getImage());
+            String fileName = System.currentTimeMillis() + room.getId() + "reward";
+            String uploadImage = s3Service.uploadImage(rewardDTO.getImage(), fileName);
             Reward reward = new Reward(rewardDTO.getName(), rewardDTO.getGrade(), room, uploadImage);
             rewardEntityList.add(reward);
         }
@@ -47,7 +48,8 @@ public class RewardService {
         for (UpdateRewardDTO updateRewardDTO : rewardDTOList) {
             Long rewardId = updateRewardDTO.getRewardId();
             Reward reward;
-            String uploadImage = s3Service.uploadImage(updateRewardDTO.getImage());
+            String fileName = System.currentTimeMillis() + room.getTitle() + "reward";
+            String uploadImage = s3Service.uploadImage(updateRewardDTO.getImage(), fileName);
             if (rewardId != null) {
                 reward = rewardRepository.findById(rewardId).orElseThrow(() -> {
                     throw new RewardNotFoundException();

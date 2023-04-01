@@ -33,7 +33,8 @@ public class ProblemService {
         String image = request.getImage();
         String uploadImageUrl = null;
         if (image != null) {
-            uploadImageUrl = s3Service.uploadImage(image);
+            String fileName = System.currentTimeMillis() + "problem" + problem.getName();
+            uploadImageUrl = s3Service.uploadImage(image, fileName);
         }
         String prevImageUrl = problem.updateProblem(uploadImageUrl, request.getName(), request.getHint());
         if (image != null) {

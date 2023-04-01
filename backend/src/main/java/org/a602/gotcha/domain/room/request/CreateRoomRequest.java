@@ -22,8 +22,8 @@ public class CreateRoomRequest {
     @NotBlank
     String brandColor;
 
-    @Schema(description = "로고 url")
-    String logoUrl;
+    @Schema(description = "base64로 인코딩된 로고 이미지")
+    String logoImage;
 
     @Schema(description = "방 제목")
     @NotBlank
