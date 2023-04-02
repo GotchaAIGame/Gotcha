@@ -69,7 +69,7 @@ public class Member implements UserDetails {
 	}
 
 	public void insertDefaultRegistrationId(){
-		this.registrationId = "NORMAL";
+		this.registrationId = "normal";
 	}
 
 	public void updateMember(final Member member) {
