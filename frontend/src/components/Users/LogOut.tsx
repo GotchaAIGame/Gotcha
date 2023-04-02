@@ -49,7 +49,7 @@ export default function LogOut() {
     <div>
       <Button
         size="small"
-        color="gray-1"
+        color="gray-blue"
         text="로그아웃"
         onClick={modalHandler}
       />
