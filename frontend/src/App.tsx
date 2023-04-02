@@ -7,7 +7,7 @@ import Footbar from "./components/common/Footbar";
 import AutoToTop from "./components/common/AutoToTop";
 import "./styles/App.scss";
 
-function App() {
+function usePageViews() {
   const location = useLocation();
 
   useEffect(() => {
@@ -15,6 +15,10 @@ function App() {
     ReactGA.set({ page: location.pathname }); // Update the user's current page
     ReactGA.pageview(location.pathname); // Record a pageview for the given page
   }, [location]);
+}
+
+function App() {
+  usePageViews();
 
   // user 가입 이벤트
   ReactGA.event({
@@ -35,18 +39,16 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <AutoToTop />
-        <div className="app-main-container">
-          <Navbar />
-          <div>
-            <Routers />
-          </div>
+      <AutoToTop />
+      <div className="app-main-container">
+        <Navbar />
+        <div>
+          <Routers />
         </div>
-        <footer>
-          <Footbar />
-        </footer>
-      </BrowserRouter>
+      </div>
+      <footer>
+        <Footbar />
+      </footer>
     </div>
   );
 }
