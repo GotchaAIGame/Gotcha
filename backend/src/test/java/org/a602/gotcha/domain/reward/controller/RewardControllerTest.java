@@ -217,7 +217,7 @@ class RewardControllerTest {
         int index = 0;
         for (Reward reward : beforeUpdate) {
             updateRewardDTOList.add(
-                    new UpdateRewardDTO(reward.getId(), "리워드 업데이트 " + index, index + 1, null)
+                    new UpdateRewardDTO(reward.getId(), "리워드 업데이트 " + index, index + 1, "https://어쩌구")
             );
             index += 1;
         }
@@ -236,7 +236,8 @@ class RewardControllerTest {
             int finalIndex = index;
             assertAll(
                     () -> assertEquals("리워드 업데이트 " + finalIndex, reward.getName()),
-                    () -> assertEquals(finalIndex + 1, reward.getGrade())
+                    () -> assertEquals(finalIndex + 1, reward.getGrade()),
+                    () -> assertEquals("https://어쩌구", reward.getImage())
             );
             index += 1;
         }
