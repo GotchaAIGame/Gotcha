@@ -14,11 +14,12 @@ const persistor = persistStore(store);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <CookiesProvider>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-          <App />
+        <App />
       </PersistGate>
     </Provider>
   </CookiesProvider>
