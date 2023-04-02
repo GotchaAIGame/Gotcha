@@ -7,10 +7,8 @@ import org.a602.gotcha.global.security.jwt.JwtAuthenticationFilter;
 import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.a602.gotcha.global.security.oauth.CustomOAuth2UserService;
 import org.a602.gotcha.global.security.oauth.OAuth2LoginSuccessHandler;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -52,10 +50,20 @@ public class SecurityConfig {
 		"/api/configuration/security",
 		"/api/swagger-ui.html",
 		"/api/webjars/**",
+		"/v2/api-docs",
+		"/swagger-resources",
+		"/swagger-resources/**",
+		"/configuration/ui",
+		"/configuration/security",
+		"/swagger-ui.html",
+		"/webjars/**",
 		/* swagger v3 */
 		"/api/v3/api-docs/**",
 		"/api/swagger-ui/**",
 		"/api/post-docs/**",
+		"/v3/api-docs/**",
+		"/swagger-ui/**",
+		"/post-docs/**",
 		/*회원가입*/
 		"/api/test",
 		"/api/game/**",
@@ -78,9 +86,11 @@ public class SecurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		// jwt Token으로 인증하므로 session 생성하지 않는다.
 
-		httpSecurity.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+		httpSecurity.authorizeRequests()
 			//HttpServletRequest를 사용하는 요청에 대한 권한체크
-			.antMatchers(PERMIT_URL_ARRAY).permitAll() // PERMIT_URL_ARRAY 에서 지정한 인증없이 권한 허가.
+			.antMatchers(PERMIT_URL_ARRAY).permitAll();
+
+		httpSecurity.authorizeRequests()// PERMIT_URL_ARRAY 에서 지정한 인증없이 권한 허가.
 			.anyRequest().hasRole(ROLE_USER) // 나머지 요청은 인증된 회원만 접근가능.
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
