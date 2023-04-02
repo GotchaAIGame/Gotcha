@@ -84,7 +84,7 @@ const creatorAPI = {
     }>;
   }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
 
-  // 게임 정보 수정, 테마 변경
+  // 게임 정보 수s정, 테마 변경
   putGameRoom: (gameInfo: {
     roomId: number;
     color: string;
@@ -125,6 +125,11 @@ const creatorAPI = {
     }>;
   }): Promise<AxiosResponse> => request.authPut("set/reward", rewardsInfo),
 
+  // 보상제거
+  deleteRewards: (roomId: number, rewardId: number): Promise<AxiosResponse> =>
+    request.authDelete(`set/reward`, {
+      params: { roomId, rewardId },
+    }),
   // 수정 관련 Apis
 };
 
