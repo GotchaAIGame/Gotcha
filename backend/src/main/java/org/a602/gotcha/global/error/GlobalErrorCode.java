@@ -32,7 +32,8 @@ public enum GlobalErrorCode {
     EMAIL_NOT_FOUND(404, "M100", "존재하지 않는 이메일입니다."),
     DUPLICATE_NICKNAME(400, "M200", "이미 존재하는 닉네임입니다."),
     DUPLICATE_EMAIL(400, "M300", "이미 존재하는 이메일입니다."),
-    MISMATCH_PASSWORD(401, "M400", "비밀번호가 다릅니다."), INVALID_DATA_TYPE(400, "S100", "지원하는 데이터 타입이 아닙니다. 이미지 타입이어야 함"),
+    MISMATCH_PASSWORD(401, "M400", "비밀번호가 다릅니다."),
+    INVALID_DATA_TYPE(400, "S100", "지원하는 데이터 타입이 아닙니다. 이미지 타입이어야 함"),
     ;
 
     private final String code;

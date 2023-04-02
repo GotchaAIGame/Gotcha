@@ -66,9 +66,8 @@ public class RoomController {
     @ApiResponse(description = "방 생성 성공", responseCode = "200")
     @Operation(description = "방 만드는 API", summary = "방 만드는 API")
     public BaseResponse<CreateRoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
-        Room room = roomService.createRoom(request);
-        CreateRoomResponse createRoomResponse = new CreateRoomResponse(room.getCode(), room.getId());
-        return new BaseResponse<>(createRoomResponse);
+        CreateRoomResponse roomInfo = roomService.createRoom(request);
+        return new BaseResponse<>(roomInfo);
     }
 
     @DeleteMapping("/set/room")
@@ -84,18 +83,12 @@ public class RoomController {
     @ApiResponse(description = "방 수정 성공", responseCode = "200")
     @Operation(description = "방 수정 API", summary = "방 수정 API")
     public BaseResponse<Void> updateRoom(@RequestBody @Valid UpdateRoomRequest request) {
-        roomService.updateRoom(
-                request.getId(),
-                request.getColor(),
-                request.getLogoUrl(),
-                request.getTitle(),
-                request.getEventUrl(),
-                request.getEventDesc(),
-                request.getStartTime(),
-                request.getEndTime());
+        roomService.updateRoom(request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 
+    @Operation(description = "방 조회 API", summary = "방 조회 API")
+    @ApiResponse(responseCode = "200", description = "방 정보 불러오기 성공", content = @Content(schema = @Schema(implementation = RoomDetailResponse.class)))
     @GetMapping("/room/{roomId}")
     public BaseResponse<RoomDetailResponse> getRoomDetail(@PathVariable Long roomId) {
         Room roomWithAllRelations = roomService.getRoomWithAllRelations(roomId);
@@ -103,6 +96,7 @@ public class RoomController {
         return new BaseResponse<>(roomDetailResponse);
     }
 
+    @Operation(description = "유저에 해당하는 방 ID들 가져오기 API", summary = "유저에 해당하는 방 ID들 가져오기 API")
     @GetMapping("/member/room/{memberID}")
     public BaseResponse<Page<RoomSummaryInfo>> getRoomIdsByMemberId(@PageableDefault Pageable pageable, @PathVariable @Valid @Positive Long memberID) {
         return new BaseResponse<>(roomService.getRoomIdsByMemberId(memberID, pageable));

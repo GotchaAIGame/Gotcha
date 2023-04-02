@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.UUID;
 
 @Service
 public class S3Service {
@@ -24,7 +23,7 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
-    public String uploadImage(String rawbase64EncodedStringImage) {
+    public String uploadImage(String rawbase64EncodedStringImage, String fileName) {
 
         if (rawbase64EncodedStringImage == null) {
             return image;
@@ -42,7 +41,7 @@ public class S3Service {
 
         byte[] decode = Base64.getDecoder().decode(base64EncodedImage);
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(decode)) {
-            String s3UploadedImageFileName = UUID.randomUUID() + "." + imageExtension;
+            String s3UploadedImageFileName = fileName + "." + imageExtension;
 
             s3Client.putObject(new PutObjectRequest(bucket, s3UploadedImageFileName, inputStream, null));
             return s3Client.getUrl(bucket, s3UploadedImageFileName).toString();

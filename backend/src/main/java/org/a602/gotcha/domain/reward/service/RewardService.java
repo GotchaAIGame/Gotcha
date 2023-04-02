@@ -7,6 +7,8 @@ import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest.RewardDTO;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
 import org.a602.gotcha.domain.room.entity.Room;
+import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
+import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.service.RoomService;
 import org.a602.gotcha.global.common.S3Service;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class RewardService {
     private final RewardRepository rewardRepository;
     private final RoomService roomService;
     private final S3Service s3Service;
+    private final RoomRepository roomRepository;
 
 
     @Transactional
@@ -28,7 +31,8 @@ public class RewardService {
         Room room = roomService.findById(roomId);
         List<Reward> rewardEntityList = new ArrayList<>();
         for (RewardDTO rewardDTO : rewards) {
-            String uploadImage = s3Service.uploadImage(rewardDTO.getImage());
+            String fileName = System.currentTimeMillis() + room.getId() + "reward";
+            String uploadImage = s3Service.uploadImage(rewardDTO.getImage(), fileName);
             Reward reward = new Reward(rewardDTO.getName(), rewardDTO.getGrade(), room, uploadImage);
             rewardEntityList.add(reward);
         }
@@ -47,7 +51,8 @@ public class RewardService {
         for (UpdateRewardDTO updateRewardDTO : rewardDTOList) {
             Long rewardId = updateRewardDTO.getRewardId();
             Reward reward;
-            String uploadImage = s3Service.uploadImage(updateRewardDTO.getImage());
+            String fileName = System.currentTimeMillis() + room.getTitle() + "reward";
+            String uploadImage = s3Service.uploadImage(updateRewardDTO.getImage(), fileName);
             if (rewardId != null) {
                 reward = rewardRepository.findById(rewardId).orElseThrow(() -> {
                     throw new RewardNotFoundException();
@@ -61,7 +66,10 @@ public class RewardService {
         rewardRepository.saveAll(newRewardList);
     }
 
-    public void deleteReward(Long rewardId) {
+    public void deleteReward(Long roomId, Long rewardId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(RoomNotFoundException::new);
+        room.setHasReward(false);
         rewardRepository.deleteById(rewardId);
     }
 }
