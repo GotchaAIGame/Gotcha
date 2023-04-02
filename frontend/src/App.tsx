@@ -11,7 +11,7 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    ReactGA.initialize("UA-123456789-1");
+    ReactGA.initialize("UA-259293592-1");
     ReactGA.set({ page: location.pathname }); // Update the user's current page
     ReactGA.pageview(location.pathname); // Record a pageview for the given page
   }, [location]);
