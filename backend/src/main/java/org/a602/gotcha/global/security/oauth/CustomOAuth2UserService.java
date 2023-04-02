@@ -1,6 +1,7 @@
 package org.a602.gotcha.global.security.oauth;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
@@ -30,8 +31,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 	@Override
 	public OAuth2User loadUser(final OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		log.info("OAuth2 로그인 요청 진입");
-
+		log.info("userRequest = {}", userRequest);
 		/*
 		 * DefaultOAuth2UserService 객체를 생성하여, loadUser(userRequest)를 통해 DefaultOAuth2User 객체를 생성 후 반환
 		 * DefaultOAuth2UserService의 loadUser()는 소셜 로그인 API의 사용자 정보 제공 URI로 요청을 보내서
@@ -52,8 +52,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		// socialType에 따라 유저 정보를 통해 OAuthAttributes 객체 생성
 		final OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
 		final Member user = getUser(extractAttributes, socialType);// getUser() 메소드로 User 객체 생성 후 반환
-
-		log.info("로그인 요청 유저 정보: " + user);
 
 		// DefaultOAuth2User를 구현한 CustomOAuth2User 객체를 생성해서 반환
 		return new DefaultOAuth2User(
@@ -76,8 +74,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	 * 만약 찾은 회원이 있다면, 그대로 반환하고 없다면 saveUser()를 호출하여 회원을 저장.
 	 */
 	public Member getUser(final OAuthAttributes extractAttributes, final SocialType socialType) {
-		return memberRepository.findMemberByRegistrationIdAndEmail(socialType.getSocialType(),
-			extractAttributes.getOAuth2UserInfo().getEmail()).orElse(saveUser(extractAttributes, socialType));
+		final Optional<Member> memberByRegistrationIdAndEmail = memberRepository.findMemberByRegistrationIdAndEmail(
+			socialType.getSocialType(), extractAttributes.getOAuth2UserInfo().getEmail());
+
+		return memberByRegistrationIdAndEmail.orElseGet(() -> saveUser(extractAttributes, socialType));
+
 	}
 
 	/*
