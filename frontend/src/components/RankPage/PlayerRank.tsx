@@ -16,7 +16,6 @@ interface IUser {
 }
 
 export default function PlayerRank() {
-  const [isUser, setIsUser] = useState(false);
   const [userArray, setUserArray] = useState<IUser[]>([]);
 
   // useSelctor로 뽑아쓰기
@@ -27,6 +26,7 @@ export default function PlayerRank() {
     const request = gamePlayAPI.rank(room, nickname);
     request.then((res) => {
       const users = res.data.result;
+      console.log(users);
       setUserArray(users);
     });
   }, [room, nickname]);
@@ -41,23 +41,32 @@ export default function PlayerRank() {
       </header>
       <div className="rank-content">
         <Grid container className="rank-header">
-          <Grid item xs={3} md={3}>
+          <Grid item xs={2} md={2}>
             <h5 className="rank-box1">등수</h5>
           </Grid>
           <Grid item xs={4} md={4}>
             <h5 className="rank-box2">닉네임</h5>
           </Grid>
-          <Grid item xs={3} md={3}>
+          <Grid item xs={4} md={4}>
             <h5 className="rank-box3">시간</h5>
+          </Grid>
+          <Grid item xs={2} md={2}>
+            <h5 className="rank-box4">정답</h5>
           </Grid>
         </Grid>
         {userArray.map((user: IUser, index: number) => (
-          <RankInfo
+          <div
+            style={{ backgroundColor: user.isUser ? "#E8E8E8" : "transparent" }}
+            className="rankInfo-wrapper"
             key={index}
-            rank={user.grade}
-            nickname={user.nickname}
-            time={user.duration}
-          />
+          >
+            <RankInfo
+              rank={user.grade}
+              nickname={user.nickname}
+              time={user.duration}
+              cnt={user.solvedCnt}
+            />
+          </div>
         ))}
       </div>
       <ShareButton />

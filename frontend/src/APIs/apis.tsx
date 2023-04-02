@@ -72,22 +72,32 @@ const MLAPI = {
 const creatorAPI = {
   createGameRoom: (gameInfo: {
     brandColor: string;
-    logoUrl: string;
+    logoImage: string;
     title: string;
     eventUrl: string;
-    description: string;
-    hasReward: boolean;
+    eventDesc: string;
     startTime: string;
     endTime: string;
-    problems: [
+    problems: Array<
       {
         image: string;
         name: string;
-        description: string;
         hint: string;
       }
-    ];
+    >;
   }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
+
+  // 게임 정보 수정, 테마 변경
+  putGameRoom: (gameInfo: {
+    roomId: number;
+    color: string;
+    logoImage: string;
+    title: string;
+    eventUrl: string;
+    eventDesc: string;
+    startTime: string;
+    endTime: string;
+  }): Promise<AxiosResponse> => request.authPut("set/room", gameInfo),
 
   getAllGameRoom: (userId: number, page: number): Promise<AxiosResponse> =>
     request.authGet(`member/room/${userId}`, {

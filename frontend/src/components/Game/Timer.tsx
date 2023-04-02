@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "@stores/storeHooks";
+import { useSelector } from "react-redux";
 
 function Timer() {
   // Temp Data
@@ -9,7 +9,7 @@ function Timer() {
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
   const stopFlag = false;
-  const { themeColor } = useAppSelector((state) => state.theme);
+  const { themeColor } = useSelector((state: any) => state.theme);
 
   useEffect(() => {
     const interval = setInterval(() => {

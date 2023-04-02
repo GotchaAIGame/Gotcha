@@ -1,23 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import store from "@stores/store";
 import InputPinNum from "@components/MainPage/InputPinNum";
-import LogOut from "@components/Users/LogOut";
 import "@styles/MainPage.scss";
+import logo from "@assets/logo.svg";
 
 export default function MainPage() {
-  const email = useSelector((state: any) => state.users.email);
   const nickname = useSelector((state: any) => state.users.nickname);
+  const token = sessionStorage.getItem("accessToken");
+
+  const navigate = useNavigate();
+  const userCheck = () => {
+    if (token) {
+      navigate(`/mypage/${nickname}`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     // 그리드 테스트 용입니다.
-    <div>
-      {nickname && <p>{nickname}님, 어서오세요!</p>}
-      <InputPinNum />
-
+    <div className="main-page-container">
+      <div className="main-content-wrapper">
+        <img src={logo} alt="로고" />
+        {/* {nickname && <p>{nickname}님, 어서오세요!</p>} */}
+        <InputPinNum />
+        <button
+          type="button"
+          className="main-creator-button"
+          onClick={userCheck}
+        >
+          문제 만들기
+        </button>
+      </div>
       {/* 임시 바로가기 모음 */}
-      <div className="temps-container">
+      {/* <div className="temps-container">
         <p>🚀 임시 바로가기 모음 🚀</p>
         <Link to={`/mypage/${nickname}`}>
           <button type="button">출제자 메인 페이지</button>
@@ -53,7 +71,7 @@ export default function MainPage() {
         <Link to="/crop">
           <button type="button"> 이미지 크롭 테스트 </button>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }
