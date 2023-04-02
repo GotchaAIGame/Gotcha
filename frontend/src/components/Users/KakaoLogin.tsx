@@ -1,32 +1,44 @@
+/* eslint-disable */
+
+import axios from "axios";
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function KakaoLogin() {
-  const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = "http://localhost:3000/kakologin";
-  const location = useLocation();
-  const navigate = useNavigate();
-  const KAKAO_CODE = location.search.split("=")[1];
-
-  const getKakaoToken = () => {
-    fetch(`https://kauth.kakao.com/oauth/token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.access_token) {
-          localStorage.setItem("token", data.access_token);
-        } else {
-          navigate("/");
-        }
-      });
-  };
   useEffect(() => {
-    if (!location.search) return;
-    getKakaoToken();
-  }, []);
+    // const params = useParams();
 
-  return <div>카카오 로그인</div>;
+    useEffect(() => {
+      localStorage.clear();
+      // localStorage.setItem("token", params.token);
+      window.location.replace("/main");
+      console.log("렌더링!!!");
+    }, []);
+  }, []);
+  return <div>KakaoLogin</div>;
 }
+
+// import Button from "@components/common/Button";
+// import axios from "axios";
+// import React, { useEffect } from "react";
+
+// export default function KakaoButton() {
+//   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+//   const REDIRECT_URI = "https://j8a602.p.ssafy.io/login/oauth2/code/kakao";
+//   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+//   const BASE_URL = "https://j8a602.p.ssafy.io";
+
+//   const kakaoLogin = () => {
+//     window.open(KAKAO_AUTH_URL, "_self");
+//     useEffect(() => {
+//       const url = new URL(window.location.href);
+//       console.log(url);
+//       const code = url.searchParams.get("code");
+//       // axios.post(`${BASE_URL}/oauth2/authorization/kakao`).then((res) => {
+//       //   console.log(res);
+//       // });
+//     }, []);
+//   };
+
+//   return <Button text="카카오톡 로그인" color="kakao" onClick={kakaoLogin} />;
+// }

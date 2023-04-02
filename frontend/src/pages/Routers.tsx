@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import KakaoLogin from "@components/Users/KakaoLogin";
+// import KakaoLogin from "@components/Users/KakaoLogin";
 import FakeMainPage from "./FakeMainPage";
 import MainPage from "./MainPage";
 import SignUpPage from "./SignUpPage";
@@ -28,7 +28,7 @@ export default function Routers() {
 
       {/* Creator */}
       <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/kakaologin" element={<KakaoLogin />} />
+      {/* <Route path="/oauth2/authorization/kakao" element={<KakaoLogin />} /> */}
       <Route path="/login" element={<LogInPage />} />
       <Route path="mypage">
         <Route path=":memberID" element={<CreatorMainPage />} />
