@@ -10,13 +10,23 @@ export default function GameCard(props: any) {
   const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
     // console.log(e);
     navigate(`/custom/${gameInfo.code}`, {
+      state: { gamePin: gameInfo.code, roomId: gameInfo.id },
+    });
+  };
+
+  const goEdit = () => {
+    navigate(`/edit/${gameInfo.code}`, {
       state: { roomId: gameInfo.id },
     });
   };
 
   const goRanking = () => {
-    console.log("ranking보기로 갈 것입니다")
-  }
+    console.log("ranking보기로 갈 것입니다");
+  };
+
+  const alertNoRank = () => {
+    alert("시작 전인 게임입니다.");
+  };
 
   // 날짜 파싱
   function formatDate(dateString: string): string {
@@ -36,6 +46,9 @@ export default function GameCard(props: any) {
 
     const startDateInfo = formatDate(gameInfo.startTime);
     const endDateInfo = formatDate(gameInfo.endTime);
+    const today = new Date();
+    const start = new Date(gameInfo.startTime);
+    const end = new Date(gameInfo.endTime);
 
     return (
       <div className="card-wrapper">
@@ -72,8 +85,27 @@ export default function GameCard(props: any) {
           </article>
         </button>
         <footer>
-          <Button text="게임보기" size="small" color="gray" onClick={goDetail}/>
-          <Button text="랭킹보기" size="small" color="gray" onClick={goRanking}/>
+          <Button
+            text="수정하기"
+            size="small"
+            color="gray-lime"
+            onClick={goEdit}
+          />
+          {start > today && end > today ? (
+            <Button
+              text="랭킹보기"
+              size="small"
+              color="gray"
+              onClick={alertNoRank}
+            />
+          ) : (
+            <Button
+              text="랭킹보기"
+              size="small"
+              color="skyblue"
+              onClick={goRanking}
+            />
+          )}
         </footer>
       </div>
     );

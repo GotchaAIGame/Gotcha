@@ -3,9 +3,13 @@ import request from "./agents";
 
 // APis about game play
 const gamePlayAPI = {
-  register : (roomId: number, nickname : string, password : string ) : Promise<AxiosResponse> => 
-  request.post("/game/register", { roomId, nickname, password}),
-  
+  register: (
+    roomId: number,
+    nickname: string,
+    password: string
+  ): Promise<AxiosResponse> =>
+    request.post("/game/register", { roomId, nickname, password }),
+
   enter: (roomCode: number): Promise<AxiosResponse> =>
     request.get("/game/enter", { params: { roomCode } }),
   // 게임 신규참여
@@ -132,6 +136,12 @@ const creatorAPI = {
   deleteRewards: (roomId: number, rewardId: number): Promise<AxiosResponse> =>
     request.authDelete(`set/reward`, {
       params: { roomId, rewardId },
+    }),
+
+  // 단일 문제 제거
+  deleteProblem: (problemId: number): Promise<AxiosResponse> =>
+    request.authDelete(`set/problem`, {
+      params: { problemId },
     }),
   // 수정 관련 Apis
 };
