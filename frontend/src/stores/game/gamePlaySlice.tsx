@@ -2,7 +2,6 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
-  current,
 } from "@reduxjs/toolkit";
 import { gamePlayAPI } from "@apis/apis";
 
@@ -14,23 +13,25 @@ interface problem {
 }
 
 interface gamePlayState {
-  solved: boolean[] | undefined;
+  solved: Array<{id : number, solved : boolean}>;
   problems: Array<problem> | [];
 }
 
 const initialState: gamePlayState = {
-  solved: undefined,
+  solved: [{id : 0, solved : false}],
   problems: [],
 };
 
-const getProblemList = createAsyncThunk(
-  "gameplay/getProblemList",
-  async (payload: { roomId: number; nickname: string }) => {
-    const { roomId, nickname } = payload;
+const RegisterandStart = createAsyncThunk(
+  "gameplay/RegisterandStart",
+  async (payload: { roomId: number; nickname: string, password : string }) => {
+    const { roomId, nickname, password } = payload;
     const startDateTime = new Date(Date.now()).toISOString();
-    const response = await gamePlayAPI.start(roomId, nickname, startDateTime);
 
-    return response;
+    const responseRegister = await gamePlayAPI.register(roomId, nickname, password) // 유저가 등록된 유저인지 확인 
+    const responseStart = await gamePlayAPI.start(roomId, nickname, startDateTime); // 게임 시작
+
+    return { responseRegister, responseStart }
   }
 );
 
@@ -39,31 +40,64 @@ const gamePlaySlice = createSlice({
   initialState,
   reducers: {
     // register user
-    registerUser: (
+    setProblems: (
       state,
-      action: PayloadAction<{
-        roomId: number;
-        nickname: string;
-        password: number;
-      }>
+      action: PayloadAction<Array<{
+        id : number,
+        name : string,
+        hint : string,
+        imageUrl : string,
+      }>>
     ) => {
-      const { roomId, nickname, password } = action.payload;
+      const newProblems = action.payload.map((item) => {
+        const {id, name, hint, imageUrl} = item
+        return {
+          problemId : id,
+          problemName : name,
+          problemDesc : hint,
+          problemImgURL : imageUrl
+        }
+      })
+      
+      return {
+        ...state,
+        problems : newProblems
+      }
     },
+    setSolved : (
+      state, action : PayloadAction<{idx : string}>
+      ) => {
+        const {idx} = action.payload
+        const idxinNum = parseInt(idx, 10)
+
+        state.solved?.map((item) => {
+          const newItem = item
+
+          if (newItem.id === idxinNum){ // 같으면
+            newItem.solved = true
+          }
+          return newItem
+        })
+    }
   },
   extraReducers: (builder) => {
-    builder.addCase(getProblemList.fulfilled, (state, action) => {
-      const { data } = action.payload;
-      const dataLength = data.result.length;
+    builder.addCase(RegisterandStart.fulfilled, (state, action) => {
+
+      const {responseStart} = action.payload
+      const { data } = responseStart;
+      const newSolved = data.result.map((problem : any) => {
+        return { id : problem.problemId, solved : false }
+      })
 
       return {
         ...state,
         problems: data.result,
-        solved: new Array(dataLength).fill(false),
+        solved: newSolved
       };
     });
   },
 });
 
-export { gamePlaySlice, getProblemList };
-export const { registerUser } = gamePlaySlice.actions;
+export { gamePlaySlice, RegisterandStart };
+export const { setProblems, setSolved } = gamePlaySlice.actions;
 export default gamePlaySlice.reducer;

@@ -39,7 +39,7 @@ export default function GameCard(Props: any) {
 
       reader.readAsDataURL(f);
 
-      setIsTyping(true);
+      // setIsTyping(true);
     }
   };
 
@@ -52,7 +52,7 @@ export default function GameCard(Props: any) {
       newProblemInfo.hint = e.target.value;
     }
     setProblemInfo(newProblemInfo);
-    setIsTyping(true);
+    // setIsTyping(true);
   };
 
   // 문제 저장
@@ -86,25 +86,39 @@ export default function GameCard(Props: any) {
   };
 
   useEffect(() => {
-    if (!(problemInfo.name, problemInfo.hint)) {
-      setIsTyping(true);
+    const saveProblem = () => {
+      const postImg = inputImage;
+
+      if (problemInfo.name && problemInfo.hint && postImg) {
+        const problemState = {
+          image: postImg,
+          name: problemInfo.name,
+          hint: problemInfo.hint,
+        };
+        dispatch(setProblem({ problemState, idx }));
+        setIsTyping(false);
+      } else {
+        alert("내용을 입력해주세요");
+      }
+    };
+    if (problemInfo.name && problemInfo.hint && inputImage) {
+      saveProblem();
     }
-    setIsAddable(false);
-  }, []);
+  }, [problemInfo, inputImage]);
+
+  const wrapperClass = isTyping ? "card-wrapper-typing" : "card-wrapper";
 
   return (
     <div>
-      <div className="card-wrapper">
+      <div
+        className={wrapperClass}
+        title={isTyping ? "문제 내용을 입력해 주세요" : ""}
+      >
         <header className={isTyping ? "typing-header" : "typed-header"}>
-          {isTyping ? (
-            <button type="button" onClick={saveProblem}>
-              <img src={plusButton} alt="문제 등록" />
-            </button>
-          ) : (
-            <button type="button" onClick={deleteHandler}>
-              <img src={closeButton} alt="문제 삭제" />
-            </button>
-          )}
+          <button type="button" onClick={deleteHandler}>
+            <img src={closeButton} alt="문제 삭제" />
+          </button>
+
           <input
             type="text"
             placeholder="문제이름"
@@ -113,13 +127,22 @@ export default function GameCard(Props: any) {
             onChange={changeInfoHanlder}
           />
         </header>
-        {inputImage ? (
-          <div className="upload-img-wrapper">
-            <img src={inputImage} alt="" />
-          </div>
-        ) : (
-          <div className="file-input-wrapper">
-            <label htmlFor="upload" className="file-input-label">
+        <div className="file-input-wrapper">
+          {inputImage ? (
+            <label htmlFor={`upload-${idx}`} className="file-input-label">
+              <div className="upload-img-wrapper">
+                <img src={inputImage} alt="" />
+              </div>
+              <input
+                id={`upload-${idx}`}
+                type="file"
+                accept="image/*"
+                onChange={uploadHandler}
+                ref={uploadImage}
+              />
+            </label>
+          ) : (
+            <label htmlFor={`upload-${idx}`} className="file-input-label">
               <p className="file-input-label-plus">+</p>
               <p className="file-input-label-text">
                 대표사진
@@ -127,15 +150,15 @@ export default function GameCard(Props: any) {
                 추가하기
               </p>
               <input
-                id="upload"
+                id={`upload-${idx}`}
                 type="file"
                 accept="image/*"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
             </label>
-          </div>
-        )}
+          )}
+        </div>
         <div className="hint-text-box">힌트</div>
         <div className="hint-input-wrapper">
           <input

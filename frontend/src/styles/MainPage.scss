@@ -34,6 +34,26 @@
       min-width: 340px;
       margin: 3%;
     }
+
+    .main-creator-button {
+      @include desktop {
+        font-size: 1.5rem;
+        min-width: 340px;
+        width: 25%;
+      }
+      @include mobile {
+        font-size: 1.5rem;
+        max-width: 340px;
+        width: 80%;
+      }
+      border: 3px solid $gray-1;
+      border-radius: 12px;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 6%;
+      background-color: $lime;
+      cursor: pointer;
+    }
   }
 }
 

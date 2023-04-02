@@ -33,7 +33,7 @@ export default function Routers() {
         <Route path=":memberID/edit" element={<EditProfilePage />} />
       </Route>
       <Route path="/create/game" element={<CreateGamePage />} />
-      <Route path="/custom/game" element={<CustomGamePage />} />
+      <Route path="/custom/:gamepin" element={<CustomGamePage />} />
       <Route path="/game/detail/:gamepin" element={<CreatorGameDetailPage />} />
 
       {/* Player */}

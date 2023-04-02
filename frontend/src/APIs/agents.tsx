@@ -1,5 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { requestConfig, axiosInstance, newInstance, axiosInstancePython } from "./configs";
+import {
+  requestConfig,
+  axiosInstance,
+  newInstance,
+  axiosInstancePython,
+} from "./configs";
 
 const responseBody = (response: AxiosResponse) => {
   // console.log(response);
@@ -12,7 +17,7 @@ const requests = {
 
   post: (url: string, data: any, config?: requestConfig) =>
     axiosInstance.post(url, data, config).then(responseBody),
-    
+
   put: (url: string, data: any, config?: requestConfig) =>
     axiosInstance.put(url, data, config).then(responseBody),
 
@@ -27,6 +32,10 @@ const requests = {
     newInstance.get(url, config).then(responseBody),
   authPost: (url: string, data: any, config?: requestConfig) =>
     newInstance.post(url, data, config).then(responseBody),
+  authPut: (url: string, data: any, config?: requestConfig) =>
+    newInstance.put(url, data, config).then(responseBody),
+  authDelete: (url: string, config?: requestConfig) =>
+    newInstance.delete(url, config).then(responseBody),
 };
 
 export default requests;
