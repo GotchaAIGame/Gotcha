@@ -39,6 +39,10 @@ const initialState: gameState = {
   ],
 };
 
+const resetState = () => {
+  return { ...initialState };
+};
+
 export const gameSlice = createSlice({
   name: "game",
   initialState,
@@ -128,9 +132,12 @@ export const gameSlice = createSlice({
         brandColor: action.payload.brandColor,
       };
     },
+
+    // 게임 정보 초기화
+    resetGame: (state) => resetState(),
   },
 });
 
-export const { setGame, addProblem, setProblem, deleteProblem, setGameCustom } =
+export const { setGame, addProblem, setProblem, deleteProblem, setGameCustom, resetGame } =
   gameSlice.actions;
 export default gameSlice.reducer;

@@ -34,6 +34,8 @@ const requests = {
     newInstance.post(url, data, config).then(responseBody),
   authPut: (url: string, data: any, config?: requestConfig) =>
     newInstance.put(url, data, config).then(responseBody),
+  authDelete: (url: string, config?: requestConfig) =>
+    newInstance.delete(url, config).then(responseBody),
 };
 
 export default requests;

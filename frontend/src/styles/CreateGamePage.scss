@@ -31,7 +31,7 @@
     position: relative;
     top: -75px;
     height: 55px;
-    width: 60%;
+    width: 70%;
     min-width: 300px;
     border: 1px solid $gray-1;
     border-radius: 15px;
@@ -48,6 +48,8 @@
       margin: 0;
       min-width: 80px;
       margin-right: 20px;
+      color: $blue-1;
+      -webkit-text-stroke: 0.5px #000;
     }
 
     .duration-inputs-container {
@@ -98,25 +100,47 @@
 
 // GameCardCarousel
 
+.problem-text-title-wrapper {
+  display: flex;
+  margin: 0.5rem auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin-top: 0;
+  width: 100%;
+  align-items: baseline;
+
+  h5 {
+    margin: 0;
+    min-width: 80px;
+    margin-right: 20px;
+    align-items: baseline;
+    color: $blue-1;
+    -webkit-text-stroke: 0.5px #000;
+  }
+  .right-text-wrapper {
+    width: 75%;
+    max-width: 500px;
+    flex-wrap: wrap;
+    display: flex;
+    text-align: left;
+    p {
+      width: 99%;
+    }
+  }
+}
 .cards-and-plusbutton-container {
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 35px auto;
   .add-img-button {
-    width: 40px;
-    height: 40px;
-    background-color: $purple-2;
-    border-radius: 40px;
-    border: 1px solid $gray-1;
     display: inline-flex;
     align-items: center;
-    font-size: xx-large;
     margin: auto 20px;
+    background: none;
+    border: none;
     cursor: pointer;
-  }
-  .card-wrapper {
-    margin: 10px;
   }
 }
 
@@ -128,16 +152,20 @@
   margin: 5px auto;
 }
 
-.card-wrapper {
+.card-wrapper,
+.card-wrapper-typing {
   display: inline-flex;
   flex-direction: column;
   width: 255px;
   min-height: 405px;
   border: 1px solid $gray-1;
   border-radius: 15px;
-  margin: 2%;
+  margin: 10px;
   justify-content: flex-start;
 
+  .typing {
+    border: 3px solid $gray-1;
+  }
   .typing-header {
     background-color: $gray-3;
   }
@@ -180,7 +208,6 @@
       width: 70%;
     }
   }
-
   .file-input-wrapper {
     height: 200px;
     width: 200px;
@@ -245,4 +272,8 @@
       border-radius: 8px;
     }
   }
+}
+
+.card-wrapper-typing {
+  border: 1px solid $orange;
 }
