@@ -2,9 +2,8 @@ package org.a602.gotcha.domain.member.service;
 
 import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.*;
 
-import java.util.NoSuchElementException;
-
 import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.exception.MemberNotFoundException;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
@@ -50,7 +49,7 @@ public class MemberService {
 	@Transactional(readOnly = true)
 	public MemberLoginResponse login(final MemberLoginRequest memberLoginRequest) {
 		final Member member = memberRepository.findMemberByEmail(memberLoginRequest.getEmail())
-			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+			.orElseThrow(MemberNotFoundException::new);
 
 		String accessToken;
 		String refreshToken;
@@ -68,7 +67,7 @@ public class MemberService {
 	@Transactional(readOnly = true)
 	public String reCreateToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
 		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
-			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+			.orElseThrow(MemberNotFoundException::new);
 
 		return BEARER + jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(), member);
 	}
@@ -84,14 +83,14 @@ public class MemberService {
 
 	public MemberInformationResponse findMemberInformation(final Long id) {
 		final Member member = memberRepository.findById(id)
-			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+			.orElseThrow(MemberNotFoundException::new);
 
 		return new MemberInformationResponse(member);
 	}
 
 	public Long deleteMemberById(final Long id) {
 		final Member member = memberRepository.findById(id)
-			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+			.orElseThrow(MemberNotFoundException::new);
 		memberRepository.deleteById(member.getId());
 
 		return id;
@@ -100,7 +99,7 @@ public class MemberService {
 	@Transactional
 	public MemberUpdateResponse updateMember(final MemberUpdateRequest memberUpdateRequest) {
 		final Member member = memberRepository.findById(memberUpdateRequest.getId())
-			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+			.orElseThrow(MemberNotFoundException::new);
 
 		member.updateMember(memberUpdateRequest.toEntity());
 
