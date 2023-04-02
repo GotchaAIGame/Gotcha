@@ -9,11 +9,13 @@ import Button from "@components/common/Button";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
 import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
+import { resetGame } from "@stores/game/gameSlice";
 
 export default function CreateGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
   const gameInfo = useSelector((state: any) => state.game);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const tempHelperHandler = () => {
     setNeedHelp(!needHelp);
@@ -27,11 +29,11 @@ export default function CreateGamePage() {
 
     // 제목, 기간, 정보 입력 여부 확인
     if (
-      (gameInfo.title,
-      gameInfo.startTime,
-      gameInfo.endTime,
-      gameInfo.eventDesc,
-      gameInfo.problems[0].image)
+      gameInfo.title &&
+      gameInfo.startTime &&
+      gameInfo.endTime &&
+      gameInfo.eventDesc &&
+      gameInfo.problems.length > 0
     ) {
       // 문제 중 마지막 미입력값 배열이 있으면 제거
       const result = creatorAPI.createGameRoom(gameInfo);
@@ -41,6 +43,8 @@ export default function CreateGamePage() {
           console.log("보낸거");
           console.log(gameInfo);
           console.log(res, "됐다");
+          // 성공적으로 생성했다면 slice내용 비우기
+          dispatch(resetGame());
           const gamePin = res.data.result.code;
           const roomId = res.data.result.id;
           navigate(`/custom/${gamePin}`, { state: { roomId } });

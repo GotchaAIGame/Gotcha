@@ -8,6 +8,7 @@ export default function RewardCard(props: any) {
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newRewardInfo = {
+      id: rewardInfo.id,
       name: e.target.value,
       grade: rewardInfo.grade,
       image: rewardInfo.image,

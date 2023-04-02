@@ -19,6 +19,10 @@ const initialState: ThemeState = {
   themeTitle: "",
 };
 
+const resetState = () => {
+  return { ...initialState };
+};
+
 export const themeSlice = createSlice({
   name: "theme",
   initialState,
@@ -60,8 +64,10 @@ export const themeSlice = createSlice({
         startTime,
       };
     },
+    // 게임 정보 초기화
+    resetTheme: (state) => resetState(),
   },
 });
 
-export const { setTheme, setPlayer } = themeSlice.actions;
+export const { setTheme, setPlayer, resetTheme } = themeSlice.actions;
 export default themeSlice.reducer;

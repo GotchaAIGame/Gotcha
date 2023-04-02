@@ -6,11 +6,13 @@ import React, {
   useCallback,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setTheme } from "@stores/player/themeSlice";
 import { setGameCustom } from "@stores/game/gameSlice";
 import { creatorAPI } from "@apis/apis";
 import Button from "@components/common/Button";
 import closeImg from "@assets/closeButton.svg";
+import { resetTheme } from "@stores/player/themeSlice";
 import LogoInput from "./LogoInput";
 import ColorInput from "./ColorInput";
 // import RewardsCheck from "./RewardsCheck";
@@ -22,7 +24,13 @@ interface modalProps {
 }
 
 interface Reward {
-  id?: number;
+  id: number;
+  name: string;
+  grade: number;
+  image: string;
+}
+
+interface RewardWithoutId {
   name: string;
   grade: number;
   image: string;
@@ -45,8 +53,10 @@ export default function CustomModal(props: any) {
   const themeColor = useSelector((state: any) => state.theme.themeColor);
   const themeLogo = useSelector((state: any) => state.theme.themeLogo);
   const themeTitle = useSelector((state: any) => state.theme.themeTitle);
+  const nickname = useSelector((state: any) => state.users.nickname);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const modalHandler = () => {
     setIsOpen(!isOpen);
@@ -89,7 +99,7 @@ export default function CustomModal(props: any) {
 
   // 리워드 등록 on/off
   const rewardHandler = () => {
-    setIsRewardOpen(true);
+    setIsRewardOpen(!isRewardOpen);
   };
 
   // 최종 확인버튼
@@ -116,22 +126,60 @@ export default function CustomModal(props: any) {
 
     result
       .then((res) => {
-        // hasReward가 false였던 경우에만 reward 생성 API 전송
-        if (!gameInfo.hasReward) {
+        // hasReward가 false고 isRewardOpen 가 true인 경우에만 reward 생성 API 전송
+        if (!gameInfo.hasReward && isRewardOpen) {
+          // const rewardsInfo = {
+          //   roomId: gameInfo.id,
+          //   rewards: rewardsList,
+          // };
+
+          const rewardsWithoutId = rewardsList.map(
+            ({ id, ...reward }) => reward
+          ); // id를 제외한 RewardWithoutId 배열 생성
+          const rewardsInfo = {
+            roomId: gameInfo.id,
+            rewards: rewardsWithoutId,
+          };
+          const result = creatorAPI.setRewards(rewardsInfo);
+
+          // const result = creatorAPI.setRewards(rewardsInfo);
+          result.then((res) => {
+            console.log(res);
+            navigate(`/mypage/${nickname}`);
+          });
+        }
+
+        // hasReward가 true였던 경우 수정 API 전송(id값 포함 여부 확인)
+        else if (gameInfo.hasReward && rewardsList.length > 0 && isRewardOpen) {
           const rewardsInfo = {
             roomId: gameInfo.id,
             rewards: rewardsList,
           };
-          const result = creatorAPI.setRewards(rewardsInfo);
-          result.then((res) => {
-            console.log(res);
-          });
+          const result = creatorAPI.putRewards(rewardsInfo);
+          result
+            .then((res) => {
+              console.log(res);
+              navigate(`/mypage/${nickname}`);
+            })
+            .catch((res) => {
+              console.log(res);
+              console.log("리워드 수정 문제");
+            });
         }
-        // hasReward가 true였던 경우 수정 API 전송
+
+        // 경품 제거를 한 경우: 기존 hasReward는 true인데 rewardOpen을 닫은 경우
+        else if (gameInfo.hasReward && !isRewardOpen) {
+          console.log("아직 경품 제거는 개발되지 않았습니다");
+        }
+
+        // 단순히 테마 수정만 한 경우
+        navigate(`/mypage/${nickname}`);
       })
       .catch((res) => {
-        console.log("수정안됨");
+        console.log("테마 수정 안 됨");
         console.log(res);
+        // 수정안되었으니 slice에서 초기값으로 변경
+        dispatch(resetTheme());
       });
 
     // 리워드 API
@@ -148,9 +196,9 @@ export default function CustomModal(props: any) {
         setIsRewardOpen(true);
       } else {
         const emptyRewards = [
-          { name: "", grade: 1, image: "" },
-          { name: "", grade: 2, image: "" },
-          { name: "", grade: 3, image: "" },
+          { id: -1, name: "", grade: 1, image: "" },
+          { id: -2, name: "", grade: 2, image: "" },
+          { id: -3, name: "", grade: 3, image: "" },
         ];
         setRewardsList(emptyRewards);
       }
@@ -169,10 +217,20 @@ export default function CustomModal(props: any) {
       <LogoInput themeLogo={themeLogo} imgHandler={imgHandler} />
       <ColorInput themeColor={themeColor} colorHandler={colorHandler} />
       {isRewardOpen ? (
-        <RewardsList
-          rewardsList={rewardsList}
-          setRewardsList={setRewardsList}
-        />
+        <div>
+          <button
+            type="button"
+            className="add-reward-button"
+            onClick={rewardHandler}
+          >
+            <p className="plus-button">-</p>
+            <p>경품 제거하기</p>
+          </button>
+          <RewardsList
+            rewardsList={rewardsList}
+            setRewardsList={setRewardsList}
+          />
+        </div>
       ) : (
         <button
           type="button"
