@@ -2,11 +2,10 @@ package org.a602.gotcha.domain.member.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.member.entity.Member;
-import org.a602.gotcha.global.error.GlobalErrorCode;
+import org.a602.gotcha.domain.member.exception.MemberNotFoundException;
+import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +24,7 @@ public class MemberDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
 		final Member member = memberRepository.findMemberByEmail(email)
-			.orElseThrow(() -> new NoSuchElementException(GlobalErrorCode.EMAIL_NOT_FOUND.getMessage()));
+			.orElseThrow(MemberNotFoundException::new);
 
 		final List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

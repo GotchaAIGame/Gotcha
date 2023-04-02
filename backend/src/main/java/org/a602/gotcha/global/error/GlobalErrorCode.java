@@ -28,8 +28,8 @@ public enum GlobalErrorCode {
     INVALID_PHONE_NUMBER(400, "P300", "잘못된 형태의 휴대폰 입력입니다"),
     UPDATE_FAILED(500, "P400", "참여자 정보 업데이트에 실패했습니다."),
     REWARD_NOT_FOUND(404, "RW100", "리워드를 찾을 수 없습니다"),
-    /*member 관련 에러코드*/
-    EMAIL_NOT_FOUND(404, "M100", "존재하지 않는 이메일입니다."),
+    /*member 관련 예외코드*/
+    MEMBER_NOT_FOUND(404, "M100", "해당하는 유저가 없습니다."),
     DUPLICATE_NICKNAME(400, "M200", "이미 존재하는 닉네임입니다."),
     DUPLICATE_EMAIL(400, "M300", "이미 존재하는 이메일입니다."),
     MISMATCH_PASSWORD(401, "M400", "비밀번호가 다릅니다."),

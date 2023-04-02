@@ -1,8 +1,8 @@
 package org.a602.gotcha.global.security.oauth;
 
 public enum SocialType {
-	KAKAO("KAKAO"),
-	GOOGLE("GOOGLE");
+	KAKAO("kakao"),
+	GOOGLE("google");
 
 	private final String socialType;
 

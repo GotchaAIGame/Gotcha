@@ -2,20 +2,15 @@ package org.a602.gotcha.domain.member.controller;
 
 import javax.validation.Valid;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.a602.gotcha.domain.member.response.MemberInformationResponse;
-import org.a602.gotcha.domain.member.response.MemberLoginResponse;
-import org.a602.gotcha.domain.member.service.MemberService;
-import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
-import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
 import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
+import org.a602.gotcha.domain.member.response.MemberInformationResponse;
+import org.a602.gotcha.domain.member.response.MemberLoginResponse;
+import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
+import org.a602.gotcha.domain.member.service.MemberService;
 import org.a602.gotcha.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
