@@ -59,7 +59,7 @@ function ProblemCardList() {
         <div className="problem-carousel">
           <div className="carousel-inner-container" ref={cardList}>
             {problems.map((item, idx) => {
-              return <ProblemCard problem={item} key={item.problemId} />;
+              return <ProblemCard problem={item} key={`${item.problemId}`} index={`${item.problemId}`} solved={solved[idx].solved}/>;
             })}
           </div>
         </div>

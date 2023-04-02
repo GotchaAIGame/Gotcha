@@ -5,9 +5,11 @@ import request from "./agents";
 const gamePlayAPI = {
   register : (roomId: number, nickname : string, password : string ) : Promise<AxiosResponse> => 
   request.post("/game/register", { roomId, nickname, password}),
-  
+  getHint : (problemId : number) : Promise<AxiosResponse> => request.get("game/hint", {params : {problemId}}),
   enter: (roomCode: number): Promise<AxiosResponse> =>
     request.get("/game/enter", { params: { roomCode } }),
+  clear : (roomId : number, nickname : string, solvedCnt : number, endTime : string) : Promise<AxiosResponse> => 
+  request.post("game/clear", {roomId, nickname, solvedCnt, endTime}),
   // 게임 신규참여
   start: (
     roomId: number,
@@ -68,7 +70,7 @@ const MLAPI = {
         "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
       },
-    }),
+    })
 };
 
 const creatorAPI = {
