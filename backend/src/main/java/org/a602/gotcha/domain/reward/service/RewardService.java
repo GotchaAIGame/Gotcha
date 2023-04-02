@@ -3,7 +3,6 @@ package org.a602.gotcha.domain.reward.service;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.reward.exception.RewardNotFoundException;
-import org.a602.gotcha.domain.reward.repository.RewardQueryRepository;
 import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest.RewardDTO;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest.UpdateRewardDTO;
@@ -22,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RewardService {
     private final RewardRepository rewardRepository;
-    private final RewardQueryRepository rewardQueryRepository;
     private final RoomService roomService;
     private final S3Service s3Service;
     private final RoomRepository roomRepository;
@@ -73,7 +71,7 @@ public class RewardService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(RoomNotFoundException::new);
         room.setHasReward(false);
-        rewardQueryRepository.deleteRewardsByRoomId(roomId);
+        rewardRepository.deleteByRoomId(roomId);
     }
 }
 
