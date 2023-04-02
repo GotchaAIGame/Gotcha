@@ -21,12 +21,12 @@
     align-items: center;
     gap: 10px;
     img {
-        border: 3px solid $gray-1;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-      }
+      border: 2px solid $gray-1;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
     }
+  }
   .userinfo-container {
     .edit-profile-form {
       display: flex;
