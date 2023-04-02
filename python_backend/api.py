@@ -7,12 +7,13 @@ from PIL import Image, ImageOps
 from io import BytesIO
 import requests
 from utils import infer, memory_usage
+import base64
 
 
 api = FastAPI()
 
 @api.post("/predict")
-async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(...)):
+async def predict(originalUrl : str = Form(...), inputImage : bytes = Form(...)):
 
     """
     get datas required to calculate the similarities between two images and return the similarities between
@@ -26,12 +27,14 @@ async def predict(originalUrl : str = Form(...), inputImage : UploadFile = File(
     original_image = ImageOps.exif_transpose(original_image)
 
     # get input image
-    input_image = Image.open(BytesIO(inputImage.file.read()))
-    input_image = ImageOps.exif_transpose(input_image)
+    inputImage = inputImage.split(b"base64,")[1]
+    inputImage = base64.b64decode(inputImage)
+    inputImage = Image.open(BytesIO(inputImage))
+    inputImage = ImageOps.exif_transpose(inputImage)
 
-    result, similarity = infer(original_image, input_image)
-
+    result, similarity = infer(original_image, inputImage)
     # memory_usage("#-1. end")    
+    print(result, similarity)
     
     return {
         'result' : result,
