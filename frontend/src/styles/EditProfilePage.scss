@@ -51,3 +51,31 @@
 .email-input {
   cursor: default;
 }
+
+.btn-upload {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  color: $gray-1;
+  margin: 5px auto;
+  box-shadow: 1.5px 2px 1px #000;
+  border: 1px solid #000;
+  gap: 40px;
+  width: 138px;
+  height: 50px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  background-color: $blue-3;
+  &:hover,
+  &:active {
+    background: $blue-2;
+  }
+}
+
+#file {
+  display: none;
+}

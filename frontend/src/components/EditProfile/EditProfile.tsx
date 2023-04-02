@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -137,7 +138,12 @@ export default function EditProfile() {
       <div className="edit-profile-main-container">
         <div className="profile-container">
           <img src={inputImage || userInfo.profileImage} alt="프로필 이미지" />
+          <label htmlFor="file">
+            <div className="btn-upload">프로필 업로드</div>
+          </label>
           <input
+            name="file"
+            id="file"
             type="file"
             accept="image/*"
             ref={uploadImage}
