@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a602.gotcha.domain.participant.response.AllRankListResponse;
+import org.a602.gotcha.domain.participant.service.ParticipantService;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.mapper.RoomToRoomDetailResponseMapper;
 import org.a602.gotcha.domain.room.request.CloseRoomRequest;
@@ -33,6 +35,7 @@ import java.util.List;
 @Slf4j
 public class RoomController {
     private final RoomService roomService;
+    private final ParticipantService participantService;
 
     @Operation(description = "코드 통해 게임 입장하는 API", summary = "코드 통해 게임 입장하는 API")
     @ApiResponse(responseCode = "200", description = "입장 성공", content = @Content(schema = @Schema(implementation = Long.class)))
@@ -101,6 +104,15 @@ public class RoomController {
     public BaseResponse<Page<RoomSummaryInfo>> getRoomIdsByMemberId(@PageableDefault Pageable pageable, @PathVariable @Valid @Positive Long memberID) {
         return new BaseResponse<>(roomService.getRoomIdsByMemberId(memberID, pageable));
 
+    }
+
+    @Operation(description = "(출제자용) 모든 참여자 순위 확인하기 API", summary = "(출제자용) 모든 참여자 순위 확인하기 API")
+    @ApiResponse(responseCode = "200", description = "모든 참여자 랭킹 불러오기 성공", content = @Content(schema = @Schema(implementation = AllRankListResponse.class)))
+    @ApiResponse(responseCode = "404", description = "방 정보 찾을 수 없음")
+    @GetMapping("/rank/{roomId}")
+    public BaseResponse<List<AllRankListResponse>> getAllRankList(@PathVariable Long roomId) {
+        List<AllRankListResponse> allRankList = participantService.getAllRankList(roomId);
+        return new BaseResponse<>(allRankList);
     }
 
 }

@@ -8,6 +8,7 @@ import org.a602.gotcha.domain.participant.exception.UpdateParticipantFailedExcep
 import org.a602.gotcha.domain.participant.repository.ParticipantQueryRepository;
 import org.a602.gotcha.domain.participant.repository.ParticipantRepository;
 import org.a602.gotcha.domain.participant.request.*;
+import org.a602.gotcha.domain.participant.response.AllRankListResponse;
 import org.a602.gotcha.domain.participant.response.ParticipantInfoResponse;
 import org.a602.gotcha.domain.participant.response.ParticipantRankListResponse;
 import org.a602.gotcha.domain.room.entity.Room;
@@ -155,6 +156,23 @@ public class ParticipantService {
         return result;
     }
 
+    @Transactional(readOnly = true)
+    public List<AllRankListResponse> getAllRankList(Long roomId) {
+        checkRoomValidation(roomId);
+        List<Participant> allRankList  = participantQueryRepository.getAllRank(roomId);
+        List<AllRankListResponse> responseRank = new ArrayList<>();
+        for(int i = 1; i <= allRankList.size(); i++) {
+            AllRankListResponse ranker = AllRankListResponse.builder()
+                    .grade(i)
+                    .nickname(allRankList.get(i - 1).getNickname())
+                    .solvedCnt(allRankList.get(i - 1).getSolvedCnt())
+                    .duration(convertDuration(allRankList.get(i - 1).getDuration()))
+                    .build();
+            responseRank.add(ranker);
+        }
+        return responseRank;
+    }
+
     private void checkRoomValidation(Long roomID) {
         boolean isExist= roomRepository.existsById(roomID);
         if(!isExist) {
@@ -206,5 +224,4 @@ public class ParticipantService {
                 duration.toSecondsPart()
         );
     }
-
 }

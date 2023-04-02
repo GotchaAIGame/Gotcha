@@ -22,6 +22,17 @@ public class ParticipantQueryRepository {
     QParticipant participant = QParticipant.participant;
     QRoom room = QRoom.room;
 
+    public List<Participant> getAllRank(Long roomId) {
+        return query.selectFrom(participant)
+                .join(participant.room, room)
+                .where(participant.room.id.eq(roomId),
+                        participant.isFinished.isTrue())
+                .orderBy(
+                        participant.solvedCnt.desc(),
+                        participant.duration.asc())
+                .fetch();
+    }
+
     public List<Participant> getTop3Rank(Long roomId) {
         return query.selectFrom(participant)
                 .join(participant.room, room)
