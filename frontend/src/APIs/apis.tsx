@@ -141,7 +141,7 @@ const creatorAPI = {
   // 단일 문제 제거
   deleteProblem: (problemId: number): Promise<AxiosResponse> =>
     request.authDelete(`set/problem`, {
-      params: { problemId },
+      data: { problemId },
     }),
   // 수정 관련 Apis
 };

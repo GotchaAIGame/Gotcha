@@ -4,6 +4,7 @@ export interface requestConfig {
   params?: object;
   headers?: object;
   encType?: string;
+  data?: object;
 }
 
 const axiosInstance = axios.create({
