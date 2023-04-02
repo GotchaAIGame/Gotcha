@@ -23,7 +23,8 @@ function ProblemCard(props: problemProps) {
 
   const uploadImage = useRef<HTMLInputElement>(null);
   const croppedImageRef = useRef<ReactCropperElement>(null);
-
+  
+  const [hintOpen, setHintOpen]= useState(false)
   const [editorOpen, setEditorOpen] = useState(false);
   const [AIModalOpen, setAIModalOpen] = useState(false);
   const [croppedImage, setCroppedImage] = useState<string>("");
@@ -31,7 +32,7 @@ function ProblemCard(props: problemProps) {
 
 
   const { problem, index, solved } = props;
-  const { problemName, problemImgURL } = problem;
+  const { problemName, problemImgURL, problemDesc } = problem;
 
   const cropperHandler = () => {
     // console.log(croppedImageRef.current, "xx")
@@ -69,6 +70,14 @@ function ProblemCard(props: problemProps) {
         </div>
         <div className="inner-card-container">
           <div className="original-image-container">
+            
+          <div className="problem-hint-button">
+            <Button text="hint" size="xxsmall" onClick={() => {setHintOpen(!hintOpen)}}/>
+          </div>
+          {hintOpen &&
+            <div className="problem-hint-description">
+              <p className="hint-text"> {problemDesc} </p>
+            </div>}
             <img src={problemImgURL} alt={problemName} />
           </div>
 
