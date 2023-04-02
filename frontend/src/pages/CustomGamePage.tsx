@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { useLocation } from "react-router-dom";
 import { creatorAPI } from "@apis/apis";
-import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "@stores/player/themeSlice";
 import ProblemTitle from "@components/Game/ProblemTitle";
 import Timer from "@components/Game/Timer";
 import ProblemCardList from "@components/Game/ProblemCardList";
 import CustomModal from "@components/CustomGame/CustomModal";
 import "@styles/CustomModalPage.scss";
+import { useAppDispatch } from "@stores/storeHooks";
+import { setProblems } from "@stores/game/gamePlaySlice";
+import CustomNavbar from "@components/common/CustomNavbar";
 
 export default function CustomGamePage() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -42,7 +44,7 @@ export default function CustomGamePage() {
     ],
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const { roomId } = location.state;
 
@@ -70,16 +72,19 @@ export default function CustomGamePage() {
             themeTitle: title,
           })
         );
+        dispatch(setProblems(newInfo.problems))
       });
     } else {
       console.log("비정상적 접근");
     }
-  }, []);
+  }, []);  
 
   return (
+    <>
+    <CustomNavbar />
     <Grid container className="custom-page-main-container">
       <Grid item xs={12} md={9}>
-        <ProblemTitle />
+        {/* <ProblemTitle /> */}
         <Timer />
         <ProblemCardList />
       </Grid>
@@ -96,5 +101,6 @@ export default function CustomGamePage() {
         setGameInfo={setGameInfo}
       />
     </Grid>
+    </>
   );
 }

@@ -41,15 +41,29 @@ const gamePlaySlice = createSlice({
   initialState,
   reducers: {
     // register user
-    registerUser: (
+    setProblems: (
       state,
-      action: PayloadAction<{
-        roomId: number;
-        nickname: string;
-        password: number;
-      }>
+      action: PayloadAction<Array<{
+        id : number,
+        name : string,
+        hint : string,
+        imageUrl : string,
+      }>>
     ) => {
-      const { roomId, nickname, password } = action.payload;
+      const newProblems = action.payload.map((item, idx) => {
+        const {id, name, hint, imageUrl} = item
+        return {
+          problemId : id,
+          problemName : name,
+          problemDesc : hint,
+          problemImgURL : imageUrl
+        }
+      })
+      
+      return {
+        ...state,
+        problems : newProblems
+      }
     },
   },
   extraReducers: (builder) => {
@@ -70,5 +84,5 @@ const gamePlaySlice = createSlice({
 });
 
 export { gamePlaySlice, RegisterandStart };
-export const { registerUser } = gamePlaySlice.actions;
+export const { setProblems } = gamePlaySlice.actions;
 export default gamePlaySlice.reducer;
