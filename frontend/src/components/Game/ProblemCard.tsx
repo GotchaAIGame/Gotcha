@@ -13,6 +13,7 @@ interface problemProps {
     problemDesc: string;
     problemImgURL: string;
   };
+  index : string;
 }
 
 function ProblemCard(props: problemProps) {
@@ -27,11 +28,13 @@ function ProblemCard(props: problemProps) {
   const [resultStatus, setResultStatus] = useState<number>(0);
   const [Image, setImage] = useState<string>("");
 
-  const { problem } = props;
+
+  const { problem, index } = props;
   const { problemId, problemName, problemDesc, problemImgURL } = problem;
   const hasImage = false;
 
   const cropperHandler = () => {
+    console.log(croppedImageRef.current, "xx")
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedImage = croppedImageRef.current?.cropper
         .getCroppedCanvas()
@@ -46,6 +49,7 @@ function ProblemCard(props: problemProps) {
     const files = uploadImage.current?.files;
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
+      console.log(files[0], "xxx")
       setEditorOpen(true);
       setImage(fileURL);
     }
@@ -132,6 +136,8 @@ function ProblemCard(props: problemProps) {
         </div>
       )}
       <AIModal
+        index = {index}
+        problemImage = {problemImgURL}
         imageURL={croppedImage}
         open={AIModalOpen}
         openHandler={() => setAIModalOpen(false)}

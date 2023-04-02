@@ -36,7 +36,7 @@ export default function GamePage() {
           <button
             type="button"
             onClick={() => {
-              console.log({ problems });
+              console.log({ problems, solved });
             }}
           >
             상태 확인

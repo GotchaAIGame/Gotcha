@@ -72,12 +72,15 @@ const gamePlaySlice = createSlice({
 
       const {responseStart} = action.payload
       const { data } = responseStart;
+      const newSolved = data.result.map((problem : any) => {
+        return { id : problem.problemId, solved : false }
+      })
       const dataLength = data.result.length;
 
       return {
         ...state,
         problems: data.result,
-        solved: new Array(dataLength).fill(false),
+        solved: newSolved
       };
     });
   },

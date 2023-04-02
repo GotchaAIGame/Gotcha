@@ -1,22 +1,37 @@
+import { MLAPI } from "@apis/apis";
 import React, { useEffect, useState, useRef } from "react";
 // import "@styles/GamePage.scss";
 
 interface progressBarProps {
   resultHandler: (status: number) => void;
+  imageUrl : string;
+  problemImage : string;
+  index : string;
 }
 
 // function ProgressBar() {
 function ProgressBar(props: progressBarProps) {
-  const { resultHandler } = props;
+  const { resultHandler, imageUrl, problemImage, index } = props;
+  // imageUrl : 제출하고자 하는 cropped image
+  // problemImage : 원본 image
   const [progressDone, setProgressDone] = useState(false);
   const progressBarRef = useRef(null);
 
-  // Response가 들어왔을 때
   useEffect(() => {
-    setTimeout(() => {
-      setProgressDone(true);
-    }, 1000);
-  });
+    // send request to predict
+    const predict = async() => {
+      const formData : FormData  = new FormData();
+
+      formData.append("inputImage", imageUrl);
+      formData.append("originalUrl", problemImage)
+
+      const result = await MLAPI.predict(formData);
+      console.log(result)
+    }
+    predict()
+
+    // predict()
+  }, []);
 
   // ProgresBar가 끝까지 갔을 때
   useEffect(() => {

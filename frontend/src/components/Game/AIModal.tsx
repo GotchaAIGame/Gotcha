@@ -4,15 +4,17 @@ import right from "@assets/right.svg";
 import wrong from "@assets/wrong.svg";
 
 interface AIModalProps {
+  problemImage : string;
   imageURL: string;
   open: boolean;
   openHandler: () => void;
   resultStatus: number;
   resultHandler: (status: number) => void;
+  index : string;
 }
 
 function AIModal(props: AIModalProps) {
-  const { open, openHandler, resultStatus, resultHandler, imageURL } = props;
+  const { open, openHandler, resultStatus, resultHandler, imageURL, problemImage, index } = props;
 
   if (open) {
     return (
@@ -46,6 +48,9 @@ function AIModal(props: AIModalProps) {
                 resultHandler={(status: number) => {
                   resultHandler(status);
                 }}
+                imageUrl={imageURL}
+                problemImage = {problemImage}
+                index = {index}
               />
             </div>
             <div className="AIModal-description">

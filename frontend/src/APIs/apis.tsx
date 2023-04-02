@@ -66,7 +66,7 @@ const MLAPI = {
         "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
       },
-    }),
+    })
 };
 
 const creatorAPI = {
