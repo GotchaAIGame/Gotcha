@@ -63,10 +63,8 @@ public class SecurityConfig {
 		"/api/member/login",
 		"/api/member/duplicateNickname",
 		"/api/member/duplicateEmail",
-		"/oauth/**",
 		"/",
-		"/oauth2/**",
-		"/actuator/**"
+		"/actuator/**",
 	};
 
 	@Bean
