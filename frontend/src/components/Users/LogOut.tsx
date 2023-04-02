@@ -27,30 +27,22 @@ export default function LogOut() {
 
     if (accessToken && refreshToken) {
       // API 임시 제거
-      // const result = memberAPI.logOut(accessToken, refreshToken);
-      // result
-      //   .then((res) => {
-      //     // API요청에 성공하면
-      //     // store비우기
-      //     dispatch(setLogout());
-      //     // local에 저장된 토큰 정보 제거
-      //     sessionStorage.setItem("accessToken", "");
-      //     setCookie("refreshToken", "");
-      //     // 창 닫고 이동
-      //     setModalOpen(false);
-      //     navigate("/main");
-      //   })
-      //   .catch((res) => {
-      //     console.log(res);
-      //   });
-
-      dispatch(setLogout());
-      // local에 저장된 토큰 정보 제거
-      sessionStorage.setItem("accessToken", "");
-      setCookie("refreshToken", "");
-      // 창 닫고 이동
-      setModalOpen(false);
-      navigate("/main");
+      const result = memberAPI.logOut(accessToken, refreshToken);
+      result
+        .then((res) => {
+          // API요청에 성공하면
+          // store비우기
+          dispatch(setLogout());
+          // local에 저장된 토큰 정보 제거
+          sessionStorage.setItem("accessToken", "");
+          setCookie("refreshToken", "");
+          // 창 닫고 이동
+          setModalOpen(false);
+          navigate("/main");
+        })
+        .catch((res) => {
+          console.log(res);
+        });
     }
   };
   return (
