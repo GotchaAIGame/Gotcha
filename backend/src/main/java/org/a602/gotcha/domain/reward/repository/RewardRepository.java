@@ -8,8 +8,5 @@ import java.util.List;
 public interface RewardRepository extends JpaRepository<Reward, Long> {
 
     List<Reward> findByRoomId(Long id);
-
-
     List<Reward> findRewardsByRoomId(Long roomId);
-
 }
