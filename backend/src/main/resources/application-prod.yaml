@@ -60,3 +60,9 @@ cloud:
     stack:
       auto: false
 default-image: 'default.jpg'
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /api/swagger-ui.html
+  api-docs:
+    path: /api/post-docs
