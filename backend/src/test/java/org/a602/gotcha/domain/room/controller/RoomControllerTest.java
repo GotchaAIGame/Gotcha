@@ -3,6 +3,7 @@ package org.a602.gotcha.domain.room.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.a602.gotcha.CustomSpringBootTest;
 import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.reward.entity.Reward;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +112,22 @@ class RoomControllerTest {
                 .build();
         em.persist(roomB);
         ROOM_ID_WITHOUT_REWARD = roomB.getId();
+        // 참여자 생성(게임완료)
+        LocalDateTime startTime = LocalDateTime.now().plusHours(1);
+        for (int i = 10; i > 0; i--) {
+            LocalDateTime endTime = LocalDateTime.now().plusHours(i + 1);
+            Participant participant = Participant.builder()
+                    .nickname("참여자" + i)
+                    .password("1234")
+                    .startTime(startTime)
+                    .endTime(endTime)
+                    .duration(Duration.between(startTime, endTime))
+                    .solvedCnt(i % 5)
+                    .isFinished(true)
+                    .room(room)
+                    .build();
+            em.persist(participant);
+        }
     }
 
     @Nested
@@ -294,4 +312,36 @@ class RoomControllerTest {
                 .andExpect(jsonPath("$.status", is(200)))
                 .andDo(print());
     }
+
+    @Nested
+    @DisplayName("(출제자용) 모든 참여자 순위 확인하기 API")
+    class GetAllRankList {
+
+        @Test
+        @DisplayName("해당 방 정보 찾을 수 없음")
+        void invalidRoomCode() throws Exception {
+            mockMvc
+                    .perform(get(url + "/rank/{roomId}", 1000000L)
+                            .header(AUTHORIZATION, token)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status", is(404)))
+                    .andExpect(jsonPath("$.code", is("R100")));
+        }
+
+        @Test
+        @DisplayName("모든 유저의 랭킹 조회 성공")
+        void getAllRank() throws Exception {
+            MockHttpServletResponse response = mockMvc
+                    .perform(get(url + "/rank/{roomId}", room.getId())
+                            .header(AUTHORIZATION, token)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status", is(200)))
+                    .andDo(print())
+                    .andReturn().getResponse();
+            BaseResponse<List<GetAllRankList>> listResponse = objectMapper.readValue(response.getContentAsString(), BaseResponse.class);
+            assertEquals(10, listResponse.getResult().size());
+        }
+    }
+
+
 }
