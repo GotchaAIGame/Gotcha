@@ -1,15 +1,19 @@
 @import "@styles/Colors.scss";
 
+h1 {
+  margin-bottom: 0;
+  color: $blue-1;
+  font-weight: 900;
+  text-shadow: 3px 0px $gray-1;
+  -webkit-text-stroke: 1px $gray-1;
+}
 .edit-profile-main-container {
-  h3 {
-    margin-bottom: 0;
-  }
   h5 {
     margin-top: 10px;
     font-weight: 400;
   }
   gap: 5%;
-  margin: 5% auto;
+  margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

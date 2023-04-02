@@ -134,7 +134,7 @@ export default function EditProfile() {
 
   return (
     <div>
-      <h3>회원정보 수정</h3>
+      <h1>회원정보 수정</h1>
       <div className="edit-profile-main-container">
         <div className="profile-container">
           <img src={inputImage || userInfo.profileImage} alt="프로필 이미지" />
