@@ -54,6 +54,8 @@ const memberAPI = {
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
   logIn: (email: string, password: string): Promise<AxiosResponse> =>
     request.post("member/login", { email, password }),
+  logOut: (accessToken: string, refreshToken: string): Promise<AxiosResponse> =>
+  request.authPost("member/logout", { accessToken, refreshToken }),
 };
 
 const MLAPI = {
