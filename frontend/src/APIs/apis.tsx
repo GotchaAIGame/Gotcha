@@ -61,6 +61,14 @@ const memberAPI = {
     request.post("member/login", { email, password }),
   logOut: (accessToken: string, refreshToken: string): Promise<AxiosResponse> =>
     request.authPost("member/logout", { accessToken, refreshToken }),
+  editUser: (userInfo: {
+    id: number;
+    nickname: string;
+    organization: string;
+    email: string;
+    registrationId: string;
+    profilImage: string;
+  }): Promise<AxiosResponse> => request.put("member", userInfo),
 };
 
 const MLAPI = {
