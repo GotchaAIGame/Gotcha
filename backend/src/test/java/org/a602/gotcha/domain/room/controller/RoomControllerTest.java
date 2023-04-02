@@ -248,6 +248,7 @@ class RoomControllerTest {
                 .roomId(room.getId())
                 .color("변경색깔")
                 .title("변경제목")
+                .logoImage("https://어쩌구")
                 .eventUrl("변경이벤트")
                 .eventDesc("변경내용")
                 .startTime(LocalDateTime.of(2023, 3, 17, 12, 0, 0))

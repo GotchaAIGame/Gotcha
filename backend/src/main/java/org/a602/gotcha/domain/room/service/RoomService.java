@@ -146,11 +146,8 @@ public class RoomService {
     public void updateRoom(UpdateRoomRequest request) {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
-        // 이미지가 없으면 기존에 있던 로고 유알엘을 넣어줌.
-        String uploadLogoUrl;
-        if(request.getLogoImage() == null) {
-            uploadLogoUrl = room.getLogoUrl();
-        } else {
+        String uploadLogoUrl = request.getLogoImage();
+        if(!uploadLogoUrl.startsWith("https://")) {
             String fileName = System.currentTimeMillis() + request.getTitle() + "logo";
             uploadLogoUrl = s3Service.uploadImage(request.getLogoImage(), fileName);
         }

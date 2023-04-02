@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.a602.gotcha.domain.reward.request.DeleteRewardRequest;
 import org.a602.gotcha.domain.reward.request.SetRewardRequest;
 import org.a602.gotcha.domain.reward.request.UpdateRewardRequest;
 import org.a602.gotcha.domain.reward.service.RewardService;
@@ -43,9 +42,9 @@ public class RewardController {
     @DeleteMapping("/set/reward")
     @ApiResponse(description = "방에 리워드 삭제", responseCode = "200")
     @Operation(description = "게임에 리워드 삭제", summary = "게임에 리워드 삭제")
-    public BaseResponse<Void> deleteReward(@Valid @RequestBody DeleteRewardRequest request) {
+    public BaseResponse<Void> deleteReward(@RequestParam Long roomId) {
 
-        rewardService.deleteReward(request.getRoomId(), request.getRewardId());
+        rewardService.deleteReward(roomId);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
 }

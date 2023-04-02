@@ -24,7 +24,7 @@ public class UpdateRoomRequest {
     @NotBlank
     String color;
 
-    @Schema(description = "base64로 인코딩된 로고 이미지")
+    @Schema(description = "base64로 인코딩된 로고 이미지 / 변경사항 없으면 기존url")
     String logoImage;
 
     @Schema(description = "방 제목")

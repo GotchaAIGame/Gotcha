@@ -51,26 +51,30 @@ public class RewardService {
         for (UpdateRewardDTO updateRewardDTO : rewardDTOList) {
             Long rewardId = updateRewardDTO.getRewardId();
             Reward reward;
-            String fileName = System.currentTimeMillis() + room.getTitle() + "reward";
-            String uploadImage = s3Service.uploadImage(updateRewardDTO.getImage(), fileName);
+            String imageUrl = updateRewardDTO.getImage();
+            if(!updateRewardDTO.getImage().startsWith("https://")) {
+                String fileName = System.currentTimeMillis() + room.getTitle() + "reward";
+                imageUrl = s3Service.uploadImage(updateRewardDTO.getImage(), fileName);
+            }
             if (rewardId != null) {
                 reward = rewardRepository.findById(rewardId).orElseThrow(() -> {
                     throw new RewardNotFoundException();
                 });
-                reward.update(updateRewardDTO.getGrade(), updateRewardDTO.getName(), uploadImage);
+                reward.update(updateRewardDTO.getGrade(), updateRewardDTO.getName(), imageUrl);
             } else {
-                Reward newReward = new Reward(updateRewardDTO.getName(), updateRewardDTO.getGrade(), room, uploadImage);
+                Reward newReward = new Reward(updateRewardDTO.getName(), updateRewardDTO.getGrade(), room, imageUrl);
                 newRewardList.add(newReward);
             }
         }
         rewardRepository.saveAll(newRewardList);
     }
 
-    public void deleteReward(Long roomId, Long rewardId) {
+    @Transactional
+    public void deleteReward(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(RoomNotFoundException::new);
         room.setHasReward(false);
-        rewardRepository.deleteById(rewardId);
+        rewardRepository.deleteByRoomId(roomId);
     }
 }
 
