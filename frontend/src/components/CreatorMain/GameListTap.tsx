@@ -84,7 +84,7 @@ export default function GameListTap() {
       {isOpen.before && <BeforeStartedGames createGames={createGames}/>}
       {isOpen.finished && <FinishedGames createGames={createGames}/>}
       <Link to="/create/game" className="create-button-wrapper">
-        <Button color="gray" size="small" text="생성하기" />
+        <Button color="lime" size="small" text="생성하기" />
       </Link>
     </div>
   );

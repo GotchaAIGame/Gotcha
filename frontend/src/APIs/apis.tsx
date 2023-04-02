@@ -55,7 +55,7 @@ const memberAPI = {
   logIn: (email: string, password: string): Promise<AxiosResponse> =>
     request.post("member/login", { email, password }),
   logOut: (accessToken: string, refreshToken: string): Promise<AxiosResponse> =>
-  request.authPost("member/logout", { accessToken, refreshToken }),
+    request.authPost("member/logout", { accessToken, refreshToken }),
 };
 
 const MLAPI = {
@@ -77,13 +77,11 @@ const creatorAPI = {
     eventDesc: string;
     startTime: string;
     endTime: string;
-    problems: Array<
-      {
-        image: string;
-        name: string;
-        hint: string;
-      }
-    >;
+    problems: Array<{
+      image: string;
+      name: string;
+      hint: string;
+    }>;
   }): Promise<AxiosResponse> => request.authPost("set/room", gameInfo),
 
   // 게임 정보 수정, 테마 변경
@@ -115,6 +113,17 @@ const creatorAPI = {
       image: string;
     }>;
   }): Promise<AxiosResponse> => request.authPost("set/reward", rewardsInfo),
+
+  // 보상 수정
+  putRewards: (rewardsInfo: {
+    roomId: number;
+    rewards: Array<{
+      id: number;
+      name: string;
+      grade: number;
+      image: string;
+    }>;
+  }): Promise<AxiosResponse> => request.authPut("set/reward", rewardsInfo),
 
   // 수정 관련 Apis
 };

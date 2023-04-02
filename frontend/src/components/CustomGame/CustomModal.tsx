@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setTheme } from "@stores/player/themeSlice";
 import { setGameCustom } from "@stores/game/gameSlice";
 import { creatorAPI } from "@apis/apis";
@@ -22,7 +23,13 @@ interface modalProps {
 }
 
 interface Reward {
-  id?: number;
+  id: number;
+  name: string;
+  grade: number;
+  image: string;
+}
+
+interface RewardWithoutId {
   name: string;
   grade: number;
   image: string;
@@ -45,8 +52,10 @@ export default function CustomModal(props: any) {
   const themeColor = useSelector((state: any) => state.theme.themeColor);
   const themeLogo = useSelector((state: any) => state.theme.themeLogo);
   const themeTitle = useSelector((state: any) => state.theme.themeTitle);
+  const nickname = useSelector((state: any) => state.users.nickname);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const modalHandler = () => {
     setIsOpen(!isOpen);
@@ -118,16 +127,41 @@ export default function CustomModal(props: any) {
       .then((res) => {
         // hasReward가 false였던 경우에만 reward 생성 API 전송
         if (!gameInfo.hasReward) {
+          // const rewardsInfo = {
+          //   roomId: gameInfo.id,
+          //   rewards: rewardsList,
+          // };
+
+          const rewardsWithoutId = rewardsList.map(
+            ({ id, ...reward }) => reward
+          ); // id를 제외한 RewardWithoutId 배열 생성
           const rewardsInfo = {
             roomId: gameInfo.id,
-            rewards: rewardsList,
+            rewards: rewardsWithoutId,
           };
           const result = creatorAPI.setRewards(rewardsInfo);
+
+          // const result = creatorAPI.setRewards(rewardsInfo);
           result.then((res) => {
             console.log(res);
+            navigate(`/mypage/${nickname}`);
           });
         }
-        // hasReward가 true였던 경우 수정 API 전송
+        // hasReward가 true였던 경우 수정 API 전송(id값 포함 여부 확인)
+        const rewardsInfo = {
+          roomId: gameInfo.id,
+          rewards: rewardsList,
+        };
+        const result = creatorAPI.putRewards(rewardsInfo);
+        result
+          .then((res) => {
+            console.log(res);
+            navigate(`/mypage/${nickname}`);
+          })
+          .catch((res) => {
+            console.log(res);
+            console.log("수정문제임");
+          });
       })
       .catch((res) => {
         console.log("수정안됨");
@@ -148,9 +182,9 @@ export default function CustomModal(props: any) {
         setIsRewardOpen(true);
       } else {
         const emptyRewards = [
-          { name: "", grade: 1, image: "" },
-          { name: "", grade: 2, image: "" },
-          { name: "", grade: 3, image: "" },
+          { id: -1, name: "", grade: 1, image: "" },
+          { id: -2, name: "", grade: 2, image: "" },
+          { id: -3, name: "", grade: 3, image: "" },
         ];
         setRewardsList(emptyRewards);
       }
