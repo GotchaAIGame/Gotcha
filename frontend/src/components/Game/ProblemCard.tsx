@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useAppSelector } from "@stores/storeHooks";
 import Cropper, { ReactCropperElement } from "react-cropper";
+import { gamePlayAPI } from "@apis/apis";
 
 import "@styles/cropper.scss";
 import right from "@assets/right.svg"
@@ -32,7 +33,8 @@ function ProblemCard(props: problemProps) {
 
 
   const { problem, index, solved } = props;
-  const { problemName, problemImgURL, problemDesc } = problem;
+  const { problemName, problemImgURL, problemId } = problem;
+  const [problemHint, setProblemHint] = useState("");
 
   const cropperHandler = () => {
     // console.log(croppedImageRef.current, "xx")
@@ -57,6 +59,18 @@ function ProblemCard(props: problemProps) {
     }
   };
 
+  const hintHandler = () => {
+    setHintOpen(!hintOpen)
+    if (!problemHint){
+    gamePlayAPI.getHint(problemId).then((res) =>
+    {
+      const hint = res.data.result
+      setProblemHint(hint)
+    }
+    )
+  }
+  }
+
   // console.log(index, "index 받았는데 ㅜㅠ")
 
   return (
@@ -72,11 +86,11 @@ function ProblemCard(props: problemProps) {
           <div className="original-image-container">
             
           <div className="problem-hint-button">
-            <Button text="hint" size="xxsmall" onClick={() => {setHintOpen(!hintOpen)}}/>
+            <Button text="hint" size="xxsmall" onClick={() => {hintHandler()}}/>
           </div>
           {hintOpen &&
             <div className="problem-hint-description">
-              <p className="hint-text"> {problemDesc} </p>
+              <p className="hint-text"> {problemHint} </p>
             </div>}
             <img src={problemImgURL} alt={problemName} />
           </div>
