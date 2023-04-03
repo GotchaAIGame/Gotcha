@@ -49,7 +49,7 @@ public class RewardService {
         Room room = roomService.findById(roomId);
         List<Reward> newRewardList = new ArrayList<>();
         for (UpdateRewardDTO updateRewardDTO : rewardDTOList) {
-            Long rewardId = updateRewardDTO.getRewardId();
+            Long rewardId = updateRewardDTO.getId();
             Reward reward;
             String imageUrl = updateRewardDTO.getImage();
             if (!updateRewardDTO.getImage().startsWith("https://")) {
