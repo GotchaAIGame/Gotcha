@@ -12,7 +12,7 @@ function DropDown(props: dropDownProps) {
   const clickHandler = (idx: number) => {
     const offset = locs[idx];
     window.scrollTo({
-      top: offset + window.innerHeight / 3,
+      top: offset + window.innerHeight / 3.5,
       behavior: "smooth",
     });
   };
