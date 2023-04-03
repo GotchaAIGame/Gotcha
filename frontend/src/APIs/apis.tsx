@@ -67,8 +67,8 @@ const memberAPI = {
     organization: string;
     email: string;
     registrationId: string;
-    profilImage: string;
-  }): Promise<AxiosResponse> => request.put("member", userInfo),
+    profileImage: string;
+  }): Promise<AxiosResponse> => request.authPut("member", userInfo),
 };
 
 const MLAPI = {

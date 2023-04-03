@@ -22,6 +22,7 @@ export default function GameCard(props: any) {
 
   const goRanking = () => {
     console.log("ranking보기로 갈 것입니다");
+    navigate(`/game/${gameInfo.code}/rank`);
   };
 
   const alertNoRank = () => {
