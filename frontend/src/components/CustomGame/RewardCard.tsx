@@ -69,7 +69,9 @@ export default function RewardCard(props: any) {
         <input
           type="text"
           className="reward-name-input"
-          placeholder={rewardInfo.name ? rewardInfo.name : "상품명을 입력하세요"}
+          placeholder={
+            rewardInfo.name ? rewardInfo.name : "상품명을 입력하세요"
+          }
           onChange={nameHandler}
         />
         <div className="file-input-wrapper">
@@ -98,7 +100,7 @@ export default function RewardCard(props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept="image/*"
+                accept=".jpg, .jpeg .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />

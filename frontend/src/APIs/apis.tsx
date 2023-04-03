@@ -39,12 +39,14 @@ const gamePlayAPI = {
     password: number
   ): Promise<AxiosResponse> =>
     request.post("/game/login", { roomId, nickname, password }),
-  // 랭킹 불러오기
+  // 랭킹 불러오기(참여자)
   rank: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/rank", { roomId, nickname }),
+
   // 우승상품 확인하기
   reward: (roomId: number): Promise<AxiosResponse> =>
     request.get("/game/reward", { params: { roomId } }),
+
   // 휴대폰 번호 입력하기
   phone: (
     roomId: number,
@@ -79,8 +81,8 @@ const memberAPI = {
     organization: string;
     email: string;
     registrationId: string;
-    profilImage: string;
-  }): Promise<AxiosResponse> => request.put("member", userInfo),
+    profileImage: string;
+  }): Promise<AxiosResponse> => request.authPut("member", userInfo),
 };
 
 const MLAPI = {
@@ -162,6 +164,10 @@ const creatorAPI = {
       data: { problemId },
     }),
   // 수정 관련 Apis
+
+  // 랭킹 불러오기(출제자)
+  rankAll: (roomId: number): Promise<AxiosResponse> =>
+    request.authGet(`/rank/${roomId}`, { params: { roomId } }),
 };
 
 export { gamePlayAPI, memberAPI, MLAPI, creatorAPI };

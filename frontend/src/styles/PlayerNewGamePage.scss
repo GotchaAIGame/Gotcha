@@ -10,9 +10,10 @@
   background-image: url("../assets/fullBGPattern.svg");
 
   .logo-img {
-    margin-bottom: 50px;
-    width: 100%;
-    max-width: 400px;
+    img {
+      width: 40%;
+      min-width: 400px;
+    }
   }
 
   .enter-button {

@@ -1,7 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { gamePlayAPI } from "@apis/apis";
+import { gamePlayAPI, creatorAPI } from "@apis/apis";
+import { useLocation } from "react-router";
 import { Grid } from "@mui/material";
 import RankInfo from "./RankInfo";
 import "@styles/RankPage.scss";
@@ -17,19 +18,34 @@ interface IUser {
 
 export default function PlayerRank() {
   const [userArray, setUserArray] = useState<IUser[]>([]);
+  const location = useLocation();
+  const creatorRoom = location.state.roomId;
 
   // useSelctor로 뽑아쓰기
-  const room = useSelector((state: any) => state.theme.room);
+  const playerRoom = useSelector((state: any) => state.theme.room);
   const nickname = useSelector((state: any) => state.theme.nickname);
 
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@여기 하는중@@@@@@@@@@@
   useEffect(() => {
-    const request = gamePlayAPI.rank(room, nickname);
-    request.then((res) => {
-      const users = res.data.result;
-      console.log(users);
-      setUserArray(users);
-    });
-  }, [room, nickname]);
+    async function fetchRankingData() {
+      let api;
+      const fromMy = location.state.fromMypage;
+      if (fromMy) {
+        api = creatorAPI.rankAll(creatorRoom);
+      } else {
+        api = gamePlayAPI.rank(playerRoom, nickname);
+      }
+      try {
+        const res = await api;
+        const users = res.data.result;
+        console.log(users);
+        setUserArray(users);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchRankingData();
+  }, [location.pathname, playerRoom, nickname]);
 
   // 해야할 것
   // 1. 문제수 추가할 것

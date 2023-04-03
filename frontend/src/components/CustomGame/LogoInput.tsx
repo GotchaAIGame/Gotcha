@@ -33,7 +33,7 @@ export default function LogoInput(props: any) {
             <input
               id="upload-brand-logo"
               type="file"
-              accept="image/*"
+              accept=".jpg, .jpeg .png"
               onChange={imgHandler}
               // ref={themeLogo}
             />
