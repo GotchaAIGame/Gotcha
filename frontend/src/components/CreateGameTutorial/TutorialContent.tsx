@@ -4,19 +4,16 @@ interface TutorialContentProps {
   contents: {
     contentId: number;
     title: string;
-    content: string;
-    imgSrc: string;
+    imgSrc: any;
   };
 }
 
 export default function TutorialContent({ contents }: TutorialContentProps) {
   return (
     <div className="tutorial-content-container" key={contents.contentId}>
-      <h3>{contents.title}</h3>
-      <p>{contents.content}</p>
+      {/* <h3>{contents.title}</h3> */}
       <div>
         <img src={contents.imgSrc} alt="" />
-        <p> 되냐? </p>
       </div>
     </div>
   );
