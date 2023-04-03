@@ -6,7 +6,20 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    animation: blink-bg 4s infinite;
+    animation: blink-bg 4s infinite ease;
+    z-index: -1;
+  }
+  .star1 {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    animation: blink-star 3s infinite;
+  }
+  .star2 {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    animation: throw-star 10s 1;
     z-index: -1;
   }
 }
@@ -304,5 +317,25 @@
   100% {
     background-image: url("../assets/fullBGPattern.svg");
     opacity: 0.6;
+  }
+}
+
+@keyframes blink-star {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes throw-star {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(200px, 300px) scale(1.2);
+    opacity: 1;
   }
 }

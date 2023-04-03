@@ -5,7 +5,7 @@ import Profile from "@components/CreatorMain/Profile";
 import GameListTap from "@components/CreatorMain/GameListTap";
 import "@styles/CreatorMainPage.scss";
 import GlobalNavbar from "@components/common/GlobalNavbar";
-import bgPattern from "@assets/fullBGPattern.svg";
+import bgStar1 from "@assets/bg-littile-start.svg";
 
 export default function CreatorMainPage() {
   const userNickname = useSelector((state: any) => state.users.nickname);
@@ -13,6 +13,8 @@ export default function CreatorMainPage() {
   return (
     <div className="creator-bg-container">
       <div className="creator-bg" />
+      {/* <img src={bgStar1} className="star1" alt="" /> */}
+      {/* <img src={bgStar1} className="star2" alt="" /> */}
       <Grid container className="creator-main-container">
         {userNickname && (
           <Grid item xs={11} md={9} className="welcome-text-wrapper">
