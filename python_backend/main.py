@@ -8,7 +8,7 @@ from api import api
 from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI(lifespan = utils.lifespan)
-app.mount('/api/game', api)
+app.mount('/api/python', api)
 
 # cors setting
 app.add_middleware(
