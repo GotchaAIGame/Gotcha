@@ -24,9 +24,6 @@ public class MemberUpdateRequest {
 	@Schema(description = "이메일")
 	private final String email;
 	@NotNull
-	@Schema(description = "가입경로")
-	private final String registrationId;
-	@NotNull
 	@Schema(description = "프로필 이미지")
 	private final String profileImage;
 
@@ -36,7 +33,6 @@ public class MemberUpdateRequest {
 			.nickname(nickname)
 			.organization(organization)
 			.email(email)
-			.registrationId(registrationId)
 			.profileImage(profileImage)
 			.build();
 	}
