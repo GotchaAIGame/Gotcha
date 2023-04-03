@@ -1,11 +1,20 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin";
 // @import "~slick-carousel/slick/slick.css";
 // @import "~slick-carousel/slick/slick-theme.css";
 
+.tutorial-page-container {
+  .go-game-button-wrapper {
+    Button {
+      margin-top: 30px;
+    }
+  }
+}
+
 // TutorialTab
 
-.tutorial-tab-main-container{
-  
+.tutorial-tab-main-container {
+  min-height: 65vh;
 }
 
 .tutorial-tab-buttons-container {
@@ -48,4 +57,12 @@
   &:before {
     color: $gray-2 !important;
   }
+  @include mobile {
+    display: none !important;
+  }
+}
+
+.slick-dots {
+  position: relative;
+  // top: 20px;
 }

@@ -15,7 +15,7 @@ import { resetGame } from "@stores/game/gameSlice";
 import { setLoading } from "@stores/loading/loadingSlice";
 
 export default function CreateGamePage() {
-  const [needHelp, setNeedHelp] = useState<boolean>(false);
+  const [needHelp, setNeedHelp] = useState<boolean>(true);
   const gameInfo = useSelector((state: any) => state.game);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -74,27 +74,27 @@ export default function CreateGamePage() {
       <Grid container className="create-game-grid-container">
         {needHelp ? (
           <Grid item xs={11} md={9}>
-            <CreateGameTutorialPage />
+            <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
           </Grid>
         ) : (
           <Grid item xs={11} md={9}>
             <InputGameInfo />
             <GameCardCarousel />
+            <Button text="생성" onClick={postGameCreate} />
+            <button
+              type="button"
+              onClick={tempHelperHandler}
+              className="helper-button"
+            >
+              <img
+                src={helpButton}
+                alt="helper"
+                title="도움말을 보시려면 클릭하세요"
+              />
+            </button>
           </Grid>
         )}
-        <button
-          type="button"
-          onClick={tempHelperHandler}
-          className="helper-button"
-        >
-          <img
-            src={helpButton}
-            alt="helper"
-            title="도움말을 보시려면 클릭하세요"
-          />
-        </button>
       </Grid>
-      <Button text="생성" onClick={postGameCreate} />
     </div>
   );
 }

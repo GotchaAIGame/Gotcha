@@ -16,7 +16,7 @@ export default function GameCard(props: any) {
 
   const goEdit = () => {
     navigate(`/edit/${gameInfo.code}`, {
-      state: { roomId: gameInfo.id },
+      state: { gamePin: gameInfo.code, roomId: gameInfo.id },
     });
   };
 

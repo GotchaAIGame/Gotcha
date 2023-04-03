@@ -27,7 +27,10 @@ export default function GlobalNavbar() {
     <header className="global-nav-header">
       {/* 게임 생성 페이지에서는 로고를 생략합니다. */}
       <Link to="/">
-        {location.pathname !== "/create/game" && <img src={logo} alt="logo" />}
+        {location.pathname !== "/create/game" ||
+          (location.pathname.startsWith("/edit") && (
+            <img src={logo} alt="logo" />
+          ))}
       </Link>
     </header>
   );

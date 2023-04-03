@@ -99,7 +99,21 @@ export default function CustomModal(props: any) {
 
   // 리워드 등록 on/off
   const rewardHandler = () => {
-    setIsRewardOpen(!isRewardOpen);
+    // reward를 삭제하고 싶은 경우 삭제 API
+    if (isRewardOpen === true) {
+      if (gameInfo.id) {
+        const roomId = gameInfo.id;
+        const result = creatorAPI.deleteRewards(roomId);
+        result.then((res) => {
+          console.log("리워드 삭제", res);
+          setIsRewardOpen(false);
+        });
+      }
+    }
+    // reward를 새로 등록
+    else if (isRewardOpen === false) {
+      setIsRewardOpen(true);
+    }
   };
 
   // 최종 확인버튼
@@ -166,12 +180,6 @@ export default function CustomModal(props: any) {
               console.log("리워드 수정 문제");
             });
         }
-
-        // 경품 제거를 한 경우: 기존 hasReward는 true인데 rewardOpen을 닫은 경우
-        else if (gameInfo.hasReward && !isRewardOpen) {
-          console.log("아직 경품 제거는 개발되지 않았습니다");
-        }
-
         // 단순히 테마 수정만 한 경우
         navigate(`/mypage/${nickname}`);
       })
@@ -218,18 +226,17 @@ export default function CustomModal(props: any) {
       <ColorInput themeColor={themeColor} colorHandler={colorHandler} />
       {isRewardOpen ? (
         <div>
+          <RewardsList
+            rewardsList={rewardsList}
+            setRewardsList={setRewardsList}
+          />
           <button
             type="button"
             className="add-reward-button"
             onClick={rewardHandler}
           >
-            <p className="plus-button">-</p>
             <p>경품 제거하기</p>
           </button>
-          <RewardsList
-            rewardsList={rewardsList}
-            setRewardsList={setRewardsList}
-          />
         </div>
       ) : (
         <button

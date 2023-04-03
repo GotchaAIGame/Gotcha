@@ -6,10 +6,11 @@
   justify-content: center;
   position: relative;
 }
+
 .helper-button {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 40px;
+  left: 50px;
   z-index: 999;
   background-color: inherit;
   width: 46px;
@@ -167,7 +168,7 @@
     border: 3px solid $gray-1;
   }
   .typing-header {
-    background-color: $gray-3;
+    background-color: $gray-5;
   }
 
   .typed-header {
@@ -244,7 +245,7 @@
     img {
       height: 200px;
       width: 200px;
-      object-fit: fill;
+      object-fit: contain;
     }
   }
 
@@ -267,13 +268,28 @@
     background-color: $lime;
   }
 
+  .typing-hint-text-box {
+    margin: 5px 28px;
+    display: flex;
+    white-space: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    color: $gray-2;
+    border: 1px solid $gray-2;
+    width: 42px;
+    min-width: 42px;
+    height: 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    background-color: $gray-5;
+  }
+
   .hint-input-wrapper {
     input {
       border-radius: 8px;
     }
   }
-}
-
-.card-wrapper-typing {
-  border: 1px solid $orange;
 }

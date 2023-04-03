@@ -81,6 +81,7 @@ export default function CustomGamePage() {
 
   return (
     <>
+    
     <CustomNavbar />
     <Grid container className="custom-page-main-container">
       <Grid item xs={12} md={9}>

@@ -11,7 +11,7 @@ import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
 import { resetGame } from "@stores/game/gameSlice";
 import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
-import CustomNavbar from "@components/common/CustomNavbar";
+import GlobalNav from "@components/common/GlobalNavbar";
 
 export default function EditGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
@@ -28,7 +28,6 @@ export default function EditGamePage() {
 
   // 게임 수정 put 요청
   const putGame = (e: React.MouseEvent<HTMLButtonElement>) => {
-
     // 제목, 기간, 정보 입력 여부 확인
     if (
       gameInfo.title &&
@@ -36,7 +35,7 @@ export default function EditGamePage() {
       gameInfo.endTime &&
       gameInfo.eventDesc
     ) {
-      // 수정할 값들 
+      // 수정할 값들
       const putInfo = {
         roomId,
         color: gameInfo.brandColor,
@@ -46,7 +45,7 @@ export default function EditGamePage() {
         eventDesc: gameInfo.eventDesc,
         startTime: gameInfo.startTime,
         endTime: gameInfo.endTime,
-      }
+      };
       const result = creatorAPI.putGameRoom(putInfo);
       result
         .then((res) => {
@@ -54,9 +53,10 @@ export default function EditGamePage() {
           console.log("보낸거");
           console.log(putInfo);
           console.log(res, "됐다");
+          console.log(gamePin);
           // 성공적으로 생성했다면 slice내용 비우기
-          dispatch(resetGame());
           navigate(`/custom/${gamePin}`, { state: { roomId } });
+          dispatch(resetGame());
         })
         .catch((res) => {
           console.log(res, "안됐다");
@@ -84,6 +84,7 @@ export default function EditGamePage() {
 
   return (
     <div>
+      <GlobalNav />
       <Grid container className="create-game-grid-container">
         {needHelp ? (
           <Grid item xs={11} md={9}>
@@ -107,7 +108,7 @@ export default function EditGamePage() {
           />
         </button>
       </Grid>
-      <Button text="생성" onClick={putGame} />
+      <Button text="수정" onClick={putGame} />
     </div>
   );
 }
