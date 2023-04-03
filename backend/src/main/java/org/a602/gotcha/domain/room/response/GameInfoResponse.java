@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.a602.gotcha.domain.room.entity.Room;
 
 @Builder
 @Getter
@@ -28,5 +29,15 @@ public class GameInfoResponse {
     @Schema(description = "리워드 존재 여부")
     private Boolean hasReward;
 
+    public static GameInfoResponse toResponse(Room room) {
+
+        return GameInfoResponse.builder()
+                .roomId(room.getId())
+                .color(room.getColor())
+                .logoUrl(room.getLogoUrl())
+                .title(room.getTitle())
+                .hasReward(room.getHasReward())
+                .build();
+    }
 }
 

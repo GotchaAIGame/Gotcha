@@ -50,13 +50,7 @@ public class RoomService {
         if (gameRoom.getEndTime().isBefore(LocalDateTime.now())) {
             throw new RoomExpiredException();
         }
-        return GameInfoResponse.builder()
-                .roomId(gameRoom.getId())
-                .color(gameRoom.getColor())
-                .logoUrl(gameRoom.getLogoUrl())
-                .title(gameRoom.getTitle())
-                .hasReward(gameRoom.getHasReward())
-                .build();
+        return GameInfoResponse.toResponse(gameRoom);
     }
 
     @Transactional(readOnly = true)
@@ -66,22 +60,12 @@ public class RoomService {
         if (rewards.isEmpty()) {
             throw new RewardNotFoundException();
         }
-        return rewards.stream()
-                .map(reward ->
-                        RewardListResponse.builder()
-                                .grade(reward.getGrade())
-                                .rewardName(reward.getName())
-                                .image(reward.getImage())
-                                .build()).collect(Collectors.toList());
+        return rewards.stream().map(RewardListResponse::toResponse).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public EventDetailResponse getEventDetail(Long roomId) {
-        Room room = findRoom(roomId);
-        return EventDetailResponse.builder()
-                .eventDesc(room.getEventDesc())
-                .eventUrl(room.getEventUrl())
-                .build();
+        return EventDetailResponse.toResponse(findRoom(roomId));
     }
 
     @Transactional
@@ -94,7 +78,7 @@ public class RoomService {
         int code = random.nextInt(90_0000) + 100_000;
         // 이미지가 없으면 기본 로고를 넣어주고, 있으면 s3에 업로드 후 url 값으로 넣어줌
         String uploadLogoUrl;
-        if(request.getLogoImage() == null) {
+        if (request.getLogoImage() == null) {
             uploadLogoUrl = "https://a602gotcha.s3.ap-northeast-2.amazonaws.com/Gotcha!+logo.svg";
         } else {
             String fileName = System.currentTimeMillis() + request.getTitle() + "logo";
@@ -129,11 +113,8 @@ public class RoomService {
 
         }
         Room savedRoom = roomRepository.save(room);
+        return CreateRoomResponse.toResponse(savedRoom);
 
-        return CreateRoomResponse.builder()
-                .id(savedRoom.getId())
-                .code(savedRoom.getCode())
-                .build();
 
     }
 
@@ -147,7 +128,7 @@ public class RoomService {
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(RoomNotFoundException::new);
         String uploadLogoUrl = request.getLogoImage();
-        if(!uploadLogoUrl.startsWith("https://")) {
+        if (!uploadLogoUrl.startsWith("https://")) {
             String fileName = System.currentTimeMillis() + request.getTitle() + "logo";
             uploadLogoUrl = s3Service.uploadImage(request.getLogoImage(), fileName);
         }

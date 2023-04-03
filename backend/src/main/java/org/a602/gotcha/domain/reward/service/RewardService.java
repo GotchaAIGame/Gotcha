@@ -52,7 +52,7 @@ public class RewardService {
             Long rewardId = updateRewardDTO.getRewardId();
             Reward reward;
             String imageUrl = updateRewardDTO.getImage();
-            if(!updateRewardDTO.getImage().startsWith("https://")) {
+            if (!updateRewardDTO.getImage().startsWith("https://")) {
                 String fileName = System.currentTimeMillis() + room.getTitle() + "reward";
                 imageUrl = s3Service.uploadImage(updateRewardDTO.getImage(), fileName);
             }
@@ -66,7 +66,10 @@ public class RewardService {
                 newRewardList.add(newReward);
             }
         }
-        rewardRepository.saveAll(newRewardList);
+        if (!newRewardList.isEmpty()) {
+            rewardRepository.saveAll(newRewardList);
+        }
+
     }
 
     @Transactional

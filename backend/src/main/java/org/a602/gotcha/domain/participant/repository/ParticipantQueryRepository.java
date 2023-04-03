@@ -25,6 +25,7 @@ public class ParticipantQueryRepository {
     public List<Participant> getAllRank(Long roomId) {
         return query.selectFrom(participant)
                 .join(participant.room, room)
+                .fetchJoin()
                 .where(participant.room.id.eq(roomId),
                         participant.isFinished.isTrue())
                 .orderBy(
@@ -36,6 +37,7 @@ public class ParticipantQueryRepository {
     public List<Participant> getTop3Rank(Long roomId) {
         return query.selectFrom(participant)
                 .join(participant.room, room)
+                .fetchJoin()
                 .where(participant.room.id.eq(roomId),
                         participant.isFinished.isTrue())
                 .orderBy(
@@ -50,6 +52,7 @@ public class ParticipantQueryRepository {
         // Count the number of participants with a lower duration in the same room
         long rank = query.selectFrom(participant)
                 .join(participant.room, room)
+                .fetchJoin()
                 .where(
                         participant.room.id.eq(roomId),
                         participant.isFinished.isTrue(),

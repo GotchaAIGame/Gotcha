@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.a602.gotcha.domain.problem.entity.Problem;
 
 @Builder
 @Getter
@@ -21,5 +22,15 @@ public class ProblemListResponse {
 
     @Schema(description = "보물(문제) 이미지 URL")
     private String problemImgURL;
+
+
+    public static ProblemListResponse toResponse(Problem problem) {
+        return ProblemListResponse.builder()
+                .problemId(problem.getId())
+                .problemName(problem.getName())
+                .problemImgURL(problem.getImageUrl())
+                .build();
+
+    }
 
 }
