@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gamePlayAPI } from "@apis/apis";
 import { setTheme } from "@stores/player/themeSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function InputPinNum() {
   const [inputPin, setInputPin] = useState<any>("");
@@ -18,7 +18,7 @@ export default function InputPinNum() {
       const request = gamePlayAPI.enter(inputPin);
       request
         .then((res) => {
-          console.log(res.data.result);
+          console.log(res.data.result, "핀에 따른 결과");
           const room = res.data.result.roomId;
           const { roomId, color, logoUrl, title, hasReward } = res.data.result;
           dispatch(

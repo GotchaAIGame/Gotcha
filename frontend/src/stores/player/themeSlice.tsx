@@ -38,30 +38,15 @@ export const themeSlice = createSlice({
         themeTitle: string;
       }>
     ) => {
-      const { themeColor, themeLogo, themeTitle } = action.payload;
-      return {
-        ...state,
-        themeColor,
-        themeLogo,
-        themeTitle,
-      };
-    },
-
-    // 참여자 정보
-    setPlayer: (
-      state,
-      action: PayloadAction<{
-        room: number; // roomId
-        nickname: string; // 닉네임
-        startTime: string; // 시작시간
-      }>
-    ) => {
-      const { room, nickname, startTime } = action.payload;
+      const { room, reward, themeColor, themeLogo, themeTitle } =
+        action.payload;
       return {
         ...state,
         room,
-        nickname,
-        startTime,
+        reward,
+        themeColor,
+        themeLogo,
+        themeTitle,
       };
     },
     // 게임 정보 초기화
@@ -69,5 +54,5 @@ export const themeSlice = createSlice({
   },
 });
 
-export const { setTheme, setPlayer, resetTheme } = themeSlice.actions;
+export const { setTheme, resetTheme } = themeSlice.actions;
 export default themeSlice.reducer;
