@@ -29,6 +29,9 @@ public class GameInfoResponse {
     @Schema(description = "리워드 존재 여부")
     private Boolean hasReward;
 
+    @Schema(description = "이벤트 설명")
+    private String eventDesc;
+
     public static GameInfoResponse toResponse(Room room) {
 
         return GameInfoResponse.builder()
@@ -37,6 +40,7 @@ public class GameInfoResponse {
                 .logoUrl(room.getLogoUrl())
                 .title(room.getTitle())
                 .hasReward(room.getHasReward())
+                .eventDesc(room.getEventDesc())
                 .build();
     }
 }
