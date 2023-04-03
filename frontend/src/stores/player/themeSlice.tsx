@@ -9,6 +9,7 @@ interface ThemeState {
   themeColor: string; // color
   themeLogo: string; // logoUrl
   themeTitle: string; // title
+  eventDesc?: string;
 }
 
 const initialState: ThemeState = {
@@ -17,6 +18,7 @@ const initialState: ThemeState = {
   themeColor: "#5551FF",
   themeLogo: logo,
   themeTitle: "",
+  eventDesc: "",
 };
 
 const resetState = () => {
@@ -36,6 +38,7 @@ export const themeSlice = createSlice({
         themeColor: string;
         themeLogo: string;
         themeTitle: string;
+        eventDesc?: string;
       }>
     ) => {
       const { room, reward, themeColor, themeLogo, themeTitle } =
