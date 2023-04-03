@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
 import Routers from "./pages/Routers";
-import Navbar from "./components/common/Navbar";
+import Navbar from "./components/common/GlobalNavbar";
 import Footbar from "./components/common/Footbar";
 import AutoToTop from "./components/common/AutoToTop";
 import "./styles/App.scss";
@@ -41,13 +41,13 @@ function App() {
     <div className="App">
       <AutoToTop />
       <div className="app-main-container">
-        <Navbar />
+        {/* <Navbar /> */}
         <div>
           <Routers />
         </div>
       </div>
       <footer>
-        <Footbar />
+        {/* <Footbar /> */}
       </footer>
     </div>
   );

@@ -79,10 +79,12 @@ export default function GameListTap() {
           종료
         </button>
       </div>
-      {isOpen.entire && <EntireGames createGames={createGames} />}
-      {isOpen.ongoing && <OnGoingGames createGames={createGames}/>}
-      {isOpen.before && <BeforeStartedGames createGames={createGames}/>}
-      {isOpen.finished && <FinishedGames createGames={createGames}/>}
+      <div className="all-card-container">
+        {isOpen.entire && <EntireGames createGames={createGames} />}
+        {isOpen.ongoing && <OnGoingGames createGames={createGames} />}
+        {isOpen.before && <BeforeStartedGames createGames={createGames} />}
+        {isOpen.finished && <FinishedGames createGames={createGames} />}
+      </div>
       <Link to="/create/game" className="create-button-wrapper">
         <Button color="lime" size="small" text="생성하기" />
       </Link>

@@ -11,11 +11,11 @@ export default function EntireGames(props: any) {
   // });
 
   return (
-    <div>
+    <>
       {createGames.map((item: any) => {
         return <GameCard gameInfo={item} key={item.id} />;
       })}
       {/* <GameCard /> */}
-    </div>
+    </>
   );
 }

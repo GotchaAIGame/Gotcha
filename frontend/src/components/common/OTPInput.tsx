@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 // 참고: https://dominicarrojado.com/posts/how-to-create-your-own-otp-input-in-react-and-typescript-with-tests-part-1/
 import React, { useMemo } from "react";
@@ -86,6 +87,9 @@ export default function OTPInput({
           inputMode="numeric"
           autoComplete="one-time-code"
           pattern="\d{1}"
+          placeholder={
+            idx === 0 ? "비" : idx === 1 ? "밀" : idx === 2 ? "번" : "호"
+          }
           maxLength={valueLength}
           value={digit}
           onChange={(e) => inputOnChange(e, idx)}

@@ -6,7 +6,7 @@ export default function OnGoingGames(props: any) {
   const today = new Date();
 
   return (
-    <div>
+    <>
       {createGames.map((item: any) => {
         const start = new Date(item.startTime);
         const end = new Date(item.endTime);
@@ -18,6 +18,6 @@ export default function OnGoingGames(props: any) {
         return null;
       })}
       {/* <GameCard /> */}
-    </div>
+    </>
   );
 }
