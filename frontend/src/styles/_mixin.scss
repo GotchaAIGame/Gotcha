@@ -11,3 +11,30 @@
     @content;
   }
 }
+
+@mixin fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-in-out forwards;
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px); /* 애니메이션 시작 시 위치 지정 */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* 애니메이션 종료 시 위치 지정 */
+    }
+  }
+}
+
+@mixin fadeOut {
+  animation: fadeOut 0.6s ease-in-out forwards;
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
