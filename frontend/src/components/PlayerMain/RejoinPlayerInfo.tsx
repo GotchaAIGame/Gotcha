@@ -95,7 +95,7 @@ export default function RejoinPlayerInfo() {
       // console.log(nicknameValue);
       const request = dispatch(reStart({ roomId, nickname, password }));
       request.then(() => {
-        navigate(`/game/${roomPin}`);
+        navigate(`/game/${roomPin}`, { state: { roomId, nickname } });
       });
     }
   };

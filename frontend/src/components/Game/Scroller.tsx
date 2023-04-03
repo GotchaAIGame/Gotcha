@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import { useAppSelector } from "@stores/storeHooks";
 
 interface dropDownProps {
   setOpen: () => void;
@@ -12,7 +14,7 @@ function DropDown(props: dropDownProps) {
   const clickHandler = (idx: number) => {
     const offset = locs[idx];
     window.scrollTo({
-      top: offset + window.innerHeight / 3,
+      top: offset + window.innerHeight / 3.5,
       behavior: "smooth",
     });
   };
@@ -39,6 +41,7 @@ function DropDown(props: dropDownProps) {
 }
 
 function Scroller(props: { data: string[]; locs: number[] }) {
+  const { themeColor } = useAppSelector((state) => state.theme);
   const { data, locs } = props;
   const [open, setOpen] = useState(false);
 
@@ -49,7 +52,7 @@ function Scroller(props: { data: string[]; locs: number[] }) {
   return (
     <div className="scroller-wrapper">
       <button type="button" className="scroller-button" onClick={openHandler}>
-        <h1> + </h1>
+        <UnfoldMoreIcon sx={{ fontSize: 40, color: `${themeColor}` }} />
       </button>
       {open && <DropDown setOpen={openHandler} data={data} locs={locs} />}
     </div>
