@@ -9,12 +9,6 @@ export default function PlayerNewGamePage() {
   const themeColor = useSelector((state: any) => state.theme.themeColor);
   const themeLogo = useSelector((state: any) => state.theme.themeLogo);
 
-  const tempHandler = () => {
-    // dispatch(registerUser({ roomId: 2, nickname: "veomchan", password: 1234 }));
-    // navigate(`/game/${location.state.inputPin}`, { state: { roomId: 2, authorized: true } });
-    console.log("눌림");
-  };
-
   return (
     <div
       className="player-info-container"
@@ -31,9 +25,6 @@ export default function PlayerNewGamePage() {
         roomPin={location.state.inputPin}
         roomId={location.state.room}
       />
-      <button type="button" onClick={tempHandler}>
-        실험
-      </button>
     </div>
   );
 }

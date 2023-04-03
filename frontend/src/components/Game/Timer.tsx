@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useAppSelector } from "@stores/storeHooks";
 
 function Timer() {
   // Temp Data
-  const startTime = new Date(2023, 2, 23, 9, 17, 0).getTime(); // year, month(0-index), day, hour, min, sec
+  const startTime = useAppSelector((state) => state.gamePlay.startTime);
   const [days, setDays] = useState("");
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
@@ -11,9 +12,11 @@ function Timer() {
   const stopFlag = false;
   const { themeColor } = useSelector((state: any) => state.theme);
 
+  console.log(startTime);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      const timegap = Date.now() - startTime;
+      const timegap = Date.now() - Date.parse(startTime);
       setDays(
         String(Math.floor(timegap / (1000 * 60 * 60 * 24))).padStart(2, "0")
       );

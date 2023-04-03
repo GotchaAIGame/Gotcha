@@ -3,6 +3,8 @@ import request from "./agents";
 
 // APis about game play
 const gamePlayAPI = {
+  duplicate: (roomId: number, nickname: string): Promise<AxiosResponse> =>
+    request.post("/game/duplicate", { roomId, nickname }),
   register: (
     roomId: number,
     nickname: string,

@@ -145,7 +145,12 @@ const gamePlaySlice = createSlice({
         startTime: string; // 시작시간
       }>
     ) => {
-      const { roomId, nickname, startTime } = action.payload;
+      const { roomId, nickname } = action.payload;
+      let { startTime } = action.payload;
+      if (!startTime.endsWith("Z")) {
+        startTime += "Z";
+      }
+
       return {
         ...state,
         roomId,
@@ -156,10 +161,15 @@ const gamePlaySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(RegisterandStart.fulfilled, (state, action) => {
-      const { responseStart, roomId, nickname, password, startDateTime } =
-        action.payload;
+      const {
+        responseStart,
+        roomId,
+        nickname,
+        password,
+        startDateTime,
+        responseRegister,
+      } = action.payload;
       const { data } = responseStart;
-
       const newSolved = data.result.map((problem: any) => {
         return { id: problem.problemId, solved: false };
       });
