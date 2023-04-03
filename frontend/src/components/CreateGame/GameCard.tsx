@@ -106,12 +106,12 @@ export default function GameCard(Props: any) {
     }
   }, [problemInfo, inputImage]);
 
-  const wrapperClass = isTyping ? "card-wrapper-typing" : "card-wrapper";
+  const typingClass = isTyping ? "typing" : "typed";
 
   return (
     <div>
       <div
-        className={wrapperClass}
+        className="card-wrapper"
         title={isTyping ? "문제 내용을 입력해 주세요" : ""}
       >
         <header className={isTyping ? "typing-header" : "typed-header"}>
@@ -159,7 +159,7 @@ export default function GameCard(Props: any) {
             </label>
           )}
         </div>
-        <div className="hint-text-box">힌트</div>
+        <div className={isTyping ? "typing-hint-text-box" : "hint-text-box" }>힌트</div>
         <div className="hint-input-wrapper">
           <input
             type="text"

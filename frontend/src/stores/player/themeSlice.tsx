@@ -41,13 +41,15 @@ export const themeSlice = createSlice({
         eventDesc?: string;
       }>
     ) => {
-      const { themeColor, themeLogo, themeTitle, eventDesc } = action.payload;
+      const { room, reward, themeColor, themeLogo, themeTitle } =
+        action.payload;
       return {
         ...state,
+        room,
+        reward,
         themeColor,
         themeLogo,
         themeTitle,
-        eventDesc,
       };
     },
     // 게임 정보 초기화

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gamePlayAPI } from "@apis/apis";
 import { setTheme } from "@stores/player/themeSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function InputPinNum() {
   const [inputPin, setInputPin] = useState<any>("");
+  const [pinWritten, setPinWritten] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -13,10 +14,11 @@ export default function InputPinNum() {
   const enterHandler = (type: number) => {
     // Pin번호 6자리
     if (inputPin.toString().length === 6) {
+      setPinWritten(true);
       const request = gamePlayAPI.enter(inputPin);
       request
         .then((res) => {
-          console.log(res.data.result);
+          console.log(res.data.result, "핀에 따른 결과");
           const room = res.data.result.roomId;
           const { roomId, color, logoUrl, title, hasReward, eventDesc } =
             res.data.result;
@@ -48,28 +50,41 @@ export default function InputPinNum() {
     }
   };
 
+  useEffect(() => {
+    if (inputPin.toString().length === 6) {
+      setPinWritten(true);
+    } else {
+      setPinWritten(false);
+    }
+  }, [pinWritten, inputPin]);
+
   return (
     <div className="input-pin-num-container">
       <input
+        className={pinWritten ? "input-written-pin-num" : "input-pin-num"}
         type="number"
-        placeholder="PIN번호를 입력해주세요"
+        placeholder="게임 PIN번호 입력"
         value={inputPin.toString()}
         onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // useRef로 바꿀 것
       />
-      <button
-        className="newgame-link"
-        type="button"
-        onClick={() => enterHandler(1)}
-      >
-        처음이에요!
-      </button>
-      <button
-        className="rejoin-link"
-        type="button"
-        onClick={() => enterHandler(2)}
-      >
-        이어하기 / 랭킹보기
-      </button>
+      {inputPin.toString().length === 6 && (
+        <>
+          <button
+            className="newgame-link"
+            type="button"
+            onClick={() => enterHandler(1)}
+          >
+            처음이에요!
+          </button>
+          <button
+            className="rejoin-link"
+            type="button"
+            onClick={() => enterHandler(2)}
+          >
+            이어하기 / 랭킹보기
+          </button>
+        </>
+      )}
     </div>
   );
 }

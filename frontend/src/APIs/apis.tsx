@@ -153,9 +153,9 @@ const creatorAPI = {
   }): Promise<AxiosResponse> => request.authPut("set/reward", rewardsInfo),
 
   // 보상제거
-  deleteRewards: (roomId: number, rewardId: number): Promise<AxiosResponse> =>
+  deleteRewards: (roomId: number): Promise<AxiosResponse> =>
     request.authDelete(`set/reward`, {
-      params: { roomId, rewardId },
+      params: { roomId },
     }),
 
   // 단일 문제 제거

@@ -43,6 +43,12 @@
   span:nth-child(8) {
     animation-delay: 0.7s;
   }
+  span:nth-child(9) {
+    animation-delay: 0.8s;
+  }
+  span:nth-child(10) {
+    animation-delay: 0.9s;
+  }
   @keyframes loading {
     0% {
       transform: scale(1);

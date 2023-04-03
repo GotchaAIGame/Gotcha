@@ -1,5 +1,29 @@
 @import "@styles/Colors.scss";
 
+.creator-bg-container {
+  margin-top: 15px;
+  .creator-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: blink-bg 4s infinite ease;
+    z-index: -1;
+  }
+  .star1 {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    animation: blink-star 3s infinite;
+  }
+  .star2 {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    animation: throw-star 10s 1;
+    z-index: -1;
+  }
+}
+
 .creator-main-container {
   justify-content: center;
 
@@ -18,6 +42,7 @@
   .creator-main-items-container {
     border-radius: 30px;
     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
+    background-color: white;
     padding-top: 1%;
     padding-bottom: 3%;
     margin-bottom: 3%;
@@ -25,7 +50,7 @@
 
   .profile-wrapper {
     // 상단 위치
-    margin-top: 85px;
+    margin-top: 65px;
   }
 
   // md영역 기점으로 크기 조정
@@ -48,7 +73,7 @@
   .profile-wrapper {
     img {
       width: 100%;
-      max-width: 200px;
+      max-width: 180px;
       object-fit: cover;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
@@ -158,7 +183,7 @@
 .all-card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
   padding: 0 10%;
 }
@@ -264,5 +289,53 @@
       width: 100px !important;
       height: 40px !important;
     }
+  }
+}
+
+.make-new-game-alert {
+  text-align: center;
+  margin: 50px auto;
+  p {
+    padding: 0;
+    margin: 5px;
+    font-size: 1.25rem;
+    // -webkit-text-stroke: 1px #000;
+    color: $blue-1;
+    font-weight: 700;
+  }
+}
+
+@keyframes blink-bg {
+  0% {
+    background-image: url("../assets/fullBGPattern.svg");
+    opacity: 0.6;
+  }
+  50% {
+    background-image: url("../assets/fullBGPattern.svg");
+    opacity: 1;
+  }
+  100% {
+    background-image: url("../assets/fullBGPattern.svg");
+    opacity: 0.6;
+  }
+}
+
+@keyframes blink-star {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes throw-star {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(200px, 300px) scale(1.2);
+    opacity: 1;
   }
 }
