@@ -8,6 +8,7 @@ import helpButton from "@assets/helpButton.svg";
 import Button from "@components/common/Button";
 import Loading from "@components/common/Loading";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
+import GlobalNavbar from "@components/common/GlobalNavbar";
 import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
 import { resetGame } from "@stores/game/gameSlice";
@@ -68,6 +69,7 @@ export default function CreateGamePage() {
 
   return (
     <div>
+      <GlobalNavbar />
       {isLoading.loading && <Loading />}
       <Grid container className="create-game-grid-container">
         {needHelp ? (
