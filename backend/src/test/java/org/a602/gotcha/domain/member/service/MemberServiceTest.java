@@ -18,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
@@ -36,8 +35,6 @@ public class MemberServiceTest {
 	private MemberService memberService;
 	@Mock
 	private MemberRepository memberRepository;
-	@Mock
-	private PasswordEncoder passwordEncoder;
 
 	@Test
 	@DisplayName("signupNickNameDuplicate는 같은 닉네임이 있을경우 false 반환.")
@@ -100,7 +97,6 @@ public class MemberServiceTest {
 				newNickName,
 				organization,
 				email,
-				registrationId,
 				profileImage
 			);
 
