@@ -45,7 +45,7 @@ export default function ModalTestPage2() {
           테스트 버튼
         </button>
       </div>
-      <AIModal
+      {/* <AIModal
         open={modalOpen1}
         openHandler={() => {
           modalHandler();
@@ -53,7 +53,7 @@ export default function ModalTestPage2() {
         resultStatus={resultStatus}
         resultHandler={resultHandler}
         imageURL=""
-      />
+      /> */}
       <div className="ml-test-div">
         <p> 원본 데이터 </p>
         <img src={imgURL} alt="원본" height="300px" />

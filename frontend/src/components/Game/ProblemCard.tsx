@@ -1,8 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useAppSelector } from "@stores/storeHooks";
 import Cropper, { ReactCropperElement } from "react-cropper";
+import { gamePlayAPI } from "@apis/apis";
 
 import "@styles/cropper.scss";
+import right from "@assets/right.svg"
 import Button from "@components/common/Button";
 import AIModal from "./AIModal";
 
@@ -13,6 +15,8 @@ interface problemProps {
     problemDesc: string;
     problemImgURL: string;
   };
+  index : string;
+  solved : boolean;
 }
 
 function ProblemCard(props: problemProps) {
@@ -20,23 +24,26 @@ function ProblemCard(props: problemProps) {
 
   const uploadImage = useRef<HTMLInputElement>(null);
   const croppedImageRef = useRef<ReactCropperElement>(null);
-
+  
+  const [hintOpen, setHintOpen]= useState(false)
   const [editorOpen, setEditorOpen] = useState(false);
   const [AIModalOpen, setAIModalOpen] = useState(false);
   const [croppedImage, setCroppedImage] = useState<string>("");
-  const [resultStatus, setResultStatus] = useState<number>(0);
   const [Image, setImage] = useState<string>("");
 
-  const { problem } = props;
-  const { problemId, problemName, problemDesc, problemImgURL } = problem;
-  const hasImage = false;
+
+  const { problem, index, solved } = props;
+  const { problemName, problemImgURL, problemId } = problem;
+  const [problemHint, setProblemHint] = useState("");
 
   const cropperHandler = () => {
+    // console.log(croppedImageRef.current, "xx")
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedImage = croppedImageRef.current?.cropper
-        .getCroppedCanvas()
+        .getCroppedCanvas({maxHeight : 500, maxWidth : 500})
         .toDataURL();
 
+      console.log(croppedImageRef.current?.cropper, "XXXXX")
       setCroppedImage(tempCroppedImage);
       setAIModalOpen(true);
     }
@@ -46,10 +53,25 @@ function ProblemCard(props: problemProps) {
     const files = uploadImage.current?.files;
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
+      // console.log(files[0], "xxx")
       setEditorOpen(true);
       setImage(fileURL);
     }
   };
+
+  const hintHandler = () => {
+    setHintOpen(!hintOpen)
+    if (!problemHint){
+    gamePlayAPI.getHint(problemId).then((res) =>
+    {
+      const hint = res.data.result
+      setProblemHint(hint)
+    }
+    )
+  }
+  }
+
+  // console.log(index, "index 받았는데 ㅜㅠ")
 
   return (
     <>
@@ -62,22 +84,30 @@ function ProblemCard(props: problemProps) {
         </div>
         <div className="inner-card-container">
           <div className="original-image-container">
+            
+          <div className="problem-hint-button">
+            <Button text="hint" size="xxsmall" onClick={() => {hintHandler()}}/>
+          </div>
+          {hintOpen &&
+            <div className="problem-hint-description">
+              <p className="hint-text"> {problemHint} </p>
+            </div>}
             <img src={problemImgURL} alt={problemName} />
           </div>
 
           <div className="input-image-container">
-            {hasImage ? (
+            {solved ? (
               <img
-                src="https://user-images.githubusercontent.com/47023884/225485195-f44d038c-a859-436c-ba1a-fb27c7414062.png"
-                alt="yuegui"
+                src={right}
+                alt="right"
               />
             ) : (
               <form className="empty-image-container">
-                <label htmlFor="upload">
+                <label htmlFor={`upload ${index}`}>
                   <p className="plus"> + </p>
                   <h5 id="take-pic"> 사진 찍기 </h5>
                   <input
-                    id="upload"
+                    id={`upload ${index}`}
                     type="file"
                     accept="image/*"
                     ref={uploadImage}
@@ -122,7 +152,7 @@ function ProblemCard(props: problemProps) {
                 text="제출하기"
                 color="skyblue"
                 onClick={() => {
-                  console.log("안녕하세요");
+                  // console.log("안녕하세요");
                   cropperHandler();
                   setEditorOpen(false);
                 }}
@@ -132,13 +162,11 @@ function ProblemCard(props: problemProps) {
         </div>
       )}
       <AIModal
+        index = {index}
+        problemImage = {problemImgURL}
         imageURL={croppedImage}
         open={AIModalOpen}
         openHandler={() => setAIModalOpen(false)}
-        resultStatus={resultStatus}
-        resultHandler={(status: number) => {
-          setResultStatus(status);
-        }}
       />
     </>
   );

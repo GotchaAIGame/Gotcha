@@ -54,7 +54,7 @@ export default function PlayerInfo(props : {roomPin : number, roomId : number}) 
       // when every infos input are valid
       const nickname = nicknameInputRef.current?.value as string
       dispatch(RegisterandStart({roomId, nickname, password : otp}))
-      navigate(`/game/${roomPin}`)
+      navigate(`/game/${roomPin}`, {state : {roomId, nickname}})
     }
   };
 
