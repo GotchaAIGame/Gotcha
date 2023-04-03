@@ -59,7 +59,12 @@ export default function ModalTestPage2() {
         <img src={imgURL} alt="원본" height="300px" />
         <form>
           <label htmlFor="upload">
-            <input id="upload" type="file" accept="image/*" ref={inputRef} />
+            <input
+              id="upload"
+              type="file"
+              accept=".jpg, .jpeg .png"
+              ref={inputRef}
+            />
             <button type="submit" onClick={predictHandler}>
               제출하기
             </button>

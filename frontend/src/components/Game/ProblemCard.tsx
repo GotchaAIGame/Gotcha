@@ -84,23 +84,26 @@ function ProblemCard(props: problemProps) {
         </div>
         <div className="inner-card-container">
           <div className="original-image-container">
-            
-          <div className="problem-hint-button">
-            <Button text="hint" size="xxsmall" onClick={() => {hintHandler()}}/>
-          </div>
-          {hintOpen &&
-            <div className="problem-hint-description">
-              <p className="hint-text"> {problemHint} </p>
-            </div>}
+            <div className="problem-hint-button">
+              <Button
+                text="hint"
+                size="xxsmall"
+                onClick={() => {
+                  hintHandler();
+                }}
+              />
+            </div>
+            {hintOpen && (
+              <div className="problem-hint-description">
+                <p className="hint-text"> {problemHint} </p>
+              </div>
+            )}
             <img src={problemImgURL} alt={problemName} />
           </div>
 
           <div className="input-image-container">
             {solved ? (
-              <img
-                src={right}
-                alt="right"
-              />
+              <img src={right} alt="right" />
             ) : (
               <form className="empty-image-container">
                 <label htmlFor={`upload ${index}`}>
@@ -109,7 +112,7 @@ function ProblemCard(props: problemProps) {
                   <input
                     id={`upload ${index}`}
                     type="file"
-                    accept="image/*"
+                    accept=".jpg, .jpeg .png"
                     ref={uploadImage}
                     onChange={uploadHandler}
                     className="invisible"
@@ -162,8 +165,8 @@ function ProblemCard(props: problemProps) {
         </div>
       )}
       <AIModal
-        index = {index}
-        problemImage = {problemImgURL}
+        index={index}
+        problemImage={problemImgURL}
         imageURL={croppedImage}
         open={AIModalOpen}
         openHandler={() => setAIModalOpen(false)}
