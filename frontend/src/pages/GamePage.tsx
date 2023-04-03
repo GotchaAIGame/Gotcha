@@ -48,6 +48,7 @@ export default function GamePage() {
 
     localStorage.removeItem("curUserInfo");
     localStorage.removeItem("solved");
+    modalHandler();
     navigate("/");
     alert("고생하셨습니다.");
   };
@@ -64,8 +65,14 @@ export default function GamePage() {
       </Grid>
       <Button text="게임 종료" onClick={modalHandler} />
       {modalOpen && (
-        <Modal open={modalOpen} modalHandler={modalHandler}>
-          넹
+        <Modal
+          open={modalOpen}
+          modalHandler={modalHandler}
+          btnType="right-two"
+          mainBtnHandler={gameEndHandler}
+        >
+          <h5> 정말 종료하시겠습니까? </h5>
+          <p> 게임이 종료되면 다시 접속할 수 없습니다.</p>
         </Modal>
       )}
     </>

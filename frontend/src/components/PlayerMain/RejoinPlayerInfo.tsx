@@ -97,7 +97,7 @@ export default function RejoinPlayerInfo() {
 
   // <랭킹보기> 버튼 클릭
   const rankClickHandler = () => {
-    navigate(`/game/${roomPin}/rank`);
+    navigate(`/game/${roomPin}/rank`, { state: { roomId } });
   };
 
   return (
