@@ -18,7 +18,8 @@ export default function InputPinNum() {
         .then((res) => {
           console.log(res.data.result);
           const room = res.data.result.roomId;
-          const { roomId, color, logoUrl, title, hasReward } = res.data.result;
+          const { roomId, color, logoUrl, title, hasReward, eventDesc } =
+            res.data.result;
           dispatch(
             setTheme({
               room: roomId,
@@ -26,6 +27,7 @@ export default function InputPinNum() {
               themeColor: color,
               themeLogo: logoUrl,
               themeTitle: title,
+              eventDesc,
             })
           );
           if (type === 1) {

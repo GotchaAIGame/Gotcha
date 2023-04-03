@@ -9,6 +9,7 @@ interface ThemeState {
   themeColor: string; // color
   themeLogo: string; // logoUrl
   themeTitle: string; // title
+  eventDesc?: string;
 }
 
 const initialState: ThemeState = {
@@ -17,6 +18,7 @@ const initialState: ThemeState = {
   themeColor: "#5551FF",
   themeLogo: logo,
   themeTitle: "",
+  eventDesc: "",
 };
 
 const resetState = () => {
@@ -36,14 +38,16 @@ export const themeSlice = createSlice({
         themeColor: string;
         themeLogo: string;
         themeTitle: string;
+        eventDesc?: string;
       }>
     ) => {
-      const { themeColor, themeLogo, themeTitle } = action.payload;
+      const { themeColor, themeLogo, themeTitle, eventDesc } = action.payload;
       return {
         ...state,
         themeColor,
         themeLogo,
         themeTitle,
+        eventDesc,
       };
     },
     // 게임 정보 초기화
