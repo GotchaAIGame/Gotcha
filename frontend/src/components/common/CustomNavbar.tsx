@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./styles/CustomNavbar.scss";
 import { Link } from "react-router-dom";
+import helpBtn from "@assets/helpButton.svg";
 
 export default function CustomNavbar() {
   const themeColor = useSelector((state: any) => state.theme.themeColor);
@@ -17,7 +18,12 @@ export default function CustomNavbar() {
       <Link to="/">
         <img src={themeLogo} alt="로고" />
       </Link>
-      <h3 className="custom-title-wrapper">{themeTitle}</h3>
+      <div className="title-button-container">
+        <h3 className="custom-title-wrapper">{themeTitle}</h3>
+        <button type="button" className="game-detail-button">
+          <img src={helpBtn} className="game-detail-button-img" alt="zz" />
+        </button>
+      </div>
     </header>
   );
 }

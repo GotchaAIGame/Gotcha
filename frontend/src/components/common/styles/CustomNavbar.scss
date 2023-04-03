@@ -5,35 +5,57 @@
   height: 140px;
   background-image: url("../../../assets/defaultBanner.svg");
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   img {
     max-width: 300px;
     max-height: 100px;
   }
 
-  .custom-title-wrapper {
-    border-radius: 20px;
-    border: solid 1px $gray-1;
-    position: absolute;
-    top: 100px;
-    background-color: white;
+  .title-button-container {
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 10px;
-    height: 60px;
 
-    @include desktop {
-      width: 70%;
+    .custom-title-wrapper {
+      border-radius: 20px;
+      border: solid 1px $gray-1;
+      position: relative;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 10px;
+      height: 60px;
+
+      @include desktop {
+        width: 70%;
+      }
+      @include mobile {
+        width: 80%;
+        min-width: 250px;
+        font-size: 1.125rem;
+      }
     }
-    @include mobile {
-      width: 80%;
-      min-width: 250px;
-      font-size: 1.125rem;
+    .game-detail-button {
+      position: absolute;
+      top: -17.5px;
+      right: 100px;
+      background: none;
+      border: none;
+      width: 30px;
+      height: 30px;
+
+      @include desktop {
+        left: 80%;
+      }
+      @include mobile {
+        left: 70%;
+      }
+
+      img {
+        width: 30px;
+      }
     }
   }
 }
