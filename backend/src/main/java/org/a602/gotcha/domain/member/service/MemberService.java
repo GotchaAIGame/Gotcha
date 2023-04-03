@@ -13,6 +13,7 @@ import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
 import org.a602.gotcha.domain.member.response.MemberInformationResponse;
 import org.a602.gotcha.domain.member.response.MemberLoginResponse;
 import org.a602.gotcha.domain.member.response.MemberUpdateResponse;
+import org.a602.gotcha.global.common.S3Service;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,9 +26,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+	public static final String PROFILE_IMAGE = "profileImage";
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final S3Service s3Service;
 
 	@Transactional
 	public Long signup(final MemberSignupRequest memberSignupRequest) {
@@ -75,10 +78,8 @@ public class MemberService {
 	public String logout(final MemberLogoutRequest memberLogoutRequest) {
 		// logout유저가 새로 로그인 할 시 토큰을 새로 만들어서 로그인.
 		// 기존 logout처리했던 토큰은 유효시간 지나면 자동으로 삭제됌.
-		jwtTokenProvider.registerLogoutUser(memberLogoutRequest)
+		return jwtTokenProvider.registerLogoutUser(memberLogoutRequest)
 			.orElseThrow(() -> new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage()));
-
-		return memberLogoutRequest.getRefreshToken();
 	}
 
 	public MemberInformationResponse findMemberInformation(final Long id) {
@@ -101,7 +102,14 @@ public class MemberService {
 		final Member member = memberRepository.findById(memberUpdateRequest.getId())
 			.orElseThrow(MemberNotFoundException::new);
 
-		member.updateMember(memberUpdateRequest.toEntity());
+		String uploadImageUrl = null;
+
+		if (memberUpdateRequest.getProfileImage() != null) {
+			String fileName = System.currentTimeMillis() + PROFILE_IMAGE + memberUpdateRequest.getNickname();
+			uploadImageUrl = s3Service.uploadImage(memberUpdateRequest.getProfileImage(), fileName);
+		}
+
+		member.updateMember(memberUpdateRequest.toEntity(), uploadImageUrl);
 
 		return new MemberUpdateResponse(member);
 	}
