@@ -10,6 +10,9 @@ export default function MainPage() {
   const nickname = useSelector((state: any) => state.users.nickname);
   const token = sessionStorage.getItem("accessToken");
 
+  const temp = localStorage.getItem("solved");
+  console.log(temp);
+
   const navigate = useNavigate();
   const userCheck = () => {
     if (token) {
