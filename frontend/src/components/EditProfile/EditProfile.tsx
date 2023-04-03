@@ -15,7 +15,7 @@ interface IEditUser {
   organization: string;
   email: string;
   registrationId: string;
-  profilImage: string;
+  profileImage: string;
 }
 
 export default function EditProfile() {
@@ -105,10 +105,12 @@ export default function EditProfile() {
       // 업데이트할 사용자 정보 객체 생성
       const updatedUser: IEditUser = {
         ...userInfo,
-        nickname: nicknameInput,
-        organization: orgInput,
+        nickname: userInfo.nickname,
+        organization: userInfo.organization,
         profileImage: inputImage || userInfo.profileImage, // 새로운 프로필 이미지가 있으면 업데이트, 없으면 기존 프로필 이미지 유지
       };
+
+      console.log(updatedUser);
 
       // 사용자 정보 업데이트 API 호출
       const result = memberAPI.editUser(updatedUser);
@@ -145,7 +147,7 @@ export default function EditProfile() {
             name="file"
             id="file"
             type="file"
-            accept="image/*"
+            accept=".jpg, .jpeg .png"
             ref={uploadImage}
             onChange={uploadHandler}
             onClick={() => uploadImage.current?.click()}
