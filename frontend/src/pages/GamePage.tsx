@@ -39,6 +39,9 @@ export default function GamePage() {
     });
 
     gamePlayAPI.clear(roomId, nickname, solvedCnt, endTime);
+
+    localStorage.removeItem("curUserInfo");
+    localStorage.removeItem("solved");
     navigate("/");
     alert("고생하셨습니다.");
   };
