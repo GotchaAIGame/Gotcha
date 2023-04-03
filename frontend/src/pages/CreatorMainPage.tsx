@@ -5,13 +5,14 @@ import Profile from "@components/CreatorMain/Profile";
 import GameListTap from "@components/CreatorMain/GameListTap";
 import "@styles/CreatorMainPage.scss";
 import GlobalNavbar from "@components/common/GlobalNavbar";
+import bgPattern from "@assets/fullBGPattern.svg";
 
 export default function CreatorMainPage() {
   const userNickname = useSelector((state: any) => state.users.nickname);
 
   return (
-    <>
-      <GlobalNavbar />
+    <div className="creator-bg-container">
+      <div className="creator-bg" />
       <Grid container className="creator-main-container">
         {userNickname && (
           <Grid item xs={11} md={9} className="welcome-text-wrapper">
@@ -30,6 +31,6 @@ export default function CreatorMainPage() {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 }

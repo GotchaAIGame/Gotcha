@@ -15,7 +15,12 @@ export default function EntireGames(props: any) {
       {createGames.map((item: any) => {
         return <GameCard gameInfo={item} key={item.id} />;
       })}
-      {/* <GameCard /> */}
+      {createGames.length === 0 && (
+        <div className="make-new-game-alert">
+          <p>아직 생성된 방이 없어요!</p>
+          <p>게임을 생성하러 가볼까요?</p>
+        </div>
+      )}
     </>
   );
 }
