@@ -18,7 +18,7 @@
   @keyframes fadeInUp {
     0% {
       opacity: 0;
-      transform: translateY(30px); /* 애니메이션 시작 시 위치 지정 */
+      transform: translateY(20px); /* 애니메이션 시작 시 위치 지정 */
     }
     100% {
       opacity: 1;
@@ -36,5 +36,13 @@
     100% {
       opacity: 0;
     }
+  }
+}
+
+@mixin raiseHover {
+  transition: transform .5s ease;
+  &:hover,
+  &:focus {
+    transform: scale(1.1);
   }
 }
