@@ -15,7 +15,10 @@ export default function SNSLogin() {
       </div>
 
       <GoogleButton />
-      <KakaoButton />
+
+      <Link to="https://j8a602.p.ssafy.io/api/oauth2/authorization/kakao">
+        <KakaoButton />
+      </Link>
       <Link to="/signup">
         <Button text="회원가입" color="skyblue" />
       </Link>

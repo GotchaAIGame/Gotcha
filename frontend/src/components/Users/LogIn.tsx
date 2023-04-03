@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 import React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
+import { Alert } from "@mui/material";
 import { setLogin } from "@stores/users/userSlice";
 import InputBox from "@components/common/InputBox";
 import Button from "@components/common/Button";
@@ -11,7 +11,7 @@ import { memberAPI } from "@apis/apis";
 
 export default function LogIn() {
   // 추후 유효성 검사 이후 페이지 이동되게 수정 예정
-  const existId = useSelector((state: any) => state.users.userId);
+  const existUser = useSelector((state: any) => state.users);
   // const [inputText, setInputText] = useState("");
   const [emailInput, setEmailInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
@@ -51,7 +51,7 @@ export default function LogIn() {
           sessionStorage.setItem("accessToken", accessToken);
           setCookie("refreshToken", refreshToken);
 
-          alert("환영합니다!");
+          alert(`${nickname}님 환영합니다!`);
           navigate(`/mypage/${nickname}`);
         })
         .catch((res) => {
@@ -60,8 +60,17 @@ export default function LogIn() {
         });
     }
   };
+
+  // 이미 로그인한 유저면 마이페이지로 렌더링
+  useEffect(() => {
+    const accessToken = sessionStorage.getItem("accessToken");
+    if (accessToken && existUser) {
+      navigate(`/mypage/${existUser.nickname}`);
+    }
+  }, []);
+
   return (
-    <>
+    <div className="login-inputs-container">
       <form action="submit" onSubmit={loginHandler}>
         <InputBox
           type="text"
@@ -77,6 +86,21 @@ export default function LogIn() {
         />
         <Button text="로그인하기" type="submit" />
       </form>
-    </>
+
+      {/* <Button> color랑 이미지 수정할 것!!! */}
+      {/* <div className="social-logins-container">
+        <div className="social-login-title">
+          <hr />
+          <h5>SNS 로그인 / 회원가입</h5>
+          <hr />
+        </div>
+
+        <Button text="Google 로그인" color="google" />
+        <Button text="카카오톡 로그인" color="kakao" />
+        <Link to="/signup">
+          <Button text="회원가입" color="skyblue" />
+        </Link>
+      </div> */}
+    </div>
   );
 }
