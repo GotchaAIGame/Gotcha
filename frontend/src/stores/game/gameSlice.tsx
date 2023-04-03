@@ -23,7 +23,7 @@ interface problemState {
 // interface listProblemState {Record<names, number>}
 
 const initialState: gameState = {
-  brandColor: "5551FF",
+  brandColor: "#5551FF",
   logoUrl: "",
   title: "",
   eventUrl: "",
