@@ -96,9 +96,9 @@ public class MemberController {
 	@ApiResponse(responseCode = "401", description = "로그아웃 권한이 없음")
 	@PostMapping("/member/logout")
 	public BaseResponse<String> logout(@Valid @RequestBody MemberLogoutRequest memberLogoutRequest) {
-		final String logoutRefreshToken = memberService.logout(memberLogoutRequest);
+		final String logoutUser = memberService.logout(memberLogoutRequest);
 
-		return new BaseResponse<>(logoutRefreshToken);
+		return new BaseResponse<>(logoutUser);
 	}
 
 	@Operation(description = "(출제자용)유저 정보 조회하기 API", summary = "(출제자용)유저 정보 조회하기 API")

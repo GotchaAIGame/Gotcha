@@ -75,10 +75,8 @@ public class MemberService {
 	public String logout(final MemberLogoutRequest memberLogoutRequest) {
 		// logout유저가 새로 로그인 할 시 토큰을 새로 만들어서 로그인.
 		// 기존 logout처리했던 토큰은 유효시간 지나면 자동으로 삭제됌.
-		jwtTokenProvider.registerLogoutUser(memberLogoutRequest)
+		return jwtTokenProvider.registerLogoutUser(memberLogoutRequest)
 			.orElseThrow(() -> new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage()));
-
-		return memberLogoutRequest.getRefreshToken();
 	}
 
 	public MemberInformationResponse findMemberInformation(final Long id) {
