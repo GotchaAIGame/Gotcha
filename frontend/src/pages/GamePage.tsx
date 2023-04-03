@@ -8,12 +8,14 @@ import CustomNavbar from "@components/common/CustomNavbar";
 import Button from "@components/common/Button";
 import { useAppSelector } from "@stores/storeHooks";
 import { gamePlayAPI } from "@apis/apis";
+import Modal from "@components/common/Modal";
 
 export default function GamePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [locationState, _] = useState(location.state);
   const { solved } = useAppSelector((state) => state.gamePlay);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     // validation check
@@ -26,6 +28,10 @@ export default function GamePage() {
   }, []);
 
   console.log(locationState);
+
+  const modalHandler = () => {
+    setModalOpen(!modalOpen);
+  };
 
   const gameEndHandler = () => {
     const { roomId, nickname } = locationState;
@@ -56,7 +62,12 @@ export default function GamePage() {
           <ProblemCardList />
         </Grid>
       </Grid>
-      <Button text="게임 종료" onClick={gameEndHandler} />
+      <Button text="게임 종료" onClick={modalHandler} />
+      {modalOpen && (
+        <Modal open={modalOpen} modalHandler={modalHandler}>
+          넹
+        </Modal>
+      )}
     </>
   );
 }

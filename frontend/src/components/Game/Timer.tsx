@@ -12,8 +12,6 @@ function Timer() {
   const stopFlag = false;
   const { themeColor } = useSelector((state: any) => state.theme);
 
-  console.log(startTime);
-
   useEffect(() => {
     const interval = setInterval(() => {
       const timegap = Date.now() - Date.parse(startTime);

@@ -69,7 +69,9 @@ export default function RejoinPlayerInfo() {
               break;
             case 404:
               alert("참여한 전적이 없습니다. \n새게임을 시작해주세요.");
-              navigate(`/newgame/${roomPin}`); // 새게임 페이지로 리다이렉트 -> 새게임페이지 나오면 닉네임 자동입력되게끔 추가해주기!!
+              navigate(`/newgame/${roomPin}`, {
+                state: { inputPin: roomPin, room: roomId },
+              }); // 새게임 페이지로 리다이렉트 -> 새게임페이지 나오면 닉네임 자동입력되게끔 추가해주기!!
               break;
             default:
               console.error(err);
