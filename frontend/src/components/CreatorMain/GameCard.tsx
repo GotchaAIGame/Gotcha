@@ -1,11 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@components/common/Button";
+import { useDispatch } from "react-redux";
+import { setTheme } from "@stores/player/themeSlice";
 
 export default function GameCard(props: any) {
   const { gameInfo } = props;
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
     // console.log(e);
@@ -21,8 +24,18 @@ export default function GameCard(props: any) {
   };
 
   const goRanking = () => {
-    console.log("ranking보기로 갈 것입니다");
-    navigate(`/game/${gameInfo.code}/rank`);
+    dispatch(
+      setTheme({
+        room: gameInfo.id,
+        reward: gameInfo.hasReward,
+        themeColor: gameInfo.color,
+        themeLogo: gameInfo.logoUrl,
+        themeTitle: gameInfo.title,
+      })
+    );
+    navigate(`/game/${gameInfo.code}/rank`, {
+      state: { roomId: gameInfo.id, fromMypage: true },
+    });
   };
 
   const alertNoRank = () => {

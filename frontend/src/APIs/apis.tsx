@@ -3,13 +3,23 @@ import request from "./agents";
 
 // APis about game play
 const gamePlayAPI = {
-  register : (roomId: number, nickname : string, password : string ) : Promise<AxiosResponse> => 
-  request.post("/game/register", { roomId, nickname, password}),
-  getHint : (problemId : number) : Promise<AxiosResponse> => request.get("game/hint", {params : {problemId}}),
+  register: (
+    roomId: number,
+    nickname: string,
+    password: string
+  ): Promise<AxiosResponse> =>
+    request.post("/game/register", { roomId, nickname, password }),
+  getHint: (problemId: number): Promise<AxiosResponse> =>
+    request.get("game/hint", { params: { problemId } }),
   enter: (roomCode: number): Promise<AxiosResponse> =>
     request.get("/game/enter", { params: { roomCode } }),
-  clear : (roomId : number, nickname : string, solvedCnt : number, endTime : string) : Promise<AxiosResponse> => 
-  request.post("game/clear", {roomId, nickname, solvedCnt, endTime}),
+  clear: (
+    roomId: number,
+    nickname: string,
+    solvedCnt: number,
+    endTime: string
+  ): Promise<AxiosResponse> =>
+    request.post("game/clear", { roomId, nickname, solvedCnt, endTime }),
   // 게임 신규참여
   start: (
     roomId: number,
@@ -27,12 +37,14 @@ const gamePlayAPI = {
     password: number
   ): Promise<AxiosResponse> =>
     request.post("/game/login", { roomId, nickname, password }),
-  // 랭킹 불러오기
+  // 랭킹 불러오기(참여자)
   rank: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/rank", { roomId, nickname }),
+
   // 우승상품 확인하기
   reward: (roomId: number): Promise<AxiosResponse> =>
     request.get("/game/reward", { params: { roomId } }),
+
   // 휴대폰 번호 입력하기
   phone: (
     roomId: number,
@@ -78,7 +90,7 @@ const MLAPI = {
         "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
       },
-    })
+    }),
 };
 
 const creatorAPI = {
@@ -150,6 +162,10 @@ const creatorAPI = {
       data: { problemId },
     }),
   // 수정 관련 Apis
+
+  // 랭킹 불러오기(출제자)
+  rankAll: (roomId: number): Promise<AxiosResponse> =>
+    request.authGet(`/rank/${roomId}`, { params: { roomId } }),
 };
 
 export { gamePlayAPI, memberAPI, MLAPI, creatorAPI };
