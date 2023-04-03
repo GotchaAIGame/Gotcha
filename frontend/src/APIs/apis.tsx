@@ -73,7 +73,7 @@ const memberAPI = {
 
 const MLAPI = {
   predict: (formData: FormData): Promise<AxiosResponse> =>
-    request.postPython("game/predict", formData, {
+    request.postPython("python/predict", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
