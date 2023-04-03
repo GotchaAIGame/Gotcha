@@ -1,74 +1,89 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Grid } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import InputGameInfo from "@components/CreateGame/InputGameInfo";
-import GameCardCarousel from "@components/CreateGame/GameCardCarousel";
+import InputGameInfo from "@components/EditGame/InputGameInfo";
+import GameCardCarousel from "@components/EditGame/GameCardCarousel";
 import helpButton from "@assets/helpButton.svg";
 import Button from "@components/common/Button";
-import Loading from "@components/common/Loading";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
 import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
 import { resetGame } from "@stores/game/gameSlice";
-import { setLoading } from "@stores/loading/loadingSlice";
+import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
+import CustomNavbar from "@components/common/CustomNavbar";
 
-export default function CreateGamePage() {
+export default function EditGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
   const gameInfo = useSelector((state: any) => state.game);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
-  const isLoading = useSelector((state: any) => state.loading);
+  const { gamePin, roomId } = location.state;
 
   const tempHelperHandler = () => {
     setNeedHelp(!needHelp);
   };
 
-  const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // e.preventDefault();
-    console.log("최종적으로 쏘는 정보");
-    console.log(gameInfo);
-    // const problemLength = gameInfo.problems.length();
+  // 게임 수정 put 요청
+  const putGame = (e: React.MouseEvent<HTMLButtonElement>) => {
 
     // 제목, 기간, 정보 입력 여부 확인
     if (
       gameInfo.title &&
       gameInfo.startTime &&
       gameInfo.endTime &&
-      gameInfo.eventDesc &&
-      gameInfo.problems.length > 0
+      gameInfo.eventDesc
     ) {
-      // 문제 중 마지막 미입력값 배열이 있으면 제거
-      const result = creatorAPI.createGameRoom(gameInfo);
-      dispatch(setLoading(true));
+      // 수정할 값들 
+      const putInfo = {
+        roomId,
+        color: gameInfo.brandColor,
+        logoImage: gameInfo.logoUrl,
+        title: gameInfo.title,
+        eventUrl: "test",
+        eventDesc: gameInfo.eventDesc,
+        startTime: gameInfo.startTime,
+        endTime: gameInfo.endTime,
+      }
+      const result = creatorAPI.putGameRoom(putInfo);
       result
         .then((res) => {
           // 보내는 정보
           console.log("보낸거");
-          console.log(gameInfo);
+          console.log(putInfo);
           console.log(res, "됐다");
           // 성공적으로 생성했다면 slice내용 비우기
           dispatch(resetGame());
-          const gamePin = res.data.result.code;
-          const roomId = res.data.result.id;
-          dispatch(setLoading(false));
-
           navigate(`/custom/${gamePin}`, { state: { roomId } });
         })
         .catch((res) => {
-          dispatch(setLoading(false));
-          alert("내용을 입력해 주세요");
+          console.log(res, "안됐다");
         });
     } else {
-      dispatch(setLoading(false));
       alert("내용을 입력해 주세요");
     }
   };
 
+  useEffect(() => {
+    // edit인 경우 gameSlice에 값 갱신
+    if (roomId) {
+      const result = creatorAPI.getGameDetail(roomId);
+      result.then((res) => {
+        console.log(res.data.result);
+        const gotInfo = res.data.result;
+        const newInfo = { ...gotInfo };
+        newInfo.startTime = newInfo.startTime.slice(0, 16);
+        newInfo.endTime = newInfo.endTime.slice(0, 16);
+        dispatch(setOriginGame(newInfo));
+        dispatch(setProblems(newInfo.problems));
+      });
+    }
+  }, []);
+
   return (
     <div>
-      {isLoading.loading && <Loading />}
       <Grid container className="create-game-grid-container">
         {needHelp ? (
           <Grid item xs={11} md={9}>
@@ -92,7 +107,7 @@ export default function CreateGamePage() {
           />
         </button>
       </Grid>
-      <Button text="생성" onClick={postGameCreate} />
+      <Button text="생성" onClick={putGame} />
     </div>
   );
 }
