@@ -5,11 +5,13 @@ import "./styles/Loading.scss";
 export default function Loading() {
   return (
     <div className="loading-background">
-      <span>게</span>
-      <span>임</span>
-      <span>생</span>
-      <span>성</span>
-      <span>중</span>
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
       <span>.</span>
       <span>.</span>
       <span>.</span>

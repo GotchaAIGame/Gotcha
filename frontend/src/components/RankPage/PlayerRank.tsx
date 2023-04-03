@@ -23,29 +23,37 @@ export default function PlayerRank() {
 
   // useSelctor로 뽑아쓰기
   const playerRoom = useSelector((state: any) => state.theme.room);
-  const nickname = useSelector((state: any) => state.theme.nickname);
+  const nickname = useSelector((state: any) => state.gamePlay.nickname);
 
   // @@@@@@@@@@@@@@@@@@@@@@@@@@여기 하는중@@@@@@@@@@@
+  const fromMy = location.state.fromMypage;
   useEffect(() => {
-    async function fetchRankingData() {
-      let api;
-      const fromMy = location.state.fromMypage;
-      if (fromMy) {
-        api = creatorAPI.rankAll(creatorRoom);
-      } else {
-        api = gamePlayAPI.rank(playerRoom, nickname);
-      }
-      try {
-        const res = await api;
+    // fromMy일때
+    if (fromMy === true) {
+      const api = creatorAPI.rankAll(creatorRoom);
+      api.then((res) => {
+        console.log("마이페이지 유저");
+        console.log(res);
+
         const users = res.data.result;
         console.log(users);
         setUserArray(users);
-      } catch (error) {
-        console.error(error);
-      }
+      });
     }
-    fetchRankingData();
-  }, [location.pathname, playerRoom, nickname]);
+
+    if (fromMy === false && playerRoom !== 0 && nickname) {
+      console.log(nickname);
+      const api = gamePlayAPI.rank(playerRoom, nickname);
+      api.then((res) => {
+        console.log("그냥 유저");
+        console.log(res);
+
+        const users = res.data.result;
+        console.log(users);
+        setUserArray(users);
+      });
+    }
+  }, [location.pathname, playerRoom, nickname, fromMy]);
 
   // 해야할 것
   // 1. 문제수 추가할 것

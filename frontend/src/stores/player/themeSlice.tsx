@@ -38,9 +38,12 @@ export const themeSlice = createSlice({
         themeTitle: string;
       }>
     ) => {
-      const { themeColor, themeLogo, themeTitle } = action.payload;
+      const { room, reward, themeColor, themeLogo, themeTitle } =
+        action.payload;
       return {
         ...state,
+        room,
+        reward,
         themeColor,
         themeLogo,
         themeTitle,

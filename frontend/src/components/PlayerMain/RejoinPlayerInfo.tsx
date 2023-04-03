@@ -1,13 +1,13 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable react/jsx-no-useless-fragment */
 import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { gamePlayAPI } from "@apis/apis";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setPlayer } from "@stores/game/gamePlaySlice";
 import InputBox from "@components/common/InputBox";
 import OTPInput from "@components/common/OTPInput";
 import Button from "@components/common/Button";
-import { reStart } from "@stores/game/gamePlaySlice";
+import { reStart, setPlayer } from "@stores/game/gamePlaySlice";
 import { useAppDispatch } from "@stores/storeHooks";
 
 // 1. 먼저 재참여자는 이전에 참여했던
@@ -31,15 +31,20 @@ export default function RejoinPlayerInfo() {
 
   const currentRef = nicknameHandler.current;
 
+  // 갱신 확인
+  const playerRoom = useSelector((state: any) => state.theme.room);
+  console.log(playerRoom);
+
   // 재참여 로그인
   const rejoinGameHandler = () => {
     if (otp.length < 4) {
       alert("비밀번호 4자리를 입력해주세요.");
     }
     if (currentRef) {
-      const nicknameValue = currentRef.value;
+      const nickname = currentRef.value;
+      console.log(nickname, " 이곳에서 저장할게요");
       const password = parseInt(otp.slice(0, 4), 10);
-      const request = gamePlayAPI.login(roomId, nicknameValue, password);
+      const request = gamePlayAPI.login(roomId, nickname, password);
 
       request
         .then((res) => {
@@ -95,7 +100,8 @@ export default function RejoinPlayerInfo() {
 
   // <랭킹보기> 버튼 클릭
   const rankClickHandler = () => {
-    navigate(`/game/${roomPin}/rank`);
+    console.log(playerRoom, "저장된 roomId");
+    navigate(`/game/${roomPin}/rank`, { state: { roomId, fromMypage: false } });
   };
 
   return (
