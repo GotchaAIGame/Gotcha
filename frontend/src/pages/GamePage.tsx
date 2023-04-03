@@ -13,7 +13,7 @@ export default function GamePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [locationState, _] = useState(location.state);
-  const {solved} = useAppSelector((state) => state.gamePlay)
+  const { solved } = useAppSelector((state) => state.gamePlay);
 
   useEffect(() => {
     // validation check
@@ -25,23 +25,26 @@ export default function GamePage() {
     // }
   }, []);
 
-  console.log(locationState)
+  console.log(locationState);
 
   const gameEndHandler = () => {
-    const {roomId, nickname} = locationState
+    const { roomId, nickname } = locationState;
     const endTime = new Date(Date.now()).toISOString();
 
-    let solvedCnt = 0
+    let solvedCnt = 0;
     solved.forEach((item) => {
-      if (item.solved){
-        solvedCnt += 1
+      if (item.solved) {
+        solvedCnt += 1;
       }
-    })
+    });
 
-    gamePlayAPI.clear(roomId, nickname, solvedCnt, endTime)
-    navigate("/")
-    alert("고생하셨습니다.")
-  }
+    gamePlayAPI.clear(roomId, nickname, solvedCnt, endTime);
+
+    localStorage.removeItem("curUserInfo");
+    localStorage.removeItem("solved");
+    navigate("/");
+    alert("고생하셨습니다.");
+  };
 
   return (
     <>
@@ -53,7 +56,7 @@ export default function GamePage() {
           <ProblemCardList />
         </Grid>
       </Grid>
-        <Button text="게임 종료" onClick={gameEndHandler} />
+      <Button text="게임 종료" onClick={gameEndHandler} />
     </>
   );
 }
