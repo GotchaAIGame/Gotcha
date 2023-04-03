@@ -16,6 +16,7 @@ import ModalTestPage2 from "./ModalTestPage2";
 import PlayerRejoinPage from "./PlayerRejoinPage";
 import RankPage from "./RankPage";
 import ImageCropperPage from "./ImageCropperPage";
+import EditGamePage from "./EditGamePage";
 
 export default function Routers() {
   return (
@@ -35,6 +36,7 @@ export default function Routers() {
       <Route path="/create/game" element={<CreateGamePage />} />
       <Route path="/custom/:gamepin" element={<CustomGamePage />} />
       <Route path="/game/detail/:gamepin" element={<CreatorGameDetailPage />} />
+      <Route path="/edit/:gamepin" element={<EditGamePage />} />
 
       {/* Player */}
       <Route path="/newgame/:roomId" element={<PlayerNewGamePage />} />
