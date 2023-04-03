@@ -72,35 +72,35 @@ export default function CustomGamePage() {
             themeTitle: title,
           })
         );
-        dispatch(setProblems(newInfo.problems))
+        dispatch(setProblems(newInfo.problems));
       });
     } else {
       console.log("비정상적 접근");
     }
-  }, []);  
+  }, []);
 
   return (
     <>
-    <CustomNavbar />
-    <Grid container className="custom-page-main-container">
-      <Grid item xs={12} md={9}>
-        {/* <ProblemTitle /> */}
-        <Timer />
-        <ProblemCardList />
+      <CustomNavbar />
+      <Grid container className="custom-page-main-container">
+        <Grid item xs={12} md={9}>
+          {/* <ProblemTitle /> */}
+          <Timer />
+          <ProblemCardList />
+        </Grid>
+        {/* <Modal /> */}
+        {!isOpen && (
+          <button type="button" className="open-button" onClick={modalHandler}>
+            ◀
+          </button>
+        )}
+        <CustomModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          gameInfo={gameInfo}
+          setGameInfo={setGameInfo}
+        />
       </Grid>
-      {/* <Modal /> */}
-      {!isOpen && (
-        <button type="button" className="open-button" onClick={modalHandler}>
-          ◀
-        </button>
-      )}
-      <CustomModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        gameInfo={gameInfo}
-        setGameInfo={setGameInfo}
-      />
-    </Grid>
     </>
   );
 }

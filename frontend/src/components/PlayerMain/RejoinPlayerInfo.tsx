@@ -3,11 +3,12 @@
 import React, { useRef, useState } from "react";
 import { gamePlayAPI } from "@apis/apis";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setPlayer } from "@stores/player/themeSlice";
+import { setPlayer } from "@stores/game/gamePlaySlice";
 import InputBox from "@components/common/InputBox";
 import OTPInput from "@components/common/OTPInput";
 import Button from "@components/common/Button";
+import { reStart } from "@stores/game/gamePlaySlice";
+import { useAppDispatch } from "@stores/storeHooks";
 
 // 1. 먼저 재참여자는 이전에 참여했던
 //    닉네임과 비밀번호가 일치하는지 확인(/game/login)
@@ -21,7 +22,7 @@ export default function RejoinPlayerInfo() {
   const [startedTime, setStartedTime] = useState(""); // 참여자 게임시작했던시간
   const location = useLocation(); // roomId props로 받기
   const navigate = useNavigate(); // 리다이렉트
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const nicknameHandler = useRef<HTMLInputElement>(null); // 닉네임 input
   const changeHandler = (value: string) => setOtp(value); // 비밀번호 input
 
@@ -51,9 +52,9 @@ export default function RejoinPlayerInfo() {
           // 참여자 정보 store에 올리기
           dispatch(
             setPlayer({
-              room: roomId,
+              roomId,
               nickname: currentRef.value,
-              startTime: startTime,
+              startTime,
             })
           );
         })
@@ -82,9 +83,10 @@ export default function RejoinPlayerInfo() {
   // <이어하기> 버튼 클릭
   const rejoinClickHandler = () => {
     if (currentRef) {
-      const nicknameValue = currentRef.value;
+      const nickname = currentRef.value;
+      const password = parseInt(otp.slice(0, 4), 10);
       // console.log(nicknameValue);
-      const request = gamePlayAPI.rejoin(roomId, nicknameValue);
+      const request = dispatch(reStart({ roomId, nickname, password }));
       request.then(() => {
         navigate(`/game/${roomPin}`);
       });
