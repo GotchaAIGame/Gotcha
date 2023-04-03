@@ -32,6 +32,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @CustomSpringBootTest
@@ -123,9 +124,9 @@ class ParticipantControllerTest {
                 .nickname("YEZI")
                 .password(HASH_PWD)
                 .startTime(startTime)
-                .endTime(startTime.plusDays(1))
-                .duration(Duration.between(startTime, startTime.plusDays(1)))
-                .solvedCnt(3)
+                .endTime(startTime.plusMinutes(1))
+                .duration(Duration.between(startTime, startTime.plusMinutes(1)))
+                .solvedCnt(1)
                 .isFinished(true)
                 .room(room)
                 .build();
@@ -667,6 +668,7 @@ class ParticipantControllerTest {
             MockHttpServletResponse response = mockMvc.perform(post(url + "rank")
                             .content(objectMapper.writeValueAsBytes(request))
                             .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
                     .andReturn()
                     .getResponse();
             BaseResponse<List<ParticipantRankListResponse>> arrayList = objectMapper.readValue(response.getContentAsString(), BaseResponse.class);

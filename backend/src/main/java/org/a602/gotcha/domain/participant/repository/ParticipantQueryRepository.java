@@ -53,8 +53,10 @@ public class ParticipantQueryRepository {
                 .where(
                         participant.room.id.eq(roomId),
                         participant.isFinished.isTrue(),
-                        participant.solvedCnt.goe(participantSolvedCnt),
-                        participant.duration.lt(participantDuration))
+                        participant.solvedCnt.gt(participantSolvedCnt)
+                                .or(participant.solvedCnt.eq(participantSolvedCnt)
+                                        .and(participant.duration.lt(participantDuration)))
+                )
                 .fetch().size();
 
         // Add 1 to the rank to get the participant's actual rank (since ranks start at 1)
