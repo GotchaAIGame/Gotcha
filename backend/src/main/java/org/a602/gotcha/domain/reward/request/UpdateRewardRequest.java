@@ -21,7 +21,7 @@ public class UpdateRewardRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UpdateRewardDTO {
-        private Long rewardId;
+        private Long id;
         @NotBlank
         private String name;
         @Positive

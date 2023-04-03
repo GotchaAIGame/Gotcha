@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.a602.gotcha.domain.reward.entity.Reward;
 
 @Builder
 @Getter
@@ -22,4 +23,12 @@ public class RewardListResponse {
     @Schema(description = "이미지 URL")
     private String image;
 
+
+    public static RewardListResponse toResponse(Reward reward) {
+        return RewardListResponse.builder()
+                .grade(reward.getGrade())
+                .rewardName(reward.getName())
+                .image(reward.getImage())
+                .build();
+    }
 }

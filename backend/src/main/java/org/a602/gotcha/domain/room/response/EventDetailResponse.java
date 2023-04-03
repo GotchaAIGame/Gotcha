@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.a602.gotcha.domain.room.entity.Room;
 
 @Builder
 @Getter
@@ -19,4 +20,11 @@ public class EventDetailResponse {
     @Schema(description = "이벤트 URL")
     private String eventUrl;
 
+
+    public static EventDetailResponse toResponse(Room room) {
+        return EventDetailResponse.builder()
+                .eventDesc(room.getEventDesc())
+                .eventUrl(room.getEventUrl())
+                .build();
+    }
 }

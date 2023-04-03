@@ -1,14 +1,6 @@
 package org.a602.gotcha.global.security.jwt;
 
-import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.*;
-
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.AccessDeniedException;
@@ -16,7 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import lombok.RequiredArgsConstructor;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.BEARER;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -35,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (header != null && header.startsWith(BEARER)) {
 			// prefix부분을 날리고 JWT만 token에 할당한다.
 			token = header.split(" ")[1];
-			//			token = header.substring(BEARER.length());
+			//token = header.substring(BEARER.length());
 		}
 
 		if (token != null && jwtTokenProvider.validAccessToken(token)) {

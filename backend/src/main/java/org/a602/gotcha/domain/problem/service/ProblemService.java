@@ -1,9 +1,6 @@
 package org.a602.gotcha.domain.problem.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.problem.entity.Problem;
 import org.a602.gotcha.domain.problem.exception.ProblemNotFoundException;
 import org.a602.gotcha.domain.problem.repository.ProblemRepository;
@@ -14,7 +11,9 @@ import org.a602.gotcha.global.common.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,13 +54,7 @@ public class ProblemService {
         if (problems.isEmpty()) {
             throw new ProblemNotFoundException();
         }
-        return problems.stream()
-                .map(problem ->
-                        ProblemListResponse.builder()
-                                .problemId(problem.getId())
-                                .problemName(problem.getName())
-                                .problemImgURL(problem.getImageUrl())
-                                .build()).collect(Collectors.toList());
+        return problems.stream().map(ProblemListResponse::toResponse).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
