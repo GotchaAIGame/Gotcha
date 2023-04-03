@@ -68,6 +68,7 @@
 
       .rankInfo-wrapper {
         margin: 10px;
+        @include fadeInUp;
       }
 
       // 등수, 닉네임, 시간
