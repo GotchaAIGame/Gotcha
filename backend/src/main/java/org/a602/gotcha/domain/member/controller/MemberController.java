@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.request.MemberSocialLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
 import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
 import org.a602.gotcha.domain.member.response.MemberInformationResponse;
@@ -67,6 +68,16 @@ public class MemberController {
 		final Boolean isDuplicate = memberService.isDuplicateEmail(email);
 
 		return new BaseResponse<>(isDuplicate);
+	}
+
+	@Operation(description = "(출제자용)소셜 로그인 API", summary = "(출제자용)소셜 로그인 API")
+	@ApiResponse(responseCode = "200", description = "소셜 로그인 성공", content = @Content(schema = @Schema(implementation = Boolean.class)))
+	@PostMapping("/member/social/login")
+	public BaseResponse<MemberLoginResponse> socialLogin(
+		@Valid @RequestBody MemberSocialLoginRequest memberSocialLoginRequest) {
+		final MemberLoginResponse memberLoginResponse = memberService.socialLogin(memberSocialLoginRequest);
+
+		return new BaseResponse<>(memberLoginResponse);
 	}
 
 	@Operation(description = "(출제자용)로그인 API", summary = "(출제자용)로그인 API")

@@ -18,38 +18,26 @@ import lombok.RequiredArgsConstructor;
 public class RedisRefreshTokenRepository {
 	private final RedisTemplate<String, String> redisTemplate;
 
-	public String save(final String accessToken, final String refreshToken) {
+	public void save(final String accessToken, final String refreshToken) {
 		final ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
-		stringStringValueOperations.set(refreshToken, accessToken);
-		redisTemplate.expire(refreshToken, Duration.ofDays(14).toMillis(), TimeUnit.MILLISECONDS);
 
-		return refreshToken;
+		stringStringValueOperations.set(accessToken, refreshToken);
+		redisTemplate.expire(accessToken, Duration.ofDays(1).toMillis(), TimeUnit.MILLISECONDS);
 	}
 
-	public Optional<RefreshToken> findById(final String refreshToken) {
+	public Optional<RefreshToken> findById(final String accessToken) {
 		final ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
-		final String accessToken = stringStringValueOperations.get(refreshToken);
+		final String refreshToken = stringStringValueOperations.get(accessToken);
 
-		if (accessToken == null) {
+		if (refreshToken == null) {
 			return Optional.empty();
 		}
 
-		return Optional.of(new RefreshToken(refreshToken, accessToken));
-	}
-
-	public void update(final String refreshToken, final String accessToken) {
-		final ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
-		final Long expire = redisTemplate.getExpire(refreshToken);
-
-		if (expire != null) {
-			stringStringValueOperations.set(refreshToken, accessToken, expire,
-				TimeUnit.MILLISECONDS);
-		}
-
+		return Optional.of(new RefreshToken(accessToken, refreshToken));
 	}
 
 	public void deleteById(final RefreshToken refreshToken) {
-		redisTemplate.delete(refreshToken.getRefreshToken());
+		redisTemplate.delete(refreshToken.getAccessToken());
 	}
 
 	public void saveLogoutInfo(final String accessToken, final Long expiration) {

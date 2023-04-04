@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 // AuthenticationProvider 역할도 겸임.
 public class JwtTokenProvider {
+	public static final String SPLIT_REGEX = " ";
 	private String secretKey = "gotcha";
 	public static final String BEARER = "Bearer ";
 
@@ -52,6 +53,7 @@ public class JwtTokenProvider {
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
 		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
+		//		final long accessTokenValidSecond = Duration.ofSeconds(1).toMillis(); //테스트용 access토큰 유효시간
 		final Date now = new Date();
 
 		return Jwts.builder()
@@ -74,17 +76,19 @@ public class JwtTokenProvider {
 			.signWith(SignatureAlgorithm.HS256, secretKey) // 사용할 암호화 알고리즘, secret key값 설정
 			.compact();
 
-		return redisRefreshTokenRepository.save(accessToken, refreshToken);
+		redisRefreshTokenRepository.save(accessToken, refreshToken);
+
+		return refreshToken;
 	}
 
 	// Jwt 토큰으로 인증 정보 조회
-	public Authentication getAuthentication(final String token) {
-		final String userEmail = getUserEmail(token);
-		String saveToken = token;
+	public Authentication getAuthentication(final String accessToken) {
+		final String userEmail = getUserEmail(accessToken);
+		String saveToken = accessToken;
 		UserDetails userDetails;
 
 		if (userEmail == null) {
-			final RefreshToken refreshToken = redisRefreshTokenRepository.findById(token)
+			final RefreshToken refreshToken = redisRefreshTokenRepository.findById(accessToken)
 				.orElseThrow(() -> new JwtException(GlobalErrorCode.TOKEN_EXPIRED.getMessage()));
 
 			saveToken = refreshToken.getAccessToken();
@@ -121,30 +125,23 @@ public class JwtTokenProvider {
 	}
 
 	public String reCreateAccessToken(final String refreshToken, final Member member) {
-		final Optional<RefreshToken> refreshTokenOptional = redisRefreshTokenRepository.findById(refreshToken);
+		final String newAccessToken = createAccessToken(member);
+		redisRefreshTokenRepository.save(newAccessToken, refreshToken);
 
-		if (refreshTokenOptional.isPresent()) {
-			// 기존 accessToken 토큰정보가 있을경우 그대로 반환.
-			return refreshTokenOptional.get().getAccessToken();
-		} else {
-			final String newAccessToken = createAccessToken(member);
-			redisRefreshTokenRepository.update(refreshToken, newAccessToken);
-
-			return newAccessToken;
-		}
+		return newAccessToken;
 	}
 
 	public Optional<String> registerLogoutUser(final MemberLogoutRequest memberLogoutRequest) {
-		final String newAccessToken = splitToken(memberLogoutRequest.getAccessToken());
-		final Authentication authentication = getAuthentication(newAccessToken); // 유저 객체 가져옴.
+		final String accessToken = splitToken(memberLogoutRequest.getAccessToken());
+		final Authentication authentication = getAuthentication(accessToken); // 유저 객체 가져옴.
 
-		if (isLoginUser(memberLogoutRequest.getRefreshToken())) {
-			final Optional<RefreshToken> refreshTokenOptional = redisRefreshTokenRepository.findById(newAccessToken);
-			refreshTokenOptional.ifPresent(redisRefreshTokenRepository::deleteById);
+		if (isLoginUser(memberLogoutRequest.getAccessToken())) {
+			final Optional<RefreshToken> accessTokenOptional = redisRefreshTokenRepository.findById(accessToken);
+			accessTokenOptional.ifPresent(redisRefreshTokenRepository::deleteById);
 		}
 
-		final Long expiration = getExpiration(newAccessToken);
-		redisRefreshTokenRepository.saveLogoutInfo(newAccessToken, expiration);
+		final Long expiration = getExpiration(accessToken);
+		redisRefreshTokenRepository.saveLogoutInfo(accessToken, expiration);
 
 		return Optional.ofNullable(authentication.getName());
 	}
@@ -154,7 +151,7 @@ public class JwtTokenProvider {
 
 		// prefix부분을 날리고 JWT만 token에 할당한다.
 		if (bearerToken != null && bearerToken.startsWith(BEARER)) {
-			originToken = bearerToken.substring(BEARER.length());
+			originToken = splitBearer(bearerToken);
 		} // token 확인.
 
 		return originToken;
@@ -171,8 +168,8 @@ public class JwtTokenProvider {
 		return expiration.getTime() - date.getTime();
 	}
 
-	public boolean isLoginUser(final String refreshToken) {
-		return redisRefreshTokenRepository.findById(splitToken(refreshToken)).isPresent();
+	public boolean isLoginUser(final String accessToken) {
+		return redisRefreshTokenRepository.findById(splitToken(accessToken)).isPresent();
 	}
 
 	public boolean isLogoutUser(final String accessToken) {
@@ -182,4 +179,7 @@ public class JwtTokenProvider {
 		return refreshTokenOptional.isPresent() && refreshTokenOptional.get().getRefreshToken().equals(LOGOUT);
 	}
 
+	public String splitBearer(final String bearerToken) {
+		return bearerToken.split(SPLIT_REGEX)[1];
+	}
 }
