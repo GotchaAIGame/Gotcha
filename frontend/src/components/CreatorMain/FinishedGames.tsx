@@ -16,7 +16,7 @@ export default function FinishedGames(props: any) {
           return <GameCard gameInfo={item} key={item.id} />;
         }
         return (
-          <div className="make-new-game-alert">
+          <div className="make-new-game-alert" key={item.id}>
             <p>종료된 방이 없어요!</p>
           </div>
         );

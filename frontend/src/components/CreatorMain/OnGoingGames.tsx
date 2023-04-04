@@ -16,7 +16,7 @@ export default function OnGoingGames(props: any) {
           return <GameCard gameInfo={item} key={item.id} />;
         }
         return (
-          <div className="make-new-game-alert">
+          <div className="make-new-game-alert" key={item.id}>
             <p>현재 진행 중인 게임이 없어요!</p>
           </div>
         );
