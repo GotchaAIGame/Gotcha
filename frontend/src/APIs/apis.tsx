@@ -123,6 +123,12 @@ const creatorAPI = {
     endTime: string;
   }): Promise<AxiosResponse> => request.authPut("set/room", gameInfo),
 
+  deleteGameRoom: (roomId: number): Promise<AxiosResponse> =>
+  request.authDelete(`set/room`, {
+    data: { roomId },
+  }),
+
+
   getAllGameRoom: (userId: number, page: number): Promise<AxiosResponse> =>
     request.authGet(`member/room/${userId}`, {
       params: { page },
@@ -159,9 +165,9 @@ const creatorAPI = {
     }),
 
   // 단일 문제 제거
-  deleteProblem: (problemId: number): Promise<AxiosResponse> =>
-    request.authDelete(`set/problem`, {
-      data: { problemId },
+  deleteProblem: (roomId: number): Promise<AxiosResponse> =>
+    request.authDelete(`set/room`, {
+      data: { roomId },
     }),
   // 수정 관련 Apis
 

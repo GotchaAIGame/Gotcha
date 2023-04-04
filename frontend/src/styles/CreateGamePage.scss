@@ -1,4 +1,5 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
 
 // margin: auto;
 .create-game-grid-container {
@@ -377,15 +378,18 @@
   }
 }
 
-
 // edit game page
 
-.buttons-footer{
-  // display: inline-block;
-  // justify-content: center;
-  .buttons-container{
-    margin: 0 auto;
-    // display: inline-block;
-    // margin: 0 auto;
+.edit-page-buttons-container {
+  // margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  // margin: 0 auto;
+
+  Button {
+    @include mobile {
+      max-width: 140px;
+    }
   }
 }
