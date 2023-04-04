@@ -25,4 +25,7 @@ public class AllRankListResponse {
     @Schema(description = "푼 문제")
     private Integer solvedCnt;
 
+    @Schema(description = "휴대폰 번호")
+    private String phoneNumber;
+
 }
