@@ -1,0 +1,93 @@
+package org.a602.gotcha.domain.member.controller;
+
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import javax.persistence.EntityManager;
+
+import org.a602.gotcha.CustomSpringBootTest;
+import org.a602.gotcha.domain.member.request.MemberLoginRequest;
+import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.service.MemberService;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@CustomSpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+public class MemberControllerTest {
+	@Autowired
+	EntityManager entityManager;
+	@Autowired
+	MockMvc mockMvc;
+	@Autowired
+	ObjectMapper objectMapper;
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+	@MockBean
+	MemberService memberService;
+
+	private final String url = "http://localhost:8080/api/member";
+
+	@Test
+	@DisplayName("회원가입 API 테스트 성공")
+	void signupMemberApiTest() throws Exception {
+		final MemberSignupRequest request = new MemberSignupRequest(
+			"minsu2",
+			"1234",
+			"ssafy",
+			"minsu2@naver.com"
+		);
+
+		mockMvc.perform(post(url + "/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(request)))
+			.andExpect(jsonPath("$.status", is(200)));
+	}
+
+	@Test
+	@DisplayName("닉네임 중복확인 API 테스트 성공")
+	void duplicateNickNameApiTest() throws Exception {
+		String nickname = "minsu";
+
+		mockMvc.perform(get(url + "/duplicateNickname").param("nickname", nickname))
+			.andExpect(jsonPath("$.status", is(200)))
+			.andExpect(jsonPath("$.result", is(false)));
+	}
+
+	@Test
+	@DisplayName("이메일 중복확인 API 테스트 성공")
+	void duplicateEmailApiTest() throws Exception {
+		String email = "minsu@naver.com";
+
+		mockMvc.perform(get(url + "/duplicateEmail").param("email", email))
+			.andExpect(jsonPath("$.status", is(200)))
+			.andExpect(jsonPath("$.result", is(false)));
+	}
+
+	@Test
+	@DisplayName("로그인 성공")
+	void participantLoginSuccess() throws Exception {
+		final MemberLoginRequest memberLoginRequest = new MemberLoginRequest(
+			"minsu@naver.com",
+			"1234"
+		);
+
+		mockMvc
+			.perform(post(url + "/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(memberLoginRequest))
+			).andExpect(jsonPath("$.status", is(200)));
+	}
+
+}
