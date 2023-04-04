@@ -79,6 +79,14 @@ export default function CreateGamePage() {
         ) : (
           <Grid item xs={11} md={9}>
             <InputGameInfo />
+            <button
+              type="button"
+              onClick={() => {
+                console.log(gameInfo);
+              }}
+            >
+              똥 치우기
+            </button>
             <GameCardCarousel />
             <Button text="생성" onClick={postGameCreate} />
             <button
