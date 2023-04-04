@@ -13,6 +13,11 @@
     padding-top: 5%;
     padding-bottom: 5%;
     margin-bottom: 3%;
+
+    .card-wrapper {
+      scale: 0.8;
+      margin-top: -10px;
+    }
   }
 }
 
@@ -176,7 +181,7 @@
   min-height: 405px;
   // border: 1px solid $gray-1;
   border-radius: 15px;
-  margin: 10px;
+  margin: 0px;
   justify-content: flex-start;
 
   .typing {
@@ -262,9 +267,12 @@
   .upload-img-wrapper {
     // display: flex;
     margin: 20px auto;
+    // 미리보기 이미지
     img {
-      height: 200px;
-      width: 200px;
+      display: block;
+      margin: auto;
+      max-height: 199px;
+      max-width: 199px;
       object-fit: contain;
     }
   }
@@ -366,5 +374,18 @@
       width: 100px;
       color: $gray-3;
     }
+  }
+}
+
+
+// edit game page
+
+.buttons-footer{
+  // display: inline-block;
+  // justify-content: center;
+  .buttons-container{
+    margin: 0 auto;
+    // display: inline-block;
+    // margin: 0 auto;
   }
 }

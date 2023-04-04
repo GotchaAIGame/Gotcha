@@ -11,7 +11,7 @@ export default function Progressbar(props: any) {
         <div className="progress-bar-point-wrapper">
           <div
             className={
-              progress === 1 ? "active-bar-point" : "progress-bar-point"
+              progress >= 1 ? "active-bar-point" : "progress-bar-point"
             }
           />
         </div>
@@ -19,32 +19,21 @@ export default function Progressbar(props: any) {
         <div className="progress-bar-point-wrapper">
           <div
             className={
-              progress === 2 ? "active-bar-point" : "progress-bar-point"
-            }
-          />
-        </div>
-        {/* 3: 마무리 */}
-        <div className="progress-bar-point-wrapper">
-          <div
-            className={
-              progress === 3 ? "active-bar-point" : "progress-bar-point"
+              progress >= 2 ? "active-bar-point" : "progress-bar-point"
             }
           />
         </div>
       </div>
       <div className="progressbar-tags-container">
         <span className={progress === 1 ? "progress-active-text" : ""}>
-          기본 게임 생성
+          기본 정보 입력
         </span>
         <span
           className={
-            progress <= 2 && progress > 1 ? "progress-active-text" : ""
+            progress === 2 && progress > 1 ? "progress-active-text" : ""
           }
         >
           커스터마이징
-        </span>
-        <span className={progress > 2 ? "progress-active-text" : ""}>
-          마무리
         </span>
       </div>
     </div>

@@ -47,7 +47,7 @@ function App() {
         </div>
       </div>
       <footer>
-        {/* <Footbar /> */}
+        <Footbar />
       </footer>
     </div>
   );

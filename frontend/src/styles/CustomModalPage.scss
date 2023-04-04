@@ -1,9 +1,46 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
+
+// 미리보기 영역
+
+.custom-preview-main-box-container {
+  border-radius: 30px;
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
+  background-color: white;
+  padding-bottom: 3%;
+  scale: 0.62;
+  transform-origin: 50% 0;
+  pointer-events: none;
+
+  .custom-nav-container {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+  }
+
+  .problem-button {
+    visibility: hidden !important;
+  }
+  @include desktop {
+    margin-bottom: -20%;
+  }
+  @include mobile {
+    margin-bottom: -80%;
+  }
+}
 
 .custom-page-main-container {
   // position: absolute;
   justify-content: center;
   align-items: center;
+
+  .preview-text {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: $blue-1;
+    -webkit-text-stroke: 0.5px #000;
+  }
 
   .open-button {
     background-color: white;
@@ -68,10 +105,25 @@
     margin: 10px auto;
   }
 
+  // 경품 삭제 버튼
+  .delete-reward-button {
+    width: 255px;
+    min-height: 50px;
+    background-color: inherit;
+    border-radius: 15px;
+    border: 1px solid $gray-1;
+    cursor: pointer;
+    margin: 10px auto;
+  }
+
   // 확인 버튼
   Button {
     margin-bottom: 40px;
   }
+}
+
+.empty-bottom-box {
+  min-height: 85px;
 }
 
 // Modal Scroll Design
@@ -120,7 +172,8 @@
   .file-input-wrapper {
     height: 80px;
     width: 200px;
-    margin: 20px auto;
+    margin: 15px auto;
+    margin-bottom: 10px;
     border: 1px $gray-1 dashed;
     display: flex;
     flex-direction: column;
@@ -131,10 +184,11 @@
       color: $gray-2;
       cursor: pointer;
 
+      // 미리보기 이미지
       img {
         margin-top: 4px;
-        max-width: 200px;
-        max-height: 80px;
+        max-width: 199px;
+        max-height: 79px;
         border: none;
       }
 
@@ -189,6 +243,43 @@
   }
 }
 
+// url Input
+.url-input-container {
+  width: 255px;
+  border: 1px solid $gray-1;
+  margin: 5px;
+  margin-top: 20px;
+  // margin-bottom: 10px;
+  position: relative;
+  border: 1px solid $gray-1;
+  border-radius: 15px;
+
+  .modal-input-header {
+    height: 43px;
+    position: absolute;
+    width: 255px;
+    top: 20;
+    background-color: $gray-4;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: -70px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+  }
+  input {
+    position: relative;
+    top: 60px;
+  }
+}
+
 // RewardsList
 .reward-cards-container {
   // display: flex;
@@ -196,7 +287,18 @@
   width: 255px;
   border: 1px solid $gray-1;
   border-radius: 15px;
+  margin-top: 20px;
   // padding-bottom: 10px;
+
+  .reward-info-text-img-container {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 35px;
+      margin-right: 10px;
+    }
+  }
 
   .head-wrapper {
     position: absolute;
@@ -206,6 +308,18 @@
     background-color: $gray-4;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+
+    button {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      top: -70px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+    }
   }
 
   // Reward Card

@@ -15,8 +15,18 @@ export default function FinishedGames(props: any) {
         if (start < today && end < today) {
           return <GameCard gameInfo={item} key={item.id} />;
         }
-        return null;
+        return (
+          <div className="make-new-game-alert" key={item.id}>
+            <p>종료된 방이 없어요!</p>
+          </div>
+        );
       })}
+      {createGames.length === 0 && (
+        <div className="make-new-game-alert">
+          <p>아직 생성된 방이 없어요!</p>
+          <p>게임을 생성하러 가볼까요?</p>
+        </div>
+      )}
       {/* <GameCard /> */}
     </>
   );

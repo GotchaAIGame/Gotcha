@@ -13,8 +13,10 @@ import { creatorAPI } from "@apis/apis";
 import Button from "@components/common/Button";
 import closeImg from "@assets/closeButton.svg";
 import { resetTheme } from "@stores/player/themeSlice";
+import Modal from "@components/common/Modal";
 import LogoInput from "./LogoInput";
 import ColorInput from "./ColorInput";
+import UrlInput from "./UrlInput";
 // import RewardsCheck from "./RewardsCheck";
 import RewardsList from "./RewardsList";
 
@@ -42,6 +44,8 @@ interface RewardsState {
 
 export default function CustomModal(props: any) {
   const { isOpen, setIsOpen, gameInfo, setGameInfo } = props;
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   // const [previewImg, setPreviewImg] = useState<string>("");
   // const [themeColor, setThemeColor] = useState<string>("5551FF");
 
@@ -214,42 +218,44 @@ export default function CustomModal(props: any) {
     // console.log(rewardsList)
   }, [gameInfo, setRewardsList]);
 
+  const modalHandelr = () => {
+    setModalOpen(true);
+  };
+
   return (
-    <div
-      className="custom-modal-container"
-      style={isOpen ? { right: "0" } : { left: "120%" }}
-    >
-      <button type="button" onClick={modalHandler} className="close-button">
-        <img src={closeImg} alt="닫기" />
-      </button>
-      <LogoInput themeLogo={themeLogo} imgHandler={imgHandler} />
-      <ColorInput themeColor={themeColor} colorHandler={colorHandler} />
-      {isRewardOpen ? (
-        <div>
-          <RewardsList
-            rewardsList={rewardsList}
-            setRewardsList={setRewardsList}
-          />
-          <button
-            type="button"
-            className="add-reward-button"
-            onClick={rewardHandler}
-          >
-            <p>경품 제거하기</p>
-          </button>
-        </div>
-      ) : (
-        <button
-          type="button"
-          className="add-reward-button"
-          onClick={rewardHandler}
+    <>
+      {modalOpen && (
+        <Modal
+          open={modalOpen}
+          modalHandler={() => setModalOpen(false)}
+          btnType="right-two"
+          mainBtnHandler={postTheme}
         >
-          <p className="plus-button">+</p>
-          <p>경품 등록하기</p>
-        </button>
+          <h5>내용을 저장하시겠습니까?</h5>
+          <p>예를 누르시면 마이페이지로 이동합니다.</p>
+        </Modal>
       )}
-      <br />
-      <Button size="medium" text="확인" onClick={postTheme} />
-    </div>
+      <div
+        className="custom-modal-container"
+        style={isOpen ? { right: "0" } : { left: "120%" }}
+      >
+        <button type="button" onClick={modalHandler} className="close-button">
+          <img src={closeImg} alt="닫기" />
+        </button>
+        <LogoInput themeLogo={themeLogo} imgHandler={imgHandler} />
+        <ColorInput themeColor={themeColor} colorHandler={colorHandler} />
+        <UrlInput />
+
+        <RewardsList
+          rewardsList={rewardsList}
+          setRewardsList={setRewardsList}
+          isRewardOpen={isRewardOpen}
+          rewardHandler={rewardHandler}
+        />
+
+        <br />
+        <Button size="medium" text="확인" onClick={modalHandelr} />
+      </div>
+    </>
   );
 }
