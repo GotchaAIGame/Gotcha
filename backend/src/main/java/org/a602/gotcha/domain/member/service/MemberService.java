@@ -82,6 +82,7 @@ public class MemberService {
 			.orElseThrow(() -> new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage()));
 	}
 
+	@Transactional(readOnly = true)
 	public MemberInformationResponse findMemberInformation(final Long id) {
 		final Member member = memberRepository.findById(id)
 			.orElseThrow(MemberNotFoundException::new);
