@@ -26,13 +26,17 @@ public class MemberUpdateRequest {
 	@NotNull
 	@Schema(description = "프로필 이미지")
 	private final String profileImage;
+	@NotNull
+	@Schema(description = "가입경로")
+	private final String registrationId;
 
-	public Member toEntity(){
+	public Member toEntity() {
 		return Member.builder()
 			.id(id)
 			.nickname(nickname)
 			.organization(organization)
 			.email(email)
+			.registrationId(registrationId)
 			.profileImage(profileImage)
 			.build();
 	}
