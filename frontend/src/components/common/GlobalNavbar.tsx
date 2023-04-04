@@ -11,12 +11,12 @@ export default function GlobalNavbar() {
   // 해당 링크 참고: https://changmin.tistory.com/40
   const location = useLocation();
 
-  let hasLogo = true;
-  if (
-    location.pathname === "/create/game" ||
-    location.pathname.startsWith("/edit")
-  )
-    hasLogo = false;
+  const hasLogo = true;
+  // if (
+  //   location.pathname === "/create/game" ||
+  //   location.pathname.startsWith("/edit")
+  // )
+  //   hasLogo = false;
 
   return (
     <header className="global-nav-header">

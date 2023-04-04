@@ -31,7 +31,7 @@ export default function CreatorMainPage() {
               <GameListTap />
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> 
       </Grid>
     </div>
   );
