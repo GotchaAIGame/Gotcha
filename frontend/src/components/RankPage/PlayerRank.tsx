@@ -80,7 +80,10 @@ export default function PlayerRank() {
         </Grid>
         {userArray.map((user: IUser, index: number) => (
           <div
-            style={{ backgroundColor: user.isUser ? "#E8E8E8" : "transparent" }}
+            style={{
+              backgroundColor: user.isUser ? "#E8E8E8" : "transparent",
+              animationDelay: `${index * 0.3}s`,
+            }}
             className="rankInfo-wrapper"
             key={index}
           >

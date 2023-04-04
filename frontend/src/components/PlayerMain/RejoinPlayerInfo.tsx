@@ -41,7 +41,7 @@ export default function RejoinPlayerInfo() {
       alert("비밀번호 4자리를 입력해주세요.");
     }
     if (currentRef) {
-      const nickname = currentRef.value;
+      const nickname = currentRef.value.replace(/ /g, "");
       console.log(nickname, " 이곳에서 저장할게요");
       const password = parseInt(otp.slice(0, 4), 10);
       const request = gamePlayAPI.login(roomId, nickname, password);
@@ -108,24 +108,32 @@ export default function RejoinPlayerInfo() {
 
   return (
     <div>
-      <InputBox type="text" text="닉네임" ref={nicknameHandler} />
-      <OTPInput value={otp} valueLength={4} onChange={changeHandler} />
-      <div className="enter-button">
+      <div className={isClicked ? "name-pw-wrapper-fadeout" : ""}>
+        <InputBox type="text" text="닉네임" ref={nicknameHandler} />
+        <OTPInput value={otp} valueLength={4} onChange={changeHandler} />
+      </div>
+      <div className="player-main-buttons">
         {isClicked ? (
           <>
             {isFinish ? (
-              <Button text="랭킹보기" onClick={rankClickHandler} />
+              <div className="rank-btn">
+                <Button text="랭킹보기" onClick={rankClickHandler} />
+              </div>
             ) : (
-              <Button text="이어하기" onClick={rejoinClickHandler} />
+              <div className="rejoin-btn">
+                <Button text="이어하기" onClick={rejoinClickHandler} />
+              </div>
             )}
           </>
         ) : (
-          <Button
-            text="입장하기"
-            type="submit"
-            color="gray-blue"
-            onClick={rejoinGameHandler}
-          />
+          <div className="enter-btn">
+            <Button
+              text="입장하기"
+              type="submit"
+              color="gray-blue"
+              onClick={rejoinGameHandler}
+            />
+          </div>
         )}
       </div>
     </div>

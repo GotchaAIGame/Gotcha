@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gamePlayAPI } from "@apis/apis";
@@ -7,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function InputPinNum() {
   const [inputPin, setInputPin] = useState<any>("");
   const [pinWritten, setPinWritten] = useState<boolean>(false);
+  const [errorCode, setErrorCode] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,16 +40,20 @@ export default function InputPinNum() {
             navigate(`/rejoin/${inputPin}`, { state: { room, inputPin } }); // 재참여
           }
           setInputPin("");
+          setErrorCode(0); // 정상
         })
         .catch((err) => {
-          alert("유효하지 않은 방입니다.");
+          // alert("유효하지 않은 방입니다.");
           console.error(err);
           setInputPin("");
+          setErrorCode(1); // 유효하지 않은 방
         });
-    } else {
-      alert("6자리의 PIN번호를 모두 입력해주세요.");
-      setInputPin("");
     }
+    // else {
+    //   alert("6자리의 PIN번호를 모두 입력해주세요.");
+    //   setInputPin("");
+    //   setErrorCode(2); // 6자리 미충족
+    // }
   };
 
   useEffect(() => {
@@ -61,12 +67,15 @@ export default function InputPinNum() {
   return (
     <div className="input-pin-num-container">
       <input
-        className={pinWritten ? "input-written-pin-num" : "input-pin-num"}
+        // className={pinWritten ? "input-written-pin-num" : "input-pin-num"}
         type="number"
         placeholder="게임 PIN번호 입력"
         value={inputPin.toString()}
         onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // useRef로 바꿀 것
+        // required
+        className={errorCode === 1 || errorCode === 2 ? "invalid" : ""}
       />
+      {errorCode !== 0 ? <p className="invalid-msg">유효하지 않은 방입니다</p> : ""}
       {inputPin.toString().length === 6 && (
         <>
           <button
