@@ -1,12 +1,11 @@
 package org.a602.gotcha.global.security.oauth;
 
 import static org.a602.gotcha.global.security.jwt.JwtTokenProvider.*;
-import static org.a602.gotcha.global.security.oauth.HttpCookieOAuthAuthorizationRequestRepository.*;
+import static org.a602.gotcha.global.security.oauth.HttpCookieOAuthAuthorizationRequestRepository.REDIRECT_URI;
 import static org.apache.http.HttpHeaders.*;
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,11 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	public static final String EMAIL = "email";
-	public static final String ACCESS_TOKEN = "accessToken";
-	public static final String REFRESH_TOKEN = "refreshToken";
-	public static final String NICKNAME = "nickname";
-	public static final String PROFILE_IMAGE = "profileImage";
 	public static final String REGISTRATION_ID = "registrationId";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
@@ -65,31 +59,20 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		final OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken)authentication;
 		final String registrationId = oAuth2AuthenticationToken.getAuthorizedClientRegistrationId(); // provider 정보추출
-		final OAuth2UserInfo oAuth2UserInfo = createOAuth2UserInfo(registrationId, attributes); // provider에 해당하는 유저객체 생성
+		final OAuth2UserInfo oAuth2UserInfo = createOAuth2UserInfo(registrationId,
+			attributes); // provider에 해당하는 유저객체 생성
 		final Optional<Member> optionalMember = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail()); // 데이터 조회
 
-		if (optionalMember.isPresent()) {
-			final Member member = optionalMember.get();
-			final String accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
-			final String refreshToken = BEARER + jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+		final Member member = optionalMember.get();
+		final String accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
 
-			httpServletResponse.setHeader(AUTHORIZATION, accessToken);
+		httpServletResponse.setHeader(AUTHORIZATION, accessToken);
 
-			return UriComponentsBuilder.fromUriString(targetUrl)
-				.queryParam(ACCESS_TOKEN, accessToken)
-				.queryParam(REFRESH_TOKEN, refreshToken)
-				.queryParam(EMAIL, member.getEmail())
-				.queryParam(NICKNAME, URLEncoder.encode(member.getNickname(), StandardCharsets.UTF_8))
-				.queryParam(PROFILE_IMAGE, member.getProfileImage())
-				.build()
-				.toUriString();
-
-		} else {
-			return UriComponentsBuilder.newInstance()
-				.queryParam(EMAIL, oAuth2UserInfo.getEmail())
-				.queryParam(REGISTRATION_ID, registrationId)
-				.toUriString();
-		}
+		return UriComponentsBuilder.fromUriString(targetUrl)
+			.queryParam(ACCESS_TOKEN, accessToken)
+			.queryParam(REGISTRATION_ID, registrationId)
+			.build()
+			.toUriString();
 	}
 
 	private OAuth2UserInfo createOAuth2UserInfo(final String registrationId, final Map<String, Object> attributes) {

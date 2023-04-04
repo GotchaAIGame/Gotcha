@@ -8,6 +8,7 @@ import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberLogoutRequest;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
+import org.a602.gotcha.domain.member.request.MemberSocialLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
 import org.a602.gotcha.domain.member.request.ReCreateAccessTokenRequest;
 import org.a602.gotcha.domain.member.response.MemberInformationResponse;
@@ -17,6 +18,7 @@ import org.a602.gotcha.global.common.S3Service;
 import org.a602.gotcha.global.error.GlobalErrorCode;
 import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,21 +60,36 @@ public class MemberService {
 		String refreshToken;
 
 		if (passwordEncoder.matches(memberLoginRequest.getPassword(), member.getPassword())) {
-			accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
-			refreshToken = BEARER + jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+			accessToken = jwtTokenProvider.createAccessToken(member);
+			refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
 		} else {
 			throw new IllegalArgumentException(GlobalErrorCode.MISMATCH_PASSWORD.getMessage());
 		}
 
-		return new MemberLoginResponse(member, accessToken, refreshToken);
+		return new MemberLoginResponse(member, BEARER + accessToken, BEARER + refreshToken);
+	}
+
+	@Transactional(readOnly = true)
+	public MemberLoginResponse socialLogin(final MemberSocialLoginRequest memberSocialLoginRequest) {
+		final Authentication authentication = jwtTokenProvider.getAuthentication(
+			memberSocialLoginRequest.getAccessToken());
+		final Member member = memberRepository.findMemberByEmailAndRegistrationId(authentication.getName(),
+				memberSocialLoginRequest.getRegistrationId())
+			.orElseThrow(MemberNotFoundException::new);
+
+		final String accessToken = jwtTokenProvider.createAccessToken(member);
+		final String refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+
+		return new MemberLoginResponse(member, BEARER + accessToken, BEARER + refreshToken);
 	}
 
 	@Transactional(readOnly = true)
 	public String reCreateToken(final ReCreateAccessTokenRequest reCreateAccessTokenRequest) {
 		final Member member = memberRepository.findMemberByEmail(reCreateAccessTokenRequest.getEmail())
 			.orElseThrow(MemberNotFoundException::new);
+		final String refreshToken = jwtTokenProvider.splitToken(reCreateAccessTokenRequest.getRefreshToken());
 
-		return BEARER + jwtTokenProvider.reCreateAccessToken(reCreateAccessTokenRequest.getRefreshToken(), member);
+		return BEARER + jwtTokenProvider.reCreateAccessToken(refreshToken, member);
 	}
 
 	public String logout(final MemberLogoutRequest memberLogoutRequest) {
