@@ -72,6 +72,10 @@ public class Member implements UserDetails {
 		this.registrationId = "normal";
 	}
 
+	public void insertDefaultImage() {
+		this.profileImage = "https://a602gotcha.s3.ap-northeast-2.amazonaws.com/basic_profile.png";
+	}
+
 	public void updateMember(final Member member, final String uploadImageUrl) {
 		this.id = member.getId();
 		this.nickname = member.getNickname();

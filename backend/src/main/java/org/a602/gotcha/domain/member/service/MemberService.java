@@ -39,6 +39,7 @@ public class MemberService {
 		final Member member = memberRepository.save(memberSignupRequest.toEntity());
 		member.encodePassword(passwordEncoder);
 		member.insertDefaultRegistrationId();
+		member.insertDefaultImage();
 
 		return member.getId();
 	}
