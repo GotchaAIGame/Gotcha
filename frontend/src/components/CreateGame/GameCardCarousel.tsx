@@ -10,27 +10,24 @@ interface problemInfo {
   id : number
   name : React.RefObject<HTMLInputElement>
   hint : React.RefObject<HTMLInputElement>
+  image : React.RefObject<HTMLInputElement>
 }
 
 export default function GameCardCarousel() {
   const [gameCardRefArray, setGameCardRefArray] = useState<
     Array<problemInfo>
   >([
-    {id : 0, name : React.createRef<HTMLInputElement>(), hint : React.createRef<HTMLInputElement>()},
+    {id : 0, name : React.createRef<HTMLInputElement>(), hint : React.createRef<HTMLInputElement>(), image : React.createRef<HTMLInputElement>()},
   ]);
 
   let tempProbId = useRef<number>(0)
   const addProblemHandler = () => {
     const refObj1 = React.createRef<HTMLInputElement>();
-    if (refObj1.current) {
-      refObj1.current.value = "xyxy";
-    }
     const refObj2 = React.createRef<HTMLInputElement>();
-    if (refObj2.current) {
-      refObj2.current.value = "xyxy";
-    }
+    const refObj3 = React.createRef<HTMLInputElement>();
+
     tempProbId.current += 1
-    setGameCardRefArray([...gameCardRefArray, {id : tempProbId.current, name : refObj1, hint : refObj2}]);
+    setGameCardRefArray([...gameCardRefArray, {id : tempProbId.current, name : refObj1, hint : refObj2, image : refObj3}]);
   };
 
   // const deleteProblemHandler = (idx: number) => {
@@ -43,10 +40,12 @@ export default function GameCardCarousel() {
   // };
 
   const deleteProblemHandler = (idx : number) => {
+    if (gameCardRefArray.length > 1){
     const newGameCardRefArray = [...gameCardRefArray].filter((value) => {
       return value.id !== idx
     })
     setGameCardRefArray(newGameCardRefArray)
+  }
   }
 
   return (
@@ -63,14 +62,15 @@ export default function GameCardCarousel() {
             const probIndex = data.id
             const cardNameRef = data.name;
             const cardHintRef = data.hint;
+            const cardImageRef = data.image
 
             return (
               <div key={probIndex}>
                 <GameCard
                   idx={probIndex}
-                  problemLength={gameCardRefArray.length}
                   cardNameRef={cardNameRef}
                   cardHintRef={cardHintRef}
+                  cardImageRef={cardImageRef}
                   deleteHandler={deleteProblemHandler}
                 />
               </div>
