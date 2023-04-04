@@ -4,6 +4,7 @@ import { setProblem, deleteProblem } from "@stores/game/gameSlice";
 import closeButton from "@assets/smallDeleteButton.svg";
 
 export default function GameCard(Props: any) {
+  // const { idx, problemLength, cardNameRef, cardHintRef } = Props;
   const { idx, problemLength, cardNameRef, cardHintRef, deleteHandler } = Props;
   const [isTyping, setIsTyping] = useState<boolean>(true);
 
@@ -104,7 +105,7 @@ export default function GameCard(Props: any) {
           <input
             type="text"
             placeholder="문제 이름을 입력해주세요"
-            id="name"
+            id={`name-${idx}`}
             // value={problemInfo.name}
             // onChange={changeInfoHanlder}
             ref={cardNameRef}
@@ -148,7 +149,7 @@ export default function GameCard(Props: any) {
         <div className="hint-input-wrapper">
           <input
             type="text"
-            id="hint"
+            id={`hint-${idx}`}
             placeholder="힌트를 추가해 주세요"
             // value={problemInfo.hint}
             // onChange={changeInfoHanlder}

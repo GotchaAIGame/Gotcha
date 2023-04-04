@@ -6,13 +6,20 @@ import GameCard from "./GameCard";
 import plusButton from "@assets/purpleplusButton.svg";
 // import UploadTest from "./UploadTest";
 
+interface problemInfo {
+  id : number
+  name : React.RefObject<HTMLInputElement>
+  hint : React.RefObject<HTMLInputElement>
+}
+
 export default function GameCardCarousel() {
   const [gameCardRefArray, setGameCardRefArray] = useState<
-    Array<Array<React.Ref<HTMLInputElement>>>
+    Array<problemInfo>
   >([
-    [React.createRef<HTMLInputElement>(), React.createRef<HTMLInputElement>()],
+    {id : 0, name : React.createRef<HTMLInputElement>(), hint : React.createRef<HTMLInputElement>()},
   ]);
 
+  let tempProbId = useRef<number>(0)
   const addProblemHandler = () => {
     const refObj1 = React.createRef<HTMLInputElement>();
     if (refObj1.current) {
@@ -22,34 +29,25 @@ export default function GameCardCarousel() {
     if (refObj2.current) {
       refObj2.current.value = "xyxy";
     }
-    console.log(refObj1);
-    setGameCardRefArray([...gameCardRefArray, [refObj1, refObj2]]);
+    tempProbId.current += 1
+    setGameCardRefArray([...gameCardRefArray, {id : tempProbId.current, name : refObj1, hint : refObj2}]);
   };
 
-  const deleteProblemHandler = (idx: number) => {
-    const newGameCardRefArray = [...gameCardRefArray].filter(
-      (array, index: number) => {
-        return index !== idx;
-      }
-    );
-    pooCleaner(newGameCardRefArray);
-    setGameCardRefArray([...newGameCardRefArray]);
-  };
+  // const deleteProblemHandler = (idx: number) => {
+  //   const newGameCardRefArray = [...gameCardRefArray].filter(
+  //     (array, index: number) => {
+  //       return index !== idx;
+  //     }
+  //   );
+  //   setGameCardRefArray([...newGameCardRefArray]);
+  // };
 
-  const pooCleaner = (param: Array<any>) => {
-    const sibal = [...param];
-    sibal.forEach((refElement, idx) => {
-      const sibal1 = refElement[0] as React.RefObject<HTMLInputElement>;
-      console.log(sibal1.current?.value, "name", idx);
-      const sibal2 = refElement[1] as React.RefObject<HTMLInputElement>;
-      console.log(sibal2.current?.value, "hint", idx);
-    });
-  };
-
-  useEffect(() => {
-    console.log("바뀌었다.");
-    pooCleaner(gameCardRefArray);
-  }, [gameCardRefArray]);
+  const deleteProblemHandler = (idx : number) => {
+    const newGameCardRefArray = [...gameCardRefArray].filter((value) => {
+      return value.id !== idx
+    })
+    setGameCardRefArray(newGameCardRefArray)
+  }
 
   return (
     <div>
@@ -57,26 +55,19 @@ export default function GameCardCarousel() {
         <h5>문제 입력</h5>
         <div className="right-text-wrapper">
           <p>등록된 문제 {gameCardRefArray.length}개 </p>
-          <button
-            type="button"
-            onClick={() => {
-              pooCleaner(gameCardRefArray);
-            }}
-          >
-            똥 치우기 2
-          </button>
         </div>
       </div>
       <div className="cards-and-plusbutton-container">
         {gameCardRefArray &&
           gameCardRefArray.map((data: any, index: number) => {
-            const cardNameRef = data[0];
-            const cardHintRef = data[1];
+            const probIndex = data.id
+            const cardNameRef = data.name;
+            const cardHintRef = data.hint;
 
             return (
-              <div key={`${index}`}>
+              <div key={probIndex}>
                 <GameCard
-                  idx={index}
+                  idx={probIndex}
                   problemLength={gameCardRefArray.length}
                   cardNameRef={cardNameRef}
                   cardHintRef={cardHintRef}
