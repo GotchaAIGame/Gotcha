@@ -55,20 +55,20 @@ export default function PlayerRank() {
       <div className="rank-content">
         {fromMy ? (
           <Grid container className="rank-header">
-            <Grid item xs={2} md={1}>
+            <Grid item xs={1} md={1}>
               <h5 className="rank-box1">등수</h5>
             </Grid>
-            <Grid item xs={4} md={4}>
+            <Grid item xs={2} md={4}>
               <h5 className="rank-box2">닉네임</h5>
             </Grid>
-            <Grid item xs={4} md={3}>
+            <Grid item xs={1} md={3}>
               <h5 className="rank-box3">시간</h5>
             </Grid>
-            <Grid item xs={2} md={1}>
+            <Grid item xs={1} md={1}>
               <h5 className="rank-box4">정답</h5>
             </Grid>
             <Grid item xs={2} md={3}>
-              <h5 className="rank-box4">전화번호</h5>
+              <h5 className="rank-box5">전화번호</h5>
             </Grid>
           </Grid>
         ) : (

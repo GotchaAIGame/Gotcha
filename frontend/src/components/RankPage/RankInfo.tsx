@@ -38,7 +38,7 @@ export default function RankInfo({
     <>
       {fromMy ? (
         <Grid container className="rank-info-wrapper">
-          <Grid item xs={2} md={1}>
+          <Grid item xs={1} md={1}>
             {medal == null ? (
               <>
                 <hr />
@@ -50,13 +50,13 @@ export default function RankInfo({
               <img src={medal} alt="메달" />
             )}
           </Grid>
-          <Grid item xs={4} md={4}>
+          <Grid item xs={2} md={4}>
             <h5>{nickname}</h5>
           </Grid>
-          <Grid item xs={4} md={3}>
+          <Grid item xs={1} md={3}>
             <p>{time}</p>
           </Grid>
-          <Grid item xs={2} md={1}>
+          <Grid item xs={1} md={1}>
             <p>{cnt}</p>
           </Grid>
           <Grid item xs={2} md={3}>
