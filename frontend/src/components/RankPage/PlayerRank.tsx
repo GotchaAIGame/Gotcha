@@ -14,6 +14,7 @@ interface IUser {
   duration: string;
   isUser: boolean;
   solvedCnt: number;
+  phoneNumber: string;
 }
 
 export default function PlayerRank() {
@@ -27,11 +28,12 @@ export default function PlayerRank() {
 
   const fromMy = location.state.fromMypage;
   useEffect(() => {
-    // fromMy일때
+    // 마이페이지에서 넘어올 때
     if (fromMy === true) {
       const api = creatorAPI.rankAll(creatorRoom);
       api.then((res) => {
         const users = res.data.result;
+        console.log(users);
         setUserArray(users);
       });
     }
@@ -45,29 +47,46 @@ export default function PlayerRank() {
     }
   }, [location.pathname, playerRoom, nickname, fromMy]);
 
-  // 해야할 것
-  // 1. 문제수 추가할 것
-  // 2. isUser true인 애는 회색으로 하이라이트
   return (
     <section className="player-rank-wrapper">
       <header className="ranking-title-flag">
         <h1>Ranking</h1>
       </header>
       <div className="rank-content">
-        <Grid container className="rank-header">
-          <Grid item xs={2} md={2}>
-            <h5 className="rank-box1">등수</h5>
+        {fromMy ? (
+          <Grid container className="rank-header">
+            <Grid item xs={2} md={1}>
+              <h5 className="rank-box1">등수</h5>
+            </Grid>
+            <Grid item xs={4} md={4}>
+              <h5 className="rank-box2">닉네임</h5>
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <h5 className="rank-box3">시간</h5>
+            </Grid>
+            <Grid item xs={2} md={1}>
+              <h5 className="rank-box4">정답</h5>
+            </Grid>
+            <Grid item xs={2} md={3}>
+              <h5 className="rank-box4">전화번호</h5>
+            </Grid>
           </Grid>
-          <Grid item xs={4} md={4}>
-            <h5 className="rank-box2">닉네임</h5>
+        ) : (
+          <Grid container className="rank-header">
+            <Grid item xs={2} md={2}>
+              <h5 className="rank-box1">등수</h5>
+            </Grid>
+            <Grid item xs={4} md={4}>
+              <h5 className="rank-box2">닉네임</h5>
+            </Grid>
+            <Grid item xs={4} md={4}>
+              <h5 className="rank-box3">시간</h5>
+            </Grid>
+            <Grid item xs={2} md={2}>
+              <h5 className="rank-box4">정답</h5>
+            </Grid>
           </Grid>
-          <Grid item xs={4} md={4}>
-            <h5 className="rank-box3">시간</h5>
-          </Grid>
-          <Grid item xs={2} md={2}>
-            <h5 className="rank-box4">정답</h5>
-          </Grid>
-        </Grid>
+        )}
         {userArray.map((user: IUser, index: number) => (
           <div
             style={{
@@ -77,12 +96,23 @@ export default function PlayerRank() {
             className="rankInfo-wrapper"
             key={index}
           >
-            <RankInfo
-              rank={user.grade}
-              nickname={user.nickname}
-              time={user.duration}
-              cnt={user.solvedCnt}
-            />
+            {fromMy ? (
+              <RankInfo
+                rank={user.grade}
+                nickname={user.nickname}
+                time={user.duration}
+                cnt={user.solvedCnt}
+                number={user.phoneNumber}
+                fromMy
+              />
+            ) : (
+              <RankInfo
+                rank={user.grade}
+                nickname={user.nickname}
+                time={user.duration}
+                cnt={user.solvedCnt}
+              />
+            )}
           </div>
         ))}
       </div>

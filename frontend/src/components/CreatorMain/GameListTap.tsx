@@ -34,10 +34,8 @@ export default function GameListTap() {
   };
 
   useEffect(() => {
-    console.log("렌더링!");
     const result = creatorAPI.getAllGameRoom(userId, 0);
     result.then((res) => {
-      console.log(res.data.result);
       setCreateGames(res.data.result.content);
     });
   }, []);

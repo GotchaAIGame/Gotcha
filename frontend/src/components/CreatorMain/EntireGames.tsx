@@ -3,12 +3,6 @@ import GameCard from "./GameCard";
 
 export default function EntireGames(props: any) {
   const { createGames } = props;
-  console.log(createGames);
-
-  // createGames.map((item: any) => {
-  //   console.log(item);
-  //   return null;
-  // });
 
   return (
     <>

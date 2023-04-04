@@ -21,7 +21,6 @@ export default function RankButtons() {
   const roomId = useSelector((state: any) => state.theme.room);
   const nickname = useSelector((state: any) => state.gamePlay.nickname);
   useEffect(() => {
-    console.log(nickname);
     const handleModalRequest = async () => {
       try {
         const res = await gamePlayAPI.reward(roomId);
