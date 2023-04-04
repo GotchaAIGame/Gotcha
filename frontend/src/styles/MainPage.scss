@@ -25,7 +25,7 @@
 .main-page-container {
   background-color: $blue-1;
   background-image: url("../assets/fullBGPattern.svg");
-  height: 100vh;
+  min-height: 100vh;
   .main-content-wrapper {
     position: relative;
     top: 11%;

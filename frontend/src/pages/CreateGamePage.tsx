@@ -29,12 +29,12 @@ export default function CreateGamePage() {
     setNeedHelp(!needHelp);
   };
 
-  const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const postGameCreate = () => {
     // e.preventDefault();
     console.log("최종적으로 쏘는 정보");
     console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
-
+    setModalOpen(false);
     // 제목, 기간, 정보 입력 여부 확인
     if (
       gameInfo.title &&
@@ -71,7 +71,7 @@ export default function CreateGamePage() {
   };
 
   const modalHandelr = () => {
-    setModalOpen(!modalOpen);
+    setModalOpen(true);
   };
 
   return (
@@ -79,9 +79,9 @@ export default function CreateGamePage() {
       {modalOpen && (
         <Modal
           open={modalOpen}
-          modalHandler={() => setModalOpen(!modalOpen)}
+          modalHandler={() => setModalOpen(false)}
           btnType="right-two"
-          mainBtnHandler={() => postGameCreate}
+          mainBtnHandler={postGameCreate}
         >
           <h5>게임을 생성하시겠습니까?</h5>
           <p>문제는 생성되면 수정할 수 없습니다.</p>
