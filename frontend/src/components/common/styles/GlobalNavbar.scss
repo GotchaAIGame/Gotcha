@@ -1,3 +1,5 @@
+@import "@styles/mixin";
+
 .global-nav-header {
   height: 140px;
   background-image: url("../../../assets/TopBanner.svg");
@@ -10,7 +12,13 @@
   // 로고 이미지
   img {
     position: relative;
-    width: 325px;
-    top: 100px;
+    @include desktop {
+      top: 40%;
+      width: 325px;
+    }
+    @include mobile {
+      top: 50%;
+      width: 235px;
+    }
   }
 }
