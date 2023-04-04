@@ -13,10 +13,14 @@ import { resetGame } from "@stores/game/gameSlice";
 import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
 import GlobalNav from "@components/common/GlobalNavbar";
 import Progressbar from "@components/CreateGame/Progressbar";
+import Modal from "@components/common/Modal";
 
 export default function EditGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   const gameInfo = useSelector((state: any) => state.game);
+  const nickname = useSelector((state: any) => state.users.nickname);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -84,11 +88,35 @@ export default function EditGamePage() {
   }, []);
 
   const deleteGame = () => {
-    alert("진짜 삭제?");
+    const result = creatorAPI.deleteGameRoom(roomId);
+    result
+      .then((res) => {
+        console.log(res, "삭제 성공");
+        dispatch(resetGame());
+        navigate(`/mypage/:${nickname}`);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+
+  const modalHandelr = () => {
+    setModalOpen(true);
   };
 
   return (
     <div>
+      {modalOpen && (
+        <Modal
+          open={modalOpen}
+          modalHandler={() => setModalOpen(false)}
+          btnType="right-two"
+          mainBtnHandler={deleteGame}
+        >
+          <h5>게임을 삭제하시겠습니까?</h5>
+          <p>삭제한 게임과 관련 기록은 다시 복구할 수 없습니다.</p>
+        </Modal>
+      )}
       <GlobalNav />
       <Grid container className="create-game-grid-container">
         {needHelp ? (
@@ -104,6 +132,15 @@ export default function EditGamePage() {
               <InputGameInfo />
               <GameCardCarousel />
             </div>
+            <div className="edit-page-buttons-container">
+              <Button size="medium" text="수정" onClick={putGame} />
+              <Button
+                size="medium"
+                color="gray-blue"
+                text="게임 삭제"
+                onClick={modalHandelr}
+              />
+            </div>
           </Grid>
         )}
         <button
@@ -117,19 +154,6 @@ export default function EditGamePage() {
             title="도움말을 보시려면 클릭하세요"
           />
         </button>
-      </Grid>
-      <Grid container>
-        <Grid item xs={11} md={9} className="buttons-footer">
-          <div className="buttons-container">
-            <Button size="medium" text="수정" onClick={putGame} />
-            <Button
-              size="medium"
-              color="gray-blue"
-              text="게임 삭제"
-              onClick={deleteGame}
-            />
-          </div>
-        </Grid>
       </Grid>
     </div>
   );
