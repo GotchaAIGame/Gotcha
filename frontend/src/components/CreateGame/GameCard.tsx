@@ -137,7 +137,7 @@ export default function GameCard(Props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
@@ -153,7 +153,7 @@ export default function GameCard(Props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />

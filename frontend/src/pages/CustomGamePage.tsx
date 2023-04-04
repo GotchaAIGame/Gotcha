@@ -11,6 +11,7 @@ import "@styles/CustomModalPage.scss";
 import { useAppDispatch } from "@stores/storeHooks";
 import { setProblems } from "@stores/game/gamePlaySlice";
 import CustomNavbar from "@components/common/CustomNavbar";
+import classNames from "classnames";
 
 export default function CustomGamePage() {
   const [isOpen, setIsOpen] = useState<boolean>(true);

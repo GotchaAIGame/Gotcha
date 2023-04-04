@@ -147,7 +147,7 @@ export default function EditProfile() {
             name="file"
             id="file"
             type="file"
-            accept=".jpg, .jpeg .png"
+            accept=".jpg, .jpeg, .png"
             ref={uploadImage}
             onChange={uploadHandler}
             onClick={() => uploadImage.current?.click()}
