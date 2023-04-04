@@ -112,7 +112,7 @@ export default function GameCard(Props: any) {
     <div>
       <div
         className="card-wrapper"
-        title={isTyping ? "문제 내용을 입력해 주세요" : ""}
+        title={isTyping ? "문제 내용을 입력해주세요" : ""}
       >
         <header className={isTyping ? "typing-header" : "typed-header"}>
           <button type="button" onClick={deleteHandler}>
@@ -121,8 +121,9 @@ export default function GameCard(Props: any) {
 
           <input
             type="text"
-            placeholder="문제이름"
+            placeholder="문제 이름을 입력해주세요"
             id="name"
+            maxLength={14}
             value={problemInfo.name}
             onChange={changeInfoHanlder}
           />
@@ -159,12 +160,14 @@ export default function GameCard(Props: any) {
             </label>
           )}
         </div>
-        <div className={isTyping ? "typing-hint-text-box" : "hint-text-box" }>힌트</div>
+        <div className={isTyping ? "typing-hint-text-box" : "hint-text-box"}>
+          힌트
+        </div>
         <div className="hint-input-wrapper">
           <input
             type="text"
             id="hint"
-            placeholder="힌트를 추가해 주세요"
+            placeholder="힌트를 추가해주세요"
             value={problemInfo.hint}
             onChange={changeInfoHanlder}
           />

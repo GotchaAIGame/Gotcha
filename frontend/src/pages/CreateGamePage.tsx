@@ -13,9 +13,12 @@ import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
 import { resetGame } from "@stores/game/gameSlice";
 import { setLoading } from "@stores/loading/loadingSlice";
+import Progressbar from "@components/CreateGame/Progressbar";
+import Modal from "@components/common/Modal";
 
 export default function CreateGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const gameInfo = useSelector((state: any) => state.game);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,41 +62,61 @@ export default function CreateGamePage() {
         })
         .catch((res) => {
           dispatch(setLoading(false));
-          alert("내용을 입력해 주세요");
+          alert("내용을 입력해주세요");
         });
     } else {
       dispatch(setLoading(false));
-      alert("내용을 입력해 주세요");
+      alert("내용을 입력해주세요");
     }
+  };
+
+  const modalHandelr = () => {
+    setModalOpen(!modalOpen);
   };
 
   return (
     <div>
+      {modalOpen && (
+        <Modal
+          open={modalOpen}
+          modalHandler={() => setModalOpen(!modalOpen)}
+          btnType="right-two"
+          mainBtnHandler={() => postGameCreate}
+        >
+          <h5>게임을 생성하시겠습니까?</h5>
+          <p>문제는 생성되면 수정할 수 없습니다.</p>
+        </Modal>
+      )}
       <GlobalNavbar />
       {isLoading.loading && <Loading />}
       <Grid container className="create-game-grid-container">
-        {needHelp ? (
-          <Grid item xs={11} md={9}>
-            <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
-          </Grid>
-        ) : (
-          <Grid item xs={11} md={9}>
-            <InputGameInfo />
-            <GameCardCarousel />
-            <Button text="생성" onClick={postGameCreate} />
-            <button
-              type="button"
-              onClick={tempHelperHandler}
-              className="helper-button"
-            >
-              <img
-                src={helpButton}
-                alt="helper"
-                title="도움말을 보시려면 클릭하세요"
-              />
-            </button>
-          </Grid>
-        )}
+        <Grid item xs={11} md={8}>
+          <Progressbar progress={1} />
+          {needHelp ? (
+            <div className="create-main-box-container">
+              <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
+            </div>
+          ) : (
+            <>
+              <div className="create-main-box-container">
+                <InputGameInfo />
+                <GameCardCarousel />
+                <button
+                  type="button"
+                  onClick={tempHelperHandler}
+                  className="helper-button"
+                >
+                  <img
+                    src={helpButton}
+                    alt="helper"
+                    title="도움말을 보시려면 클릭하세요"
+                  />
+                </button>
+              </div>
+              <Button text="생성" onClick={modalHandelr} />
+            </>
+          )}
+        </Grid>
       </Grid>
     </div>
   );
