@@ -136,7 +136,7 @@ export default function GameCard(Props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
@@ -152,14 +152,16 @@ export default function GameCard(Props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
             </label>
           )}
         </div>
-        <div className={isTyping ? "typing-hint-text-box" : "hint-text-box" }>힌트</div>
+        <div className={isTyping ? "typing-hint-text-box" : "hint-text-box"}>
+          힌트
+        </div>
         <div className="hint-input-wrapper">
           <input
             type="text"

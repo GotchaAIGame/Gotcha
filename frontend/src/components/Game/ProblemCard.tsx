@@ -112,7 +112,7 @@ function ProblemCard(props: problemProps) {
                   <input
                     id={`upload ${index}`}
                     type="file"
-                    accept=".jpg, .jpeg .png"
+                    accept=".jpg, .jpeg, .png"
                     ref={uploadImage}
                     onChange={uploadHandler}
                     className="invisible"

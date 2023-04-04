@@ -62,7 +62,7 @@ export default function ModalTestPage2() {
             <input
               id="upload"
               type="file"
-              accept=".jpg, .jpeg .png"
+              accept=".jpg, .jpeg, .png"
               ref={inputRef}
             />
             <button type="submit" onClick={predictHandler}>
