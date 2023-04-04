@@ -12,6 +12,7 @@ import { creatorAPI } from "@apis/apis";
 import { resetGame } from "@stores/game/gameSlice";
 import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
 import GlobalNav from "@components/common/GlobalNavbar";
+import Progressbar from "@components/CreateGame/Progressbar";
 
 export default function EditGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
@@ -82,18 +83,27 @@ export default function EditGamePage() {
     }
   }, []);
 
+  const deleteGame = () => {
+    alert("진짜 삭제?");
+  };
+
   return (
     <div>
       <GlobalNav />
       <Grid container className="create-game-grid-container">
         {needHelp ? (
           <Grid item xs={11} md={9}>
+            <Progressbar progress={1} />
             <CreateGameTutorialPage />
           </Grid>
         ) : (
           <Grid item xs={11} md={9}>
-            <InputGameInfo />
-            <GameCardCarousel />
+            <Progressbar progress={1} />
+
+            <div className="create-main-box-container">
+              <InputGameInfo />
+              <GameCardCarousel />
+            </div>
           </Grid>
         )}
         <button
@@ -108,7 +118,19 @@ export default function EditGamePage() {
           />
         </button>
       </Grid>
-      <Button text="수정" onClick={putGame} />
+      <Grid container>
+        <Grid item xs={11} md={9} className="buttons-footer">
+          <div className="buttons-container">
+            <Button size="medium" text="수정" onClick={putGame} />
+            <Button
+              size="medium"
+              color="gray-blue"
+              text="게임 삭제"
+              onClick={deleteGame}
+            />
+          </div>
+        </Grid>
+      </Grid>
     </div>
   );
 }

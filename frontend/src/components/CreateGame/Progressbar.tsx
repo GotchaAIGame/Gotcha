@@ -26,7 +26,7 @@ export default function Progressbar(props: any) {
       </div>
       <div className="progressbar-tags-container">
         <span className={progress === 1 ? "progress-active-text" : ""}>
-          기본 게임 생성
+          기본 정보 입력
         </span>
         <span
           className={
