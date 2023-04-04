@@ -19,9 +19,9 @@ export default function RankButtons() {
   const [phonenum, setPhonenum] = useState("");
   const [rewardArray, setRewardArray] = useState<IReward[]>([]);
   const roomId = useSelector((state: any) => state.theme.room);
-  const nickname = useSelector((state: any) => state.theme.nickname);
-
+  const nickname = useSelector((state: any) => state.gamePlay.nickname);
   useEffect(() => {
+    console.log(nickname);
     const handleModalRequest = async () => {
       try {
         const res = await gamePlayAPI.reward(roomId);
