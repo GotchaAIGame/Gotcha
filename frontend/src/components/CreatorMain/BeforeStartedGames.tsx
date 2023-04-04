@@ -1,11 +1,11 @@
 import React from "react";
 import GameCard from "./GameCard";
 
-export default function FinishedGames(props: any) {
+export default function BeforeStartedGames(props: any) {
   const { createGames } = props;
   const today = new Date();
 
-  const finishedGames = createGames.filter((item: any) => {
+  const BeforeGames = createGames.filter((item: any) => {
     const start = new Date(item.startTime);
     const end = new Date(item.endTime);
 
@@ -15,8 +15,8 @@ export default function FinishedGames(props: any) {
 
   return (
     <>
-      {finishedGames.length > 0 ? (
-        finishedGames.map((item: any) => (
+      {BeforeGames.length > 0 ? (
+        BeforeGames.map((item: any) => (
           <GameCard gameInfo={item} key={item.id} />
         ))
       ) : (

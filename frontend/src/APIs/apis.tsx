@@ -165,9 +165,9 @@ const creatorAPI = {
     }),
 
   // 단일 문제 제거
-  deleteProblem: (roomId: number): Promise<AxiosResponse> =>
+  deleteProblem: (problemId: number): Promise<AxiosResponse> =>
     request.authDelete(`set/room`, {
-      data: { roomId },
+      data: { problemId },
     }),
   // 수정 관련 Apis
 
