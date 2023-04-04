@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { useAppSelector } from "@stores/storeHooks";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ProblemCard from "./ProblemCard";
 import Scroller from "./Scroller";
 
@@ -59,7 +61,14 @@ function ProblemCardList() {
         <div className="problem-carousel">
           <div className="carousel-inner-container" ref={cardList}>
             {problems.map((item, idx) => {
-              return <ProblemCard problem={item} key={`${item.problemId}`} index={`${item.problemId}`} solved={solved[idx]?.solved || false}/>;
+              return (
+                <ProblemCard
+                  problem={item}
+                  key={`${item.problemId}`}
+                  index={`${item.problemId}`}
+                  solved={solved[idx]?.solved || false}
+                />
+              );
             })}
           </div>
         </div>
@@ -71,7 +80,8 @@ function ProblemCardList() {
               buttonHandler("left");
             }}
           >
-            <h1 style={{ color: `${themeColor}` }}>◀</h1>
+            {/* <h1 style={{ color: `${themeColor}` }}>◀</h1> */}
+            <NavigateBeforeIcon fontSize="large" />
           </button>
           <button
             type="button"
@@ -80,7 +90,8 @@ function ProblemCardList() {
               buttonHandler("right");
             }}
           >
-            <h1 style={{ color: `${themeColor}` }}>▶</h1>
+            {/* <h1 style={{ color: `${themeColor}` }}>▶</h1> */}
+            <NavigateNextIcon fontSize="large" />
           </button>
         </div>
       </div>

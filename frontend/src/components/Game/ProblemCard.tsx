@@ -4,7 +4,7 @@ import Cropper, { ReactCropperElement } from "react-cropper";
 import { gamePlayAPI } from "@apis/apis";
 
 import "@styles/cropper.scss";
-import right from "@assets/right.svg"
+import right from "@assets/right.svg";
 import Button from "@components/common/Button";
 import AIModal from "./AIModal";
 
@@ -15,8 +15,8 @@ interface problemProps {
     problemDesc: string;
     problemImgURL: string;
   };
-  index : string;
-  solved : boolean;
+  index: string;
+  solved: boolean;
 }
 
 function ProblemCard(props: problemProps) {
@@ -24,13 +24,12 @@ function ProblemCard(props: problemProps) {
 
   const uploadImage = useRef<HTMLInputElement>(null);
   const croppedImageRef = useRef<ReactCropperElement>(null);
-  
-  const [hintOpen, setHintOpen]= useState(false)
+
+  const [hintOpen, setHintOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [AIModalOpen, setAIModalOpen] = useState(false);
   const [croppedImage, setCroppedImage] = useState<string>("");
   const [Image, setImage] = useState<string>("");
-
 
   const { problem, index, solved } = props;
   const { problemName, problemImgURL, problemId } = problem;
@@ -40,10 +39,10 @@ function ProblemCard(props: problemProps) {
     // console.log(croppedImageRef.current, "xx")
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedImage = croppedImageRef.current?.cropper
-        .getCroppedCanvas({maxHeight : 500, maxWidth : 500})
+        .getCroppedCanvas({ maxHeight: 500, maxWidth: 500 })
         .toDataURL();
 
-      console.log(croppedImageRef.current?.cropper, "XXXXX")
+      console.log(croppedImageRef.current?.cropper, "XXXXX");
       setCroppedImage(tempCroppedImage);
       setAIModalOpen(true);
     }
@@ -60,16 +59,14 @@ function ProblemCard(props: problemProps) {
   };
 
   const hintHandler = () => {
-    setHintOpen(!hintOpen)
-    if (!problemHint){
-    gamePlayAPI.getHint(problemId).then((res) =>
-    {
-      const hint = res.data.result
-      setProblemHint(hint)
+    setHintOpen(!hintOpen);
+    if (!problemHint) {
+      gamePlayAPI.getHint(problemId).then((res) => {
+        const hint = res.data.result;
+        setProblemHint(hint);
+      });
     }
-    )
-  }
-  }
+  };
 
   // console.log(index, "index 받았는데 ㅜㅠ")
 
@@ -98,7 +95,13 @@ function ProblemCard(props: problemProps) {
                 <p className="hint-text"> {problemHint} </p>
               </div>
             )}
-            <img src={problemImgURL} alt={problemName} />
+            <img
+              src={problemImgURL}
+              alt={problemName}
+              onContextMenu={(e) => {
+                e.preventDefault();
+              }}
+            />
           </div>
 
           <div className="input-image-container">
