@@ -167,6 +167,7 @@ public class ParticipantService {
                     .nickname(allRankList.get(i - 1).getNickname())
                     .solvedCnt(allRankList.get(i - 1).getSolvedCnt())
                     .duration(convertDuration(allRankList.get(i - 1).getDuration()))
+                    .phoneNumber(allRankList.get(i-1).getPhoneNumber())
                     .build();
             responseRank.add(ranker);
         }
