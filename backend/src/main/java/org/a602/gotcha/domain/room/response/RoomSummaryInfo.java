@@ -24,6 +24,8 @@ public class RoomSummaryInfo {
 
 
     private Integer problemCount;
+    private String color;
 
+    private Boolean hasReward;
     // getters and setters
 }

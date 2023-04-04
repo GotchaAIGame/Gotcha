@@ -48,7 +48,7 @@
 //        LocalDateTime endTime = LocalDateTime.now().plusDays(12);
 //        Room roomWithReward = Room.builder()
 //                .color("#5551FF")
-//                .logoUrl("https://a602gotcha.s3.ap-northeast-2.amazonaws.com/Gotcha!+logo.svg")
+//                .logoUrl("https://a602gotcha.s3.ap-northeast-2.amazonaws.com/GotCha+Logo.png")
 //                .title("싸피 팝업스토어")
 //                .eventUrl("eventUrl")
 //                .code(602602)
@@ -123,7 +123,7 @@
 //                    .name("규튜리의 사랑 크기" + (101 - i))
 //                    .grade(i)
 //                    .room(roomWithReward)
-//                    .image("http://cdn.ggilbo.com/news/photo/202007/782407_615776_4413.jpg")
+//                    .image("https://a602gotcha.s3.ap-northeast-2.amazonaws.com/GotCha+Logo.png")
 //                    .build();
 //            rewardRepository.save(reward);
 //        }
@@ -132,7 +132,7 @@
 //            Problem problem = Problem.builder()
 //                    .name("귀여운 월계입니다" + i)
 //                    .hint("힌트" + i)
-//                    .imageUrl("https://user-images.githubusercontent.com/47023884/225485373-db6f1961-15a1-49c2-9db1-05efdb930749.png")
+//                    .imageUrl("https://a602gotcha.s3.ap-northeast-2.amazonaws.com/GotCha+Logo.png")
 //                    .room(roomWithReward)
 //                    .build();
 //            problemRepository.save(problem);
