@@ -124,8 +124,8 @@ const creatorAPI = {
   }): Promise<AxiosResponse> => request.authPut("set/room", gameInfo),
 
   deleteGameRoom: (roomId: number): Promise<AxiosResponse> =>
-  request.authDelete(`set/reward`, {
-    params: { roomId },
+  request.authDelete(`set/room`, {
+    data: { roomId },
   }),
 
 
