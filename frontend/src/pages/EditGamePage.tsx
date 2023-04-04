@@ -119,30 +119,29 @@ export default function EditGamePage() {
       )}
       <GlobalNav />
       <Grid container className="create-game-grid-container">
-        {needHelp ? (
-          <Grid item xs={11} md={9}>
-            <Progressbar progress={1} />
-            <CreateGameTutorialPage />
-          </Grid>
-        ) : (
-          <Grid item xs={11} md={9}>
-            <Progressbar progress={1} />
-
-            <div className="create-main-box-container">
-              <InputGameInfo />
-              <GameCardCarousel />
-            </div>
-            <div className="edit-page-buttons-container">
-              <Button size="medium" text="수정" onClick={putGame} />
-              <Button
-                size="medium"
-                color="gray-blue"
-                text="게임 삭제"
-                onClick={modalHandelr}
-              />
-            </div>
-          </Grid>
+        {needHelp && (
+          <div className="create-main-box-container">
+            <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
+          </div>
         )}
+        <Grid item xs={11} md={9}>
+          <Progressbar progress={1} />
+
+          <div className="create-main-box-container">
+            <InputGameInfo />
+            <GameCardCarousel />
+          </div>
+          <div className="edit-page-buttons-container">
+            <Button size="medium" text="수정" onClick={putGame} />
+            <Button
+              size="medium"
+              color="gray-blue"
+              text="게임 삭제"
+              onClick={modalHandelr}
+            />
+          </div>
+        </Grid>
+
         <button
           type="button"
           onClick={tempHelperHandler}

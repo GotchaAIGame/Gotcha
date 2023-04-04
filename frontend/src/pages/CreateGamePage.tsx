@@ -92,30 +92,27 @@ export default function CreateGamePage() {
       <Grid container className="create-game-grid-container">
         <Grid item xs={11} md={8}>
           <Progressbar progress={1} />
-          {needHelp ? (
+          {needHelp && (
             <div className="create-main-box-container">
               <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
             </div>
-          ) : (
-            <>
-              <div className="create-main-box-container">
-                <InputGameInfo />
-                <GameCardCarousel />
-                <button
-                  type="button"
-                  onClick={tempHelperHandler}
-                  className="helper-button"
-                >
-                  <img
-                    src={helpButton}
-                    alt="helper"
-                    title="도움말을 보시려면 클릭하세요"
-                  />
-                </button>
-              </div>
-              <Button text="생성" onClick={modalHandelr} />
-            </>
           )}
+          <div className="create-main-box-container">
+            <InputGameInfo />
+            <GameCardCarousel />
+            <button
+              type="button"
+              onClick={tempHelperHandler}
+              className="helper-button"
+            >
+              <img
+                src={helpButton}
+                alt="helper"
+                title="도움말을 보시려면 클릭하세요"
+              />
+            </button>
+          </div>
+          <Button text="생성" onClick={modalHandelr} />
         </Grid>
       </Grid>
     </div>
