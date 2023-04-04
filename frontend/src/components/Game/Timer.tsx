@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "@stores/storeHooks";
@@ -35,14 +36,19 @@ function Timer() {
   }, [stopFlag]);
 
   return (
-    <div className="timer-wrapper" style={{ backgroundColor: `${themeColor}` }}>
-      {!days ? (
-        <h5>Loading ...</h5>
-      ) : (
-        <h5>
-          {days}:{hours}:{minutes}:{seconds}
-        </h5>
-      )}
+    <div className="timer-container">
+      <div
+        className="timer-wrapper"
+        style={{ backgroundColor: `${themeColor}` }}
+      >
+        {!days ? (
+          <h5>Loading ...</h5>
+        ) : (
+          <h5>
+            {days}:{hours}:{minutes}:{seconds}
+          </h5>
+        )}
+      </div>
     </div>
   );
 }

@@ -56,7 +56,7 @@ function AIModal(props: AIModalProps) {
               {resultStatus === 0 && <h1 className="blue"> AI 판독중 ... </h1>}
               {resultStatus === 1 && <h1 className="green"> 맞았습니다! </h1>}
               {resultStatus === 2 && (
-                <h1 className="orange"> 틀렸습니다! ㅋㅋ </h1>
+                <h1 className="orange"> 틀렸습니다</h1>
               )}
             </div>
           </div>
