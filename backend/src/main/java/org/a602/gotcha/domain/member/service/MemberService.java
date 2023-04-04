@@ -89,6 +89,7 @@ public class MemberService {
 		return new MemberInformationResponse(member);
 	}
 
+	@Transactional
 	public Long deleteMemberById(final Long id) {
 		final Member member = memberRepository.findById(id)
 			.orElseThrow(MemberNotFoundException::new);
