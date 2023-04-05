@@ -86,7 +86,7 @@ export default function LogIn() {
           value={passwordInput}
         />
         <Button text="로그인하기" type="submit" />
-        {/* <SNSLogin /> */}
+        <SNSLogin />
       </form>
     </div>
   );
