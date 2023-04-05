@@ -1,0 +1,51 @@
+@import "./Colors";
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  height: 100%;
+
+  h1 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h5 {
+    font-size: 1.125rem;
+  }
+  p {
+    font-size: 0.875rem;
+  }
+
+  input,
+  textarea,
+  button {
+    padding: 5px 10px;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+}
+
+.App {
+  text-align: center;
+  min-width: 320px;
+}
+
+.app-main-container {
+  // min-height: calc(90vh + 55px);
+  // min-height: 110vh;
+}
+
+.app-main-footer {
+  // position: fixed;
+  // bottom: 0;
+  // left: calc(62% - 200px);
+  // height: 55px;
+  // margin-top: 55px;
+  // text-align: center;
+  // font-size: 5px;
+  padding-bottom: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: $gray-1; // 수정 필요하면 수정
+}
