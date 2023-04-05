@@ -76,11 +76,6 @@ function ProblemCard(props: problemProps) {
     }
   };
 
-  const pooHandler = () => {
-    console.log("edi", editorOpen, "AI", AIModalOpen);
-    console.log(uploadImage);
-  };
-
   return (
     <>
       <div className="outer-card-wrapper">
@@ -91,9 +86,6 @@ function ProblemCard(props: problemProps) {
           <h5>{problemName}</h5>
         </div>
         <div className="inner-card-container">
-          <button type="button" onClick={pooHandler}>
-            {String(editorOpen)} 똥 치우기 {String(AIModalOpen)}
-          </button>
           <div className="original-image-container">
             <div className="problem-hint-button">
               <Button
