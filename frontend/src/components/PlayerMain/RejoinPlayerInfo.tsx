@@ -114,17 +114,19 @@ export default function RejoinPlayerInfo() {
       </div>
       <div className="player-main-buttons">
         {isClicked ? (
-          <>
+          <div className="tmptmp">
             {isFinish ? (
               <div className="rank-btn">
+                <h5>게임을 끝내셨군요!</h5>
                 <Button text="랭킹보기" onClick={rankClickHandler} />
               </div>
             ) : (
               <div className="rejoin-btn">
+                <h5>이미 참여하신적이 있군요!</h5>
                 <Button text="이어하기" onClick={rejoinClickHandler} />
               </div>
             )}
-          </>
+          </div>
         ) : (
           <div className="enter-btn">
             <Button
