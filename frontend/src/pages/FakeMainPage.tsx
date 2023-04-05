@@ -52,7 +52,7 @@ export default function FakeMainPage() {
           </Grid>
           <Grid item sm={9} md={9}>
             {inputPin === "602602" ? (
-              <Link to="/main">
+              <Link to="/">
                 <button
                   className="gg"
                   type="button"

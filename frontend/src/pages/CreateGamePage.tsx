@@ -16,6 +16,7 @@ import { setLoading } from "@stores/loading/loadingSlice";
 import Progressbar from "@components/CreateGame/Progressbar";
 import Modal from "@components/common/Modal";
 import fileToBase64 from "@components/common/fileToBase64";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 interface problemInfo {
   id: number;
@@ -150,6 +151,7 @@ export default function CreateGamePage() {
           <p>문제는 생성되면 수정할 수 없습니다.</p>
         </Modal>
       )}
+      <Hambugerbar />
       <GlobalNavbar />
       {isLoading.loading && <Loading />}
       <Grid container className="create-game-grid-container">

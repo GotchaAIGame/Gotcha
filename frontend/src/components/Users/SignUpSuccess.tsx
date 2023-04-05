@@ -3,10 +3,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "@styles/SignUpPage.scss";
 import GlobalNavbar from "@components/common/GlobalNavbar";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function SignUpSuccess() {
   return (
     <>
+      <Hambugerbar />
       <GlobalNavbar />
       <div className="signup-success-container">
         <div>
