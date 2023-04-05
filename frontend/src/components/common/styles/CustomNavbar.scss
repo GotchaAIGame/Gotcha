@@ -40,12 +40,13 @@
     }
     .game-detail-button {
       position: absolute;
-      top: -17.5px;
+      top: -26px;
       right: 100px;
       background: none;
       border: none;
       width: 30px;
       height: 30px;
+      cursor: pointer;
 
       @include desktop {
         left: 80%;

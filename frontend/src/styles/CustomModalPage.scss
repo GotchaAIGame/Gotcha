@@ -17,6 +17,11 @@
     border-top-left-radius: 20px;
   }
 
+  .problem-carousel{
+    display: flex;
+    justify-content: center;
+  }
+
   .problem-button {
     visibility: hidden !important;
   }
