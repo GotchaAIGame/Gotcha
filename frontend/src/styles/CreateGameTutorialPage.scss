@@ -3,37 +3,63 @@
 // @import "~slick-carousel/slick/slick.css";
 // @import "~slick-carousel/slick/slick-theme.css";
 
-.tutorial-page-container {
-  position: relative;
-  top: -140px;
-  z-index: 600;
+.tutorial-page-modal-bg {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  position: fixed;
+  background: rgba(49, 49, 49, 0.8);
 
-  header {
-    h1 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-weight: 900;
-      color: white;
-      -webkit-text-stroke: 1px $gray-1;
-    }
-    p {
-      margin-top: 0;
-      margin-bottom: 60px;
-      color: white;
+  .tutorial-page-container {
+    z-index: 900;
+    max-width: 75%;
+    min-width: 300px;
+    //max-width: 320px;
+    max-height: 80vh;
+    min-height: 680px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: white;
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+    padding: 10px 30px;
+    box-shadow: 5px 5px 3px $gray-2;
+    header {
+      h1 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: 900;
+        color: $blue-1;
+        -webkit-text-stroke: 1px $gray-1;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: $gray-1;
+      }
     }
   }
 }
 
 .go-game-button-wrapper {
+  position: relative;
+  top: 30px;
   Button {
     margin-top: 30px;
+    height: 40px !important;
   }
 }
 
 // TutorialTab
 
 .tutorial-tab-main-container {
-  min-height: 65vh;
+  min-height: 50vh;
+  max-height: 55vh;
 }
 
 .tutorial-tab-buttons-container {
@@ -63,18 +89,23 @@
 
   img {
     max-width: 100%;
-    max-height: 400px;
+    max-height: 350px;
     margin: auto;
     border: 1px solid $gray-2;
   }
 }
-
+// .slick-list {
+//   max-height: 300px;
+// }
 .slick-prev,
 .slick-next {
+  color: $blue-1;
   // background-color: red !important;
   // background: gray !important;
+  width: 40px;
+  height: 30px;
   &:before {
-    color: $gray-2 !important;
+    color: $blue-1 !important;
   }
   @include mobile {
     display: none !important;
