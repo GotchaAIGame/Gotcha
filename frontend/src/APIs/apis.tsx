@@ -1,8 +1,10 @@
-import { AxiosHeaders, AxiosResponse } from "axios";
+import { Axios, AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
 // APis about game play
 const gamePlayAPI = {
+  detail: (roomId: number): Promise<AxiosResponse> =>
+    request.get("/game/detail", { params: { roomId } }),
   duplicate: (roomId: number, nickname: string): Promise<AxiosResponse> =>
     request.post("/game/duplicate", { roomId, nickname }),
   register: (
@@ -124,10 +126,9 @@ const creatorAPI = {
   }): Promise<AxiosResponse> => request.authPut("set/room", gameInfo),
 
   deleteGameRoom: (roomId: number): Promise<AxiosResponse> =>
-  request.authDelete(`set/room`, {
-    data: { roomId },
-  }),
-
+    request.authDelete(`set/room`, {
+      data: { roomId },
+    }),
 
   getAllGameRoom: (userId: number, page: number): Promise<AxiosResponse> =>
     request.authGet(`member/room/${userId}`, {

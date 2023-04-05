@@ -48,7 +48,7 @@ function Modal(props: modalProps) {
           text="예"
           color="gray-blue"
           onClick={() => {
-            console.log("버튼 눌림")
+            console.log("버튼 눌림");
             mainBtnHandler();
           }}
         />
