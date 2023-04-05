@@ -9,8 +9,13 @@ import Button from "@components/common/Button";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
 import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
-import { resetGame } from "@stores/game/gameSlice";
-import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
+import {
+  resetGame,
+  setGame,
+  setProblems,
+  setOriginGame,
+} from "@stores/game/gameSlice";
+import { setTheme } from "@stores/player/themeSlice";
 import GlobalNav from "@components/common/GlobalNavbar";
 import Progressbar from "@components/CreateGame/Progressbar";
 import Modal from "@components/common/Modal";
@@ -21,6 +26,7 @@ export default function EditGamePage() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const gameInfo = useSelector((state: any) => state.game);
+  const themeInfo = useSelector((state: any) => state.theme);
   const nickname = useSelector((state: any) => state.users.nickname);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,8 +50,8 @@ export default function EditGamePage() {
       // 수정할 값들
       const putInfo = {
         roomId,
-        color: gameInfo.brandColor,
-        logoImage: gameInfo.logoUrl,
+        color: themeInfo.themeColor,
+        logoImage: themeInfo.themeLogo,
         title: gameInfo.title,
         eventUrl: "test",
         eventDesc: gameInfo.eventDesc,
@@ -84,6 +90,16 @@ export default function EditGamePage() {
         newInfo.endTime = newInfo.endTime.slice(0, 16);
         dispatch(setOriginGame(newInfo));
         dispatch(setProblems(newInfo.problems));
+        dispatch(
+          setTheme({
+            room: roomId,
+            reward: gotInfo.hasReward,
+            themeColor: gotInfo.color,
+            themeLogo: gotInfo.logoUrl,
+            themeTitle: gotInfo.title,
+            eventDesc: gotInfo.eventDesc,
+          })
+        );
       });
     }
   }, []);
@@ -134,7 +150,7 @@ export default function EditGamePage() {
             <GameCardCarousel />
           </div>
           <div className="edit-page-buttons-container">
-            <Button size="medium" text="수정" onClick={putGame} />
+            <Button size="medium" text="다음" onClick={putGame} />
             <Button
               size="medium"
               color="gray-blue"
