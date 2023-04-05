@@ -68,7 +68,18 @@ function ProblemCard(props: problemProps) {
     }
   };
 
-  // console.log(index, "index 받았는데 ㅜㅠ")
+  const editorHandler = () => {
+    setEditorOpen(false);
+    setImage("");
+    if (uploadImage.current) {
+      uploadImage.current.value = "";
+    }
+  };
+
+  const pooHandler = () => {
+    console.log("edi", editorOpen, "AI", AIModalOpen);
+    console.log(uploadImage);
+  };
 
   return (
     <>
@@ -80,6 +91,9 @@ function ProblemCard(props: problemProps) {
           <h5>{problemName}</h5>
         </div>
         <div className="inner-card-container">
+          <button type="button" onClick={pooHandler}>
+            {String(editorOpen)} 똥 치우기 {String(AIModalOpen)}
+          </button>
           <div className="original-image-container">
             <div className="problem-hint-button">
               <Button
@@ -130,10 +144,8 @@ function ProblemCard(props: problemProps) {
         <div className="image-editior-wrapper">
           <div
             className="image-editor-overlay"
-            onClick={() => {
-              return setEditorOpen(false);
-            }}
-            onKeyDown={() => setEditorOpen(false)}
+            onClick={editorHandler}
+            onKeyDown={editorHandler}
             role="presentation"
           />
 
@@ -160,7 +172,7 @@ function ProblemCard(props: problemProps) {
                 onClick={() => {
                   // console.log("안녕하세요");
                   cropperHandler();
-                  setEditorOpen(false);
+                  editorHandler();
                 }}
               />
             </div>
