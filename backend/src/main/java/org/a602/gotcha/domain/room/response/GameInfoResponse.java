@@ -33,10 +33,11 @@ public class GameInfoResponse {
 	@Schema(description = "이벤트 설명")
 	private String eventDesc;
 
-	@Schema(description = "이벤트 URL")
+	@Schema(description = "이벤트 url")
 	private String eventUrl;
 
 	public static GameInfoResponse toResponse(Room room) {
+
 		return GameInfoResponse.builder()
 			.roomId(room.getId())
 			.color(room.getColor())
@@ -47,6 +48,5 @@ public class GameInfoResponse {
 			.eventUrl(room.getEventUrl())
 			.build();
 	}
-
 }
 
