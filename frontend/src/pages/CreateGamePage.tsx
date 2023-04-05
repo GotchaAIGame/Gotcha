@@ -162,14 +162,6 @@ export default function CreateGamePage() {
           )}
           <div className="create-main-box-container">
             <InputGameInfo />
-            <button
-              type="button"
-              onClick={() => {
-                // console.log(gameInfo);
-              }}
-            >
-              똥 치우기
-            </button>
             <GameCardCarousel
               gameCardRefArray={gameCardRefArray}
               setGameCardRefArray={setGameCardRefArray}
