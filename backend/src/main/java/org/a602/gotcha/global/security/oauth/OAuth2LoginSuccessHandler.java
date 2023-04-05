@@ -52,7 +52,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		final Optional<String> redirectUri = CookieUtil.getCookie(httpServletRequest, REDIRECT_URI)
 			.map(Cookie::getValue);
 
-		final String targetUrl = redirectUri.orElse(getDefaultTargetUrl() + "/socialLogin");
+		final String targetUrl = redirectUri.orElse(getDefaultTargetUrl() + "socialLogin");
 		final OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 		final Map<String, Object> attributes = oAuth2User.getAttributes();
 
