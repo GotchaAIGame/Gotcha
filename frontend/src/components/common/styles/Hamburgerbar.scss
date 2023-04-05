@@ -48,13 +48,13 @@
   align-items: start;
 }
 
-.nav li a {
+.nav li button {
   color: $gray-1;
   font-size: 20px;
   text-decoration: none;
 }
 
-.nav li a:hover {
+.nav li button:hover {
   font-weight: bold;
   color: $blue-1;
 }
