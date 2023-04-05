@@ -54,7 +54,7 @@ public class Member implements UserDetails {
 	@Column(name = "registration_id", length = 20)
 	private String registrationId;
 
-	@Column(name = "profile_image", length = 100)
+	@Column(name = "profile_image")
 	private String profileImage;
 
 	@OneToMany(mappedBy = "member", orphanRemoval = true)
