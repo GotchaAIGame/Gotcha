@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
+import { useTitle } from "@hooks/useTitle";
 import Routers from "./pages/Routers";
 import Footbar from "./components/common/Footbar";
 import AutoToTop from "./components/common/AutoToTop";
 import "./styles/App.scss";
 
 function usePageViews() {
+  useTitle("Gotcha!")
   const location = useLocation();
 
   useEffect(() => {

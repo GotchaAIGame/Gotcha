@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import InputPinNum from "@components/MainPage/InputPinNum";
 import "@styles/MainPage.scss";
 import logo from "@assets/logo.svg";
+import { useTitle } from "@hooks/useTitle";
 
 export default function MainPage() {
+  useTitle("Gotcha!");
   const nickname = useSelector((state: any) => state.users.nickname);
   const token = sessionStorage.getItem("accessToken");
 
