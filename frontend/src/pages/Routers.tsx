@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-// import KakaoLogin from "@components/Users/KakaoLogin";
+import SocialLogin from "@components/Users/SocialLogin";
 import FakeMainPage from "./FakeMainPage";
 import MainPage from "./MainPage";
 import SignUpPage from "./SignUpPage";
@@ -25,11 +25,10 @@ export default function Routers() {
       <Route path="/main" element={<MainPage />} />
       {/* 추후 최종 배포시 아래로 Main 주소 변경 */}
       {/* <Route path="/" element={<MainPage />} /> */}
-
       {/* Creator */}
       <Route path="/signup" element={<SignUpPage />} />
-      {/* <Route path="/oauth2/authorization/kakao" element={<KakaoLogin />} /> */}
       <Route path="/login" element={<LogInPage />} />
+      <Route path="/socialLogin" element={<SocialLogin />} />
       <Route path="mypage">
         <Route path=":memberID" element={<CreatorMainPage />} />
         <Route path=":memberID/edit" element={<EditProfilePage />} />
