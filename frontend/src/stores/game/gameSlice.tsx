@@ -74,6 +74,7 @@ export const gameSlice = createSlice({
         title: string;
         startTime: string;
         eventDesc: string;
+        eventUrl: string;
         endTime: string;
         logoUrl: string;
       }>
@@ -85,6 +86,7 @@ export const gameSlice = createSlice({
         startTime: action.payload.startTime,
         endTime: action.payload.endTime,
         logoUrl: action.payload.logoUrl,
+        eventUrl: action.payload.eventUrl,
       };
     },
 

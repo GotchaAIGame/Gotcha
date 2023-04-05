@@ -18,10 +18,12 @@ export default function CustomNavbar() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    gamePlayAPI.detail(roomId).then((res) => {
-      const { eventDesc, eventUrl } = res.data.result;
-      dispatch(setEventInfo({ eventDesc, eventUrl }));
-    });
+    if (roomId) {
+      gamePlayAPI.detail(roomId).then((res) => {
+        const { eventDesc, eventUrl } = res.data.result;
+        dispatch(setEventInfo({ eventDesc, eventUrl }));
+      });
+    }
   }, []);
 
   const modalHandler = () => {

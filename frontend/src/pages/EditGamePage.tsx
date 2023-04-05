@@ -17,13 +17,13 @@ import Modal from "@components/common/Modal";
 import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function EditGamePage() {
-  const [needHelp, setNeedHelp] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-
-  const gameInfo = useSelector((state: any) => state.game);
-  const nickname = useSelector((state: any) => state.users.nickname);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [needHelp, setNeedHelp] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const gameInfo = useSelector((state: any) => state.game);
+  const nickname = useSelector((state: any) => state.users.nickname);
   const location = useLocation();
 
   const { gamePin, roomId } = location.state;
@@ -47,7 +47,7 @@ export default function EditGamePage() {
         color: gameInfo.brandColor,
         logoImage: gameInfo.logoUrl,
         title: gameInfo.title,
-        eventUrl: "test",
+        eventUrl: gameInfo.eventUrl,
         eventDesc: gameInfo.eventDesc,
         startTime: gameInfo.startTime,
         endTime: gameInfo.endTime,
@@ -56,10 +56,6 @@ export default function EditGamePage() {
       result
         .then((res) => {
           // 보내는 정보
-          console.log("보낸거");
-          console.log(putInfo);
-          console.log(res, "됐다");
-          console.log(gamePin);
           // 성공적으로 생성했다면 slice내용 비우기
           navigate(`/custom/${gamePin}`, { state: { roomId } });
           dispatch(resetGame());
@@ -128,7 +124,6 @@ export default function EditGamePage() {
         )}
         <Grid item xs={11} md={9}>
           <Progressbar progress={1} />
-
           <div className="create-main-box-container">
             <InputGameInfo />
             <GameCardCarousel />
