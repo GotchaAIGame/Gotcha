@@ -11,10 +11,10 @@ export default function GameCard(props: any) {
   const dispatch = useDispatch();
 
   const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(e);
-    navigate(`/custom/${gameInfo.code}`, {
-      state: { gamePin: gameInfo.code, roomId: gameInfo.id },
-    });
+    console.log(e);
+    // navigate(`/custom/${gameInfo.code}`, {
+    //   state: { gamePin: gameInfo.code, roomId: gameInfo.id },
+    // });
   };
 
   const goEdit = () => {

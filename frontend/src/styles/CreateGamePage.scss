@@ -1,17 +1,32 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
 
 // margin: auto;
 .create-game-grid-container {
   // margin: 0 auto;
   justify-content: center;
   position: relative;
+
+  .create-main-box-container {
+    border-radius: 30px;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-bottom: 3%;
+
+    .card-wrapper {
+      scale: 0.8;
+      margin-top: -10px;
+    }
+  }
 }
 
 .helper-button {
   position: fixed;
   bottom: 40px;
   left: 50px;
-  z-index: 999;
+  z-index: 20;
   background-color: inherit;
   width: 46px;
   height: 46px;
@@ -27,18 +42,7 @@
 
 .input-game-info-container {
   // grid-auto-rows: minmax(100px, auto);
-
-  .game-title-input {
-    position: relative;
-    top: -75px;
-    height: 55px;
-    width: 70%;
-    min-width: 300px;
-    border: 1px solid $gray-1;
-    border-radius: 15px;
-    font-size: 1.125rem;
-    font-weight: 700;
-  }
+  margin-top: 20px;
 
   .game-info-inputs-container {
     // border: 3px solid black;
@@ -95,6 +99,17 @@
         border: 1px solid $gray-1;
         border-radius: 8px;
       }
+
+      .game-title-input {
+        // position: relative;
+        // top: -75px;
+        height: 1.5rem;
+        width: 99%;
+        max-width: 500px;
+        border: 1px solid $gray-1;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
     }
   }
 }
@@ -127,9 +142,15 @@
     text-align: left;
     p {
       width: 99%;
+      margin-bottom: 0;
+    }
+    .problem-create-waring-text {
+      margin-top: 5px;
+      color: $green;
     }
   }
 }
+
 .cards-and-plusbutton-container {
   display: inline-flex;
   flex-wrap: wrap;
@@ -159,16 +180,16 @@
   flex-direction: column;
   width: 255px;
   min-height: 405px;
-  border: 1px solid $gray-1;
+  // border: 1px solid $gray-1;
   border-radius: 15px;
-  margin: 10px;
+  margin: 0px;
   justify-content: flex-start;
 
   .typing {
     border: 3px solid $gray-1;
   }
   .typing-header {
-    background-color: $gray-5;
+    background-color: $gray-4;
   }
 
   .typed-header {
@@ -181,7 +202,7 @@
     border-top-right-radius: 15px;
     border-top-color: $gray-1;
     width: 100%;
-    height: 43px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -203,10 +224,15 @@
     input {
       // position: relative;
       background-color: inherit;
-      border: none;
+      border: 2px solid $gray-3;
+      border-radius: 8px;
+      background-color: $gray-5;
       text-align: center;
-      font-size: 1.125rem;
-      width: 70%;
+      font-size: 1.1rem;
+      width: 75%;
+    }
+    ::placeholder {
+      color: $gray-2;
     }
   }
   .file-input-wrapper {
@@ -242,9 +268,12 @@
   .upload-img-wrapper {
     // display: flex;
     margin: 20px auto;
+    // 미리보기 이미지
     img {
-      height: 200px;
-      width: 200px;
+      display: block;
+      margin: auto;
+      max-height: 199px;
+      max-width: 199px;
       object-fit: contain;
     }
   }
@@ -290,6 +319,77 @@
   .hint-input-wrapper {
     input {
       border-radius: 8px;
+    }
+  }
+}
+
+// Progressbar
+
+.progress-bar-wrapper {
+  padding: 30px 0;
+  position: relative;
+  margin: 0 auto;
+  justify-content: center;
+
+  hr {
+    width: 100%;
+
+    border-color: $blue-1;
+    z-index: 999;
+    align-self: center;
+    margin: 0 auto;
+  }
+
+  .progress-active-text {
+    color: $gray-1 !important;
+  }
+
+  .progressbar-tags-container {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+
+    .progress-bar-point-wrapper {
+      position: relative;
+      top: -8px;
+      width: 100px;
+      .progress-bar-point {
+        margin: 0 auto;
+        width: 15px;
+        height: 15px;
+        border-radius: 10px;
+        background-color: $gray-3;
+        border: 1px soild $gray-1;
+      }
+      .active-bar-point {
+        margin: 0 auto;
+        width: 15px;
+        height: 15px;
+        border-radius: 10px;
+        background-color: $blue-1;
+        border: 1px soild $gray-1;
+      }
+    }
+    span {
+      margin-top: 8px;
+      width: 100px;
+      color: $gray-3;
+    }
+  }
+}
+
+// edit game page
+
+.edit-page-buttons-container {
+  // margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  // margin: 0 auto;
+
+  Button {
+    @include mobile {
+      max-width: 140px;
     }
   }
 }

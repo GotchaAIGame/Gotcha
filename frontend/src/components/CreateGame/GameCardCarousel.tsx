@@ -57,14 +57,9 @@ export default function GameCardCarousel() {
         <h5>문제 입력</h5>
         <div className="right-text-wrapper">
           <p>등록된 문제 {gameCardRefArray.length}개 </p>
-          <button
-            type="button"
-            onClick={() => {
-              pooCleaner(gameCardRefArray);
-            }}
-          >
-            똥 치우기 2
-          </button>
+          <p className="problem-create-waring-text">
+            ※ 문제는 게임 생성 이후 수정이 불가합니다.
+          </p>
         </div>
       </div>
       <div className="cards-and-plusbutton-container">

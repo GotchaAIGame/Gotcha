@@ -17,10 +17,18 @@ export default function InputGameInfo() {
       newGeameInfo.title = e.target.value;
     }
     if (e.target.id === "start") {
-      newGeameInfo.startTime = e.target.value;
+      if (gameInfo.endTime && e.target.value >= gameInfo.endTime) {
+        alert("시작일은 종료일 이전으로 설정해주세요");
+      } else {
+        newGeameInfo.startTime = e.target.value;
+      }
     }
     if (e.target.id === "end") {
-      newGeameInfo.endTime = e.target.value;
+      if (gameInfo.startTime && e.target.value <= gameInfo.startTime) {
+        alert("종료일은 시작일 이후로 설정해주세요");
+      } else {
+        newGeameInfo.endTime = e.target.value;
+      }
     }
     dispatch(setGame(newGeameInfo));
   };
@@ -40,18 +48,23 @@ export default function InputGameInfo() {
 
   return (
     <div className="input-game-info-container">
-      {/* 타이틀 입력 */}
-      <input
-        className="game-title-input"
-        type="text"
-        placeholder="문제 제목을 입력해 주세요"
-        id="title"
-        value={gameInfo.title}
-        onChange={changeInfoHanlder}
-      />
-
       {/* 기간, 정보  */}
       <div className="game-info-inputs-container">
+        {/* 제목 입력 */}
+        <div className="duration-inputs-container">
+          <h5>게임 제목</h5>
+          <div className="right-inputs-container">
+            <input
+              className="game-title-input"
+              type="text"
+              placeholder="게임의 타이틀을 입력해주세요"
+              id="title"
+              value={gameInfo.title}
+              onChange={changeInfoHanlder}
+            />
+          </div>
+        </div>
+
         {/* 진행 기간 */}
         <div className="duration-inputs-container">
           <h5>진행 기간</h5>
@@ -77,7 +90,7 @@ export default function InputGameInfo() {
           <h5>게임 정보</h5>
           <div className="right-inputs-container">
             <textarea
-              placeholder="게임의 정보를 입력해 주세요."
+              placeholder="게임의 정보를 입력해주세요."
               value={gameInfo.eventDesc}
               onChange={changeDescriptionHanlder}
             />

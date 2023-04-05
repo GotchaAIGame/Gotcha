@@ -11,9 +11,12 @@ import "@styles/CustomModalPage.scss";
 import { useAppDispatch } from "@stores/storeHooks";
 import { setProblems } from "@stores/game/gamePlaySlice";
 import CustomNavbar from "@components/common/CustomNavbar";
+import GlobalNavbar from "@components/common/GlobalNavbar";
+import Progressbar from "@components/CreateGame/Progressbar";
 
 export default function CustomGamePage() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+
   // 최종적으로 수정될 값
   const [gameInfo, setGameInfo] = useState({
     id: -1,
@@ -79,14 +82,22 @@ export default function CustomGamePage() {
     }
   }, []);
 
+
   return (
     <>
-      <CustomNavbar />
+      <GlobalNavbar />
       <Grid container className="custom-page-main-container">
-        <Grid item xs={12} md={9}>
-          {/* <ProblemTitle /> */}
-          <Timer />
-          <ProblemCardList />
+        <Grid item xs={12} md={8}>
+          <Progressbar progress={2} />
+        </Grid>
+        {/* <p>미리 보기</p> */}
+        <Grid item xs={12} md={12}>
+          <p className="preview-text">커스텀 미리보기</p>
+          <div className="custom-preview-main-box-container">
+            <CustomNavbar />
+            <Timer />
+            <ProblemCardList />
+          </div>
         </Grid>
         {/* <Modal /> */}
         {!isOpen && (

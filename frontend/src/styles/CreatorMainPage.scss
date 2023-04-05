@@ -27,6 +27,7 @@
 
 .creator-main-container {
   justify-content: center;
+  scale: 1;
 
   .welcome-text-wrapper {
     text-align: left;
@@ -143,6 +144,7 @@
     text-decoration: none;
     width: 150px;
     margin: auto;
+    margin-top: 20px;
   }
 
   .game-tab-buttons-container {

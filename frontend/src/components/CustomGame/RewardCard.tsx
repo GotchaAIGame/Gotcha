@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import gold from "@assets/goldmedal.png";
+import silver from "@assets/silvermedal.png";
+import bronze from "@assets/bronzemedal.png";
 
 export default function RewardCard(props: any) {
   const { rewardsList, setRewardsList, idx } = props;
   const [rewardInfo, setRewardInfo] = useState(rewardsList[idx]);
+  const [rewardImg, setRewardImg] = useState("");
 
   const uploadImage = useRef<HTMLInputElement>(null);
 
@@ -59,13 +63,24 @@ export default function RewardCard(props: any) {
 
   useEffect(() => {
     setRewardInfo(rewardsList[idx]);
-    // console.log(rewardsList)
+    const temp = rewardsList[idx];
+    // 등수 이미지
+    if (temp.grade === 1) {
+      setRewardImg(gold);
+    } else if (temp.grade === 2) {
+      setRewardImg(silver);
+    } else if (temp.grade === 3) {
+      setRewardImg(bronze);
+    }
   }, [rewardsList, setRewardInfo]);
 
   if (rewardInfo) {
     return (
       <div className="reward-card-container">
-        <p>{rewardInfo.grade}등</p>
+        <div className="reward-info-text-img-container">
+          <img src={rewardImg} alt="" />
+          <p>{rewardInfo.grade}등 상품</p>
+        </div>
         <input
           type="text"
           className="reward-name-input"
@@ -93,14 +108,14 @@ export default function RewardCard(props: any) {
             <label htmlFor={`upload-${idx}`} className="file-input-label">
               <p className="file-input-label-plus">+</p>
               <p className="file-input-label-text">
-                대표사진
+                상품사진
                 <br />
                 추가하기
               </p>
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />

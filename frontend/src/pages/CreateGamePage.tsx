@@ -13,9 +13,12 @@ import "@styles/CreateGamePage.scss";
 import { creatorAPI } from "@apis/apis";
 import { resetGame } from "@stores/game/gameSlice";
 import { setLoading } from "@stores/loading/loadingSlice";
+import Progressbar from "@components/CreateGame/Progressbar";
+import Modal from "@components/common/Modal";
 
 export default function CreateGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const gameInfo = useSelector((state: any) => state.game);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,12 +29,12 @@ export default function CreateGamePage() {
     setNeedHelp(!needHelp);
   };
 
-  const postGameCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const postGameCreate = () => {
     // e.preventDefault();
     console.log("최종적으로 쏘는 정보");
     console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
-
+    setModalOpen(false);
     // 제목, 기간, 정보 입력 여부 확인
     if (
       gameInfo.title &&
@@ -59,25 +62,42 @@ export default function CreateGamePage() {
         })
         .catch((res) => {
           dispatch(setLoading(false));
-          alert("내용을 입력해 주세요");
+          alert("내용을 입력해주세요");
         });
     } else {
       dispatch(setLoading(false));
-      alert("내용을 입력해 주세요");
+      alert("내용을 입력해주세요");
     }
+  };
+
+  const modalHandelr = () => {
+    setModalOpen(true);
   };
 
   return (
     <div>
+      {modalOpen && (
+        <Modal
+          open={modalOpen}
+          modalHandler={() => setModalOpen(false)}
+          btnType="right-two"
+          mainBtnHandler={postGameCreate}
+        >
+          <h5>게임을 생성하시겠습니까?</h5>
+          <p>문제는 생성되면 수정할 수 없습니다.</p>
+        </Modal>
+      )}
       <GlobalNavbar />
       {isLoading.loading && <Loading />}
       <Grid container className="create-game-grid-container">
-        {needHelp ? (
-          <Grid item xs={11} md={9}>
-            <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
-          </Grid>
-        ) : (
-          <Grid item xs={11} md={9}>
+        <Grid item xs={11} md={8}>
+          <Progressbar progress={1} />
+          {needHelp && (
+            <div className="create-main-box-container">
+              <CreateGameTutorialPage tempHelperHandler={tempHelperHandler} />
+            </div>
+          )}
+          <div className="create-main-box-container">
             <InputGameInfo />
             <button
               type="button"
@@ -88,7 +108,6 @@ export default function CreateGamePage() {
               똥 치우기
             </button>
             <GameCardCarousel />
-            <Button text="생성" onClick={postGameCreate} />
             <button
               type="button"
               onClick={tempHelperHandler}
@@ -100,8 +119,9 @@ export default function CreateGamePage() {
                 title="도움말을 보시려면 클릭하세요"
               />
             </button>
-          </Grid>
-        )}
+          </div>
+          <Button text="생성" onClick={modalHandelr} />
+        </Grid>
       </Grid>
     </div>
   );

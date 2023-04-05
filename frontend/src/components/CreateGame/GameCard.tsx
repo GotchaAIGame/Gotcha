@@ -87,7 +87,7 @@ export default function GameCard(Props: any) {
     <div>
       <div
         className="card-wrapper"
-        title={isTyping ? "문제 내용을 입력해 주세요" : ""}
+        title={isTyping ? "문제 내용을 입력해주세요" : ""}
       >
         <header className={isTyping ? "typing-header" : "typed-header"}>
           {/* <button type="button"> */}
@@ -108,6 +108,7 @@ export default function GameCard(Props: any) {
             // value={problemInfo.name}
             // onChange={changeInfoHanlder}
             ref={cardNameRef}
+            maxLength={14}
           />
         </header>
         {/* <div className="file-input-wrapper">
@@ -119,7 +120,7 @@ export default function GameCard(Props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
@@ -135,16 +136,16 @@ export default function GameCard(Props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept=".jpg, .jpeg .png"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
             </label>
           )}
-        </div> */}
-        {/* <div className={isTyping ? "typing-hint-text-box" : "hint-text-box"}>
+        </div>
+        <div className={isTyping ? "typing-hint-text-box" : "hint-text-box"}>
           힌트
-        </div> */}
+        </div>
         <div className="hint-input-wrapper">
           <input
             type="text"
