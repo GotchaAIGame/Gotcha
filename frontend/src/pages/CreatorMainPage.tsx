@@ -6,12 +6,14 @@ import GameListTap from "@components/CreatorMain/GameListTap";
 import "@styles/CreatorMainPage.scss";
 import GlobalNavbar from "@components/common/GlobalNavbar";
 import bgStar1 from "@assets/bg-littile-start.svg";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function CreatorMainPage() {
   const userNickname = useSelector((state: any) => state.users.nickname);
 
   return (
     <>
+      <Hambugerbar />
       <GlobalNavbar />
       <div className="creator-bg-container">
         <div className="creator-bg" />

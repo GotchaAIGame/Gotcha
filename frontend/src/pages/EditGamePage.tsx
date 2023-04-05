@@ -14,6 +14,7 @@ import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
 import GlobalNav from "@components/common/GlobalNavbar";
 import Progressbar from "@components/CreateGame/Progressbar";
 import Modal from "@components/common/Modal";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function EditGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
@@ -117,6 +118,7 @@ export default function EditGamePage() {
           <p>삭제한 게임과 관련 기록은 다시 복구할 수 없습니다.</p>
         </Modal>
       )}
+      <Hambugerbar />
       <GlobalNav />
       <Grid container className="create-game-grid-container">
         {needHelp && (
