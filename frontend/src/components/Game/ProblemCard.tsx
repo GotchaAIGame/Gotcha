@@ -106,7 +106,10 @@ function ProblemCard(props: problemProps) {
 
           <div className="input-image-container">
             {solved ? (
-              <img src={right} alt="right" />
+              <div className="problem-right-box-container">
+                <img src={right} alt="right" />
+                <p>맞춘 문제입니다!</p>
+              </div>
             ) : (
               <form className="empty-image-container">
                 <label htmlFor={`upload ${index}`}>

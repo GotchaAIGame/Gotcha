@@ -215,6 +215,22 @@
       width: 218px;
       height: 218px;
 
+      .problem-right-box-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 85%;
+        padding: auto;
+        img {
+          margin: auto;
+          width: 80px;
+        }
+        p {
+          margin: auto;
+          margin-top: 0;
+        }
+      }
+
       .empty-image-container {
         width: 97.5%;
         height: 97.5%;
@@ -271,10 +287,12 @@ input.invisible {
 
 .AIModal-content {
   position: relative;
-  background-image: url("../assets/tempBg.svg");
+  background-image: url("../assets/AIModalBG.svg");
+  background-color: $blue-1;
   border: 1px solid black;
   width: 300px;
-  height: 659px;
+  height: 550px;
+  padding-top: 50px;
   border-radius: 15px;
   box-shadow: 3px $gray-1;
   // overflow: none;
@@ -290,14 +308,19 @@ input.invisible {
 
     .circular-img {
       position: relative;
-      width: 250px;
-      height: 250px;
+      width: 180px;
+      height: 180px;
+      margin: auto;
+      margin-top: 30px;
       background: #fefcff;
       border-radius: 50%;
-      border: 1px solid #cdcbd0;
+      border: 2px solid $gray-1;
+      box-shadow: 0px 0px 15px $gray-3;
 
       .wrong {
         position: absolute;
+        background-color: rgba(49, 49, 49, 0.7);
+        border: 2px solid $gray-1;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -305,6 +328,8 @@ input.invisible {
 
       .right {
         position: absolute;
+        background-color: rgba(49, 49, 49, 0.7);
+        border: 2px solid $gray-1;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -313,6 +338,7 @@ input.invisible {
         height: 100%;
         width: 100%;
         border-radius: 50%;
+        object-fit: contain;
       }
     }
   }
@@ -320,11 +346,14 @@ input.invisible {
   .AIModal-description {
     position: absolute;
     left: -50%;
-    bottom: -20%;
+    bottom: -15%;
     background-color: white;
     height: 50%;
     width: 200%;
     border-radius: 300px / 150px;
+    // border: 5px solid black;
+    border-top: 1px solid $gray-1;
+    box-shadow: 0px 0px 20px $gray-2;
 
     h1 {
       -webkit-text-stroke: 1px $gray-1;
@@ -346,13 +375,15 @@ input.invisible {
 }
 
 .progress-bar {
-  margin-top: 1rem;
+  margin-top: 3rem;
   position: relative;
   width: 100%;
-  height: 3em;
-  background-color: #111;
-  border-radius: 1.5em;
+  height: 1.8em;
+  background-color: $gray-1;
+  border-radius: 0.55em;
   color: white;
+  box-shadow: 0px 0px 20px $gray-3;
+
   --width: 70%;
 }
 
@@ -360,17 +391,18 @@ input.invisible {
   content: attr(data-width);
   display: flex;
   position: absolute;
-  left: 0.5em;
-  top: 0.5em;
+  left: 0.15em;
+  top: 0.15em;
+  height: 1.5em;
   bottom: 0.5em;
   width: attr(data-width);
   width: 70%;
   min-width: 1rem;
-  max-width: calc(100% - 3em);
+  max-width: calc(100% - 0.3em);
   background-image: linear-gradient(to right, white, $blue-2);
-  border-radius: 1em;
-  padding: 1em;
-  animation: progressAnimation 1s;
+  border-radius: 0.5em;
+
+  animation: progressAnimation 1.3s;
 }
 
 .done::before {
