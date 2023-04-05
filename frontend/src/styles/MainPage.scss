@@ -25,14 +25,37 @@
 .main-page-container {
   background-color: $blue-1;
   background-image: url("../assets/fullBGPattern.svg");
-  height: 100vh;
+  min-height: 100vh;
   .main-content-wrapper {
-    position: relative;
-    top: 15%;
+    padding-top: 7%;
     img {
       width: 30%;
       min-width: 340px;
       margin: 3%;
+    }
+
+    .main-creator-button {
+      @include desktop {
+        font-size: 1.5rem;
+        min-width: 340px;
+        width: 25%;
+      }
+      @include mobile {
+        font-size: 1.5rem;
+        max-width: 340px;
+        width: 80%;
+      }
+      border: 3px solid $gray-1;
+      border-radius: 12px;
+      text-align: center;
+      padding: 20px 0;
+      bottom: 0;
+      margin-top: 0.5%;
+      background-color: transparent;
+      border: none;
+      color: white;
+      text-decoration: underline;
+      cursor: pointer;
     }
   }
 }
@@ -41,8 +64,16 @@
 .input-pin-num-container {
   align-items: center;
   display: flex;
+  min-height: 305px;
   flex-direction: column;
   gap: 10px;
+
+  .enter-buttons-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+  }
+
   button,
   input {
     @include desktop {
@@ -68,18 +99,50 @@
 
   input:focus {
     outline: none;
-    animation: border-changing 3s infinite;
-    -webkit-animation: border-changing 3s infinite;
+    animation: border-changing 2.5s infinite;
+    -webkit-animation: border-changing 2.5s infinite;
   }
+  .invalid {
+    animation: shake 0.2s ease-in-out 0s 2;
+    box-shadow: 0 0 0.6rem red;
+    animation-duration: 0.2s; // 이거 어케 고치지??????? 엔터 치고도 빨간 테두리가 계속 남음 setTimeOut..?
+  }
+  .invalid-msg {
+    color: red;
+    animation: shake 0.2s ease-in-out 0s 2;
+    margin: 0;
+  }
+
+  // .input-pin-num {
+  //   position: relative;
+  //   top: 100px;
+  //   // animation: input-button-up 1s;
+  // }
+  // .input-written-pin-num {
+  //   position: relative;
+  //   top: 0px;
+  // }
+  // .input-written-pin-num:active,
+  // .input-written-pin-num:focus {
+  //   position: relative;
+  //   top: 0px;
+  //   animation: new-button-up 1s;
+  // }
   .newgame-link {
     cursor: pointer;
     box-shadow: 3px 3px $gray-1;
-    background-color: $blue-3;
+    background-color: $lime;
+    animation: new-button-up 1s;
+    // position: absolute;
+    // top: 220px;
   }
   .rejoin-link {
     cursor: pointer;
     box-shadow: 3px 3px $gray-1;
-    background-color: $purple-2;
+    background-color: $blue-3;
+    animation: re-button-up 1s;
+    // position: absolute;
+    // top: 310px;
   }
   h3 {
     @include desktop {
@@ -111,10 +174,10 @@
 
 @keyframes border-changing {
   0% {
-    border-color: $blue-2;
+    border-color: $blue-3;
   }
   25% {
-    border-color: $green;
+    border-color: $lime;
   }
   50% {
     border-color: $orange;
@@ -123,7 +186,7 @@
     border-color: $purple-2;
   }
   100% {
-    border-color: $blue-2;
+    border-color: $blue-3;
   }
 }
 
@@ -132,5 +195,46 @@
   // color: white;
   h3 {
     font-weight: 500;
+  }
+}
+
+@keyframes new-button-up {
+  0% {
+    position: relative;
+    top: 100px;
+    opacity: 0;
+  }
+  100% {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes re-button-up {
+  0% {
+    position: relative;
+    top: 180px;
+    opacity: 0;
+  }
+  100% {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
   }
 }

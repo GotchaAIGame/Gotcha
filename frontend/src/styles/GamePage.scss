@@ -1,7 +1,9 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
 
 .gamepage-container {
   justify-content: center;
+  margin-bottom: 30px;
 }
 
 // problem Title
@@ -105,16 +107,25 @@
 }
 
 // timer
-.timer-wrapper {
-  width: 255px;
-  height: 89px;
-  border: 3px solid $gray-1;
-  border-radius: 15px;
+.timer-container {
+  width: 100%;
+  display: flex;
 
-  margin-left: auto;
-  margin-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  @include desktop {
+    justify-content: end;
+  }
+  @include mobile {
+    justify-content: center;
+  }
+}
+
+.timer-wrapper {
+  width: 270px;
+  height: 80px;
+  border: 1px solid $gray-1;
+  border-radius: 15px;
+  margin-top: 60px;
+  position: relative;
 
   h5 {
     color: white;
@@ -123,32 +134,13 @@
   }
 }
 
-@media screen and (max-width: 900px) {
-  .timer-wrapper {
-    width: 255px;
-    height: 89px;
-    border: 3px solid $gray-1;
-    border-radius: 15px;
-    background-color: $blue-1;
-
-    margin: auto;
-    margin-top: 10px;
-
-    h5 {
-      color: white;
-      -webkit-text-stroke: 1px black;
-      font-weight: bold;
-    }
-  }
-}
-
 //Problem Card
-
 .outer-card-wrapper {
-  border: 3px solid $gray-3;
+  border: 1px solid $gray-1;
+  box-shadow: $gray-1 1px 1px, $gray-1 2px 2px;
   border-radius: 15px;
-  width: 255px;
-  min-width: 255px;
+  width: 240px;
+  min-width: 240px;
   width: 100%;
   height: 542px;
   margin: 1rem;
@@ -173,14 +165,45 @@
     img {
       width: 100%;
       height: 100%;
+      object-fit: contain;
     }
 
     .original-image-container {
+      position: relative;
       margin: 20px auto 10px auto;
       width: 218px;
       height: 218px;
       border: 1px solid black;
-      overflow: hidden;
+
+      .problem-hint-button {
+        position: absolute;
+        right: 10px;
+        top: -15px;
+        z-index: 1;
+      }
+      .problem-hint-description {
+        position: absolute;
+        background-color: rgba(49, 49, 49, 0.8);
+        width: 100%;
+        height: 100%;
+        // padding-top: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // border-bottom-left-radius: 10px;
+        // border-bottom-right-radius: 10px;
+        // border-top-left-radius: 10px;
+
+        @include fadeInUp; // 나중에 수정할 수 있으면 수정하면 좋겠다. -> 버튼 &.active 효과
+        // https://freefrontend.com/css-card-hover-effects/
+
+        .hint-text {
+          color: white;
+          margin: 0px;
+          font-weight: 100;
+        }
+      }
 
       img {
         -webkit-user-drag: none;
@@ -192,26 +215,41 @@
       width: 218px;
       height: 218px;
 
+      .problem-right-box-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 85%;
+        padding: auto;
+        img {
+          margin: auto;
+          width: 80px;
+        }
+        p {
+          margin: auto;
+          margin-top: 0;
+        }
+      }
+
       .empty-image-container {
         width: 97.5%;
         height: 97.5%;
-        border: 3px dashed $gray-3;
+        border: 2px dashed $gray-4;
 
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
 
         p {
           margin: 0px;
-          font-size: 100px;
-          color: $gray-2;
+          font-size: 50px;
+          color: $gray-4;
           font-weight: 400;
         }
 
         h5 {
           margin: 0px;
-          color: $gray-2;
+          color: $gray-4;
           font-weight: 400;
         }
       }
@@ -235,7 +273,7 @@ input.invisible {
   right: 0;
   bottom: 0;
   position: fixed;
-  z-index: 2;
+  z-index: 4;
 }
 
 .image-editor-overlay,
@@ -244,15 +282,17 @@ input.invisible {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
 }
 
 .AIModal-content {
   position: relative;
-  background-image: url("../assets/tempBg.svg");
+  background-image: url("../assets/AIModalBG.svg");
+  background-color: $blue-1;
   border: 1px solid black;
   width: 300px;
-  height: 659px;
+  height: 550px;
+  padding-top: 50px;
   border-radius: 15px;
   box-shadow: 3px $gray-1;
   // overflow: none;
@@ -268,14 +308,19 @@ input.invisible {
 
     .circular-img {
       position: relative;
-      width: 250px;
-      height: 250px;
+      width: 180px;
+      height: 180px;
+      margin: auto;
+      margin-top: 30px;
       background: #fefcff;
       border-radius: 50%;
-      border: 1px solid #cdcbd0;
+      border: 2px solid $gray-1;
+      box-shadow: 0px 0px 15px $gray-3;
 
       .wrong {
         position: absolute;
+        background-color: rgba(49, 49, 49, 0.7);
+        border: 2px solid $gray-1;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -283,6 +328,8 @@ input.invisible {
 
       .right {
         position: absolute;
+        background-color: rgba(49, 49, 49, 0.7);
+        border: 2px solid $gray-1;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -291,6 +338,7 @@ input.invisible {
         height: 100%;
         width: 100%;
         border-radius: 50%;
+        object-fit: contain;
       }
     }
   }
@@ -298,11 +346,14 @@ input.invisible {
   .AIModal-description {
     position: absolute;
     left: -50%;
-    bottom: -20%;
+    bottom: -15%;
     background-color: white;
     height: 50%;
     width: 200%;
     border-radius: 300px / 150px;
+    // border: 5px solid black;
+    border-top: 1px solid $gray-1;
+    box-shadow: 0px 0px 20px $gray-2;
 
     h1 {
       -webkit-text-stroke: 1px $gray-1;
@@ -324,13 +375,15 @@ input.invisible {
 }
 
 .progress-bar {
-  margin-top: 1rem;
+  margin-top: 3rem;
   position: relative;
   width: 100%;
-  height: 3em;
-  background-color: #111;
-  border-radius: 1.5em;
+  height: 1.8em;
+  background-color: $gray-1;
+  border-radius: 0.55em;
   color: white;
+  box-shadow: 0px 0px 20px $gray-3;
+
   --width: 70%;
 }
 
@@ -338,17 +391,18 @@ input.invisible {
   content: attr(data-width);
   display: flex;
   position: absolute;
-  left: 0.5em;
-  top: 0.5em;
+  left: 0.15em;
+  top: 0.15em;
+  height: 1.5em;
   bottom: 0.5em;
   width: attr(data-width);
   width: 70%;
   min-width: 1rem;
-  max-width: calc(100% - 3em);
+  max-width: calc(100% - 0.3em);
   background-image: linear-gradient(to right, white, $blue-2);
-  border-radius: 1em;
-  padding: 1em;
-  animation: progressAnimation 1s;
+  border-radius: 0.5em;
+
+  animation: progressAnimation 1.3s;
 }
 
 .done::before {
@@ -367,9 +421,9 @@ input.invisible {
 //scroller
 .scroller-wrapper {
   position: fixed;
-  z-index: 1000;
-  top: 3rem;
-  right: 3rem;
+  z-index: 2;
+  bottom: 3rem;
+  left: 3rem;
   // height: 100%;
   // width: 100%;
   display: flex;
@@ -378,11 +432,12 @@ input.invisible {
   .scroller-button {
     height: 70px;
     width: 70px;
-    border: 3px solid $gray-1;
+    border: 2px solid $gray-1;
     border-radius: 50%;
-    background-color: $blue-2;
-    box-shadow: $gray-2 2px 2px, $gray-1 3px 3px;
+    // background-color: $blue-2;
+    box-shadow: $gray-1 1px 1px, $gray-1 2px 2px;
     overflow: inherit;
+    z-index: 2;
   }
 
   .scroller-button:hover {
@@ -406,12 +461,13 @@ input.invisible {
 
 .dropdown-menu {
   position: absolute;
-  top: 80px;
+  bottom: 30px;
+  left: 30px;
   background-color: white;
-  width: 300px;
-  border: 3px solid $gray-1;
-  border-radius: 15px;
-
+  width: 280px;
+  border: 2px solid $gray-1;
+  box-shadow: $gray-1 1px 1px, $gray-1 2px 2px;
+  border-radius: 10px;
   p {
     font-size: 20px;
   }
@@ -437,7 +493,7 @@ input.invisible {
   flex-direction: column;
   align-items: center;
   transform: translate(-50%, -50%);
-  z-index: 3;
+  z-index: 5;
 
   .image-editor-image {
     margin: 10px;

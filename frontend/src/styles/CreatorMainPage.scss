@@ -1,7 +1,33 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
+
+.creator-bg-container {
+  margin-top: 15px;
+  .creator-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: blink-bg 4s infinite ease;
+    z-index: -1;
+  }
+  .star1 {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    animation: blink-star 3s infinite;
+  }
+  .star2 {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    animation: throw-star 10s 1;
+    z-index: -1;
+  }
+}
 
 .creator-main-container {
   justify-content: center;
+  scale: 1;
 
   .welcome-text-wrapper {
     text-align: left;
@@ -18,13 +44,23 @@
   .creator-main-items-container {
     border-radius: 30px;
     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
+    background-color: white;
     padding-top: 1%;
     padding-bottom: 3%;
+    margin-bottom: 3%;
   }
 
   .profile-wrapper {
-    // 수직 중앙정렬
-    margin: auto;
+    // 상단 위치
+    margin-top: 65px;
+  }
+
+  // md영역 기점으로 크기 조정
+  @media (max-width: 900px) {
+    .profile-wrapper {
+      // 수직 중앙정렬
+      margin: auto;
+    }
   }
 }
 
@@ -39,12 +75,13 @@
   .profile-wrapper {
     img {
       width: 100%;
-      max-width: 200px;
+      max-width: 180px;
       object-fit: cover;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
       // margin: 10px;
       border: 1px solid $gray-1;
+      box-shadow: 2px 2px $gray-1;
     }
 
     // md영역 기점으로 크기 조정
@@ -76,6 +113,7 @@
 
       span {
         font-weight: 700;
+        margin-left: 5px;
       }
     }
 
@@ -95,6 +133,10 @@
   h3 {
     text-align: left;
     margin-left: 2%;
+    color: $blue-1;
+    font-weight: 900;
+    text-shadow: 2px 0px $gray-1;
+    -webkit-text-stroke: 1px $gray-1;
   }
 
   .create-button-wrapper {
@@ -103,14 +145,15 @@
     text-decoration: none;
     width: 150px;
     margin: auto;
+    margin-top: 20px;
   }
 
   .game-tab-buttons-container {
     display: flex;
     padding: 0;
-    padding-top: 1%;
-    border-top: 1px solid $gray-2;
-    border-bottom: 1px solid $gray-2;
+    // padding-top: 1%;
+    // border-top: 1px solid $gray-2;
+    border-bottom: 1px solid $gray-1;
     margin-bottom: 2%;
     justify-content: space-around;
 
@@ -120,28 +163,49 @@
       cursor: pointer;
       min-width: 20%;
       font-weight: 500;
+      height: 2.25rem;
       padding-bottom: 1%;
+      padding-top: 1%;
     }
     button:hover,
     .button-active {
       background-color: $lime;
       border-top-right-radius: 12px;
       border-top-left-radius: 12px;
+      border-top: 2px solid $gray-1;
+      border-right: 1px solid $gray-1;
+      border-left: 1px solid $gray-1;
+      box-shadow: 3px 1px $gray-1;
+      font-weight: 900;
+      color: $gray-1;
     }
   }
 }
 
 // GameCard.tsx
 
+.all-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 10%;
+}
+
 .card-wrapper {
   display: inline-flex;
   flex-direction: column;
+  position: relative;
   width: 255px;
-  min-height: 405px;
+  min-height: 400px;
+  max-height: 410px;
   border: 1px solid $gray-1;
+  box-shadow: 3px 3px $gray-1;
   border-radius: 15px;
   margin: 2%;
   justify-content: flex-start;
+  @include fadeInUp;
+  @include raiseHover; // 적용이 안됨;;ㅠ
 
   .detail-move-button {
     background: none;
@@ -153,13 +217,14 @@
   header {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    background-color: #c2c4e3;
+    background-color: $blue-3;
     width: 100%;
     height: 2rem;
+    border-bottom: 1px solid $gray-1;
 
     h5 {
       // -webkit-text-stroke: 1px $gray-1;
-      color: white;
+      color: $gray-1;
       margin: 0;
     }
   }
@@ -185,6 +250,13 @@
       align-items: baseline;
       margin: 5px;
       // flex-wrap: wrap;
+
+      .card-content-desc-text-wrapper {
+        max-height: 80px;
+        // max-height: 30px;
+        overflow: hidden;
+        width: 171px;
+      }
     }
 
     .card-content-title-wrapper {
@@ -195,8 +267,8 @@
       justify-content: center;
       align-items: center;
       margin-right: 5px;
-      color: $gray-2;
-      border: 1px solid $gray-2;
+      color: $gray-1;
+      border: 1px solid $gray-1;
       width: 42px;
       min-width: 42px;
       height: 20px;
@@ -214,10 +286,62 @@
   footer {
     display: inline-flex;
     justify-content: center;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 10px;
+    width: 100%;
 
     Button {
       width: 100px !important;
       height: 40px !important;
     }
+  }
+}
+
+.make-new-game-alert {
+  text-align: center;
+  margin: 70px auto;
+  p {
+    padding: 0;
+    margin: 5px;
+    font-size: 1rem;
+    // -webkit-text-stroke: 1px #000;
+    color: $gray-3;
+    font-weight: 500;
+  }
+}
+
+@keyframes blink-bg {
+  0% {
+    background-image: url("../assets/fullBGPattern.svg");
+    opacity: 0.6;
+  }
+  50% {
+    background-image: url("../assets/fullBGPattern.svg");
+    opacity: 1;
+  }
+  100% {
+    background-image: url("../assets/fullBGPattern.svg");
+    opacity: 0.6;
+  }
+}
+
+@keyframes blink-star {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes throw-star {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(200px, 300px) scale(1.2);
+    opacity: 1;
   }
 }

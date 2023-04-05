@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import ReactGA from "react-ga";
 import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
 import { persistStore } from "redux-persist";
+import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./App";
 import store from "./stores/store";
@@ -14,11 +16,17 @@ const persistor = persistStore(store);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+// Google Analytics 초기화
+ReactGA.initialize("UA-259293592-1");
+
 root.render(
   <CookiesProvider>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
           <App />
+        </BrowserRouter>
       </PersistGate>
     </Provider>
   </CookiesProvider>

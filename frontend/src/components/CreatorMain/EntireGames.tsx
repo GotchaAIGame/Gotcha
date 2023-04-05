@@ -3,19 +3,18 @@ import GameCard from "./GameCard";
 
 export default function EntireGames(props: any) {
   const { createGames } = props;
-  console.log(createGames);
-
-  // createGames.map((item: any) => {
-  //   console.log(item);
-  //   return null;
-  // });
 
   return (
-    <div>
+    <>
       {createGames.map((item: any) => {
         return <GameCard gameInfo={item} key={item.id} />;
       })}
-      {/* <GameCard /> */}
-    </div>
+      {createGames.length === 0 && (
+        <div className="make-new-game-alert">
+          <p>아직 생성된 방이 없어요!</p>
+          <p>게임을 생성하러 가볼까요?</p>
+        </div>
+      )}
+    </>
   );
 }

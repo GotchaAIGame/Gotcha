@@ -14,6 +14,7 @@ interface gameState {
 }
 
 interface problemState {
+  id?: number;
   image: string;
   name: string;
   hint: string;
@@ -22,7 +23,7 @@ interface problemState {
 // interface listProblemState {Record<names, number>}
 
 const initialState: gameState = {
-  brandColor: "5551FF",
+  brandColor: "#5551FF",
   logoUrl: "",
   title: "",
   eventUrl: "",
@@ -37,6 +38,10 @@ const initialState: gameState = {
       hint: "",
     },
   ],
+};
+
+const resetState = () => {
+  return { ...initialState };
 };
 
 export const gameSlice = createSlice({
@@ -59,6 +64,27 @@ export const gameSlice = createSlice({
         eventDesc: action.payload.eventDesc,
         startTime: action.payload.startTime,
         endTime: action.payload.endTime,
+      };
+    },
+
+    // 생성된 정보 받아와서 갱신
+    setOriginGame: (
+      state,
+      action: PayloadAction<{
+        title: string;
+        startTime: string;
+        eventDesc: string;
+        endTime: string;
+        logoUrl: string;
+      }>
+    ) => {
+      return {
+        ...state,
+        title: action.payload.title,
+        eventDesc: action.payload.eventDesc,
+        startTime: action.payload.startTime,
+        endTime: action.payload.endTime,
+        logoUrl: action.payload.logoUrl,
       };
     },
 
@@ -90,6 +116,14 @@ export const gameSlice = createSlice({
       return {
         ...state,
         problems: newProblems,
+      };
+    },
+
+    // 게임 문제 전체 갱신
+    setProblems: (state, action: PayloadAction<object[]>) => {
+      return {
+        ...state,
+        problems: action.payload,
       };
     },
 
@@ -128,9 +162,20 @@ export const gameSlice = createSlice({
         brandColor: action.payload.brandColor,
       };
     },
+
+    // 게임 정보 초기화
+    resetGame: (state) => resetState(),
   },
 });
 
-export const { setGame, addProblem, setProblem, deleteProblem, setGameCustom } =
-  gameSlice.actions;
+export const {
+  setGame,
+  addProblem,
+  setProblem,
+  deleteProblem,
+  setGameCustom,
+  resetGame,
+  setProblems,
+  setOriginGame,
+} = gameSlice.actions;
 export default gameSlice.reducer;

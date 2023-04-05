@@ -1,26 +1,11 @@
 @import "@styles/Colors.scss";
 
-.login-page-container {
-  // background-image: url("../assets/tempBg.svg");
-  // background-size: contain;
-  min-height: 100vh;
-
-  .top-banner {
-    overflow: hidden;
-  }
-  .login-banner {
-    position: relative;
-    top: -50px;
-    // height: 90px;
-    width: 325px;
-  }
-}
-
 // LogIn.tsx
 .login-inputs-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 50px;
   // min-height: 100vh;
 
   input {
@@ -39,7 +24,7 @@
 .social-logins-container {
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 20px;
 
   .social-login-title {
     display: flex;

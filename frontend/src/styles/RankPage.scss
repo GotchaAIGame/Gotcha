@@ -10,7 +10,8 @@
   .player-rank-wrapper {
     border-radius: 30px;
     border: 1px solid $gray-1;
-    margin: 100px;
+    margin-top: 100px;
+    margin-bottom: 80px;
 
     @include desktop {
       width: 70%;
@@ -67,12 +68,12 @@
 
       .rankInfo-wrapper {
         margin: 10px;
+        @include fadeInUp;
       }
 
       // 등수, 닉네임, 시간
       .rank-header {
-        justify-content: space-around;
-
+        justify-content: space-between;
         .rank-box1,
         .rank-box2,
         .rank-box3,
@@ -84,17 +85,35 @@
           margin: auto;
           padding: 5px;
           max-width: 50px;
+          min-width: 40px;
           @include mobile {
             padding: 1px;
+            font-size: 1rem;
+          }
+        }
+        .rank-box5 {
+          border-radius: 10px;
+          border: 1px solid $gray-1;
+          background-color: $gray-5;
+          height: 30px;
+          margin: auto;
+          padding: 5px;
+          width: 70px;
+          @include mobile {
+            padding: 1px;
+            font-size: 1rem;
           }
         }
       }
       .rank-info-wrapper {
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         img {
           width: 45px;
-          margin: 10px;
+          margin: 10px 10px 10px 0;
+          @include mobile {
+            width: 30px;
+          }
         }
         h5 {
           justify-content: center;
@@ -102,15 +121,21 @@
           font-size: 1rem;
           @include mobile {
             margin: 25px;
+            font-size: 0.5rem;
+            max-height: 10px;
+            text-overflow: ellipsis; // 수정필요
           }
         }
         p {
           justify-content: center;
           margin: 10px;
+          @include mobile {
+            font-size: 0.5rem;
+          }
         }
 
         hr {
-          width: 598%;
+          width: 1200%;
           position: relative;
           top: -15px;
         }
@@ -125,6 +150,10 @@
             background-size: 45px;
             background-position: center;
             background-repeat: no-repeat;
+            @include mobile {
+              background-size: 30px;
+              font-size: 0.75rem;
+            }
           }
         }
       }
@@ -145,9 +174,15 @@
 
 // 이벤트 참여하기 모달
 .modal-five {
-  p,
+  p {
+    text-align: left;
+    color: $gray-2;
+  }
   h5 {
     text-align: left;
+  }
+  .modal-content {
+    max-width: 340px;
   }
 }
 

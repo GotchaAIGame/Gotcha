@@ -1,4 +1,5 @@
 @import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
 
 .player-info-container {
   display: flex;
@@ -10,12 +11,23 @@
   background-image: url("../assets/fullBGPattern.svg");
 
   .logo-img {
-    margin-bottom: 50px;
-    width: 100%;
-    max-width: 400px;
+    img {
+      width: 30%;
+      min-width: 340px;
+    }
+  }
+  .name-pw-wrapper-fadeout {
+    @include fadeOut;
   }
 
-  .enter-button {
+  .player-main-buttons {
     margin-top: 30px;
+
+    .enter-btn {
+      @include fadeInUp;
+    }
+    .rank-btn {
+      @include fadeInUp;
+    }
   }
 }

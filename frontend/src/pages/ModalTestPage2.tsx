@@ -45,7 +45,7 @@ export default function ModalTestPage2() {
           테스트 버튼
         </button>
       </div>
-      <AIModal
+      {/* <AIModal
         open={modalOpen1}
         openHandler={() => {
           modalHandler();
@@ -53,13 +53,18 @@ export default function ModalTestPage2() {
         resultStatus={resultStatus}
         resultHandler={resultHandler}
         imageURL=""
-      />
+      /> */}
       <div className="ml-test-div">
         <p> 원본 데이터 </p>
         <img src={imgURL} alt="원본" height="300px" />
         <form>
           <label htmlFor="upload">
-            <input id="upload" type="file" accept="image/*" ref={inputRef} />
+            <input
+              id="upload"
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              ref={inputRef}
+            />
             <button type="submit" onClick={predictHandler}>
               제출하기
             </button>

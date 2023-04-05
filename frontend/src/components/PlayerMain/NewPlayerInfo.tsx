@@ -2,32 +2,48 @@ import React, { useState, useRef } from "react";
 import Button from "@components/common/Button";
 import OTPInput from "@components/common/OTPInput";
 import InputValidBox from "@components/common/InputValidBox";
-import { memberAPI } from "@apis/apis";
+import { gamePlayAPI } from "@apis/apis";
+import { RegisterandStart } from "@stores/game/gamePlaySlice";
+import { useAppDispatch } from "@stores/storeHooks";
+import { useNavigate } from "react-router-dom";
 
-export default function PlayerInfo() {
+export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
+  const { roomPin, roomId } = props;
+
   const [otp, setOtp] = useState("");
   const [checked, setChecked] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const handleValidation = async () => {
     // const { data } = memberAPI.duplicateNickNames;
     if (nicknameInputRef.current && nicknameInputRef.current.value) {
-      const nicknameInput = nicknameInputRef.current.value;
+      const nickname = nicknameInputRef.current.value;
       // console.log(nicknameInput);
-      const response = await memberAPI.duplicateNickName(nicknameInput);
-
-      if (response.data.result === false) {
-        // when valid (not duplicated)
-        setChecked(true);
-      } else {
-        // when invalid (duplicated)
-        alert("이미 사용중인 닉네임입니다!");
-        nicknameInputRef.current.value = "";
-      }
+      gamePlayAPI
+        .duplicate(roomId, nickname)
+        .then((res) => {
+          setChecked(true);
+        })
+        .catch((err) => {
+          alert("이미 사용중인 닉네임입니다!");
+          if (nicknameInputRef.current) {
+            nicknameInputRef.current.value = "";
+          }
+        });
     }
   };
 
-  const changeHandler = (value: string) => {
+  const nicknameChangeHandler = () => {
+    if (checked) {
+      setChecked(!checked);
+    }
+  };
+
+  const OTPchangeHandler = (value: string) => {
     if (value.length <= 4) {
       setOtp(value);
     }
@@ -42,7 +58,16 @@ export default function PlayerInfo() {
       // when password is invalid
       alert("유효한 비밀번호를 입력해주세요");
     } else {
-      console.log("하위");
+      // when every infos input are valid
+      const nickname = nicknameInputRef.current?.value as string;
+      const a = dispatch(RegisterandStart({ roomId, nickname, password: otp }));
+      a.then((res) => {
+        if (res.type.endsWith("fulfilled")) {
+          navigate(`/game/${roomPin}`, { state: { roomId, nickname } });
+        } else {
+          alert("중복된 닉네임입니다.");
+        }
+      });
     }
   };
 
@@ -54,8 +79,9 @@ export default function PlayerInfo() {
         onClick={handleValidation}
         inputRef={nicknameInputRef}
         checked={checked}
+        onChange={nicknameChangeHandler}
       />
-      <OTPInput value={otp} valueLength={4} onChange={changeHandler} />
+      <OTPInput value={otp} valueLength={4} onChange={OTPchangeHandler} />
       <div className="enter-button">
         <Button
           text="입장하기"

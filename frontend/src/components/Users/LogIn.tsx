@@ -8,6 +8,7 @@ import { setLogin } from "@stores/users/userSlice";
 import InputBox from "@components/common/InputBox";
 import Button from "@components/common/Button";
 import { memberAPI } from "@apis/apis";
+import SNSLogin from "./SNSLogin";
 
 export default function LogIn() {
   // 추후 유효성 검사 이후 페이지 이동되게 수정 예정
@@ -85,6 +86,7 @@ export default function LogIn() {
           value={passwordInput}
         />
         <Button text="로그인하기" type="submit" />
+        <SNSLogin />
       </form>
     </div>
   );

@@ -71,7 +71,7 @@ export default function RewardCard(props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept="image/*"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />
@@ -87,7 +87,7 @@ export default function RewardCard(props: any) {
               <input
                 id={`upload-${idx}`}
                 type="file"
-                accept="image/*"
+                accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
                 ref={uploadImage}
               />

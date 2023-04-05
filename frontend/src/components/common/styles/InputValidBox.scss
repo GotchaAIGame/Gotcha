@@ -1,42 +1,5 @@
 @import "@styles/Colors.scss";
 
-// .inputvalidBoxContainer {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin: 0.5rem auto;
-//   width: 325px;
-//   height: 63px;
-//   border-width: 2px;
-//   border-style: solid;
-//   border-color: $gray-1;
-//   border-radius: 10px;
-//   background-color: white;
-
-//   ::placeholder {
-//     color: $gray-3;
-//   }
-//   input {
-//     padding: 5px 10px;
-//     border: 0;
-//     background-color: transparent;
-//     outline-style: none;
-//   }
-//   button {
-//     padding: 5px 10px;
-//     border: 0;
-//     background-color: transparent;
-//     color: $green;
-//     cursor: pointer;
-//   }
-
-//   img {
-//     width: 30px !important;
-//     height: 30px !important;
-//     margin-right: 5px;
-//   }
-// }
-
 .common-input-box-container {
   display: flex;
   justify-content: space-between;
@@ -56,6 +19,8 @@
     border: 0;
     background-color: transparent;
     outline-style: none;
+    width: 70%;
+    height: 100%;
   }
   button {
     padding: 5px 10px;
@@ -67,6 +32,6 @@
   img {
     width: 30px;
     height: 30px;
-    margin-right: 5px;
+    margin-right: 8px;
   }
 }

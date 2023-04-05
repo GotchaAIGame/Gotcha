@@ -1,3 +1,4 @@
+@import "./Colors";
 body {
   font-family: "Noto Sans KR", sans-serif;
   height: 100%;
@@ -28,23 +29,6 @@ body {
   min-width: 320px;
 }
 
-.app-main-header {
-  height: 140px;
-  background-image: url("../assets/TopBanner.svg");
-  background-size: cover;
-  // 이미지 중앙 정렬
-  background-position: 50%;
-  margin: auto;
-  margin-bottom: 40px;
-
-  // 로고 이미지
-  img {
-    position: relative;
-    width: 325px;
-    top: 80px;
-  }
-}
-
 .app-main-container {
   // min-height: calc(90vh + 55px);
   // min-height: 110vh;
@@ -55,7 +39,13 @@ body {
   // bottom: 0;
   // left: calc(62% - 200px);
   // height: 55px;
-  margin-top: 55px;
-  text-align: center;
-  font-size: 5px;
+  // margin-top: 55px;
+  // text-align: center;
+  // font-size: 5px;
+  padding-bottom: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: $gray-1; // 수정 필요하면 수정
 }

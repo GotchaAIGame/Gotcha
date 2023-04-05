@@ -2,39 +2,61 @@
 @import "@styles/mixin";
 
 .custom-nav-container {
-  height: 140px;
+  height: 150px;
   background-image: url("../../../assets/defaultBanner.svg");
-  // background-image: url("data:image/svg+xml,%3Csvg width='1728' height='179' viewBox='0 0 1728 179' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1641' cy='144' r='9.5' fill='%2337A954' stroke='black'/%3E%3Ccircle cx='279' cy='36' r='9.5' fill='%23DFF93E' stroke='black'/%3E%3Ccircle cx='1051' cy='26' r='14.5' fill='%23C7B9FF' stroke='black'/%3E%3Crect x='73.0294' y='86.3813' width='44' height='12' rx='6' transform='rotate(-25.0551 73.0294 86.3813)' fill='%23A259FF' stroke='%23303030'/%3E%3Crect x='459.129' y='76.5943' width='44' height='12' rx='6' transform='rotate(12.1948 459.129 76.5943)' fill='%23FF8577' stroke='%23303030'/%3E%3Crect x='1175.04' y='41.6889' width='44' height='12' rx='6' transform='rotate(31.9551 1175.04 41.6889)' fill='%23DFF93E' stroke='%23303030'/%3E%3Crect x='1520.67' y='84.6328' width='44' height='12' rx='6' transform='rotate(-26.9782 1520.67 84.6328)' fill='%23699BF7' stroke='%23303030'/%3E%3Cpath d='M611.382 56.1117L614.86 67.0145C615.168 67.9814 615.881 68.7668 616.814 69.1671L627.38 73.7027C629.399 74.5691 629.399 77.4309 627.38 78.2973L616.814 82.8329C615.881 83.2332 615.168 84.0186 614.86 84.9855L611.382 95.8883C610.642 98.2086 607.358 98.2086 606.618 95.8883L603.14 84.9855C602.832 84.0186 602.119 83.2332 601.186 82.833L590.62 78.2973C588.601 77.4309 588.601 74.5691 590.62 73.7027L601.186 69.1671C602.119 68.7668 602.832 67.9814 603.14 67.0145L606.618 56.1117C607.358 53.7914 610.642 53.7914 611.382 56.1117Z' fill='%23CFE2FF' stroke='%23303030'/%3E%3Cpath d='M1355.38 78.1117L1358.86 89.0145C1359.17 89.9814 1359.88 90.7668 1360.81 91.1671L1371.38 95.7027C1373.4 96.5691 1373.4 99.4309 1371.38 100.297L1360.81 104.833C1359.88 105.233 1359.17 106.019 1358.86 106.986L1355.38 117.888C1354.64 120.209 1351.36 120.209 1350.62 117.888L1347.14 106.986C1346.83 106.019 1346.12 105.233 1345.19 104.833L1334.62 100.297C1332.6 99.4309 1332.6 96.5691 1334.62 95.7027L1345.19 91.1671C1346.12 90.7668 1346.83 89.9814 1347.14 89.0145L1350.62 78.1117C1351.36 75.7914 1354.64 75.7914 1355.38 78.1117Z' fill='%2337A954' stroke='%23303030'/%3E%3C/svg%3E%0A");
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   img {
+    margin-top: 10px;
     max-width: 300px;
     max-height: 100px;
   }
 
-  .custom-title-wrapper {
-    border-radius: 20px;
-    border: solid 1px $gray-1;
-    position: absolute;
-    top: 100px;
-    background-color: white;
+  .title-button-container {
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 10px;
-    height: 60px;
 
-    @include desktop {
-      width: 70%;
+    .custom-title-wrapper {
+      border-radius: 20px;
+      border: solid 1px $gray-1;
+      position: relative;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 10px;
+      height: 60px;
+
+      @include desktop {
+        width: 73.5%;
+      }
+      @include mobile {
+        width: 80%;
+        // min-width: 255px;
+        font-size: 1.125rem;
+      }
     }
-    @include mobile {
-      width: 80%;
-      min-width: 250px;
-      font-size: 1.125rem;
+    .game-detail-button {
+      position: absolute;
+      top: -17.5px;
+      right: 100px;
+      background: none;
+      border: none;
+      width: 30px;
+      height: 30px;
+
+      @include desktop {
+        left: 80%;
+      }
+      @include mobile {
+        left: 70%;
+      }
+
+      img {
+        width: 30px;
+      }
     }
   }
 }
