@@ -285,7 +285,7 @@ class RoomControllerTest {
         mockMvc.perform(
                 get(url + "member/room/{memberId}", member.getId())
                         .header(AUTHORIZATION, token)
-        ).andDo(print());
+        ).andExpect(status().isOk());
     }
 
     @Test

@@ -40,7 +40,7 @@ public class RoomController {
     @Operation(description = "코드 통해 게임 입장하는 API", summary = "코드 통해 게임 입장하는 API")
     @ApiResponse(responseCode = "200", description = "입장 성공", content = @Content(schema = @Schema(implementation = Long.class)))
     @ApiResponse(responseCode = "404", description = "방 정보를 찾을 수 없음")
-    @ApiResponse(responseCode = "403", description = "해당 방에 접근할 수 없음(유효기간 만료)")
+    @ApiResponse(responseCode = "403", description = "1. 시작전인 게임입니다.(R300) \t\n 2. 이미 종료된 게임입니다.(R200)")
     @GetMapping("/game/enter")
     public BaseResponse<GameInfoResponse> enterRoom(@NotNull @RequestParam int roomCode) {
         GameInfoResponse gameInfoResponse = roomService.getRoomInfo(roomCode);
