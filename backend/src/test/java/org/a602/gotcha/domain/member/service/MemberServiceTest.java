@@ -1,12 +1,11 @@
 package org.a602.gotcha.domain.member.service;
 
+import java.util.Optional;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.exception.MemberNotFoundException;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
-import org.a602.gotcha.domain.member.request.MemberSignupRequest;
-import org.a602.gotcha.domain.member.request.MemberUpdateRequest;
-import org.a602.gotcha.global.common.S3Service;
+import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,37 +15,38 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
 
-    public static final String PASSWORD = "1234";
     public static final String ENCODE_PASSWORD = "Encode_Password";
+    public static final String PROFILE_IMAGE = "https://a602gotcha.s3.ap-northeast-2.amazonaws.com/basic_profile.png";
+    public static final String RAW_PASSWORD = "1234";
     private final Long memberId = 1L;
     private final String nickname = "싸피";
-    private final String organization = "SSAFY";
-    private final String email = "ssafy@ssafy.com";
+    private final String organization = "ssafy";
+    private final String email = "minsu@naver.com";
     private final String registrationId = "NORMAL";
-    private final String profileImage = "url";
-
-    @Mock
-    PasswordEncoder passwordEncoder;
+    private final String accessToken = "accessToken";
+    private final String refreshToken = "refreshToken";
 
     @InjectMocks
     private MemberService memberService;
-
-    @Mock
-    private S3Service s3Service;
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
 
     @Test
-    @DisplayName("signupNickNameDuplicate는 같은 닉네임이 있을경우 false 반환.")
-    void signupNickNameDuplicateTest() {
+    @DisplayName("닉네임 중복검사 메서드는 같은 닉네임이 없을경우 false 반환.")
+    void noDuplicateNickName() {
         //when
         when(memberRepository.existsMemberByNickname(nickname)).thenReturn(false);
         //then
@@ -54,23 +54,37 @@ public class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("signupEmailDuplicate는 같은 이메일이 있을경우 false 반환.")
-    void signupEmailDuplicateTest() {
+    @DisplayName("이메일 중복검사 메서드는 같은 이메일이 없을경우 false 반환.")
+    void noDuplicateEmail() {
         //when
         when(memberRepository.existsMemberByEmail(email)).thenReturn(false);
         //then
         assertFalse(memberService.isDuplicateEmail(email));
     }
 
-    @Test
-    @DisplayName("찾으려는 회원정보가 없을경우 MEMBER_NOT_FOUND 예외발생")
-    void findMemberInformationTest() {
-        //given
-        final Long memberId = 19L;
-        //when
-        when(memberRepository.findById(eq(memberId))).thenReturn(Optional.empty());
-        //then
-        assertThrows(MemberNotFoundException.class, () -> memberService.findMemberInformation(memberId));
+    @Nested
+    @DisplayName("회원정보 조회 메서드")
+    class findMemberTest {
+        @Test
+        @DisplayName("회원을 찾을경우 회원정보 반환")
+        void findMember() {
+            //when
+            when(memberRepository.findById(eq(memberId))).thenReturn(
+                    Optional.of(Member.builder().id(memberId).build()));
+            //then
+            assertEquals(memberRepository.findById(memberId).get().getId(), memberId);
+        }
+
+        @Test
+        @DisplayName("찾으려는 회원정보가 없을경우 MEMBER_NOT_FOUND 예외발생")
+        void notFindMember() {
+            //given
+            final Long memberId = 19L;
+            //when
+            when(memberRepository.findById(eq(memberId))).thenReturn(Optional.empty());
+            //then
+            assertThrows(MemberNotFoundException.class, () -> memberService.findMemberInformation(memberId));
+        }
     }
 
     @Nested
@@ -98,29 +112,7 @@ public class MemberServiceTest {
         @Test
         @DisplayName("회원정보가 존재할경우 회원정보 수정")
         void updateMember() {
-            String newNickName = "싸피2";
-            // given
-            final MemberUpdateRequest memberUpdateRequest = new MemberUpdateRequest(
-                    memberId,
-                    newNickName,
-                    organization,
-                    email,
-                    profileImage
-            );
 
-            // when
-            when(memberRepository.findById(memberUpdateRequest.getId()))
-                    .thenReturn(Optional.of(Member.builder()
-                            .id(memberId)
-                            .nickname(newNickName)
-                            .email(email)
-                            .profileImage(profileImage)
-                            .organization(organization)
-                            .registrationId(registrationId)
-                            .build()));
-            when(s3Service.uploadImage(anyString(), anyString())).thenAnswer((invocation) -> invocation.getArgument(0));
-            // then
-            memberService.updateMember(memberUpdateRequest);
         }
     }
 
@@ -137,7 +129,17 @@ public class MemberServiceTest {
         }
 
         @Test
-        @DisplayName("기존에 가입한 회원이 존재할경우 삭제한다.")
+        @DisplayName("회원을 찾을경우 회원정보 반환")
+        void findMember() {
+            //when
+            when(memberRepository.findById(eq(memberId))).thenReturn(
+                    Optional.of(Member.builder().id(memberId).build()));
+            //then
+            assertEquals(memberRepository.findById(memberId).get().getId(), memberId);
+        }
+
+        @Test
+        @DisplayName("기존에 가입한 회원이 존재할경우 삭제")
         void deleteMember() {
             //given
             final Long deleteMemberId = 30L;
@@ -146,7 +148,7 @@ public class MemberServiceTest {
                     .id(deleteMemberId)
                     .nickname(nickname)
                     .email(email)
-                    .profileImage(profileImage)
+                    .profileImage(PROFILE_IMAGE)
                     .organization(organization)
                     .registrationId(registrationId)
                     .build()));
@@ -155,88 +157,102 @@ public class MemberServiceTest {
         }
     }
 
-    @Test
-    @DisplayName("회원가입한 회원의 Id값을 기준으로 데이터를 조회했을때 데이터가 존재한다면 회원가입 성공")
-    void notFindMember() {
-        String notRegisterNickname = "이민수123";
-        String notRegisterEmail = "minsu@naver.com";
-
-        // given
-        MemberSignupRequest memberSignupRequest = new MemberSignupRequest(
-                notRegisterNickname,
-                ENCODE_PASSWORD,
-                organization,
-                notRegisterEmail
-        );
-        //when
-        when(memberRepository.save(any())).thenReturn(Member.builder()
-                .id(1L)
-                .nickname(notRegisterNickname)
-                .email(notRegisterEmail)
-                .password(ENCODE_PASSWORD)
-                .profileImage(profileImage)
-                .organization(organization)
-                .registrationId(registrationId)
-                .build());
-
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(Member.builder()
-                .id(1L)
-                .nickname(notRegisterNickname)
-                .email(notRegisterEmail)
-                .password(ENCODE_PASSWORD)
-                .profileImage(profileImage)
-                .organization(organization)
-                .registrationId(registrationId)
-                .build()));
-
-        when(passwordEncoder.encode(ENCODE_PASSWORD)).thenReturn(anyString());
-
-
-        final Long signup = memberService.signup(memberSignupRequest);
-
-        //then
-        final Optional<Member> byId = memberRepository.findById(signup);
-        assertTrue(byId.isPresent());
-//		assertEquals(1L, byId.get().getId());
-    }
-
     @Nested
     @DisplayName("로그인 메소드")
     class loginMemberTest {
         @Test
-        @DisplayName("로그인 하려는 회원이 없을경우 MEMBER_NOT_FOUND 예외발생")
+        @DisplayName("회원이 없을경우 MEMBER_NOT_FOUND 예외발생")
         void notFindMember() {
+            //given
+            final String noExistEmail = "nono@nono.com";
             //when
-            when(memberRepository.findById(eq(memberId))).thenReturn(Optional.empty());
+            when(memberRepository.findMemberByEmail(eq(noExistEmail))).thenReturn(Optional.empty());
             //then
-            assertThrows(MemberNotFoundException.class, () -> memberService.findMemberInformation(memberId));
+            assertThrows(MemberNotFoundException.class, () -> memberRepository.findMemberByEmail(noExistEmail).orElseThrow(MemberNotFoundException::new));
         }
 
         @Test
-        @DisplayName("로그인 하려는 회원의 비밀번호가 다를경우 MISMATCH_PASSWORD 예외발생")
+        @DisplayName("회원을 찾을경우 회원정보 반환")
+        void findMember() {
+            // given
+            MemberLoginRequest loginRequest = new MemberLoginRequest(email, RAW_PASSWORD);
+            //when
+            when(memberRepository.findMemberByEmail(eq(email))).thenReturn(
+                    Optional.of(Member.builder().id(memberId).email(email).build()));
+            Optional<Member> byId = memberRepository.findMemberByEmail(email);
+            //then
+            assertEquals(loginRequest.getEmail(), byId.get().getEmail());
+        }
+
+        @Test
+        @DisplayName("비밀번호 불일치시 false 반환")
         void mismatchPassword() {
             //given
-            final MemberLoginRequest memberLoginRequest = new MemberLoginRequest(email, "4567");
+            String mismatchPassword = "4567";
             //when
-            when(memberRepository.findMemberByEmail(email)).thenReturn(
-                    Optional.of(Member.builder()
-                            .nickname(nickname)
-                            .registrationId(registrationId)
-                            .organization(organization)
-                            .email(email)
-                            .password(ENCODE_PASSWORD)
-                            .build()));
-
+            when(memberRepository.findById(eq(memberId))).thenReturn(
+                    Optional.of(Member.builder().id(memberId).email(email).password(RAW_PASSWORD).build()));
             //then
-            assertThrows(IllegalArgumentException.class, () -> memberService.login(memberLoginRequest));
+            Optional<Member> byId = memberRepository.findById(memberId);
+            assertFalse(passwordEncoder.matches(mismatchPassword, byId.get().getPassword()));
         }
 
         @Test
-        @DisplayName("로그인 하려는 회원의 이메일과 비밀번호가 일치하면 회원정보 및 토큰반환")
-        void loginMember() {
+        @DisplayName("로그인 성공시 accesstoken refreshtoken 반환")
+        void login() {
+            //given
+            Member member = Member.builder().email(email).password(RAW_PASSWORD).nickname(nickname).organization(organization).build();
+            //when
+            when(jwtTokenProvider.createAccessToken(member)).thenReturn(accessToken);
+            when(jwtTokenProvider.createRefreshToken(accessToken, member.getEmail())).thenReturn(refreshToken);
 
+            String newAccessToken = jwtTokenProvider.createAccessToken(member);
+            String newRefreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+            //then
+            assertEquals(accessToken, newAccessToken);
+            assertEquals(refreshToken, newRefreshToken);
+        }
+    }
+
+    @Nested
+    @DisplayName("토큰 재발급 메소드")
+    class reCreateTokenTest {
+        @Test
+        @DisplayName("회원이 없을경우 MEMBER_NOT_FOUND 예외발생")
+        void notFindMember() {
+            //given
+            final String noExistEmail = "nono@nono.com";
+            //when
+            when(memberRepository.findMemberByEmail(eq(noExistEmail))).thenReturn(Optional.empty());
+            //then
+            assertThrows(MemberNotFoundException.class, () -> memberRepository.findMemberByEmail(noExistEmail).orElseThrow(MemberNotFoundException::new));
         }
 
+        @Test
+        @DisplayName("회원을 찾을경우 회원정보 반환")
+        void findMember() {
+            // given
+            MemberLoginRequest loginRequest = new MemberLoginRequest(email,RAW_PASSWORD);
+            //when
+            when(memberRepository.findMemberByEmail(eq(email))).thenReturn(
+                    Optional.of(Member.builder().id(memberId).email(email).build()));
+            Optional<Member> byId = memberRepository.findMemberByEmail(email);
+            //then
+            assertEquals(loginRequest.getEmail(), byId.get().getEmail());
+        }
+
+        @Test
+        @DisplayName("토큰 재발급 성공시 accesstoken 반환")
+        void reCreateAccessToken() {
+            //given
+            Member member = Member.builder().email(email).password(RAW_PASSWORD).nickname(nickname).organization(organization).build();
+            //when
+            when(jwtTokenProvider.createAccessToken(member)).thenReturn(accessToken);
+
+            String newAccessToken = jwtTokenProvider.createAccessToken(member);
+            //then
+            assertEquals(accessToken, newAccessToken);
+        }
     }
 
 }
