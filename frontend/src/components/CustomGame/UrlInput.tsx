@@ -14,9 +14,11 @@ export default function UrlInput(props: UrlProps) {
 
   const urlHandler = () => {
     setUrlOpen(!isUrlOpen);
+    console.log(urlInputRef, "ref");
     if (urlInputRef.current) {
       if (eventUrl) {
         urlInputRef.current.value = eventUrl;
+        console.log(eventUrl);
       }
     }
   };
@@ -36,15 +38,12 @@ export default function UrlInput(props: UrlProps) {
           )}
         </button>
       </div>
-      {isUrlOpen ? (
-        <input
-          type="url"
-          placeholder="행사 URL을 입력해주세요"
-          ref={urlInputRef}
-        />
-      ) : (
-        <div className="empty-bottom-box" />
-      )}
+      <input
+        style={{ display: `${!isUrlOpen ? "none" : ""}` }}
+        type="url"
+        placeholder="행사 URL을 입력해주세요"
+        ref={urlInputRef}
+      />
     </div>
   );
 }
