@@ -2,10 +2,11 @@
 @import "@styles/mixin";
 
 .custom-nav-container {
-  height: 140px;
+  height: 150px;
   background-image: url("../../../assets/defaultBanner.svg");
 
   img {
+    margin-top: 10px;
     max-width: 300px;
     max-height: 100px;
   }
