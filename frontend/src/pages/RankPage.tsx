@@ -4,12 +4,16 @@ import CustomNavbar from "@components/common/CustomNavbar";
 import RankButtons from "@components/RankPage/RankButtons";
 import Confetti from "react-confetti";
 import useWindowSize, { Size } from "@components/RankPage/useWindowSize";
+import { useSelector } from "react-redux";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function RankPage() {
+  const isLogin = useSelector((state: any) => state.users.isLogin);
   const size: Size = useWindowSize();
 
   return (
     <div>
+      {isLogin ? <Hambugerbar /> : ""}
       <CustomNavbar />
       <div className="rank-page-container">
         <Confetti

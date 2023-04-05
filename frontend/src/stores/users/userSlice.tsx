@@ -3,9 +3,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface UserState {
   id: number;
   email: string;
-  nickname: string;
+  nickname?: string;
   organization?: string;
   profileImage?: string;
+  registrationId?: string;
   isLogin: boolean;
 }
 
@@ -16,6 +17,7 @@ const initialState: UserState = {
   isLogin: false,
   organization: "",
   profileImage: "",
+  registrationId: "",
 };
 
 export const userSlice = createSlice({
@@ -32,6 +34,7 @@ export const userSlice = createSlice({
         isLogin: true,
         organization: action.payload.organization,
         profileImage: action.payload.profileImage,
+        registrationId: action.payload.registrationId,
       };
     },
 
@@ -55,6 +58,7 @@ export const userSlice = createSlice({
         isLogin: false,
         organization: "",
         profileImage: "",
+        registrationId: "",
       };
     },
   },

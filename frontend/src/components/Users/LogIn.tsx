@@ -8,6 +8,7 @@ import { setLogin } from "@stores/users/userSlice";
 import InputBox from "@components/common/InputBox";
 import Button from "@components/common/Button";
 import { memberAPI } from "@apis/apis";
+import SNSLogin from "./SNSLogin";
 
 export default function LogIn() {
   // 추후 유효성 검사 이후 페이지 이동되게 수정 예정
@@ -85,22 +86,8 @@ export default function LogIn() {
           value={passwordInput}
         />
         <Button text="로그인하기" type="submit" />
+        {/* <SNSLogin /> */}
       </form>
-
-      {/* <Button> color랑 이미지 수정할 것!!! */}
-      <div className="social-logins-container">
-        <div className="social-login-title">
-          <hr />
-          <h5>SNS 로그인 / 회원가입</h5>
-          <hr />
-        </div>
-
-        <Button text="Google 로그인" color="google" />
-        <Button text="카카오톡 로그인" color="kakao" />
-        <Link to="/signup">
-          <Button text="회원가입" color="skyblue" />
-        </Link>
-      </div>
     </div>
   );
 }

@@ -26,6 +26,7 @@
     "craco-alias": "^3.0.1",
     "cropperjs": "^1.5.13",
     "hammerjs": "^2.0.8",
+    "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-confetti": "^6.1.0",

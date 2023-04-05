@@ -22,12 +22,16 @@
 
   .player-main-buttons {
     margin-top: 30px;
-
+    
     .enter-btn {
       @include fadeInUp;
     }
     .rank-btn {
       @include fadeInUp;
     }
+  }
+  .enter-btn {
+    margin-top: 30px;
+    @include fadeInUp;
   }
 }

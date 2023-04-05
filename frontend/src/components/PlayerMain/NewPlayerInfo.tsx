@@ -82,11 +82,11 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
         onChange={nicknameChangeHandler}
       />
       <OTPInput value={otp} valueLength={4} onChange={OTPchangeHandler} />
-      <div className="enter-button">
+      <div className="enter-btn">
         <Button
           text="입장하기"
           type="button"
-          color="gray-blue"
+          color="gray-gray"
           onClick={joinGameHandler}
         />
       </div>
