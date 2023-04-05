@@ -93,6 +93,15 @@
   &.gray-blue {
     @include button-gray($blue-1);
   }
+  &.gray-gray {
+    background: $gray-5;
+    &:hover,
+    &:active {
+      background: lighten($gray-5, 10%);
+      border: 1px solid $gray-5;
+      box-shadow: 0px 0px 10px darken($gray-3, 10%);
+    }
+  }
 
   &.google {
     background: $white;

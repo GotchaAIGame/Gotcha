@@ -169,6 +169,10 @@
     @include mobile {
       width: 60%;
     }
+    .commonButton {
+      border: 1px solid $gray-2 !important;
+      box-shadow: 1.5px 2px 1px $gray-2 !important;
+    }
   }
 }
 

@@ -130,7 +130,7 @@ export default function RejoinPlayerInfo() {
             <Button
               text="입장하기"
               type="submit"
-              color="gray-blue"
+              color="gray-gray"
               onClick={rejoinGameHandler}
             />
           </div>
