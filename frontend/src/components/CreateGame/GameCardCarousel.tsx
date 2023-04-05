@@ -6,50 +6,53 @@ import GameCard from "./GameCard";
 import plusButton from "@assets/purpleplusButton.svg";
 // import UploadTest from "./UploadTest";
 
+interface problemInfo {
+  id: number;
+  name: React.RefObject<HTMLInputElement>;
+  hint: React.RefObject<HTMLInputElement>;
+  image: React.RefObject<HTMLInputElement>;
+}
+
 export default function GameCardCarousel() {
-  const [gameCardRefArray, setGameCardRefArray] = useState<
-    Array<Array<React.Ref<HTMLInputElement>>>
-  >([
-    [React.createRef<HTMLInputElement>(), React.createRef<HTMLInputElement>()],
+  const [gameCardRefArray, setGameCardRefArray] = useState<Array<problemInfo>>([
+    {
+      id: 0,
+      name: React.createRef<HTMLInputElement>(),
+      hint: React.createRef<HTMLInputElement>(),
+      image: React.createRef<HTMLInputElement>(),
+    },
   ]);
 
+  let tempProbId = useRef<number>(0);
   const addProblemHandler = () => {
     const refObj1 = React.createRef<HTMLInputElement>();
-    if (refObj1.current) {
-      refObj1.current.value = "xyxy";
-    }
     const refObj2 = React.createRef<HTMLInputElement>();
-    if (refObj2.current) {
-      refObj2.current.value = "xyxy";
-    }
-    console.log(refObj1);
-    setGameCardRefArray([...gameCardRefArray, [refObj1, refObj2]]);
+    const refObj3 = React.createRef<HTMLInputElement>();
+
+    tempProbId.current += 1;
+    setGameCardRefArray([
+      ...gameCardRefArray,
+      { id: tempProbId.current, name: refObj1, hint: refObj2, image: refObj3 },
+    ]);
   };
+
+  // const deleteProblemHandler = (idx: number) => {
+  //   const newGameCardRefArray = [...gameCardRefArray].filter(
+  //     (array, index: number) => {
+  //       return index !== idx;
+  //     }
+  //   );
+  //   setGameCardRefArray([...newGameCardRefArray]);
+  // };
 
   const deleteProblemHandler = (idx: number) => {
-    const newGameCardRefArray = [...gameCardRefArray].filter(
-      (array, index: number) => {
-        return index !== idx;
-      }
-    );
-    pooCleaner(newGameCardRefArray);
-    setGameCardRefArray([...newGameCardRefArray]);
+    if (gameCardRefArray.length > 1) {
+      const newGameCardRefArray = [...gameCardRefArray].filter((value) => {
+        return value.id !== idx;
+      });
+      setGameCardRefArray(newGameCardRefArray);
+    }
   };
-
-  const pooCleaner = (param: Array<any>) => {
-    const sibal = [...param];
-    sibal.forEach((refElement, idx) => {
-      const sibal1 = refElement[0] as React.RefObject<HTMLInputElement>;
-      console.log(sibal1.current?.value, "name", idx);
-      const sibal2 = refElement[1] as React.RefObject<HTMLInputElement>;
-      console.log(sibal2.current?.value, "hint", idx);
-    });
-  };
-
-  useEffect(() => {
-    console.log("바뀌었다.");
-    pooCleaner(gameCardRefArray);
-  }, [gameCardRefArray]);
 
   return (
     <div>
@@ -65,16 +68,18 @@ export default function GameCardCarousel() {
       <div className="cards-and-plusbutton-container">
         {gameCardRefArray &&
           gameCardRefArray.map((data: any, index: number) => {
-            const cardNameRef = data[0];
-            const cardHintRef = data[1];
+            const probIndex = data.id;
+            const cardNameRef = data.name;
+            const cardHintRef = data.hint;
+            const cardImageRef = data.image;
 
             return (
-              <div key={`${index}`}>
+              <div key={probIndex}>
                 <GameCard
-                  idx={index}
-                  problemLength={gameCardRefArray.length}
+                  idx={probIndex}
                   cardNameRef={cardNameRef}
                   cardHintRef={cardHintRef}
+                  cardImageRef={cardImageRef}
                   deleteHandler={deleteProblemHandler}
                 />
               </div>

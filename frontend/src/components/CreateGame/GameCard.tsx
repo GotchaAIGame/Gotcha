@@ -1,87 +1,43 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setProblem, deleteProblem } from "@stores/game/gameSlice";
+import React, { useState, useEffect } from "react";
 import closeButton from "@assets/smallDeleteButton.svg";
 
 export default function GameCard(Props: any) {
-  const { idx, problemLength, cardNameRef, cardHintRef, deleteHandler } = Props;
+  const { idx, cardNameRef, cardHintRef, cardImageRef, deleteHandler } = Props;
   const [isTyping, setIsTyping] = useState<boolean>(true);
-
-  // const [inputImage, setInputImage] = useState<string>(image);
-  // const [problemInfo, setProblemInfo] = useState({ name, hint });
-
-  // // useRefs
-  // const uploadImage = useRef<HTMLInputElement>(null);
-  // // useRefs
-
-  // const dispatch = useDispatch();
+  const [inputImage, setInputImage] = useState<string>("");
 
   // // 이미지를 업로드 했을 때 실행
-  // const uploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = uploadImage.current?.files;
+  const uploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = cardImageRef.current?.files;
 
-  //   if (files && files.length > 0) {
-  //     // useStateValue Update
+    if (files && files.length > 0) {
+      const f: File = files[files.length - 1];
+      console.log(files);
 
-  //     const f: File | undefined = files[files.length - 1];
-  //     console.log(files);
+      const reader: FileReader = new FileReader();
 
-  //     const reader: FileReader = new FileReader();
+      reader.onload = function (e: ProgressEvent<FileReader>): void {
+        setInputImage(e.target?.result as string);
+      };
 
-  //     // Closure to capture the file information.
-  //     // eslint-disable-next-line no-loop-func
-  //     reader.onload = function (e: ProgressEvent<FileReader>): void {
-  //       setInputImage(e.target?.result as string);
-  //     };
+      reader.readAsDataURL(f);
+    }
+    handleChange();
+  };
 
-  //     reader.readAsDataURL(f);
+  // 변경점 찾기
+  const handleChange = () => {
+    const nameValue = cardNameRef.current?.value as string;
+    const hintValue = cardHintRef.current?.value as string;
+    const inputValue = cardImageRef.current?.value as string;
 
-  //     // setIsTyping(true);
-  //   }
-  // };
-
-  // // debounce
-
-  // // 변경 내용 저장
-  // const changeInfoHanlder = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newProblemInfo = { ...problemInfo };
-  //   if (e.target.id === "name") {
-  //     newProblemInfo.name = e.target.value;
-  //   } else if (e.target.id === "hint") {
-  //     newProblemInfo.hint = e.target.value;
-  //   }
-  //   setProblemInfo(newProblemInfo);
-  //   // setIsTyping(true);
-  // };
-
-  // // 문제 삭제
-  // const deleteHandler = () => {
-  //   console.log("으아");
-  //   dispatch(deleteProblem(idx));
-
-  //   setIsTyping(true);
-  // };
-
-  // useEffect(() => {
-  //   const saveProblem = () => {
-  //     const postImg = inputImage;
-
-  //     if (problemInfo.name && problemInfo.hint && postImg) {
-  //       const problemState = {
-  //         image: postImg,
-  //         name: problemInfo.name,
-  //         hint: problemInfo.hint,
-  //       };
-  //       dispatch(setProblem({ problemState, idx }));
-  //       setIsTyping(false);
-  //     } else {
-  //       alert("내용을 입력해주세요");
-  //     }
-  //   };
-  //   if (problemInfo.name && problemInfo.hint && inputImage) {
-  //     saveProblem();
-  //   }
-  // }, [problemInfo, inputImage]);
+    console.log(nameValue.length, hintValue.length, inputValue.length);
+    if (nameValue.length && hintValue.length && inputValue.length) {
+      setIsTyping(false);
+    } else {
+      setIsTyping(true);
+    }
+  };
 
   return (
     <div>
@@ -90,8 +46,6 @@ export default function GameCard(Props: any) {
         title={isTyping ? "문제 내용을 입력해주세요" : ""}
       >
         <header className={isTyping ? "typing-header" : "typed-header"}>
-          {/* <button type="button"> */}
-          {/* <button type="button"> */}
           <button
             type="button"
             onClick={() => {
@@ -104,14 +58,13 @@ export default function GameCard(Props: any) {
           <input
             type="text"
             placeholder="문제 이름을 입력해주세요"
-            id="name"
-            // value={problemInfo.name}
-            // onChange={changeInfoHanlder}
+            id={`name-${idx}`}
             ref={cardNameRef}
             maxLength={14}
+            onChange={handleChange}
           />
         </header>
-        {/* <div className="file-input-wrapper">
+        <div className="file-input-wrapper">
           {inputImage ? (
             <label htmlFor={`upload-${idx}`} className="file-input-label">
               <div className="upload-img-wrapper">
@@ -122,7 +75,7 @@ export default function GameCard(Props: any) {
                 type="file"
                 accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
-                ref={uploadImage}
+                ref={cardImageRef}
               />
             </label>
           ) : (
@@ -138,7 +91,7 @@ export default function GameCard(Props: any) {
                 type="file"
                 accept=".jpg, .jpeg, .png"
                 onChange={uploadHandler}
-                ref={uploadImage}
+                ref={cardImageRef}
               />
             </label>
           )}
@@ -149,10 +102,9 @@ export default function GameCard(Props: any) {
         <div className="hint-input-wrapper">
           <input
             type="text"
-            id="hint"
+            id={`hint-${idx}`}
             placeholder="힌트를 추가해 주세요"
-            // value={problemInfo.hint}
-            // onChange={changeInfoHanlder}
+            onChange={handleChange}
             ref={cardHintRef}
           />
         </div>
