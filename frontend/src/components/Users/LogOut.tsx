@@ -60,7 +60,7 @@ export default function LogOut() {
         className="modal-two"
         btnType="right-two"
       >
-        <h3 style={{ margin: "2rem" }}>로그아웃 하시겠습니까?</h3>
+        <h5 style={{ margin: "2rem" }}>로그아웃 하시겠습니까?</h5>
       </Modal>
     </div>
   );

@@ -205,14 +205,6 @@
   margin: 2%;
   justify-content: flex-start;
   @include fadeInUp;
-  @include raiseHover; // 적용이 안됨;;ㅠ
-
-  .detail-move-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
 
   header {
     border-top-left-radius: 15px;
