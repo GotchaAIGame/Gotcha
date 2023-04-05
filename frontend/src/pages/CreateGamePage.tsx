@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,11 +15,31 @@ import { resetGame } from "@stores/game/gameSlice";
 import { setLoading } from "@stores/loading/loadingSlice";
 import Progressbar from "@components/CreateGame/Progressbar";
 import Modal from "@components/common/Modal";
+import fileToBase64 from "@components/common/fileToBase64";
 import Hambugerbar from "@components/common/Hambugerbar";
 
+interface problemInfo {
+  id: number;
+  name: React.RefObject<HTMLInputElement>;
+  hint: React.RefObject<HTMLInputElement>;
+  image: React.RefObject<HTMLInputElement>;
+}
+
 export default function CreateGamePage() {
+  const [gameCardRefArray, setGameCardRefArray] = useState<Array<problemInfo>>([
+    {
+      id: 0,
+      name: React.createRef<HTMLInputElement>(),
+      hint: React.createRef<HTMLInputElement>(),
+      image: React.createRef<HTMLInputElement>(),
+    },
+  ]);
+
   const [needHelp, setNeedHelp] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [newProblemInfotoSend, setNewProblemInfotoSend] = useState<
+    Array<{ name: string; hint: string; image: string }>
+  >([]);
   const gameInfo = useSelector((state: any) => state.game);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,8 +52,8 @@ export default function CreateGamePage() {
 
   const postGameCreate = () => {
     // e.preventDefault();
-    console.log("최종적으로 쏘는 정보");
-    console.log(gameInfo);
+    // console.log("최종적으로 쏘는 정보");
+    // console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
     setModalOpen(false);
     // 제목, 기간, 정보 입력 여부 확인
@@ -41,18 +61,22 @@ export default function CreateGamePage() {
       gameInfo.title &&
       gameInfo.startTime &&
       gameInfo.endTime &&
-      gameInfo.eventDesc &&
-      gameInfo.problems.length > 0
+      gameInfo.eventDesc
     ) {
       // 문제 중 마지막 미입력값 배열이 있으면 제거
-      const result = creatorAPI.createGameRoom(gameInfo);
+      const newGameInfo = {
+        ...gameInfo,
+        problems: newProblemInfotoSend,
+      };
+      // console.log(newGameInfo, "XX");
+      const result = creatorAPI.createGameRoom(newGameInfo);
       dispatch(setLoading(true));
       result
         .then((res) => {
           // 보내는 정보
-          console.log("보낸거");
-          console.log(gameInfo);
-          console.log(res, "됐다");
+          // console.log("보낸거");
+          // console.log(gameInfo);
+          // console.log(res, "됐다");
           // 성공적으로 생성했다면 slice내용 비우기
           dispatch(resetGame());
           const gamePin = res.data.result.code;
@@ -71,8 +95,47 @@ export default function CreateGamePage() {
     }
   };
 
-  const modalHandelr = () => {
-    setModalOpen(true);
+  const modalHandelr = async () => {
+    // 모든 정보 다 받아오기
+    let flag = true; // 모든 정보가 유효한지 check하기 위함
+
+    const newProblemInfo = await Promise.all(
+      gameCardRefArray.map(async (data: problemInfo, index: number) => {
+        const { name, hint, image } = data;
+
+        const nameValue = name.current?.value as string;
+        const hintValue = hint.current?.value as string;
+        const imageFile = image.current?.files;
+        let imageValue = "";
+
+        if (imageFile && imageFile.length > 0) {
+          const file: File = imageFile[imageFile.length - 1];
+          const result = await fileToBase64(file);
+          imageValue = result;
+
+          // console.log(typeof imageValue);
+        }
+
+        if (
+          !(nameValue.length && hintValue.length && (imageValue?.length || 0))
+        ) {
+          flag = false;
+        }
+
+        return {
+          name: nameValue,
+          hint: hintValue,
+          image: imageValue,
+        };
+      })
+    );
+
+    if (flag) {
+      setNewProblemInfotoSend(newProblemInfo);
+      setModalOpen(true);
+    } else {
+      alert("입력되지 않은 정보가 있습니다.");
+    }
   };
 
   return (
@@ -101,7 +164,10 @@ export default function CreateGamePage() {
           )}
           <div className="create-main-box-container">
             <InputGameInfo />
-            <GameCardCarousel />
+            <GameCardCarousel
+              gameCardRefArray={gameCardRefArray}
+              setGameCardRefArray={setGameCardRefArray}
+            />
             <button
               type="button"
               onClick={tempHelperHandler}
