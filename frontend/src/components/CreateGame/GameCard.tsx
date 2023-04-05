@@ -12,7 +12,6 @@ export default function GameCard(Props: any) {
 
     if (files && files.length > 0) {
       const f: File = files[files.length - 1];
-      console.log(files);
 
       const reader: FileReader = new FileReader();
 
@@ -31,7 +30,8 @@ export default function GameCard(Props: any) {
     const hintValue = cardHintRef.current?.value as string;
     const inputValue = cardImageRef.current?.value as string;
 
-    console.log(nameValue.length, hintValue.length, inputValue.length);
+    const temp = cardImageRef.current?.files;
+
     if (nameValue.length && hintValue.length && inputValue.length) {
       setIsTyping(false);
     } else {
@@ -65,36 +65,29 @@ export default function GameCard(Props: any) {
           />
         </header>
         <div className="file-input-wrapper">
-          {inputImage ? (
-            <label htmlFor={`upload-${idx}`} className="file-input-label">
+          <label htmlFor={`upload-${idx}`} className="file-input-label">
+            {!inputImage ? (
+              <>
+                <p className="file-input-label-plus">+</p>
+                <p className="file-input-label-text">
+                  대표사진
+                  <br />
+                  추가하기
+                </p>
+              </>
+            ) : (
               <div className="upload-img-wrapper">
                 <img src={inputImage} alt="" />
               </div>
-              <input
-                id={`upload-${idx}`}
-                type="file"
-                accept=".jpg, .jpeg, .png"
-                onChange={uploadHandler}
-                ref={cardImageRef}
-              />
-            </label>
-          ) : (
-            <label htmlFor={`upload-${idx}`} className="file-input-label">
-              <p className="file-input-label-plus">+</p>
-              <p className="file-input-label-text">
-                대표사진
-                <br />
-                추가하기
-              </p>
-              <input
-                id={`upload-${idx}`}
-                type="file"
-                accept=".jpg, .jpeg, .png"
-                onChange={uploadHandler}
-                ref={cardImageRef}
-              />
-            </label>
-          )}
+            )}
+            <input
+              id={`upload-${idx}`}
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={uploadHandler}
+              ref={cardImageRef}
+            />
+          </label>
         </div>
         <div className={isTyping ? "typing-hint-text-box" : "hint-text-box"}>
           힌트

@@ -13,15 +13,8 @@ interface problemInfo {
   image: React.RefObject<HTMLInputElement>;
 }
 
-export default function GameCardCarousel() {
-  const [gameCardRefArray, setGameCardRefArray] = useState<Array<problemInfo>>([
-    {
-      id: 0,
-      name: React.createRef<HTMLInputElement>(),
-      hint: React.createRef<HTMLInputElement>(),
-      image: React.createRef<HTMLInputElement>(),
-    },
-  ]);
+export default function GameCardCarousel(props: any) {
+  const { gameCardRefArray, setGameCardRefArray } = props;
 
   let tempProbId = useRef<number>(0);
   const addProblemHandler = () => {
