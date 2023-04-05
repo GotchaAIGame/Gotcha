@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "@styles/SignUpPage.scss";
 import Button from "@components/common/Button";
 import InputValidBox from "@components/common/InputValidBox";
@@ -180,8 +180,15 @@ export default function SignUp(props: Props) {
   };
 
   // keydown handler
-  const inputs = document.querySelectorAll("input");
-  console.log(inputs);
+  useEffect(() => {
+    const formTags = document.querySelectorAll("form");
+    formTags.forEach((tag, key) => {
+      console.log(tag, key);
+      tag.addEventListener("submit", (evt) => {
+        evt.preventDefault();
+      });
+    });
+  }, []);
 
   return (
     <div className="singup-page-container">
