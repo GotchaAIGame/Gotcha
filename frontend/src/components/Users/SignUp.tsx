@@ -179,6 +179,10 @@ export default function SignUp(props: Props) {
     }
   };
 
+  // keydown handler
+  const inputs = document.querySelectorAll("input");
+  console.log(inputs);
+
   return (
     <div className="singup-page-container">
       <h3>환영합니다!</h3>

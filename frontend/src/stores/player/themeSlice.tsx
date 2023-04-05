@@ -10,6 +10,7 @@ interface ThemeState {
   themeLogo: string; // logoUrl
   themeTitle: string; // title
   eventDesc?: string;
+  eventUrl?: string;
 }
 
 const initialState: ThemeState = {
@@ -19,6 +20,7 @@ const initialState: ThemeState = {
   themeLogo: logo,
   themeTitle: "",
   eventDesc: "",
+  eventUrl: "",
 };
 
 const resetState = () => {
@@ -29,6 +31,18 @@ export const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
+    // Event 정보
+    setEventInfo: (
+      state,
+      action: PayloadAction<{ eventDesc: string; eventUrl: string }>
+    ) => {
+      const { eventDesc, eventUrl } = action.payload;
+      return {
+        ...state,
+        eventDesc,
+        eventUrl,
+      };
+    },
     // 방정보
     setTheme: (
       state,
@@ -57,5 +71,5 @@ export const themeSlice = createSlice({
   },
 });
 
-export const { setTheme, resetTheme } = themeSlice.actions;
+export const { setTheme, resetTheme, setEventInfo } = themeSlice.actions;
 export default themeSlice.reducer;

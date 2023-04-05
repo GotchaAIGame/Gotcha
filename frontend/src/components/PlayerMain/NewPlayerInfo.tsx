@@ -37,7 +37,13 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
     }
   };
 
-  const changeHandler = (value: string) => {
+  const nicknameChangeHandler = () => {
+    if (checked) {
+      setChecked(!checked);
+    }
+  };
+
+  const OTPchangeHandler = (value: string) => {
     if (value.length <= 4) {
       setOtp(value);
     }
@@ -73,8 +79,9 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
         onClick={handleValidation}
         inputRef={nicknameInputRef}
         checked={checked}
+        onChange={nicknameChangeHandler}
       />
-      <OTPInput value={otp} valueLength={4} onChange={changeHandler} />
+      <OTPInput value={otp} valueLength={4} onChange={OTPchangeHandler} />
       <div className="enter-button">
         <Button
           text="입장하기"
