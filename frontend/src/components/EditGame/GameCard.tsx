@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setProblem, deleteProblem } from "@stores/game/gameSlice";
+import { deleteProblem } from "@stores/game/gameSlice";
 import { creatorAPI } from "@apis/apis";
 import closeButton from "@assets/smallDeleteButton.svg";
-import plusButton from "@assets/smallPlusButton.svg";
+import Modal from "@components/common/Modal";
 
 export default function GameCard(Props: any) {
   const { idx } = Props;
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const savedInfo = useSelector((state: any) => state.game.problems[idx]);
 
@@ -15,10 +16,6 @@ export default function GameCard(Props: any) {
     name: "",
     hint: "",
   });
-  const newLocal = false;
-  const [isTyping, setIsTyping] = useState<boolean>(
-    savedInfo ? newLocal : true
-  );
 
   const uploadImage = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
@@ -42,24 +39,22 @@ export default function GameCard(Props: any) {
       };
 
       reader.readAsDataURL(f);
-
-      // setIsTyping(true);
     }
   };
 
   // 문제 삭제
   const deleteHandler = () => {
     dispatch(deleteProblem(idx));
-    console.log(savedInfo.id, "id");
+
     const result = creatorAPI.deleteProblem(savedInfo.id);
     result
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        alert("문제가 삭제되었습니다");
       })
       .catch((res) => {
-        console.log("nope", res);
+        console.log("문제 삭제 불가", res);
       });
-    setIsTyping(true);
+    setModalOpen(false);
   };
 
   useEffect(() => {
@@ -73,52 +68,68 @@ export default function GameCard(Props: any) {
     }
   }, [savedInfo, inputImage]);
 
-  const wrapperClass = isTyping ? "card-wrapper-typing" : "card-wrapper";
+  const modalHandelr = () => {
+    setModalOpen(true);
+  };
 
   return (
-    <div>
-      <div className={wrapperClass}>
-        <header className={isTyping ? "typing-header" : "typed-header"}>
-          <button type="button" onClick={deleteHandler}>
-            <img src={closeButton} alt="문제 삭제" />
-          </button>
+    <>
+      {modalOpen && (
+        <Modal
+          open={modalOpen}
+          modalHandler={() => setModalOpen(false)}
+          btnType="right-two"
+          mainBtnHandler={deleteHandler}
+        >
+          <h5>문제를 삭제하시겠습니까?</h5>
+          <p>삭제하시면 다시 복구할 수 없습니다.</p>
+        </Modal>
+      )}
+      <div>
+        <div className="card-wrapper">
+          <header className="typed-header">
+            <button type="button" onClick={modalHandelr}>
+              <img src={closeButton} alt="문제 삭제" />
+            </button>
 
-          <input
-            type="text"
-            placeholder="문제이름"
-            id="name"
-            value={problemInfo.name}
-            disabled
-          />
-        </header>
-        <div className="file-input-wrapper">
-          {inputImage && (
-            <label htmlFor={`upload-${idx}`} className="file-input-label">
-              <div className="upload-img-wrapper">
-                <img src={inputImage} alt="" />
-              </div>
-              <input
-                id={`upload-${idx}`}
-                type="file"
-                accept=".jpg, .jpeg, .png"
-                onChange={uploadHandler}
-                ref={uploadImage}
-                disabled
-              />
-            </label>
-          )}
-        </div>
-        <div className="hint-text-box">힌트</div>
-        <div className="hint-input-wrapper">
-          <input
-            type="text"
-            id="hint"
-            placeholder="힌트를 추가해 주세요"
-            value={problemInfo.hint}
-            disabled
-          />
+            <input
+              className="edit-game-card-title"
+              type="text"
+              placeholder="문제이름"
+              id="name"
+              value={problemInfo.name}
+              disabled
+            />
+          </header>
+          <div className="file-input-wrapper">
+            {inputImage && (
+              <label htmlFor={`upload-${idx}`} className="file-input-label">
+                <div className="upload-img-wrapper">
+                  <img src={inputImage} alt="" />
+                </div>
+                <input
+                  id={`upload-${idx}`}
+                  type="file"
+                  accept=".jpg, .jpeg, .png"
+                  onChange={uploadHandler}
+                  ref={uploadImage}
+                  disabled
+                />
+              </label>
+            )}
+          </div>
+          <div className="hint-text-box">힌트</div>
+          <div className="hint-input-wrapper">
+            <input
+              type="text"
+              id="hint"
+              placeholder="힌트를 추가해 주세요"
+              value={problemInfo.hint}
+              disabled
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

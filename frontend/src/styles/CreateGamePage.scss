@@ -14,11 +14,6 @@
     padding-top: 5%;
     padding-bottom: 5%;
     margin-bottom: 3%;
-
-    .card-wrapper {
-      scale: 0.8;
-      margin-top: -10px;
-    }
   }
 }
 
@@ -180,10 +175,14 @@
   flex-direction: column;
   width: 255px;
   min-height: 405px;
-  // border: 1px solid $gray-1;
+  border: 1px solid $gray-1;
   border-radius: 15px;
   margin: 0px;
   justify-content: flex-start;
+
+  scale: 0.8;
+  margin-top: -10px;
+  box-shadow: 3px 3px $gray-2;
 
   .typing {
     border: 3px solid $gray-1;
@@ -233,6 +232,10 @@
     }
     ::placeholder {
       color: $gray-2;
+    }
+    .edit-game-card-title {
+      background: none;
+      border: none;
     }
   }
   .file-input-wrapper {
