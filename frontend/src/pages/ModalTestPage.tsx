@@ -164,7 +164,7 @@ export default function ModalTestPage() {
           closeType
         >
           <h3 style={{ margin: "2rem" }}>정말 종료하시겠습니까?</h3>
-          <h5>게임이 종료되면 다시 접속할 수 없습니다</h5>
+          <h5 >게임이 종료되면 다시 접속할 수 없습니다</h5>
         </Modal>
         <Modal
           open={modalFiveOpen}

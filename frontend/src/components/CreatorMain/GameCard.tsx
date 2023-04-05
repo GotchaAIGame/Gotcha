@@ -11,12 +11,12 @@ export default function GameCard(props: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
-    // navigate(`/custom/${gameInfo.code}`, {
-    //   state: { gamePin: gameInfo.code, roomId: gameInfo.id },
-    // });
-  };
+  // const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   console.log(e);
+  // navigate(`/custom/${gameInfo.code}`, {
+  //   state: { gamePin: gameInfo.code, roomId: gameInfo.id },
+  // });
+  // };
 
   const goEdit = () => {
     navigate(`/edit/${gameInfo.code}`, {
@@ -85,7 +85,7 @@ export default function GameCard(props: any) {
 
     return (
       <div className="creator-main-card-wrapper">
-        <button type="button" className="detail-move-button" onClick={goDetail}>
+        <div className="detail-move-button">
           <header>
             <h5>{gameInfo.title}</h5>
           </header>
@@ -119,7 +119,7 @@ export default function GameCard(props: any) {
               </div>
             </div>
           </article>
-        </button>
+        </div>
         <footer>
           <Button
             text="수정하기"
