@@ -1,16 +1,16 @@
 package org.a602.gotcha.domain.member.controller;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.EntityManager;
 
 import org.a602.gotcha.CustomSpringBootTest;
+import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.request.MemberLoginRequest;
 import org.a602.gotcha.domain.member.request.MemberSignupRequest;
 import org.a602.gotcha.domain.member.service.MemberService;
 import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @CustomSpringBootTest
 @Transactional
@@ -36,8 +40,19 @@ public class MemberControllerTest {
 	private JwtTokenProvider jwtTokenProvider;
 	@MockBean
 	MemberService memberService;
-
+	private String token;
 	private final String url = "http://localhost:8080/api/member";
+
+	@BeforeEach
+	void setUp() {
+		Member member = Member.builder()
+			.email("alkwen0996@naver.com")
+			.nickname("이민수")
+			.registrationId("kakao")
+			.build();
+		entityManager.persist(member);
+		token = JwtTokenProvider.BEARER + jwtTokenProvider.createAccessToken(member);
+	}
 
 	@Test
 	@DisplayName("회원가입 API 테스트 성공")
@@ -77,7 +92,7 @@ public class MemberControllerTest {
 
 	@Test
 	@DisplayName("로그인 성공")
-	void participantLoginSuccess() throws Exception {
+	void loginSuccess() throws Exception {
 		final MemberLoginRequest memberLoginRequest = new MemberLoginRequest(
 			"minsu@naver.com",
 			"1234"
@@ -88,6 +103,18 @@ public class MemberControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(memberLoginRequest))
 			).andExpect(jsonPath("$.status", is(200)));
+	}
+
+	@Test
+	@DisplayName("회원정보 조회 API 테스트 성공")
+	void findMemberApiTest() throws Exception {
+		final String id = "1";
+
+		mockMvc.perform(get(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(AUTHORIZATION, token)
+				.param("id", id))
+			.andExpect(jsonPath("$.status", is(200)));
 	}
 
 }
