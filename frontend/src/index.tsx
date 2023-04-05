@@ -18,7 +18,7 @@ const root = ReactDOM.createRoot(
 );
 
 // Google Analytics 초기화
-ReactGA.initialize("UA-259293592-1");
+ReactGA.initialize("UA-262994846-1");
 
 root.render(
   <CookiesProvider>
