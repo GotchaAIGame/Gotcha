@@ -27,8 +27,6 @@ export default function InputValidBox({
   const handleClick: MouseEventHandler<HTMLButtonElement> = (event) =>
     onClick && onClick(event);
 
-  console.log(inputRef);
-
   return (
     <div className="common-input-box-container">
       <input

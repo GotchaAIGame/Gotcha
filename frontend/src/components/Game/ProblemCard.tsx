@@ -68,7 +68,13 @@ function ProblemCard(props: problemProps) {
     }
   };
 
-  // console.log(index, "index 받았는데 ㅜㅠ")
+  const editorHandler = () => {
+    setEditorOpen(false);
+    setImage("");
+    if (uploadImage.current) {
+      uploadImage.current.value = "";
+    }
+  };
 
   return (
     <>
@@ -133,10 +139,8 @@ function ProblemCard(props: problemProps) {
         <div className="image-editior-wrapper">
           <div
             className="image-editor-overlay"
-            onClick={() => {
-              return setEditorOpen(false);
-            }}
-            onKeyDown={() => setEditorOpen(false)}
+            onClick={editorHandler}
+            onKeyDown={editorHandler}
             role="presentation"
           />
 
@@ -163,7 +167,7 @@ function ProblemCard(props: problemProps) {
                 onClick={() => {
                   // console.log("안녕하세요");
                   cropperHandler();
-                  setEditorOpen(false);
+                  editorHandler();
                 }}
               />
             </div>
