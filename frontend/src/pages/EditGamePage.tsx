@@ -53,7 +53,7 @@ export default function EditGamePage() {
         color: themeInfo.themeColor,
         logoImage: themeInfo.themeLogo,
         title: gameInfo.title,
-        eventUrl: "test",
+        eventUrl: themeInfo.eventUrl,
         eventDesc: gameInfo.eventDesc,
         startTime: gameInfo.startTime,
         endTime: gameInfo.endTime,
@@ -98,6 +98,7 @@ export default function EditGamePage() {
             themeLogo: gotInfo.logoUrl,
             themeTitle: gotInfo.title,
             eventDesc: gotInfo.eventDesc,
+            eventUrl: gotInfo.eventUrl,
           })
         );
       });
