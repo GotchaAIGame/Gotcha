@@ -17,6 +17,7 @@ import PlayerRejoinPage from "./PlayerRejoinPage";
 import RankPage from "./RankPage";
 import ImageCropperPage from "./ImageCropperPage";
 import EditGamePage from "./EditGamePage";
+import NotFoundPage from "./NotFoundPage";
 
 export default function Routers() {
   return (
@@ -46,6 +47,8 @@ export default function Routers() {
       <Route path="/modalTest" element={<ModalTestPage />} />
       <Route path="/modalTest/2" element={<ModalTestPage2 />} />
       <Route path="/crop" element={<ImageCropperPage />} />
+
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 }
