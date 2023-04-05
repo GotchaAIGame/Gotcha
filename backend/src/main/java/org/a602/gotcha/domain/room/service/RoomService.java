@@ -17,6 +17,7 @@ import org.a602.gotcha.domain.reward.repository.RewardRepository;
 import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.room.exception.RoomExpiredException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
+import org.a602.gotcha.domain.room.exception.RoomNotStartException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
 import org.a602.gotcha.domain.room.request.CreateProblemRequest;
 import org.a602.gotcha.domain.room.request.CreateRoomRequest;
@@ -53,6 +54,8 @@ public class RoomService {
 			.orElseThrow(RoomNotFoundException::new);
 		if (gameRoom.getEndTime().isBefore(LocalDateTime.now())) {
 			throw new RoomExpiredException();
+		} else if (gameRoom.getStartTime().isAfter(LocalDateTime.now())) {
+			throw new RoomNotStartException();
 		}
 		return GameInfoResponse.toResponse(gameRoom);
 	}
