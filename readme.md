@@ -17,8 +17,7 @@
  - 박다솜 : 프론트엔드
 
 # ERD
-
-![img.png](assets/img.png)
+![image.png](./image.png)
 
 # 기능 명세서
 
