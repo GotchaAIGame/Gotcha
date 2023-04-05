@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.a602.gotcha.domain.member.entity.Member;
+import org.a602.gotcha.domain.member.exception.MemberNotFoundException;
 import org.a602.gotcha.domain.member.repository.MemberRepository;
 import org.a602.gotcha.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.core.Authentication;
@@ -61,10 +62,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		final String registrationId = oAuth2AuthenticationToken.getAuthorizedClientRegistrationId(); // provider 정보추출
 		final OAuth2UserInfo oAuth2UserInfo = createOAuth2UserInfo(registrationId,
 			attributes); // provider에 해당하는 유저객체 생성
-		final Optional<Member> optionalMember = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail()); // 데이터 조회
-
-		final Member member = optionalMember.get();
-		final String accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
+		final Member member = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail())
+			.orElseThrow(MemberNotFoundException::new); // 데이터 조회
+		final String accessToken = BEARER + jwtTokenProvider.createAccessToken(member); // 액세스 토큰 발급
 
 		httpServletResponse.setHeader(AUTHORIZATION, accessToken);
 
