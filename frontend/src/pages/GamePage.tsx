@@ -8,6 +8,7 @@ import CustomNavbar from "@components/common/CustomNavbar";
 import Button from "@components/common/Button";
 import { useAppSelector } from "@stores/storeHooks";
 import { gamePlayAPI } from "@apis/apis";
+import { useParams } from "react-router-dom";
 import Modal from "@components/common/Modal";
 
 export default function GamePage() {
@@ -16,6 +17,7 @@ export default function GamePage() {
   const [locationState, _] = useState(location.state);
   const { solved } = useAppSelector((state) => state.gamePlay);
   const [modalOpen, setModalOpen] = useState(false);
+  const roomPin = useParams();
 
   useEffect(() => {
     // validation check
@@ -49,8 +51,9 @@ export default function GamePage() {
     localStorage.removeItem("curUserInfo");
     localStorage.removeItem("solved");
     modalHandler();
-    navigate("/");
-    alert("고생하셨습니다.");
+    navigate(`/game/${roomPin.roomPin}/rank`, {
+      state: { roomId, fromMypage: false },
+    });
   };
 
   return (
