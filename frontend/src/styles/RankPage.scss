@@ -192,7 +192,7 @@
   .modal-content {
     height: 85%;
     width: 90%;
-    overflow: scroll;
+    overflow-y: scroll;
 
     background-image: url("../assets/fullBGPattern.svg");
     background-color: $blue-1;
