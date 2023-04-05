@@ -113,6 +113,7 @@
 
       span {
         font-weight: 700;
+        margin-left: 5px;
       }
     }
 
@@ -299,14 +300,14 @@
 
 .make-new-game-alert {
   text-align: center;
-  margin: 50px auto;
+  margin: 70px auto;
   p {
     padding: 0;
     margin: 5px;
-    font-size: 1.25rem;
+    font-size: 1rem;
     // -webkit-text-stroke: 1px #000;
-    color: $blue-1;
-    font-weight: 700;
+    color: $gray-3;
+    font-weight: 500;
   }
 }
 

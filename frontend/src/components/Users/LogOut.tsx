@@ -38,7 +38,7 @@ export default function LogOut() {
           setCookie("refreshToken", "");
           // 창 닫고 이동
           setModalOpen(false);
-          navigate("/main");
+          navigate("/");
         })
         .catch((res) => {
           console.log(res);
