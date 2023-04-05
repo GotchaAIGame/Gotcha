@@ -128,6 +128,7 @@ export default function RankButtons() {
           }}
           className="modal-six"
           closeType
+          bgColor = {themeColor} 
         >
           {rewardArray.map((rewards: IReward, idx: number) => (
             <Reward
