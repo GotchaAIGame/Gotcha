@@ -13,6 +13,7 @@ import { setProblems } from "@stores/game/gamePlaySlice";
 import CustomNavbar from "@components/common/CustomNavbar";
 import GlobalNavbar from "@components/common/GlobalNavbar";
 import Progressbar from "@components/CreateGame/Progressbar";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function CustomGamePage() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -85,6 +86,7 @@ export default function CustomGamePage() {
 
   return (
     <>
+      <Hambugerbar />
       <GlobalNavbar />
       <Grid container className="custom-page-main-container">
         <Grid item xs={12} md={8}>

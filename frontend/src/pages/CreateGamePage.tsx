@@ -15,6 +15,7 @@ import { resetGame } from "@stores/game/gameSlice";
 import { setLoading } from "@stores/loading/loadingSlice";
 import Progressbar from "@components/CreateGame/Progressbar";
 import Modal from "@components/common/Modal";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function CreateGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(true);
@@ -87,6 +88,7 @@ export default function CreateGamePage() {
           <p>문제는 생성되면 수정할 수 없습니다.</p>
         </Modal>
       )}
+      <Hambugerbar />
       <GlobalNavbar />
       {isLoading.loading && <Loading />}
       <Grid container className="create-game-grid-container">

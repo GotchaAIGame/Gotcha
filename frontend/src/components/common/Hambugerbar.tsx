@@ -48,7 +48,7 @@ export default function Hambugerbar() {
           sessionStorage.setItem("accessToken", "");
           setCookie("refreshToken", "");
           alert("다음에 또 봐요!");
-          navigate("/main");
+          navigate("/");
         })
         .catch((res) => {
           console.log(res);
@@ -74,7 +74,7 @@ export default function Hambugerbar() {
         <nav className="nav" id="nav">
           <ul>
             <li>
-              <button type="button" onClick={() => navigate("/main")}>
+              <button type="button" onClick={() => navigate("/")}>
                 Main
               </button>
             </li>

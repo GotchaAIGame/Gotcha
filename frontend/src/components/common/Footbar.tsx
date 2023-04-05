@@ -10,7 +10,7 @@ export default function Footbar() {
   if (
     location.pathname.startsWith("/newgame") ||
     location.pathname.startsWith("/rejoin") ||
-    location.pathname === "/main"
+    location.pathname === "/"
   ) {
     return null;
   }

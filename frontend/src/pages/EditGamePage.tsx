@@ -13,6 +13,7 @@ import { resetGame } from "@stores/game/gameSlice";
 import { setGame, setProblems, setOriginGame } from "@stores/game/gameSlice";
 import GlobalNav from "@components/common/GlobalNavbar";
 import Progressbar from "@components/CreateGame/Progressbar";
+import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function EditGamePage() {
   const [needHelp, setNeedHelp] = useState<boolean>(false);
@@ -89,6 +90,7 @@ export default function EditGamePage() {
 
   return (
     <div>
+      <Hambugerbar />
       <GlobalNav />
       <Grid container className="create-game-grid-container">
         {needHelp ? (
