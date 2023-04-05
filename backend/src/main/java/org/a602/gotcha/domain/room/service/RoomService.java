@@ -1,5 +1,6 @@
 package org.a602.gotcha.domain.room.service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import lombok.RequiredArgsConstructor;
 public class RoomService {
 	private final RoomRepository roomRepository;
 
-	private final Random random = new Random();
+	private final Random random = new SecureRandom();
 	private final S3Service s3Service;
 
 	private final RewardRepository rewardRepository;
@@ -78,7 +79,7 @@ public class RoomService {
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		member = memberRepository.findMemberByEmail(member.getEmail()).orElseThrow(MemberNotFoundException::new);
 
-		int code = random.nextInt(90_0000) + 100_000;
+		int code = random.nextInt(900_000) + 100_000;
 		// 이미지가 없으면 기본 로고를 넣어주고, 있으면 s3에 업로드 후 url 값으로 넣어줌
 		String uploadLogoUrl;
 		if (request.getLogoImage() == null) {
