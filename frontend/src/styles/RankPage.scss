@@ -196,6 +196,11 @@
 
     background-image: url("../assets/fullBGPattern.svg");
     background-color: $blue-1;
+
+    .small-image {
+      cursor: pointer;
+    }
+
     .modal-innerText {
       display: flex;
       flex-direction: column;
