@@ -14,11 +14,13 @@ export default function SNSLogin() {
         <hr />
       </div>
 
-      {/* <GoogleButton />
+      <Link to="https://j8a602.p.ssafy.io/oauth2/authorization/google">
+        <Button text="구글 로그인" color="google" />
+      </Link>
 
       <Link to="https://j8a602.p.ssafy.io/oauth2/authorization/kakao">
         <Button text="카카오톡 로그인" color="kakao" />;
-      </Link> */}
+      </Link>
       <Link to="/signup">
         <Button text="회원가입" color="skyblue" />
       </Link>

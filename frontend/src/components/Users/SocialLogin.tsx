@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+import Loading from "@components/common/Loading";
 import { setLogin } from "@stores/users/userSlice";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -41,7 +42,7 @@ const SocialLogin = () => {
     // }
   }, []);
 
-  return <div>로그인 중 . . . </div>;
+  return <Loading />;
 };
 
 export default SocialLogin;
