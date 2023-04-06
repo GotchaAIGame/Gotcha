@@ -4,8 +4,8 @@
 // @import "~slick-carousel/slick/slick-theme.css";
 
 .tutorial-page-modal-bg {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
@@ -47,7 +47,7 @@
 
 .go-game-button-wrapper {
   position: relative;
-  top: 20px;
+  bottom: 5px;
   Button {
     margin-top: 30px;
     height: 40px !important;

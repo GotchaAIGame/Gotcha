@@ -4,11 +4,18 @@
 .custom-nav-container {
   height: 150px;
   background-image: url("../../../assets/defaultBanner.svg");
-
-  img {
-    margin-top: 20px;
-    max-width: 300px;
-    max-height: 100px;
+  .custom-nav-logo-wrapper {
+    width: 310px;
+    height: 90px;
+    margin: 0 auto;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      margin-top: 20px;
+      max-width: 300px;
+      max-height: 100px;
+    }
   }
 
   .title-button-container {
@@ -41,7 +48,7 @@
     }
     .game-detail-button {
       position: absolute;
-      top: -20px;
+      top: 0px;
       // right: 110px;
       background: none;
       border: none;
