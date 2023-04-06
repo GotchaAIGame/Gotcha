@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction } from "react";
 import { useAppSelector } from "@stores/storeHooks";
 import plusBtn from "@assets/smallPlusButton.svg";
 import deleteBtn from "@assets/smallDeleteButton.svg";
@@ -6,21 +6,22 @@ import deleteBtn from "@assets/smallDeleteButton.svg";
 interface UrlProps {
   eventUrl: string | null;
   urlInputRef: React.RefObject<HTMLInputElement>;
+  isUrlOpen: boolean;
+  setUrlOpen: any;
 }
 
 export default function UrlInput(props: UrlProps) {
-  const { eventUrl, urlInputRef } = props;
-  const [isUrlOpen, setUrlOpen] = useState<boolean>();
+  const { eventUrl, urlInputRef, isUrlOpen, setUrlOpen } = props;
+
+  if (urlInputRef.current) {
+    if (eventUrl) {
+      urlInputRef.current.value = eventUrl;
+    }
+  }
 
   const urlHandler = () => {
     setUrlOpen(!isUrlOpen);
-    console.log(urlInputRef, "ref");
-    if (urlInputRef.current) {
-      if (eventUrl) {
-        urlInputRef.current.value = eventUrl;
-        console.log(eventUrl);
-      }
-    }
+    console.log(eventUrl);
   };
 
   return (
