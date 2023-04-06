@@ -140,6 +140,12 @@
           top: -15px;
         }
 
+        .total-rank-cut-line {
+          position: relative;
+          width: 100% !important;
+          top: -15px
+        }
+
         .no-medal-wrapper {
           position: relative;
           .medal-txt {
@@ -195,7 +201,7 @@
   top: 17%;
   .modal-content {
     height: 85%;
-    width: 90%;
+    width: 80%;
     overflow-y: scroll;
 
     background-image: url("../assets/fullBGPattern.svg");

@@ -10,7 +10,8 @@
   height: 100vh; // 수정할 수 있으면 %로 수정할 것
   background-image: url("../assets/fullBGPattern.svg");
 
-  .join-page-logo-img {
+  .join-page-logo-img,
+  .rejoin-page-logo-img {
     width: 320px;
     height: 100px;
     margin: 20px auto;
@@ -23,6 +24,7 @@
       max-height: 100px;
     }
   }
+
   .name-pw-wrapper-fadeout {
     @include fadeOut;
   }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 
+import tutorialcontent1 from "@assets/playerTutorials/그림1.png";
 import tutorialcontent2 from "@assets/playerTutorials/그림2.png";
 import tutorialcontent3 from "@assets/playerTutorials/그림3.png";
 import tutorialcontent4 from "@assets/playerTutorials/그림4.png";
@@ -8,9 +9,6 @@ import tutorialcontent5 from "@assets/playerTutorials/그림5.png";
 import tutorialcontent6 from "@assets/playerTutorials/그림6.png";
 import tutorialcontent7 from "@assets/playerTutorials/그림7.png";
 import tutorialcontent8 from "@assets/playerTutorials/그림8.png";
-import tutorialcontent9 from "@assets/playerTutorials/그림9.png";
-import tutorialcontent10 from "@assets/playerTutorials/그림10.png";
-
 import TutorialContent from "./TutorialContents";
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
@@ -46,47 +44,42 @@ export default function TutorialTap() {
       {
         contentId: 1,
         title: "0번 제목",
-        imgSrc: tutorialcontent2,
+        imgSrc: tutorialcontent1,
       },
       {
         contentId: 2,
         title: "0번 제목",
-        imgSrc: tutorialcontent3,
+        imgSrc: tutorialcontent2,
       },
       {
         contentId: 3,
         title: "0번 제목",
-        imgSrc: tutorialcontent4,
+        imgSrc: tutorialcontent3,
       },
       {
         contentId: 4,
         title: "0번 제목",
-        imgSrc: tutorialcontent5,
+        imgSrc: tutorialcontent4,
       },
       {
         contentId: 5,
         title: "0번 제목",
-        imgSrc: tutorialcontent6,
+        imgSrc: tutorialcontent5,
       },
       {
         contentId: 6,
         title: "0번 제목",
-        imgSrc: tutorialcontent7,
+        imgSrc: tutorialcontent6,
       },
       {
         contentId: 7,
         title: "0번 제목",
-        imgSrc: tutorialcontent8,
+        imgSrc: tutorialcontent7,
       },
       {
         contentId: 8,
         title: "0번 제목",
-        imgSrc: tutorialcontent9,
-      },
-      {
-        contentId: 9,
-        title: "0번 제목",
-        imgSrc: tutorialcontent10,
+        imgSrc: tutorialcontent8,
       },
     ]);
 
