@@ -18,6 +18,8 @@ interface ISNSUser {
   isLogin: boolean;
 }
 
+// 회원가입 성공시 /edit으로 이동
+
 const SocialLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,7 +30,11 @@ const SocialLogin = () => {
     const params = new URL(window.location.href).searchParams;
 
     console.log(params);
-    // if (nickname === "null" && email && registrationId) {
+    // const nickname = decodeURIComponent(params.get("nickname"));
+    // const email = params.get("email");
+    // const registrationId = params.get("registrationId");
+
+    // if (email && registrationId) {
     //   dispatch(setLogin({ email, registrationId }));
     //   navigate("/signup");
     // } else {
