@@ -8,6 +8,7 @@ import InputBox from "@components/common/InputBox";
 import { putUser } from "@stores/users/userSlice";
 import { memberAPI } from "@apis/apis";
 import tmp from "@assets/favicon.png";
+import { useNavigate } from "react-router-dom";
 
 interface IEditUser {
   id: number;
@@ -19,6 +20,7 @@ interface IEditUser {
 }
 
 export default function EditProfile() {
+  const navigate = useNavigate();
   const userInfo = useSelector((state: any) => state.users);
 
   // 중복 확인을 위한 값
@@ -105,12 +107,13 @@ export default function EditProfile() {
       // 업데이트할 사용자 정보 객체 생성
       const updatedUser: IEditUser = {
         ...userInfo,
-        nickname: userInfo.nickname,
-        organization: userInfo.organization,
+        nickname: nicknameInput || userInfo.nickname,
+        organization: orgInput || userInfo.organization,
         profileImage: inputImage || userInfo.profileImage, // 새로운 프로필 이미지가 있으면 업데이트, 없으면 기존 프로필 이미지 유지
       };
 
       console.log(updatedUser);
+      console.log(userInfo);
 
       // 사용자 정보 업데이트 API 호출
       const result = memberAPI.editUser(updatedUser);
@@ -124,7 +127,9 @@ export default function EditProfile() {
               profileImage: inputImage || userInfo.profileImage,
             })
           );
+          console.log(`${nicknameInput}`);
           alert("사용자 정보가 업데이트 되었습니다.");
+          navigate("/mypage");
         })
         .catch((error) => {
           alert(`사용자 정보 업데이트 실패: ${error}`);

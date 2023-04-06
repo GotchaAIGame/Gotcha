@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Button from "@components/common/Button";
 import OTPInput from "@components/common/OTPInput";
 import InputValidBox from "@components/common/InputValidBox";
+import PlayGameTutorialModal from "@components/PlayGameTutorial/PlayGameTutorialModal";
 import { gamePlayAPI } from "@apis/apis";
 import { RegisterandStart } from "@stores/game/gamePlaySlice";
 import { useAppDispatch } from "@stores/storeHooks";
@@ -12,6 +13,7 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
 
   const [otp, setOtp] = useState("");
   const [checked, setChecked] = useState(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -22,7 +24,6 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
     // const { data } = memberAPI.duplicateNickNames;
     if (nicknameInputRef.current && nicknameInputRef.current.value) {
       const nickname = nicknameInputRef.current.value;
-      // console.log(nicknameInput);
       gamePlayAPI
         .duplicate(roomId, nickname)
         .then((res) => {
@@ -71,8 +72,18 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
     }
   };
 
+  const tutorialModalHandler = () => {
+    setIsTutorialOpen(!isTutorialOpen);
+  };
+
   return (
     <div>
+      {isTutorialOpen && (
+        <PlayGameTutorialModal
+          tutorialModalHandler={tutorialModalHandler}
+          joinGameHandler={joinGameHandler}
+        />
+      )}
       <InputValidBox
         text="닉네임"
         type="text"
@@ -84,10 +95,10 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
       <OTPInput value={otp} valueLength={4} onChange={OTPchangeHandler} />
       <div className="enter-btn">
         <Button
-          text="입장하기"
+          text="다음"
           type="button"
           color="gray-gray"
-          onClick={joinGameHandler}
+          onClick={tutorialModalHandler}
         />
       </div>
     </div>

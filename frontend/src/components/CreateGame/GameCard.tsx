@@ -14,13 +14,11 @@ export default function GameCard(Props: any) {
 
   // image cropper handler
   const cropperHandler = () => {
-    // console.log(croppedImageRef.current, "xx")
     if (typeof cardImageRef.current?.cropper !== "undefined") {
       const tempCroppedImage = cardImageRef.current?.cropper
         .getCroppedCanvas({ maxHeight: 360, maxWidth: 360 })
         .toDataURL();
 
-      console.log(cardImageRef.current?.cropper, "XXXXX");
       setInputImage(tempCroppedImage);
     }
   };
@@ -39,7 +37,6 @@ export default function GameCard(Props: any) {
     const files = originalImageRef.current?.files;
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
-      // console.log(files[0], "xxx")
       setEditorOpen(true);
       setInputImage(fileURL);
     }
@@ -154,7 +151,6 @@ export default function GameCard(Props: any) {
                 text="제출하기"
                 color="skyblue"
                 onClick={() => {
-                  // console.log("안녕하세요");
                   editorHandler();
                   cropperHandler();
                 }}

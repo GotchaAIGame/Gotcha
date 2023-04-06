@@ -29,7 +29,7 @@ export default function Routers() {
       <Route path="/login" element={<LogInPage />} />
       <Route path="/socialLogin" element={<SocialLogin />} />
       <Route path="mypage">
-        <Route path=":memberID" element={<CreatorMainPage />} />
+        <Route path="" element={<CreatorMainPage />} />
         <Route path=":memberID/edit" element={<EditProfilePage />} />
       </Route>
       <Route path="/create/game" element={<CreateGamePage />} />

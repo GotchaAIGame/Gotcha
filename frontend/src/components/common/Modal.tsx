@@ -50,7 +50,6 @@ function Modal(props: modalProps) {
           text="예"
           color="gray-blue"
           onClick={() => {
-            console.log("버튼 눌림");
             mainBtnHandler();
           }}
         />
@@ -93,7 +92,7 @@ function Modal(props: modalProps) {
         >
           {" "}
         </div>
-        <div className="modal-content" style={{ backgroundColor: bgColor }}>
+        <div className="modal-content">
           <div
             className={
               closeType

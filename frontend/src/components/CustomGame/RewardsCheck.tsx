@@ -36,7 +36,6 @@ export default function RewardsCheck(props: any) {
       ];
       dispatch(setRewards({ rewards: emptyRewards }));
     }
-    console.log(rewardsList);
   }, [gameInfo.rewards, dispatch]);
 
   return (

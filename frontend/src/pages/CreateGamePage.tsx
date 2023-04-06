@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import InputGameInfo from "@components/CreateGame/InputGameInfo";
 import GameCardCarousel from "@components/CreateGame/GameCardCarousel";
-import helpButton from "@assets/helpButton.svg";
+import helpButton from "@assets/questionButton.svg";
 import Button from "@components/common/Button";
 import Loading from "@components/common/Loading";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
@@ -53,8 +53,6 @@ export default function CreateGamePage() {
 
   const postGameCreate = () => {
     // e.preventDefault();
-    // console.log("최종적으로 쏘는 정보");
-    // console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
     setModalOpen(false);
     // 제목, 기간, 정보 입력 여부 확인

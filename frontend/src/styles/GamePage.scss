@@ -266,8 +266,8 @@ input.invisible {
 .image-editor-wrapper,
 .image-editor-overlay,
 .dropdown-overlay {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
@@ -288,7 +288,7 @@ input.invisible {
 .AIModal-content {
   position: relative;
   background-image: url("../assets/AIModalBG.svg");
-  background-color: $blue-1;
+  // background-color: $blue-1;
   border: 1px solid black;
   width: 300px;
   height: 550px;

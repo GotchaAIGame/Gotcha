@@ -28,7 +28,6 @@ export default function GameCard(Props: any) {
       // useStateValue Update
 
       const f: File | undefined = files[files.length - 1];
-      console.log(files);
 
       const reader: FileReader = new FileReader();
 
@@ -51,9 +50,6 @@ export default function GameCard(Props: any) {
       .then(() => {
         alert("문제가 삭제되었습니다");
       })
-      .catch((res) => {
-        console.log("문제 삭제 불가", res);
-      });
     setModalOpen(false);
   };
 

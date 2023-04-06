@@ -40,6 +40,7 @@ export default function TutorialTap() {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    centerPadding: "5px",
   };
 
   const [tutorialContents, setTutorialContents] =
@@ -130,36 +131,40 @@ export default function TutorialTap() {
 
   return (
     <div className="tutorial-tab-main-container">
-      <div className="tutorial-tab-buttons-container">
-        <button type="button" id="page1">
-          처음으로
-        </button>
-        <button
-          type="button"
-          id="page1"
-          className={currentSlideIndex < 6 ? "button-active" : ""}
-        >
-          ① 기본 게임 만들기
-        </button>
-
-        <button
-          type="button"
-          id="page2"
-          className={
-            currentSlideIndex >= 6 && currentSlideIndex < 12
-              ? "button-active"
-              : ""
-          }
-        >
-          ② 커스텀 하기
-        </button>
-        <button
-          type="button"
-          id="page3"
-          className={currentSlideIndex >= 12 ? "button-active" : ""}
-        >
-          ③ 마무리
-        </button>
+      <div className="progress-bar-wrapper">
+        <hr />
+        <div className="progressbar-tags-container">
+          {/* 1: 기본 게임 생성 */}
+          <div className="progress-bar-point-wrapper">
+            <div
+              className={
+                currentSlideIndex < 6
+                  ? "active-bar-point"
+                  : "progress-bar-point"
+              }
+            />
+          </div>
+          {/* 2: 커스터마이징 */}
+          <div className="progress-bar-point-wrapper">
+            <div
+              className={
+                currentSlideIndex >= 6
+                  ? "active-bar-point"
+                  : "progress-bar-point"
+              }
+            />
+          </div>
+        </div>
+        <div className="progressbar-tags-container">
+          <span className={currentSlideIndex < 6 ? "progress-active-text" : ""}>
+            기본 정보 입력
+          </span>
+          <span
+            className={currentSlideIndex >= 6 ? "progress-active-text" : ""}
+          >
+            페이지 꾸미기
+          </span>
+        </div>
       </div>
 
       <Slider {...settings}>

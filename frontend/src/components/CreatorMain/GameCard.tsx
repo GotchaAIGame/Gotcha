@@ -11,13 +11,6 @@ export default function GameCard(props: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   console.log(e);
-  // navigate(`/custom/${gameInfo.code}`, {
-  //   state: { gamePin: gameInfo.code, roomId: gameInfo.id },
-  // });
-  // };
-
   const goEdit = () => {
     navigate(`/edit/${gameInfo.code}`, {
       state: { gamePin: gameInfo.code, roomId: gameInfo.id },
@@ -75,7 +68,6 @@ export default function GameCard(props: any) {
   }, []);
 
   if (gameInfo) {
-    // console.log(gameInfo);
 
     const startDateInfo = formatDate(gameInfo.startTime);
     const endDateInfo = formatDate(gameInfo.endTime);

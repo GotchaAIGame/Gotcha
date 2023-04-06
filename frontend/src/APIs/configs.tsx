@@ -22,7 +22,6 @@ const newInstance = axios.create({
 
 // 요청 헤더에 token 추가
 newInstance.interceptors.request.use((config) => {
-  // console.log("interceptor request");
   const tempConfig = config;
   const accessToken = sessionStorage.getItem("accessToken");
 

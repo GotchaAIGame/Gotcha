@@ -57,11 +57,9 @@ export default function CustomGamePage() {
   };
 
   useEffect(() => {
-    console.log("새로운 시작!");
     if (roomId) {
       const result = creatorAPI.getGameDetail(roomId);
       result.then((res) => {
-        console.log(res.data.result, "getGameDetail 결과");
         const newInfo = res.data.result;
         // 최종적으로 사용할 값 저장
         setGameInfo(newInfo);
@@ -79,7 +77,7 @@ export default function CustomGamePage() {
         dispatch(setProblems(newInfo.problems));
       });
     } else {
-      console.log("비정상적 접근");
+      alert("비정상적 접근입니다");
     }
   }, []);
 
@@ -93,7 +91,7 @@ export default function CustomGamePage() {
         </Grid>
         {/* <p>미리 보기</p> */}
         <Grid item xs={12} md={12}>
-          <p className="preview-text">커스텀 미리보기</p>
+          <p className="preview-text">페이지 미리보기</p>
           <div className="custom-preview-main-box-container">
             <CustomNavbar />
             <Timer />

@@ -24,7 +24,6 @@ export default function RewardList(props: any) {
   ]);
 
   const rewardsAPI = () => {
-    console.log(rewardsList);
     const rewardsInfo = {
       roomId: gameId,
       rewards: rewardsList,

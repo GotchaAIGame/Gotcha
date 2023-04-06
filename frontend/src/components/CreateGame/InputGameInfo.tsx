@@ -36,7 +36,6 @@ export default function InputGameInfo() {
   const changeDescriptionHanlder = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    // console.log(e.target.value);
     const newGeameInfo = {
       title: gameInfo.title,
       eventDesc: e.target.value,

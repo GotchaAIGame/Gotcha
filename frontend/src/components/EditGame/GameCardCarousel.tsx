@@ -1,9 +1,7 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addProblem } from "@stores/game/gameSlice";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import GameCard from "./GameCard";
-import plusButton from "@assets/purpleplusButton.svg";
 // import UploadTest from "./UploadTest";
 
 export default function GameCardCarousel() {
@@ -12,17 +10,6 @@ export default function GameCardCarousel() {
 
   const [isAddable, setIsAddable] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-
-  const addProblemHandler = () => {
-    console.log(gameInfo.problems);
-    dispatch(addProblem());
-  };
-
-  useEffect(() => {
-    console.log("바뀜");
-    console.log(problemsInfo);
-  }, [problemsInfo]);
 
   return (
     <div>
@@ -47,13 +34,6 @@ export default function GameCardCarousel() {
               />
             </div>
           ))}
-        {/* <button
-          type="button"
-          onClick={addProblemHandler}
-          className="add-img-button"
-        >
-          <img src={plusButton} alt="" />
-        </button> */}
       </div>
     </div>
   );

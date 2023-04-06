@@ -33,7 +33,7 @@ export default function Progressbar(props: any) {
             progress === 2 && progress > 1 ? "progress-active-text" : ""
           }
         >
-          커스터마이징
+          페이지 꾸미기
         </span>
       </div>
     </div>

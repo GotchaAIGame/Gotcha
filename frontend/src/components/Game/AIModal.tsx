@@ -54,7 +54,6 @@ function AIModal(props: AIModalProps) {
               <ProgressBar
                 resultHandler={(status: number) => {
                   setResultStatus(status);
-                  // console.log(resultStatus, "너가 눌러서 이렇게 바뀌었다.")
                 }}
                 similarityHandler={(similarity: number) => {
                   setSimilarity(similarity);

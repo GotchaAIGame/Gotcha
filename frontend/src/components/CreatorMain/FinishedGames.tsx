@@ -14,7 +14,7 @@ export default function FinishedGames(props: any) {
   });
 
   return (
-    <>
+    <div>
       {finishedGames.length > 0 ? (
         finishedGames.map((item: any) => (
           <GameCard gameInfo={item} key={item.id} />
@@ -24,12 +24,12 @@ export default function FinishedGames(props: any) {
           <p>종료된 방이 없어요!</p>
         </div>
       )}
-      {createGames.length === 0 && (
+      {/* {createGames.length === 0 && (
         <div className="make-new-game-alert">
           <p>아직 생성된 방이 없어요!</p>
           <p>게임을 생성하러 가볼까요?</p>
         </div>
-      )}
-    </>
+      )} */}
+    </div>
   );
 }

@@ -45,7 +45,6 @@ function ProgressBar(props: progressBarProps) {
       similarityHandler(result.data.similarity);
       setProgressDone(true);
     };
-    // console.log("useEffect", index)
     predict();
   }, []);
 
