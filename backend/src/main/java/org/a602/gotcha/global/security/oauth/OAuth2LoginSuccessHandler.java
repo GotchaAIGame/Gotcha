@@ -33,9 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	public static final String REGISTRATION_ID = "registrationId";
-	public static final String SERVER_REDIRECT_URL = "socialLogin";
-	//		public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/socialLogin";
-	//	public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/login";
+	public static final String SERVER_REDIRECT_URL = "/socialLogin";
+	//	public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/socialLogin";
+	//	public static final String SERVER_REDIRECT_URL = "http://localhost:3000/login";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
@@ -55,6 +55,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		final Optional<String> redirectUri = CookieUtil.getCookie(httpServletRequest, REDIRECT_URI)
 			.map(Cookie::getValue);
 
+		//		final String targetUrl = redirectUri.orElse(getDefaultTargetUrl()+SERVER_REDIRECT_URL);
 		final String targetUrl = redirectUri.orElse(SERVER_REDIRECT_URL);
 		final OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 		final Map<String, Object> attributes = oAuth2User.getAttributes();
