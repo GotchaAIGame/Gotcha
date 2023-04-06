@@ -79,9 +79,9 @@ const memberAPI = {
     accessToken: string,
     registrationId: string
   ): Promise<AxiosResponse> =>
-    request.post("member/login", { accessToken, registrationId }),
+    request.post("member/social/login", { accessToken, registrationId }),
   logOut: (accessToken: string, refreshToken: string): Promise<AxiosResponse> =>
-    request.authPost("member/social/login", { accessToken, refreshToken }),
+    request.authPost("member/logout", { accessToken, refreshToken }),
   editUser: (userInfo: {
     id: number;
     nickname: string;
