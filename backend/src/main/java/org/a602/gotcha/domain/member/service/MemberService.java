@@ -73,11 +73,10 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberLoginResponse socialLogin(final MemberSocialLoginRequest memberSocialLoginRequest) {
-        final Authentication authentication = jwtTokenProvider.getAuthentication(
-                memberSocialLoginRequest.getAccessToken());
+        final String accessTokenSplit = jwtTokenProvider.splitToken(memberSocialLoginRequest.getAccessToken());
+        final Authentication authentication = jwtTokenProvider.getAuthentication(accessTokenSplit);
         final Member member = memberRepository.findMemberByEmailAndRegistrationId(authentication.getName(),
-                        memberSocialLoginRequest.getRegistrationId())
-                .orElseThrow(MemberNotFoundException::new);
+                memberSocialLoginRequest.getRegistrationId()).orElseThrow(MemberNotFoundException::new);
 
         final String accessToken = jwtTokenProvider.createAccessToken(member);
         final String refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
