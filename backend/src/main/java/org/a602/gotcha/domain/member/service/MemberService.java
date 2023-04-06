@@ -1,5 +1,6 @@
 package org.a602.gotcha.domain.member.service;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.a602.gotcha.domain.member.entity.Member;
 import org.a602.gotcha.domain.member.exception.MemberNotFoundException;
@@ -125,8 +126,10 @@ public class MemberService {
         String uploadImageUrl = null;
 
         if (memberUpdateRequest.getProfileImage() != null) {
-            String fileName = System.currentTimeMillis() + PROFILE_IMAGE + memberUpdateRequest.getNickname();
-            uploadImageUrl = s3Service.uploadImage(memberUpdateRequest.getProfileImage(), fileName);
+            if (!Objects.equals(memberUpdateRequest.getProfileImage(), member.getProfileImage())) {
+                String fileName = System.currentTimeMillis() + PROFILE_IMAGE + memberUpdateRequest.getNickname();
+                uploadImageUrl = s3Service.uploadImage(memberUpdateRequest.getProfileImage(), fileName);
+            }
         }
 
         member.updateMember(memberUpdateRequest.toEntity(), uploadImageUrl);
