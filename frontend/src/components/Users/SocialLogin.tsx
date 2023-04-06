@@ -17,6 +17,7 @@ export default function SocialLogin() {
   const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
+    location.reload();
     const params = new URLSearchParams(window.location.search);
     setRegistrationId(params.get("registrationId") || "");
     setAccessToken(params.get("access_token") || "");
