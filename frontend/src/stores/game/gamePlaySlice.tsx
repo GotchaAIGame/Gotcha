@@ -207,20 +207,18 @@ const gamePlaySlice = createSlice({
         if (nickname === localNickname && roomId === localRoomId) {
           // 저장된 기록이 유효하다면
           console.log("기록 유효");
-        } else {
-          // 저장된 기록이 유효하지 않다면
-          JsonLocalSolved = data.result.map((problem: any) => {
-            return { id: problem.problemId, solved: false };
-          });
         }
-
-        // local에 저장
-        localStorage.setItem(
-          "curUserInfo",
-          JSON.stringify({ nickname, roomId })
-        );
-        localStorage.setItem("solved", JSON.stringify(JsonLocalSolved));
+      } else {
+        // 저장된 기록이 유효하지 않거나, 정보가 없다면727
+        JsonLocalSolved = data.result.map((problem: any) => {
+          return { id: problem.problemId, solved: false };
+        });
       }
+
+      // local에 저장
+      localStorage.setItem("curUserInfo", JSON.stringify({ nickname, roomId }));
+      localStorage.setItem("solved", JSON.stringify(JsonLocalSolved));
+
       return {
         ...state,
         roomId,
