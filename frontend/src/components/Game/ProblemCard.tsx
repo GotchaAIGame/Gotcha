@@ -39,7 +39,7 @@ function ProblemCard(props: problemProps) {
     // console.log(croppedImageRef.current, "xx")
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedImage = croppedImageRef.current?.cropper
-        .getCroppedCanvas({ maxHeight: 500, maxWidth: 500 })
+        .getCroppedCanvas({ maxHeight: 360, maxWidth: 360 })
         .toDataURL();
 
       console.log(croppedImageRef.current?.cropper, "XXXXX");
@@ -160,6 +160,7 @@ function ProblemCard(props: problemProps) {
                 minCropBoxHeight={100}
                 minCropBoxWidth={100}
                 viewMode={1}
+                aspectRatio={1}
                 background={false}
                 ref={croppedImageRef}
               />
