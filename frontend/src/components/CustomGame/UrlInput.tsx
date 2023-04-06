@@ -1,39 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, SetStateAction } from "react";
+import { useAppSelector } from "@stores/storeHooks";
 import plusBtn from "@assets/smallPlusButton.svg";
 import deleteBtn from "@assets/smallDeleteButton.svg";
 
-export default function UrlInput(props: any) {
-  const { themeColor, colorHandler } = props;
-  const [isUrldOpen, setUrlOpen] = useState<boolean>(false);
+interface UrlProps {
+  eventUrl: string | null;
+  urlInputRef: React.RefObject<HTMLInputElement>;
+  isUrlOpen: boolean;
+  setUrlOpen: any;
+}
 
-  // const colorHandler = (color: string) => {
-  //   setThemeColor(color);
-  // };
+export default function UrlInput(props: UrlProps) {
+  const { eventUrl, urlInputRef, isUrlOpen, setUrlOpen } = props;
+
+  if (urlInputRef.current) {
+    if (eventUrl) {
+      urlInputRef.current.value = eventUrl;
+    }
+  }
 
   const urlHandler = () => {
-    setUrlOpen(!isUrldOpen);
+    setUrlOpen(!isUrlOpen);
+    console.log(eventUrl);
   };
 
   return (
     <div
       className="url-input-container"
-      style={isUrldOpen ? { minHeight: "110px" } : { minHeight: "85px" }}
+      style={isUrlOpen ? { minHeight: "110px" } : { minHeight: "85px" }}
     >
       <div className="modal-input-header">
         <p>이벤트 URL</p>
         <button type="button" onClick={urlHandler}>
-          {isUrldOpen ? (
+          {isUrlOpen ? (
             <img src={deleteBtn} alt="" />
           ) : (
             <img src={plusBtn} alt="" />
           )}
         </button>
       </div>
-      {isUrldOpen ? (
-        <input type="url" placeholder="행사 URL을 입력해주세요" />
-      ) : (
-        <div className="empty-bottom-box" />
-      )}
+      <input
+        style={{ display: `${!isUrlOpen ? "none" : ""}` }}
+        type="url"
+        placeholder="행사 URL을 입력해주세요"
+        ref={urlInputRef}
+      />
     </div>
   );
 }

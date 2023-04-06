@@ -61,7 +61,7 @@ export default function CustomGamePage() {
     if (roomId) {
       const result = creatorAPI.getGameDetail(roomId);
       result.then((res) => {
-        console.log(res.data.result);
+        console.log(res.data.result, "getGameDetail 결과");
         const newInfo = res.data.result;
         // 최종적으로 사용할 값 저장
         setGameInfo(newInfo);
@@ -82,7 +82,6 @@ export default function CustomGamePage() {
       console.log("비정상적 접근");
     }
   }, []);
-
 
   return (
     <>

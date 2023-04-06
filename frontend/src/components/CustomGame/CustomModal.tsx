@@ -3,9 +3,9 @@ import React, {
   useEffect,
   Dispatch,
   SetStateAction,
-  useCallback,
+  useRef,
 } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@stores/storeHooks";
 import { useNavigate } from "react-router-dom";
 import { setTheme } from "@stores/player/themeSlice";
 import { setGameCustom } from "@stores/game/gameSlice";
@@ -45,6 +45,8 @@ interface RewardsState {
 export default function CustomModal(props: any) {
   const { isOpen, setIsOpen, gameInfo, setGameInfo } = props;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const urlInputRef = useRef<HTMLInputElement>(null);
+  const [isUrlOpen, setUrlOpen] = useState<boolean>(false);
 
   // const [previewImg, setPreviewImg] = useState<string>("");
   // const [themeColor, setThemeColor] = useState<string>("5551FF");
@@ -54,12 +56,12 @@ export default function CustomModal(props: any) {
   // 리워드 정보 저장
   const [rewardsList, setRewardsList] = useState<Reward[]>([]);
   // store에 저장된 값
-  const themeColor = useSelector((state: any) => state.theme.themeColor);
-  const themeLogo = useSelector((state: any) => state.theme.themeLogo);
-  const themeTitle = useSelector((state: any) => state.theme.themeTitle);
-  const nickname = useSelector((state: any) => state.users.nickname);
+  const { themeColor, themeLogo, themeTitle } = useAppSelector(
+    (state: any) => state.theme
+  );
+  const { nickname } = useAppSelector((state: any) => state.users);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const modalHandler = () => {
@@ -122,12 +124,15 @@ export default function CustomModal(props: any) {
 
   // 최종 확인버튼
   const postTheme = () => {
-    console.log(gameInfo);
-    console.log(themeColor);
     // 변경된 값으로 게임 정보 변경
     const newGameInfo = gameInfo;
     newGameInfo.color = themeColor;
     newGameInfo.logoUrl = themeLogo;
+
+    if (isUrlOpen && urlInputRef.current) {
+      newGameInfo.eventUrl = urlInputRef.current.value;
+    }
+    console.log(newGameInfo, "newGameInfo");
     setGameInfo(newGameInfo);
 
     // 테마 API
@@ -136,7 +141,7 @@ export default function CustomModal(props: any) {
       color: themeColor,
       logoImage: themeLogo,
       title: gameInfo.title,
-      eventUrl: "test",
+      eventUrl: newGameInfo.eventUrl,
       eventDesc: gameInfo.eventDesc,
       startTime: gameInfo.startTime,
       endTime: gameInfo.endTime,
@@ -218,7 +223,20 @@ export default function CustomModal(props: any) {
     // console.log(rewardsList)
   }, [gameInfo, setRewardsList]);
 
-  const modalHandelr = () => {
+  useEffect(() => {
+    if (gameInfo.eventUrl && gameInfo.eventUrl.length) {
+      setUrlOpen(true);
+    }
+  }, [gameInfo]);
+
+  const SubmitModalHandler = () => {
+    if (isUrlOpen && urlInputRef.current) {
+      const newUrl = urlInputRef.current.value as string;
+      setGameInfo({ ...gameInfo, eventUrl: newUrl });
+    } else {
+      setGameInfo({ ...gameInfo, eventUrl: "" });
+    }
+
     setModalOpen(true);
   };
 
@@ -244,7 +262,12 @@ export default function CustomModal(props: any) {
         </button>
         <LogoInput themeLogo={themeLogo} imgHandler={imgHandler} />
         <ColorInput themeColor={themeColor} colorHandler={colorHandler} />
-        <UrlInput />
+        <UrlInput
+          eventUrl={gameInfo.eventUrl}
+          urlInputRef={urlInputRef}
+          isUrlOpen={isUrlOpen}
+          setUrlOpen={setUrlOpen}
+        />
 
         <RewardsList
           rewardsList={rewardsList}
@@ -254,7 +277,7 @@ export default function CustomModal(props: any) {
         />
 
         <br />
-        <Button size="medium" text="확인" onClick={modalHandelr} />
+        <Button size="medium" text="확인" onClick={SubmitModalHandler} />
       </div>
     </>
   );
