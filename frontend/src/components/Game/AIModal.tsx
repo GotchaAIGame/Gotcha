@@ -15,6 +15,7 @@ interface AIModalProps {
 function AIModal(props: AIModalProps) {
   const { open, openHandler, imageURL, problemImage, index } = props;
   const [resultStatus, setResultStatus] = useState(0);
+  const [similarity, setSimilarity] = useState(0);
 
   const themeBg = useSelector((state: any) => state.theme.themeColor);
 
@@ -25,10 +26,12 @@ function AIModal(props: AIModalProps) {
           className="AIModal-overlay"
           onClick={() => {
             setResultStatus(0);
+            setSimilarity(0);
             openHandler();
           }}
           onKeyDown={() => {
             setResultStatus(0);
+            setSimilarity(0);
             openHandler();
           }}
           role="presentation"
@@ -53,15 +56,34 @@ function AIModal(props: AIModalProps) {
                   setResultStatus(status);
                   // console.log(resultStatus, "너가 눌러서 이렇게 바뀌었다.")
                 }}
+                similarityHandler={(similarity: number) => {
+                  setSimilarity(similarity);
+                }}
                 imageUrl={imageURL}
                 problemImage={problemImage}
                 index={index}
               />
             </div>
             <div className="AIModal-description">
-              {resultStatus === 0 && <h1 className="blue"> AI 판독중 . . . </h1>}
-              {resultStatus === 1 && <h1 className="green"> 맞았습니다!</h1>}
-              {resultStatus === 2 && <h1 className="orange"> 틀렸습니다!</h1>}
+              {resultStatus === 0 && (
+                <h1 className="blue"> AI 판독중 . . . </h1>
+              )}
+              {resultStatus === 1 && (
+                <>
+                  <h1 className="green"> 맞았습니다! </h1>
+                  <p className="green modelresult">
+                    유사도 : {(similarity * 100).toFixed(2)}%
+                  </p>
+                </>
+              )}
+              {resultStatus === 2 && (
+                <>
+                  <h1 className="orange"> 틀렸습니다! </h1>
+                  <p className="orange modelresult">
+                    유사도 : {(similarity * 100).toFixed(2)}%
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
