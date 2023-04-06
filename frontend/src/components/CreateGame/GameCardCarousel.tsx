@@ -40,7 +40,7 @@ export default function GameCardCarousel(props: any) {
   };
 
   return (
-    <div>
+    <div className="problem-cards-container">
       <div className="problem-text-title-wrapper">
         <h5>문제 입력</h5>
         <div className="right-text-wrapper">
