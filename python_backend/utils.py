@@ -14,7 +14,7 @@ model = None
 similarity_threshold = 40
 keys = ['keypoints', 'scores', 'descriptors']
 transform = transforms.Compose([
-    transforms.Resize([480, 360]),
+    transforms.Resize([360, 360]),
     transforms.Grayscale(),
     transforms.ToTensor(),
 ])
