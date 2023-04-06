@@ -73,7 +73,11 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
   };
 
   const tutorialModalHandler = () => {
-    setIsTutorialOpen(!isTutorialOpen);
+    if (!isTutorialOpen && !checked) {
+      alert("먼저 닉네임 중복 확인을 해주세요!");
+    } else {
+      setIsTutorialOpen(!isTutorialOpen);
+    }
   };
 
   return (
