@@ -43,13 +43,11 @@ interface RewardsState {
 }
 
 export default function CustomModal(props: any) {
-  const { isOpen, setIsOpen, gameInfo, setGameInfo } = props;
+  const { isOpen, setIsOpen, gameInfo, setGameInfo, prevLoc, initialhasReward } = props;
+  const rewardMode = useRef<string>("post")
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const urlInputRef = useRef<HTMLInputElement>(null);
   const [isUrlOpen, setUrlOpen] = useState<boolean>(false);
-
-  // const [previewImg, setPreviewImg] = useState<string>("");
-  // const [themeColor, setThemeColor] = useState<string>("5551FF");
 
   // 리워드 등록할지/ 등록되어있는지 여부
   const [isRewardOpen, setIsRewardOpen] = useState<boolean>(false);
@@ -63,6 +61,13 @@ export default function CustomModal(props: any) {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  // initial setting of rewardMode
+  useEffect(() => {
+    if (prevLoc === "edit" && initialhasReward){
+      rewardMode.current = "put"
+    }
+  }, [initialhasReward])
 
   const modalHandler = () => {
     setIsOpen(!isOpen);
@@ -112,6 +117,7 @@ export default function CustomModal(props: any) {
         const result = creatorAPI.deleteRewards(roomId);
         result.then((res) => {
           setIsRewardOpen(false);
+          rewardMode.current = "post"
         });
       }
     }
@@ -147,13 +153,13 @@ export default function CustomModal(props: any) {
 
     result
       .then((res) => {
+        console.log(rewardsList, "처움 정보")
         // hasReward가 false고 isRewardOpen 가 true인 경우에만 reward 생성 API 전송
-        if (!gameInfo.hasReward && isRewardOpen) {
+        if (rewardMode.current === "post" && isRewardOpen) {
           // const rewardsInfo = {
           //   roomId: gameInfo.id,
           //   rewards: rewardsList,
           // };
-
           const rewardsWithoutId = rewardsList.map(
             ({ id, ...reward }) => reward
           ); // id를 제외한 RewardWithoutId 배열 생성
@@ -170,7 +176,7 @@ export default function CustomModal(props: any) {
         }
 
         // hasReward가 true였던 경우 수정 API 전송(id값 포함 여부 확인)
-        else if (gameInfo.hasReward && rewardsList.length > 0 && isRewardOpen) {
+        else if (rewardMode.current === "put" && rewardsList.length > 0 && isRewardOpen) {
           const rewardsInfo = {
             roomId: gameInfo.id,
             rewards: rewardsList,
@@ -225,6 +231,10 @@ export default function CustomModal(props: any) {
       setGameInfo({ ...gameInfo, eventUrl: "" });
     }
 
+    if (isRewardOpen) {
+      setGameInfo({...gameInfo, rewards : rewardsList, hasReward : true})
+    }
+
     setModalOpen(true);
   };
 
@@ -256,6 +266,7 @@ export default function CustomModal(props: any) {
           isUrlOpen={isUrlOpen}
           setUrlOpen={setUrlOpen}
         />
+        <button type="button" onClick={() => {console.log(rewardsList)}}> 똥 </button>
 
         <RewardsList
           rewardsList={rewardsList}
