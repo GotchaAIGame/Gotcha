@@ -16,16 +16,24 @@ function Timer() {
   useEffect(() => {
     const interval = setInterval(() => {
       const timegap = Date.now() - Date.parse(startTime);
-      setDays(
-        String(Math.floor(timegap / (1000 * 60 * 60 * 24))).padStart(2, "0")
-      );
-      setHours(
-        String(Math.floor((timegap / (1000 * 60 * 60)) % 24)).padStart(2, "0")
-      );
-      setMinutes(
-        String(Math.floor((timegap / 1000 / 60) % 60)).padStart(2, "0")
-      );
-      setSeconds(String(Math.floor((timegap / 1000) % 60)).padStart(2, "0"));
+
+      if (Number.isNaN(timegap)) {
+        setDays("00");
+        setHours("00");
+        setMinutes("00");
+        setSeconds("00");
+      } else {
+        setDays(
+          String(Math.floor(timegap / (1000 * 60 * 60 * 24))).padStart(2, "0")
+        );
+        setHours(
+          String(Math.floor((timegap / (1000 * 60 * 60)) % 24)).padStart(2, "0")
+        );
+        setMinutes(
+          String(Math.floor((timegap / 1000 / 60) % 60)).padStart(2, "0")
+        );
+        setSeconds(String(Math.floor((timegap / 1000) % 60)).padStart(2, "0"));
+      }
     }, 1000);
 
     return () => {
