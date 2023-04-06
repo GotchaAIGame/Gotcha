@@ -27,13 +27,12 @@ export default function SignUp(props: Props) {
   });
   // 중복 확인을 위한 값
   const [nicknameInput, SetNicknameInput] = useState<string>("");
-  const [nicknameValid, setNicknameValid] = useState<boolean>(false);
   const [emailInput, SetEmailInput] = useState<string>("");
-  const [emailValid, setEmailValid] = useState<boolean>(false);
-  // 비밀번호 유효성 검사를 위한 값
   const [passwordInput, setPasswordInput] = useState<string>("");
+
+  const [nicknameValid, setNicknameValid] = useState<boolean>(false);
+  const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
-  // 비밀번호 확인 값
   const [isDoubleChecked, setIsDoubleChecked] = useState<boolean>(false);
 
   // 가입 성공 여부
@@ -163,7 +162,13 @@ export default function SignUp(props: Props) {
   // 회원가입 처리
   const signupHandler = () => {
     const validValue = (userInfo.email, userInfo.nickname, userInfo.password);
-    if (validValue) {
+    if (
+      nicknameValid &&
+      emailValid &&
+      passwordValid &&
+      isDoubleChecked &&
+      validValue
+    ) {
       const result = memberAPI.signUp(userInfo);
       result
         .then((res) => {
@@ -174,8 +179,9 @@ export default function SignUp(props: Props) {
         .catch((res) => {
           alert(res);
         });
-
       // setIsSuccess(true);
+    } else {
+      alert("중복검사가 안 되었거나, 유효하지 않은 값이 있습니다.");
     }
   };
 
