@@ -31,6 +31,10 @@
     cursor: pointer;
     width: 45px;
   }
+  img:hover {
+    scale: 1.1;
+    transform-origin: 50% 50%;
+  }
 }
 
 // InputQuizInfo.tsx
@@ -85,6 +89,14 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+
+      #start,
+      #end,
+      #title,
+      textarea {
+        padding: 0.5rem 1rem;
+        border: 1px 1px $gray-1;
+      }
 
       textarea {
         display: flex;
@@ -158,6 +170,10 @@
     background: none;
     border: none;
     cursor: pointer;
+    img:hover {
+      scale: 1.1;
+      transform-origin: 50% 50%;
+    }
   }
 }
 
@@ -182,7 +198,7 @@
 
   scale: 0.8;
   margin-top: -10px;
-  box-shadow: 3px 3px $gray-2;
+  box-shadow: 3px 3px $gray-1;
 
   .typing {
     border: 3px solid $gray-1;
@@ -205,6 +221,10 @@
     .edit-game-card-title {
       background: none;
       border: none;
+    }
+    img:hover {
+      scale: 1.1;
+      transform-origin: 50% 50%;
     }
   }
 
