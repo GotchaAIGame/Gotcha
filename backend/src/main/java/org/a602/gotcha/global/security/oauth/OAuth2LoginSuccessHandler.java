@@ -73,7 +73,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		httpServletResponse.setHeader(AUTHORIZATION, accessToken);
 
-		return UriComponentsBuilder.fromUriString(targetUrl)
+//		return UriComponentsBuilder.fromUriString(targetUrl)
+		return UriComponentsBuilder.newInstance()
+			.path(SERVER_REDIRECT_URL)
 			.queryParam(ACCESS_TOKEN, accessToken)
 			.queryParam(REGISTRATION_ID, registrationId)
 			.build()
