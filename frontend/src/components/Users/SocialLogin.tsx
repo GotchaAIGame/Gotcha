@@ -13,36 +13,43 @@ export default function SocialLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cookies, setCookie] = useCookies(["refreshToken"]);
+  const [registrationId, setRegistrationId] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const registrationId = params.get("registrationId") || "";
-    const accessToken = params.get("access_token") || "";
+    setRegistrationId(params.get("registrationId") || "");
+    setAccessToken(params.get("access_token") || "");
+  }, []);
 
+  useEffect(() => {
     console.log("registrationId: ", registrationId);
     console.log("accessToken: ", accessToken);
 
-    memberAPI
-      .socialLogin(accessToken, registrationId)
-      .then((res) => {
-        console.log(res.data.result);
-        const snsUserInfo = res.data.result;
-        const { nickname } = res.data.result;
-        // Store에 user 정보 저장
-        dispatch(setLogin(snsUserInfo));
+    if (accessToken && registrationId) {
+      memberAPI
+        .socialLogin(accessToken, registrationId)
+        .then((res) => {
+          console.log(res.data.result);
+          const snsUserInfo = res.data.result;
+          const { nickname } = res.data.result;
+          console.log(nickname);
+          // Store에 user 정보 저장
+          dispatch(setLogin(snsUserInfo));
 
-        // token 저장
-        const { accessToken, refreshToken } = snsUserInfo;
-        sessionStorage.setItem("accessToken", accessToken);
-        setCookie("refreshToken", refreshToken);
+          // token 저장
+          const { accessToken, refreshToken } = snsUserInfo;
+          sessionStorage.setItem("accessToken", accessToken);
+          setCookie("refreshToken", refreshToken);
 
-        alert(`${nickname}님 환영합니다!`);
-        navigate("/mypage");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [dispatch, navigate, setCookie]);
+          alert(`${nickname}님 환영합니다!`);
+          navigate("/mypage");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [accessToken, registrationId]);
 
   return <Loading />;
 }
