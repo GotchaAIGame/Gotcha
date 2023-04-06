@@ -176,10 +176,9 @@ export default function CustomModal(props: any) {
             rewards: rewardsList,
           };
           const result = creatorAPI.putRewards(rewardsInfo);
-          result
-            .then((res) => {
-              navigate(`/mypage/${nickname}`);
-            })
+          result.then((res) => {
+            navigate(`/mypage/${nickname}`);
+          });
         }
         // 단순히 테마 수정만 한 경우
         navigate(`/mypage/${nickname}`);
