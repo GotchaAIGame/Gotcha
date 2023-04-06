@@ -19,7 +19,7 @@ export default function SNSLogin() {
       </Link>
 
       <Link to="https://j8a602.p.ssafy.io/oauth2/authorization/kakao">
-        <Button text="카카오톡 로그인" color="kakao" />;
+        <Button text="카카오톡 로그인" color="kakao" />
       </Link>
       <Link to="/signup">
         <Button text="회원가입" color="skyblue" />

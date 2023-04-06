@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import InputGameInfo from "@components/EditGame/InputGameInfo";
 import GameCardCarousel from "@components/EditGame/GameCardCarousel";
-import helpButton from "@assets/helpButton.svg";
+import helpButton from "@assets/questionButton.svg";
 import Button from "@components/common/Button";
 import CreateGameTutorialPage from "@pages/CreateGameTutorialPage";
 import "@styles/CreateGamePage.scss";
