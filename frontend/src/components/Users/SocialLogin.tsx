@@ -13,14 +13,13 @@ export default function SocialLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cookies, setCookie] = useCookies(["refreshToken"]);
-  const [registrationId, setRegistrationId] = useState("");
   const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
     location.reload();
     const params = new URLSearchParams(window.location.search);
-    setRegistrationId(params.get("registrationId") || "");
-    setAccessToken(params.get("access_token") || "");
+    const registrationId = params.get("registrationId") || "";
+    const accessToken = params.get("access_token") || "";
     console.log("registrationId: ", registrationId);
     console.log("accessToken: ", accessToken);
 
@@ -47,7 +46,7 @@ export default function SocialLogin() {
           console.log(err);
         });
     }
-  }, [accessToken, registrationId]);
+  }, []);
 
   return <Loading />;
 }
