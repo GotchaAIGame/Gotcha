@@ -14,7 +14,7 @@ export default function PlayerRejoinPage() {
     >
       <header>
         <Link to="/">
-          <div className="logo-img">
+          <div className="rejoin-page-logo-img">
             <img src={themeLogo} alt="로고" />
           </div>
         </Link>
