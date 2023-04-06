@@ -2,7 +2,7 @@
 APIs to be used in python backend server
 Recent update : 2023.03.14 15:20
 """
-from fastapi import FastAPI, Form, UploadFile, File
+from fastapi import FastAPI, Form
 from PIL import Image, ImageOps
 from io import BytesIO
 import requests
@@ -34,7 +34,6 @@ async def predict(originalUrl : str = Form(...), inputImage : bytes = Form(...))
 
     result, similarity = infer(original_image, inputImage)
     # memory_usage("#-1. end")    
-    print(result, similarity)
     
     return {
         'result' : result,

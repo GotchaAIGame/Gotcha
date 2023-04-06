@@ -85,4 +85,4 @@ class Matching(torch.nn.Module):
         # print(self.superglue(data).keys(), "XX") # matches0만 취하자
         # pred = {**pred, **self.superglue(data)}
 
-        return pred['keypoints1'][0].detach().numpy(),  glue_result['matches0'][0].detach().numpy()
+        return glue_result['matches0'][0].detach(), glue_result['matching_scores0'][0].detach()

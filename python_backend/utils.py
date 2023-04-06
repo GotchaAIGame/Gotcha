@@ -89,7 +89,7 @@ def infer(original_image, input_image):
     
     # memory_usage("#3 lastdata")
 
-    kpts1, matches = model({**last_data, 'image1': input_})
+    matches, confidence = model({**last_data, 'image1': input_})
 
     # # kpts0 = last_data['keypoints0'][0].detach().cpu().numpy()
     # kpts1 = pred['keypoints1'][0].detach().cpu().numpy()
@@ -101,13 +101,20 @@ def infer(original_image, input_image):
     # memory_usage("#4 result")
 
     valid = matches > -1
-    # mkpts0 = kpts0[valid]
-    mkpts1 = kpts1[matches[valid]]
+    confidence = torch.mean(confidence[valid])
 
-    if len(mkpts1) >= similarity_threshold:
-        result = True
-    else:
+    print(confidence)
+    conf_threshold = 0.7
+
+    if torch.isnan(confidence):
         result = False
+        similarity = 0
+    elif confidence.item() < conf_threshold:
+        result = False
+        similarity = confidence.item()
+    else:
+        result = True
+        similarity = confidence.item()    
 
     # memory_usage("#5 over")
 

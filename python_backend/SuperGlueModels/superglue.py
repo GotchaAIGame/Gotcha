@@ -238,7 +238,7 @@ class SuperGlue(nn.Module):
             return {
                 'matches0': kpts0.new_full(shape0, -1, dtype=torch.int),
                 # 'matches1': kpts1.new_full(shape1, -1, dtype=torch.int),
-                # 'matching_scores0': kpts0.new_zeros(shape0),
+                'matching_scores0': kpts0.new_zeros(shape0),
                 # 'matching_scores1': kpts1.new_zeros(shape1),
             }
 
@@ -282,6 +282,6 @@ class SuperGlue(nn.Module):
         return {
             'matches0': indices0, # use -1 for invalid match
             # 'matches1': indices1, # use -1 for invalid match
-            # 'matching_scores0': mscores0,
+            'matching_scores0': mscores0,
             # 'matching_scores1': mscores1,
         }
