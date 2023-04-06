@@ -5,12 +5,15 @@
   background-image: url("../assets/fullBGPattern.svg");
   min-height: 100vh;
   .main-content-wrapper {
+    // 모바일
     @media (min-width: 335px) and (max-width: 600px) {
       padding-top: 42%;
     }
+    // 테블릿
     @media (min-width: 601px) and (max-width: 1023px) {
       padding-top: 20%;
     }
+    // 데스크톱
     @media (min-width: 1024px) {
       padding-top: 9%;
     }
