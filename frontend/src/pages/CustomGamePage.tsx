@@ -93,7 +93,7 @@ export default function CustomGamePage() {
         </Grid>
         {/* <p>미리 보기</p> */}
         <Grid item xs={12} md={12}>
-          <p className="preview-text">커스텀 미리보기</p>
+          <p className="preview-text">페이지 미리보기</p>
           <div className="custom-preview-main-box-container">
             <CustomNavbar />
             <Timer />
