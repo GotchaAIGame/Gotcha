@@ -13,7 +13,7 @@ export default function MainPage() {
   const token = sessionStorage.getItem("accessToken");
 
   const temp = localStorage.getItem("solved");
-  console.log(temp);
+  // console.log(temp);
 
   useEffect(() => {
     console.log(
@@ -64,7 +64,7 @@ export default function MainPage() {
   const navigate = useNavigate();
   const userCheck = () => {
     if (token) {
-      navigate(`/mypage/${nickname}`);
+      navigate("/mypage");
     } else {
       navigate("/login");
     }

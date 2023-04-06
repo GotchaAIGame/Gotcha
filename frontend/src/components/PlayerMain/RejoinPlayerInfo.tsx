@@ -33,7 +33,6 @@ export default function RejoinPlayerInfo() {
 
   // 갱신 확인
   const playerRoom = useSelector((state: any) => state.theme.room);
-  console.log(playerRoom);
 
   // 재참여 로그인
   const rejoinGameHandler = () => {
@@ -42,13 +41,11 @@ export default function RejoinPlayerInfo() {
     }
     if (currentRef) {
       const nickname = currentRef.value.replace(/ /g, "");
-      console.log(nickname, " 이곳에서 저장할게요");
       const password = parseInt(otp.slice(0, 4), 10);
       const request = gamePlayAPI.login(roomId, nickname, password);
 
       request
         .then((res) => {
-          console.log(currentRef.value);
           const { isFinished, startTime } = res.data.result;
           setIsFinish(isFinished);
           setStartedTime(startTime);
@@ -92,7 +89,6 @@ export default function RejoinPlayerInfo() {
     if (currentRef) {
       const nickname = currentRef.value;
       const password = parseInt(otp.slice(0, 4), 10);
-      // console.log(nicknameValue);
       const request = dispatch(reStart({ roomId, nickname, password }));
       request.then(() => {
         navigate(`/game/${roomPin}`, { state: { roomId, nickname } });
@@ -102,7 +98,6 @@ export default function RejoinPlayerInfo() {
 
   // <랭킹보기> 버튼 클릭
   const rankClickHandler = () => {
-    console.log(playerRoom, "저장된 roomId");
     navigate(`/game/${roomPin}/rank`, { state: { roomId, fromMypage: false } });
   };
 

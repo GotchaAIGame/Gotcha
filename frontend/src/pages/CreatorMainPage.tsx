@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import Profile from "@components/CreatorMain/Profile";
@@ -10,6 +10,14 @@ import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function CreatorMainPage() {
   const userNickname = useSelector((state: any) => state.users.nickname);
+
+  useEffect(() => {
+    if (userNickname) {
+      console.log("있다");
+    } else {
+      console.log("없다");
+    }
+  }, [userNickname]);
 
   return (
     <>

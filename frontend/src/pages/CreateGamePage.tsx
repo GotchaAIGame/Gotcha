@@ -53,8 +53,6 @@ export default function CreateGamePage() {
 
   const postGameCreate = () => {
     // e.preventDefault();
-    // console.log("최종적으로 쏘는 정보");
-    // console.log(gameInfo);
     // const problemLength = gameInfo.problems.length();
     setModalOpen(false);
     // 제목, 기간, 정보 입력 여부 확인

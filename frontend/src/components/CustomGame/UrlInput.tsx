@@ -21,7 +21,6 @@ export default function UrlInput(props: UrlProps) {
 
   const urlHandler = () => {
     setUrlOpen(!isUrlOpen);
-    console.log(eventUrl);
   };
 
   return (

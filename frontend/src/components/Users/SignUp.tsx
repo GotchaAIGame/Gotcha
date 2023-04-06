@@ -122,7 +122,6 @@ export default function SignUp(props: Props) {
     e.preventDefault();
     // email 형식 여부 확인
     const regex = /^[a-zA-Z0-9가-힣]{2,10}$/;
-    // console.log(regex.test(nicknameInput));
     // email 형식 통과
     if (regex.test(nicknameInput)) {
       const result = memberAPI.duplicateNickName(nicknameInput);
@@ -189,7 +188,6 @@ export default function SignUp(props: Props) {
   useEffect(() => {
     const formTags = document.querySelectorAll("form");
     formTags.forEach((tag, key) => {
-      console.log(tag, key);
       tag.addEventListener("submit", (evt) => {
         evt.preventDefault();
       });

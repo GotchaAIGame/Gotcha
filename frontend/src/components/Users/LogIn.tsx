@@ -38,8 +38,6 @@ export default function LogIn() {
       const result = memberAPI.logIn(emailInput, passwordInput);
       result
         .then((res) => {
-          console.log(res);
-          console.log(res.data.result);
           const gotUserInfo = res.data.result;
           const { nickname } = res.data.result;
           // Store에 user 정보 저장
@@ -51,7 +49,8 @@ export default function LogIn() {
           setCookie("refreshToken", refreshToken);
 
           alert(`${nickname}님 환영합니다!`);
-          navigate(`/mypage/${nickname}`);
+          navigate("/mypage");
+
         })
         .catch((err) => {
           const errCode = err.response.data.status;
@@ -68,7 +67,7 @@ export default function LogIn() {
   useEffect(() => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken && existUser) {
-      navigate(`/mypage/${existUser.nickname}`);
+      navigate("/mypage");
     }
   }, []);
 

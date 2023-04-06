@@ -74,13 +74,15 @@ export default function RankButtons() {
     }
 
     const request = gamePlayAPI.phone(roomId, nickname, phonenum);
-    request.then((res) => {
-      console.log(res.data);
-    });
-
-    setPhonenum("");
-    modalHandler(1);
-    alert("참여해주셔서 감사합니다!");
+    request
+      .then((res) => {
+        setPhonenum("");
+        modalHandler(1);
+        alert("참여해주셔서 감사합니다!");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   return (
@@ -128,7 +130,7 @@ export default function RankButtons() {
           }}
           className="modal-six"
           closeType
-          bgColor = {themeColor} 
+          bgColor={themeColor}
         >
           {rewardArray.map((rewards: IReward, idx: number) => (
             <Reward

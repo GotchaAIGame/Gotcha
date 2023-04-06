@@ -16,7 +16,7 @@
 
   .tutorial-page-container {
     z-index: 900;
-    max-width: 70%;
+    max-width: 60%;
     min-width: 300px;
     //max-width: 320px;
     max-height: 75vh;
@@ -27,7 +27,7 @@
     background: white;
     border-radius: 5px;
     transform: translate(-50%, -50%);
-    padding: 10px 30px;
+    padding: 30px 30px;
     box-shadow: 5px 5px 3px $gray-2;
     header {
       h1 {
@@ -38,8 +38,7 @@
         -webkit-text-stroke: 1px $gray-1;
       }
       p {
-        margin-top: 0;
-        margin-bottom: 10px;
+        margin: 0;
         color: $gray-1;
       }
     }
@@ -48,7 +47,7 @@
 
 .go-game-button-wrapper {
   position: relative;
-  top: 55px;
+  top: 20px;
   Button {
     margin-top: 30px;
     height: 40px !important;
@@ -60,6 +59,11 @@
 .tutorial-tab-main-container {
   min-height: 50vh;
   max-height: 55vh;
+
+  .progress-bar-wrapper{
+    height: 20px;
+  }
+
 }
 
 .tutorial-tab-buttons-container {

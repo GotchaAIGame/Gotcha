@@ -40,7 +40,6 @@ function ProgressBar(props: progressBarProps) {
       setResultStatus(curResultStatus)
       setProgressDone(true)
     }
-    // console.log("useEffect", index)
     predict()
   }, []);
 

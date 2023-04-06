@@ -7,7 +7,6 @@ import {
 } from "./configs";
 
 const responseBody = (response: AxiosResponse) => {
-  // console.log(response);
   return response;
 };
 
