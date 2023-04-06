@@ -37,4 +37,3 @@ newInstance.interceptors.request.use((config) => {
 // 응답 확인
 
 export { axiosInstance, newInstance, axiosInstancePython };
-
