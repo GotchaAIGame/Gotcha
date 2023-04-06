@@ -14,12 +14,15 @@ export default function SocialLogin() {
   const dispatch = useDispatch();
   const [cookies, setCookie] = useCookies(["refreshToken"]);
   const [accessToken, setAccessToken] = useState("");
+  const [registrationId, setRegistrationId] = useState("");
 
   useEffect(() => {
-    location.reload();
     const params = new URLSearchParams(window.location.search);
-    const registrationId = params.get("registrationId") || "";
-    const accessToken = params.get("access_token") || "";
+    setRegistrationId(params.get("registrationId") || "");
+    setAccessToken(params.get("access_token") || "");
+  }, [window.location.search]);
+
+  useEffect(() => {
     console.log("registrationId: ", registrationId);
     console.log("accessToken: ", accessToken);
 
@@ -40,13 +43,13 @@ export default function SocialLogin() {
           setCookie("refreshToken", refreshToken);
 
           alert(`${nickname}님 환영합니다!`);
-          navigate("/mypage");
+          navigate("/mypage/edit");
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, []);
+  }, [accessToken, registrationId]);
 
   return <Loading />;
 }
