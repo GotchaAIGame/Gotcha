@@ -11,12 +11,12 @@
     border-radius: 30px;
     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
     background-color: white;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    margin-bottom: 3%;
+    padding-top: 2%;
+    margin-bottom: 4%;
   }
 }
 
+// 도움말버튼
 .helper-button {
   position: fixed;
   bottom: 40px;
@@ -38,84 +38,91 @@
 }
 
 // InputQuizInfo.tsx
+.create-game-info-container {
+  .create-input-commom-wrapper {
+    width: 70%;
+    margin: 20px auto;
+    position: relative;
+    display: inline-block;
 
-.input-game-info-container {
-  // grid-auto-rows: minmax(100px, auto);
-  margin-top: 20px;
-
-  .game-info-inputs-container {
-    // border: 3px solid black;
-    max-width: 800px;
-    margin: 0 auto;
-
-    h5 {
+    label {
+      position: absolute;
+      top: -10px;
+      left: 18px;
+      padding: 0 15px;
+      background: white;
       margin: 0;
-      min-width: 80px;
-      margin-right: 20px;
+      min-width: 100px;
       color: $blue-1;
-      -webkit-text-stroke: 0.5px #000;
+      -webkit-text-stroke: 0.5px $gray-1;
+      font-size: 1.5rem;
+      font-weight: 700;
     }
 
-    .duration-inputs-container {
+    input,
+    textarea {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      border: 0;
+      outline: none;
+      width: 100%;
+      border: 1px solid $gray-4 !important;
+      font-size: 1rem;
+      line-height: 1.45;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 12px;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      color: $gray-4;
+    }
+  }
+  .create-duration-wrapper {
+    left: 20px;
+    width: 70%;
+    margin: 20px auto;
+    position: relative;
+    display: inline-block;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    border: 0;
+    outline: none;
+    border: 1px solid $gray-4 !important;
+    border-radius: 10px;
+    padding: 20px;
+
+    label {
+      position: absolute;
+      top: -20px;
+      left: 18px;
+      padding: 0 15px;
+      background: white;
+      margin: 0;
+      min-width: 100px;
+      color: $blue-1;
+      -webkit-text-stroke: 0.5px $gray-1;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .input-date-wrapper {
       display: flex;
-      margin: 0.5rem auto;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: center;
-      margin-top: 0;
+      flex-wrap: wrap;
+      justify-content: space-around;
 
       input {
-        min-width: 80%;
-        height: auto;
-        border-radius: 8px;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0;
+        border: 0;
+        outline: none;
+        width: 200px;
+      }
+      p {
+        color: $blue-1;
+        -webkit-text-stroke: 0.5px $gray-1;
+        font-size: 2rem;
+        font-weight: 700;
         margin: 0;
-        margin-bottom: 5px;
-      }
-    }
-
-    .game-inputs-container {
-      display: flex;
-      margin: 0.5rem auto;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: center;
-      align-items: baseline;
-    }
-
-    .right-inputs-container {
-      width: 75%;
-      max-width: 500px;
-      flex-wrap: wrap;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-
-      #start,
-      #end,
-      #title,
-      textarea {
-        padding: 0.5rem 1rem;
-        border: 1px 1px $gray-1;
-      }
-
-      textarea {
-        display: flex;
-        width: 99%;
-        min-height: 100px;
-        resize: none;
-        border: 1px solid $gray-1;
-        border-radius: 8px;
-      }
-
-      .game-title-input {
-        // position: relative;
-        // top: -75px;
-        height: 1.5rem;
-        width: 99%;
-        max-width: 500px;
-        border: 1px solid $gray-1;
-        border-radius: 8px;
-        margin-bottom: 30px;
       }
     }
   }
@@ -123,37 +130,44 @@
 
 // GameCardCarousel
 
-.problem-text-title-wrapper {
-  display: flex;
-  margin: 0.5rem auto;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  margin-top: 0;
-  width: 100%;
-  align-items: baseline;
+// 문제입력부터 카드 끝까지
+.problem-cards-container {
+  padding: 0.5rem auto;
 
-  h5 {
-    margin: 0;
-    min-width: 80px;
-    margin-right: 20px;
-    align-items: baseline;
-    color: $blue-1;
-    -webkit-text-stroke: 0.5px #000;
-  }
-  .right-text-wrapper {
-    width: 75%;
-    max-width: 500px;
-    flex-wrap: wrap;
-    display: flex;
-    text-align: left;
-    p {
-      width: 99%;
-      margin-bottom: 0;
+  // 문제 입력 감싸는 div태그
+  .problem-text-title-wrapper {
+    width: 70%;
+    margin: 10px auto;
+    position: relative;
+    display: inline-block;
+
+    h5 {
+      position: absolute;
+      top: -10px;
+      left: 28px;
+      padding: 0 15px;
+      margin: 0;
+      min-width: 100px;
+      color: $blue-1;
+      -webkit-text-stroke: 0.5px $gray-1;
+      font-size: 1.5rem;
+      font-weight: 700;
     }
-    .problem-create-waring-text {
-      margin-top: 5px;
-      color: $green;
+    .right-text-wrapper {
+      position: absolute;
+      top: -20px;
+      left: 180px;
+      display: flex;
+      flex-wrap: wrap;
+      text-align: left;
+      p {
+        width: 99%;
+        margin-bottom: 0;
+      }
+      .problem-create-waring-text {
+        margin-top: 5px;
+        color: $green;
+      }
     }
   }
 }
@@ -271,24 +285,6 @@
         object-fit: fill;
       }
     }
-
-    // input {
-    //   // position: relative;
-    //   background-color: inherit;
-    //   border: 2px solid $gray-3;
-    //   border-radius: 8px;
-    //   background-color: $gray-5;
-    //   text-align: center;
-    //   font-size: 1.1rem;
-    //   width: 75%;
-    // }
-    // ::placeholder {
-    //   color: $gray-2;
-    // }
-    // .edit-game-card-title {
-    //   background: none;
-    //   border: none;
-    // }
   }
   .file-input-wrapper {
     height: 200px;
@@ -373,7 +369,16 @@
 
   .hint-input-wrapper {
     input {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      border: 0;
+      outline: none;
       border-radius: 8px;
+      border: 1px solid $gray-4 !important;
+      width: 70%;
+    }
+    input::placeholder {
+      color: $gray-4;
     }
   }
 }
@@ -381,7 +386,7 @@
 // Progressbar
 
 .progress-bar-wrapper {
-  padding: 30px 0;
+  padding: 20px 0;
   position: relative;
   margin: 0 auto;
   justify-content: center;

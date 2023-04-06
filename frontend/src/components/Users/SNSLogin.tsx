@@ -2,8 +2,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@components/common/Button";
-import GoogleButton from "./GoogleButton";
-import KakaoButton from "./KakaoButton";
 
 export default function SNSLogin() {
   return (

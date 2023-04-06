@@ -107,17 +107,21 @@ export default function GameCard(Props: any) {
               />
             </label>
           </div>
-          <div className={isTyping ? "typing-hint-text-box" : "hint-text-box"}>
-            힌트
-          </div>
-          <div className="hint-input-wrapper">
-            <input
-              type="text"
-              id={`hint-${idx}`}
-              placeholder="힌트를 추가해 주세요"
-              onChange={handleChange}
-              ref={cardHintRef}
-            />
+          <div className="card-hint-wrapper">
+            <div
+              className={isTyping ? "typing-hint-text-box" : "hint-text-box"}
+            >
+              힌트
+            </div>
+            <div className="hint-input-wrapper">
+              <input
+                type="text"
+                id={`hint-${idx}`}
+                placeholder="힌트를 추가해 주세요"
+                onChange={handleChange}
+                ref={cardHintRef}
+              />
+            </div>
           </div>
         </div>
       </div>
