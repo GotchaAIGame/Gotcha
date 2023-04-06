@@ -143,7 +143,13 @@ export default function RankButtons() {
 
           <div className="reward-explanation">
             <p className="h5-text">꼭 알아두세요!</p>
-            <p className="text">
+            <ul>
+              <li><p className="text">본 이벤트는 당사 사정에 따라 예고 없이 변경/종료될 수 있습니다.</p> </li>
+              <li><p className="text">이벤트 당첨 시, 제세공과금(22%) 은 본인 부담이며 기한 내 관련 서류 및 제세공과금 미제출 시 경품 당첨이 취소될 수 있습니다.</p> </li>
+              <li><p className="text">당첨 혜택은 타인에게 양도 불가하며, 부정한 방법 또는 비정상적인 접근을 통한 이벤트 참여인 경우 당첨이 취소됩니다.</p> </li>
+              <li><p className="text">경품 당첨 시 회원정보에 기재되어 있는 휴대전화 번호로 안내 연락되오니 이벤트 응모 시 최신 정보로 업데이트 해주시기 바랍니다.</p> </li>
+            </ul>
+            {/* <p className="text">
               첫구매 쿠폰은 매일 신규 회원 및 구매 이력이 없는 고객만 사용
               가능합니다. 쿠폰팩은 즉시 발급되며, 쿠폰 사용 기한은 발급 후
               24시간입니다. 쿠폰팩은 하단의 더.세.페 쿠폰 적용 상품에만
@@ -153,7 +159,7 @@ export default function RankButtons() {
               있습니다. 해당 쿠폰은 ID당 1일 1회만 발급 가능합니다. APP 전용
               특가 상품은 장바구니 쿠폰 적용 대상이 아닙니다. 이벤트 기간 주문량
               증가로 배송 예정일과 실제 배송일 차이가 있을 수 있습니다.
-            </p>
+            </p> */}
           </div>
         </Modal>
       </div>
