@@ -17,6 +17,7 @@ import Hambugerbar from "@components/common/Hambugerbar";
 
 export default function CustomGamePage() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [initialHasReward, setInitialHasReward] = useState<boolean>(false)
 
   // 최종적으로 수정될 값
   const [gameInfo, setGameInfo] = useState({
@@ -50,7 +51,7 @@ export default function CustomGamePage() {
 
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { roomId } = location.state;
+  const { roomId, prevLoc } = location.state;
 
   const modalHandler = () => {
     setIsOpen(!isOpen);
@@ -65,6 +66,11 @@ export default function CustomGamePage() {
         setGameInfo(newInfo);
         // store에 저장된 값 갱신
         const { roomId, color, logoUrl, title, hasReward } = res.data.result;
+        console.log(res, "res")
+        if (hasReward){
+          console.log("트루")
+          setInitialHasReward(true)
+        }
         dispatch(
           setTheme({
             room: roomId,
@@ -109,6 +115,8 @@ export default function CustomGamePage() {
           setIsOpen={setIsOpen}
           gameInfo={gameInfo}
           setGameInfo={setGameInfo}
+          prevLoc = {prevLoc}
+          initialhasReward = {initialHasReward}
         />
       </Grid>
     </>

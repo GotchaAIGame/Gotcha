@@ -16,7 +16,7 @@ export default function PlayerNewGamePage() {
     >
       <header>
         <Link to="/">
-          <div className="logo-img">
+          <div className="join-page-logo-img">
             <img src={themeLogo} alt="로고" />
           </div>
         </Link>

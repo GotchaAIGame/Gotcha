@@ -63,7 +63,7 @@ export default function EditGamePage() {
         .then((res) => {
           // 보내는 정보
           // 성공적으로 생성했다면 slice내용 비우기
-          navigate(`/custom/${gamePin}`, { state: { roomId } });
+          navigate(`/custom/${gamePin}`, { state: { roomId, prevLoc : "edit" } });
           dispatch(resetGame());
         })
         .catch((err) => {
