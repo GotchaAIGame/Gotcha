@@ -82,7 +82,7 @@ export default function CreateGamePage() {
           const roomId = res.data.result.id;
           dispatch(setLoading(false));
 
-          navigate(`/custom/${gamePin}`, { state: { roomId } });
+          navigate(`/custom/${gamePin}`, { state: { roomId, prevLoc : 'create' } });
         })
         .catch((res) => {
           dispatch(setLoading(false));
