@@ -49,7 +49,8 @@ export default function LogIn() {
           setCookie("refreshToken", refreshToken);
 
           alert(`${nickname}님 환영합니다!`);
-          navigate(`/mypage/${nickname}`);
+          navigate("/mypage");
+
         })
         .catch((err) => {
           const errCode = err.response.data.status;
@@ -66,7 +67,7 @@ export default function LogIn() {
   useEffect(() => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken && existUser) {
-      navigate(`/mypage/${existUser.nickname}`);
+      navigate("/mypage");
     }
   }, []);
 

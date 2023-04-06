@@ -105,7 +105,7 @@ export default function EditGamePage() {
     result
       .then((res) => {
         dispatch(resetGame());
-        navigate(`/mypage/:${nickname}`);
+        navigate("/mypage");
       })
       .catch((err) => {
         alert(err);

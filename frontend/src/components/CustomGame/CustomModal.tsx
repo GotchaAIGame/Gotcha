@@ -165,7 +165,7 @@ export default function CustomModal(props: any) {
 
           // const result = creatorAPI.setRewards(rewardsInfo);
           result.then((res) => {
-            navigate(`/mypage/${nickname}`);
+            navigate("/mypage");
           });
         }
 
@@ -177,11 +177,11 @@ export default function CustomModal(props: any) {
           };
           const result = creatorAPI.putRewards(rewardsInfo);
           result.then((res) => {
-            navigate(`/mypage/${nickname}`);
+            navigate("/mypage");
           });
         }
         // 단순히 테마 수정만 한 경우
-        navigate(`/mypage/${nickname}`);
+        navigate("/mypage");
       })
       .catch((res) => {
         // 수정안되었으니 slice에서 초기값으로 변경

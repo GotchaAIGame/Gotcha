@@ -28,7 +28,7 @@ export default function Hambugerbar() {
 
   const userCheck = () => {
     if (token) {
-      navigate(`/mypage/${nickname}`);
+      navigate("/mypage");
     } else {
       navigate("/login");
     }
@@ -41,14 +41,13 @@ export default function Hambugerbar() {
     if (accessToken && refreshToken) {
       // API 임시 제거
       const result = memberAPI.logOut(accessToken, refreshToken);
-      result
-        .then(() => {
-          dispatch(setLogout());
-          sessionStorage.setItem("accessToken", "");
-          setCookie("refreshToken", "");
-          alert("다음에 또 봐요!");
-          navigate("/");
-        })
+      result.then(() => {
+        dispatch(setLogout());
+        sessionStorage.setItem("accessToken", "");
+        setCookie("refreshToken", "");
+        alert("다음에 또 봐요!");
+        navigate("/");
+      });
     }
   };
 

@@ -64,7 +64,7 @@ export default function MainPage() {
   const navigate = useNavigate();
   const userCheck = () => {
     if (token) {
-      navigate(`/mypage/${nickname}`);
+      navigate("/mypage");
     } else {
       navigate("/login");
     }

@@ -129,7 +129,7 @@ export default function EditProfile() {
           );
           console.log(`${nicknameInput}`);
           alert("사용자 정보가 업데이트 되었습니다.");
-          navigate(`/mypage/${nicknameInput}`);
+          navigate("/mypage");
         })
         .catch((error) => {
           alert(`사용자 정보 업데이트 실패: ${error}`);
