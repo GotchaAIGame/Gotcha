@@ -33,8 +33,8 @@ export default function SocialLogin() {
     const registrationId = params.get("registrationId") || "";
     const accessToken = params.get("access_token") || "";
 
-    console.log(registrationId);
-    console.log(accessToken);
+    console.log("registrationId: ", registrationId);
+    console.log("accessToken: ", accessToken);
 
     memberAPI
       .socialLogin(accessToken, registrationId)
