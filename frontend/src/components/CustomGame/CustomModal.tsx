@@ -266,7 +266,7 @@ export default function CustomModal(props: any) {
           isUrlOpen={isUrlOpen}
           setUrlOpen={setUrlOpen}
         />
-        <button type="button" onClick={() => {console.log(rewardsList)}}> 똥 </button>
+        {/* <button type="button" onClick={() => {console.log(rewardsList)}}> 똥 </button> */}
 
         <RewardsList
           rewardsList={rewardsList}

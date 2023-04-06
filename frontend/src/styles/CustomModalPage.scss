@@ -17,7 +17,7 @@
     border-top-left-radius: 20px;
   }
 
-  .problem-carousel{
+  .problem-carousel {
     display: flex;
     justify-content: center;
   }
@@ -280,8 +280,20 @@
     border: none;
   }
   input {
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    border: 0;
+    outline: none;
+    width: 80%;
+    border: 1px solid $gray-4 !important;
+    border-radius: 10px;
+    font-size: 1rem;
     position: relative;
     top: 60px;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: $gray-4;
   }
 }
 
@@ -333,8 +345,19 @@
     margin-top: 50px;
 
     .reward-name-input {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      border: 0;
+      outline: none;
+      width: 70%;
+      border: 1px solid $gray-4 !important;
+      border-radius: 10px;
+      font-size: 1rem;
+      position: relative;
       margin-top: 10px;
-      border: 1px solid $blue-1;
+    }
+    input::placeholder {
+      color: $gray-4;
     }
 
     // 사진 넣기
