@@ -44,8 +44,6 @@ export default function LogIn() {
           const { nickname } = res.data.result;
           // Store에 user 정보 저장
           dispatch(setLogin(gotUserInfo));
-          // console.log(gotUserInfo.accessToken, "됐다!");
-          // userNickname
 
           // token 저장
           const { accessToken, refreshToken } = gotUserInfo;
@@ -55,9 +53,13 @@ export default function LogIn() {
           alert(`${nickname}님 환영합니다!`);
           navigate(`/mypage/${nickname}`);
         })
-        .catch((res) => {
-          alert(res);
-          console.log(res);
+        .catch((err) => {
+          const errCode = err.response.data.status;
+          if (errCode === 401) {
+            alert("이메일과 비밀번호를 확인해주세요.");
+          } else if (errCode === 404) {
+            alert("존재하지 않는 이메일입니다.");
+          }
         });
     }
   };
