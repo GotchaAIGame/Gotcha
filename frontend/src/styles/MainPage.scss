@@ -1,33 +1,20 @@
 @import "@styles/Colors";
 @import "@styles/mixin";
-
-// 임시 바로가기 버튼 모음 (추후 제거 예정)
-// .temps-container {
-//   width: 60%;
-//   margin: 10px auto;
-//   padding: 10px;
-//   min-height: 150px;
-//   justify-content: center;
-//   border: 2px dotted $gray-3;
-//   border-radius: 15px;
-
-//   button {
-//     margin: 5px;
-//     background-color: $blue-2;
-//     border-radius: 8px;
-//   }
-//   button:hover {
-//     background-color: $blue-1;
-//     cursor: pointer;
-//   }
-// }
-
 .main-page-container {
   background-color: $blue-1;
   background-image: url("../assets/fullBGPattern.svg");
   min-height: 100vh;
   .main-content-wrapper {
-    padding-top: 7%;
+    @media (min-width: 335px) and (max-width: 600px) {
+      padding-top: 42%;
+    }
+    @media (min-width: 601px) and (max-width: 1023px) {
+      padding-top: 20%;
+    }
+    @media (min-width: 1024px) {
+      padding-top: 9%;
+    }
+
     img {
       width: 30%;
       min-width: 340px;
