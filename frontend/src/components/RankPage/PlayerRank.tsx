@@ -33,7 +33,6 @@ export default function PlayerRank() {
       const api = creatorAPI.rankAll(creatorRoom);
       api.then((res) => {
         const users = res.data.result;
-        console.log(users);
         setUserArray(users);
       });
     }

@@ -36,13 +36,11 @@ function ProblemCard(props: problemProps) {
   const [problemHint, setProblemHint] = useState("");
 
   const cropperHandler = () => {
-    // console.log(croppedImageRef.current, "xx")
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedImage = croppedImageRef.current?.cropper
         .getCroppedCanvas({ maxHeight: 360, maxWidth: 360 })
         .toDataURL();
 
-      console.log(croppedImageRef.current?.cropper, "XXXXX");
       setCroppedImage(tempCroppedImage);
       setAIModalOpen(true);
     }
@@ -52,7 +50,6 @@ function ProblemCard(props: problemProps) {
     const files = uploadImage.current?.files;
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
-      // console.log(files[0], "xxx")
       setEditorOpen(true);
       setImage(fileURL);
     }
@@ -170,7 +167,6 @@ function ProblemCard(props: problemProps) {
                 text="제출하기"
                 color="skyblue"
                 onClick={() => {
-                  // console.log("안녕하세요");
                   cropperHandler();
                   editorHandler();
                 }}

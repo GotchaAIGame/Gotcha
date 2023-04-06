@@ -30,15 +30,6 @@ export default function GameCardCarousel(props: any) {
     ]);
   };
 
-  // const deleteProblemHandler = (idx: number) => {
-  //   const newGameCardRefArray = [...gameCardRefArray].filter(
-  //     (array, index: number) => {
-  //       return index !== idx;
-  //     }
-  //   );
-  //   setGameCardRefArray([...newGameCardRefArray]);
-  // };
-
   const deleteProblemHandler = (idx: number) => {
     if (gameCardRefArray.length > 1) {
       const newGameCardRefArray = [...gameCardRefArray].filter((value) => {
@@ -50,15 +41,6 @@ export default function GameCardCarousel(props: any) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => {
-          console.log(gameCardRefArray);
-        }}
-      >
-        {" "}
-        똥{" "}
-      </button>
       <div className="problem-text-title-wrapper">
         <h5>문제 입력</h5>
         <div className="right-text-wrapper">

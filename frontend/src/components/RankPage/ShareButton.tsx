@@ -3,7 +3,7 @@ import "@styles/RankPage.scss";
 
 export default function ShareButton() {
   const shareClickHandler = () => {
-    console.log("click!!");
+    alert("클릭됨!!");
   };
   return (
     <button

@@ -27,7 +27,6 @@ export default function Hambugerbar() {
   };
 
   const userCheck = () => {
-    console.log(nickname);
     if (token) {
       navigate(`/mypage/${nickname}`);
     } else {
@@ -50,9 +49,6 @@ export default function Hambugerbar() {
           alert("다음에 또 봐요!");
           navigate("/");
         })
-        .catch((res) => {
-          console.log(res);
-        });
     }
   };
 

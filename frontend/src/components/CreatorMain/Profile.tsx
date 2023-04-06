@@ -9,9 +9,6 @@ import profileDefault from "@assets/profileDefault.svg";
 export default function Profile() {
   const userNickname = useSelector((state: any) => state.users.nickname);
   const userInfo = useSelector((state: any) => state.users);
-  // if (userInfo) {
-  //   console.log(userInfo.profileImage);
-  // }
 
   return (
     <Grid container className="profile-infos-container">

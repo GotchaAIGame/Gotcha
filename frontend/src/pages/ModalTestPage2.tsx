@@ -33,7 +33,7 @@ export default function ModalTestPage2() {
       formData.append("originalUrl", imgURL);
 
       const result = await MLAPI.predict(formData);
-      console.log(result);
+      // console.log(result);
     }
   };
 

@@ -111,7 +111,6 @@ export default function CustomModal(props: any) {
         const roomId = gameInfo.id;
         const result = creatorAPI.deleteRewards(roomId);
         result.then((res) => {
-          console.log("리워드 삭제", res);
           setIsRewardOpen(false);
         });
       }
@@ -132,7 +131,6 @@ export default function CustomModal(props: any) {
     if (isUrlOpen && urlInputRef.current) {
       newGameInfo.eventUrl = urlInputRef.current.value;
     }
-    console.log(newGameInfo, "newGameInfo");
     setGameInfo(newGameInfo);
 
     // 테마 API
@@ -167,7 +165,6 @@ export default function CustomModal(props: any) {
 
           // const result = creatorAPI.setRewards(rewardsInfo);
           result.then((res) => {
-            console.log(res);
             navigate(`/mypage/${nickname}`);
           });
         }
@@ -181,20 +178,13 @@ export default function CustomModal(props: any) {
           const result = creatorAPI.putRewards(rewardsInfo);
           result
             .then((res) => {
-              console.log(res);
               navigate(`/mypage/${nickname}`);
             })
-            .catch((res) => {
-              console.log(res);
-              console.log("리워드 수정 문제");
-            });
         }
         // 단순히 테마 수정만 한 경우
         navigate(`/mypage/${nickname}`);
       })
       .catch((res) => {
-        console.log("테마 수정 안 됨");
-        console.log(res);
         // 수정안되었으니 slice에서 초기값으로 변경
         dispatch(resetTheme());
       });
@@ -220,7 +210,6 @@ export default function CustomModal(props: any) {
         setRewardsList(emptyRewards);
       }
     }
-    // console.log(rewardsList)
   }, [gameInfo, setRewardsList]);
 
   useEffect(() => {

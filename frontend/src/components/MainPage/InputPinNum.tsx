@@ -20,7 +20,6 @@ export default function InputPinNum() {
       const request = gamePlayAPI.enter(inputPin);
       request
         .then((res) => {
-          console.log(res.data.result, "핀에 따른 결과");
           const room = res.data.result.roomId;
           const { roomId, color, logoUrl, title, hasReward, eventDesc } =
             res.data.result;

@@ -13,7 +13,7 @@ export default function MainPage() {
   const token = sessionStorage.getItem("accessToken");
 
   const temp = localStorage.getItem("solved");
-  console.log(temp);
+  // console.log(temp);
 
   useEffect(() => {
     console.log(

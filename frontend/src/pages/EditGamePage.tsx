@@ -66,8 +66,8 @@ export default function EditGamePage() {
           navigate(`/custom/${gamePin}`, { state: { roomId } });
           dispatch(resetGame());
         })
-        .catch((res) => {
-          console.log(res, "안됐다");
+        .catch((err) => {
+          alert(err);
         });
     } else {
       alert("내용을 입력해 주세요");
@@ -79,7 +79,6 @@ export default function EditGamePage() {
     if (roomId) {
       const result = creatorAPI.getGameDetail(roomId);
       result.then((res) => {
-        console.log(res.data.result);
         const gotInfo = res.data.result;
         const newInfo = { ...gotInfo };
         newInfo.startTime = newInfo.startTime.slice(0, 16);
@@ -105,12 +104,11 @@ export default function EditGamePage() {
     const result = creatorAPI.deleteGameRoom(roomId);
     result
       .then((res) => {
-        console.log(res, "삭제 성공");
         dispatch(resetGame());
         navigate(`/mypage/:${nickname}`);
       })
-      .catch((res) => {
-        console.log(res);
+      .catch((err) => {
+        alert(err);
       });
   };
 

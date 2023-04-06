@@ -38,8 +38,6 @@ export default function LogIn() {
       const result = memberAPI.logIn(emailInput, passwordInput);
       result
         .then((res) => {
-          console.log(res);
-          console.log(res.data.result);
           const gotUserInfo = res.data.result;
           const { nickname } = res.data.result;
           // Store에 user 정보 저장

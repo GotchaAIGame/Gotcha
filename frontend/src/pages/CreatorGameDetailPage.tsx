@@ -67,10 +67,8 @@ export default function CreatorGameDetailPage() {
   const roomId = location.state.gameId;
 
   useEffect(() => {
-    console.log("생겼따!");
     const result = creatorAPI.getGameDetail(roomId);
     result.then((res) => {
-      console.log(res.data.result);
       const newInfo = res.data.result;
       setGameInfo(newInfo);
     });

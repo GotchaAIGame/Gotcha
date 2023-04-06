@@ -24,7 +24,6 @@ export default function PlayerInfo(props: { roomPin: number; roomId: number }) {
     // const { data } = memberAPI.duplicateNickNames;
     if (nicknameInputRef.current && nicknameInputRef.current.value) {
       const nickname = nicknameInputRef.current.value;
-      // console.log(nicknameInput);
       gamePlayAPI
         .duplicate(roomId, nickname)
         .then((res) => {

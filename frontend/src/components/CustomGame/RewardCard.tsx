@@ -32,7 +32,6 @@ export default function RewardCard(props: any) {
       // useStateValue Update
 
       const f: File | undefined = files[files.length - 1];
-      // console.log(files);
 
       const reader: FileReader = new FileReader();
 
