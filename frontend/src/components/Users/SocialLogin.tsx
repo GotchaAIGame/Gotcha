@@ -20,9 +20,6 @@ export default function SocialLogin() {
     const params = new URLSearchParams(window.location.search);
     setRegistrationId(params.get("registrationId") || "");
     setAccessToken(params.get("access_token") || "");
-  }, []);
-
-  useEffect(() => {
     console.log("registrationId: ", registrationId);
     console.log("accessToken: ", accessToken);
 
