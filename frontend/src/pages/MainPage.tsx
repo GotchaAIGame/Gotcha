@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import store from "@stores/store";
 import InputPinNum from "@components/MainPage/InputPinNum";
+import { useTitle } from "@hooks/useTitle";
 import "@styles/MainPage.scss";
 import logo from "@assets/logo.svg";
-import { useTitle } from "@hooks/useTitle";
 
 export default function MainPage() {
   useTitle("Gotcha!");
-  const nickname = useSelector((state: any) => state.users.nickname);
   const token = sessionStorage.getItem("accessToken");
-
-  const temp = localStorage.getItem("solved");
-  // console.log(temp);
-
   useEffect(() => {
     console.log(
       `
@@ -74,7 +68,7 @@ export default function MainPage() {
     // 그리드 테스트 용입니다.
     <div className="main-page-container">
       <div className="main-content-wrapper">
-        <img src={logo} alt="로고" />
+        <img src={logo} alt="로고" className="main-logo-img"/>
         <InputPinNum />
         <button
           type="button"
