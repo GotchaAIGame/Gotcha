@@ -12,7 +12,7 @@
 
   .logo-img {
     img {
-      width: 40%;
+      width: 30%;
       min-width: 340px;
     }
   }
@@ -22,12 +22,22 @@
 
   .player-main-buttons {
     margin-top: 30px;
-
-    .enter-btn {
+    .rank-btn,
+    .rejoin-btn {
+      position: relative;
+      top: -100px;
       @include fadeInUp;
-    }
-    .rank-btn {
-      @include fadeInUp;
+      h5 {
+        color: white;
+        margin-bottom: 50px;
+      }
     }
   }
+  .enter-btn {
+    margin-top: 30px;
+  }
+}
+
+.tmptmp {
+  @include fadeInUp;
 }

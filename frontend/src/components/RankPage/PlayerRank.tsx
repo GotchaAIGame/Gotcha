@@ -6,7 +6,7 @@ import { useLocation } from "react-router";
 import { Grid } from "@mui/material";
 import RankInfo from "./RankInfo";
 import "@styles/RankPage.scss";
-import ShareButton from "./ShareButton";
+// import ShareButton from "./ShareButton";
 
 interface IUser {
   grade: number;
@@ -116,7 +116,7 @@ export default function PlayerRank() {
           </div>
         ))}
       </div>
-      <ShareButton />
+      {/* <ShareButton /> */}
     </section>
   );
 }

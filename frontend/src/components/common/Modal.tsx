@@ -14,6 +14,7 @@ interface modalProps {
   closeType?: boolean; // if true, explicitly shows close botton on the right top corner
   modalHandler: () => void; // modal handler function
   mainBtnHandler?: () => void; // function for the main button
+  bgColor?: string;
 }
 
 function Modal(props: modalProps) {
@@ -25,6 +26,7 @@ function Modal(props: modalProps) {
     btnType,
     exclamationType,
     closeType,
+    bgColor,
   } = props;
   const { modalHandler, mainBtnHandler } = props;
 
@@ -66,7 +68,7 @@ function Modal(props: modalProps) {
       <Button
         size="small"
         text="더 알아보기"
-        color="gray-blue"
+        color="gray-gray"
         onClick={() => {
           mainBtnHandler();
         }}
@@ -91,7 +93,7 @@ function Modal(props: modalProps) {
         >
           {" "}
         </div>
-        <div className="modal-content">
+        <div className="modal-content" style={{ backgroundColor: bgColor }}>
           <div
             className={
               closeType
@@ -134,4 +136,5 @@ Modal.defaultProps = {
   exclamationType: "inside",
   closeType: false,
   mainBtnHandler: () => null,
+  bgColor: "#5551ff",
 };

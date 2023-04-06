@@ -19,7 +19,9 @@ export default function RankButtons() {
   const [phonenum, setPhonenum] = useState("");
   const [rewardArray, setRewardArray] = useState<IReward[]>([]);
   const roomId = useSelector((state: any) => state.theme.room);
+  const themeColor = useSelector((state: any) => state.theme.themeColor);
   const nickname = useSelector((state: any) => state.gamePlay.nickname);
+  const isLogin = useSelector((state: any) => state.users.isLogin);
   useEffect(() => {
     const handleModalRequest = async () => {
       try {
@@ -85,11 +87,16 @@ export default function RankButtons() {
     <>
       <div className="buttons-container">
         <Button
-          color="darkblue"
+          // color="darkblue"
           text="경품보기"
           onClick={() => modalHandler(2)}
+          style={{ background: themeColor }}
         />
-        <Button text="이벤트 참여하기" onClick={() => modalHandler(1)} />
+        {isLogin ? (
+          ""
+        ) : (
+          <Button text="이벤트 참여하기" onClick={() => modalHandler(1)} />
+        )}
       </div>
       <div className="rank-modals-container">
         <Modal
@@ -121,6 +128,7 @@ export default function RankButtons() {
           }}
           className="modal-six"
           closeType
+          bgColor = {themeColor} 
         >
           {rewardArray.map((rewards: IReward, idx: number) => (
             <Reward

@@ -135,6 +135,7 @@
     animation: new-button-up 1s;
     // position: absolute;
     // top: 220px;
+    color: $gray-1;
   }
   .rejoin-link {
     cursor: pointer;
@@ -143,6 +144,7 @@
     animation: re-button-up 1s;
     // position: absolute;
     // top: 310px;
+    color: $gray-1;
   }
   h3 {
     @include desktop {

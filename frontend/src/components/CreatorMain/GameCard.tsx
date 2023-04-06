@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@components/common/Button";
 import { useDispatch } from "react-redux";
@@ -6,16 +6,17 @@ import { setTheme } from "@stores/player/themeSlice";
 
 export default function GameCard(props: any) {
   const { gameInfo } = props;
+  const [durationText, setDurationText] = useState<string>("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
-    // navigate(`/custom/${gameInfo.code}`, {
-    //   state: { gamePin: gameInfo.code, roomId: gameInfo.id },
-    // });
-  };
+  // const goDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   console.log(e);
+  // navigate(`/custom/${gameInfo.code}`, {
+  //   state: { gamePin: gameInfo.code, roomId: gameInfo.id },
+  // });
+  // };
 
   const goEdit = () => {
     navigate(`/edit/${gameInfo.code}`, {
@@ -55,18 +56,36 @@ export default function GameCard(props: any) {
     return `${yearStr}.${monthStr}.${dayStr} ${hourStr}:${minuteStr}`;
   }
 
+  useEffect(() => {
+    if (gameInfo) {
+      const today = new Date();
+      const start = new Date(gameInfo.startTime);
+      const end = new Date(gameInfo.endTime);
+
+      if (start > today) {
+        setDurationText("[시작 전]");
+      }
+      if (start <= today && end >= today) {
+        setDurationText("[진행 중]");
+      }
+      if (end < today) {
+        setDurationText("[종료]");
+      }
+    }
+  }, []);
+
   if (gameInfo) {
     // console.log(gameInfo);
 
     const startDateInfo = formatDate(gameInfo.startTime);
     const endDateInfo = formatDate(gameInfo.endTime);
     const today = new Date();
-    const start = new Date(gameInfo.startTime);
-    const end = new Date(gameInfo.endTime);
+
+    // dateChecker(start, end);
 
     return (
-      <div className="card-wrapper">
-        <button type="button" className="detail-move-button" onClick={goDetail}>
+      <div className="creator-main-card-wrapper">
+        <div className="detail-move-button">
           <header>
             <h5>{gameInfo.title}</h5>
           </header>
@@ -82,6 +101,9 @@ export default function GameCard(props: any) {
             <div className="card-content-wrapper">
               <div className="card-content-title-wrapper">기간</div>
               <div className="card-aside-wrapper">
+                {durationText && (
+                  <p className="duration-text">{durationText}</p>
+                )}
                 <p>시작 {startDateInfo}</p>
                 <p>종료 {endDateInfo}</p>
               </div>
@@ -97,7 +119,7 @@ export default function GameCard(props: any) {
               </div>
             </div>
           </article>
-        </button>
+        </div>
         <footer>
           <Button
             text="수정하기"
@@ -105,7 +127,7 @@ export default function GameCard(props: any) {
             color="gray-lime"
             onClick={goEdit}
           />
-          {start > today && end > today ? (
+          {durationText === "[시작 전]" ? (
             <Button
               text="랭킹보기"
               size="small"

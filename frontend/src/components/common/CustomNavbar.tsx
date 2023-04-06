@@ -60,6 +60,12 @@ export default function CustomNavbar() {
         btnType="center"
         mainBtnHandler={mainBtnHandler}
       >
+        <h5> 게임 방법 </h5>
+        <p>
+          ① 정답을 찾으세요! <br /> ② 사진을 찍으면 AI가 정답을 판독합니다.{" "}
+          <br />③ 최대한 빠른 시간 안에 모든 문제를 맞히세요!
+        </p>
+        <hr />
         <h5> 게임 설명 </h5>
         <p> {eventDesc}</p>
       </Modal>

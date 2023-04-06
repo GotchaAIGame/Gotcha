@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
+import { useTitle } from "@hooks/useTitle";
 import Routers from "./pages/Routers";
 import Footbar from "./components/common/Footbar";
 import AutoToTop from "./components/common/AutoToTop";
 import "./styles/App.scss";
 
 function usePageViews() {
+  useTitle("Gotcha!")
   const location = useLocation();
 
   useEffect(() => {
-    ReactGA.initialize("UA-259293592-1");
+    ReactGA.initialize("UA-262994846-1");
     ReactGA.set({ page: location.pathname }); // Update the user's current page
     ReactGA.pageview(location.pathname); // Record a pageview for the given page
   }, [location]);

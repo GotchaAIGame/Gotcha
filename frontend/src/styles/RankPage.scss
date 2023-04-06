@@ -169,6 +169,10 @@
     @include mobile {
       width: 60%;
     }
+    .commonButton {
+      border: 1px solid $gray-2 !important;
+      box-shadow: 1.5px 2px 1px $gray-2 !important;
+    }
   }
 }
 
@@ -192,10 +196,14 @@
   .modal-content {
     height: 85%;
     width: 90%;
-    overflow: scroll;
+    overflow-y: scroll;
 
     background-image: url("../assets/fullBGPattern.svg");
-    background-color: $blue-1;
+
+    .small-image {
+      cursor: pointer;
+    }
+
     .modal-innerText {
       display: flex;
       flex-direction: column;

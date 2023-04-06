@@ -104,7 +104,11 @@ function ProblemCard(props: problemProps) {
             <img
               src={problemImgURL}
               alt={problemName}
+              // 이미지 우클릭 방지
               onContextMenu={(e) => {
+                e.preventDefault();
+              }}
+              onDragStart={(e) => {
                 e.preventDefault();
               }}
             />
