@@ -91,7 +91,7 @@ public class SecurityConfig {
 			.antMatchers(PERMIT_URL_ARRAY).permitAll();
 
 		httpSecurity.authorizeRequests()// PERMIT_URL_ARRAY 에서 지정한 인증없이 권한 허가.
-			.anyRequest().hasRole(ROLE_USER) // 나머지 요청은 인증된 회원만 접근가능.
+			//			.anyRequest().hasRole(ROLE_USER) // 나머지 요청은 인증된 회원만 접근가능.
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 		// 커스텀 필터를 ID/PW 기반으로 인증하는 기본 필터 앞에 넣어서 먼저 인증을 시도하게 한다.
