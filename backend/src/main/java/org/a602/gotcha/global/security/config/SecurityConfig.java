@@ -97,9 +97,10 @@ public class SecurityConfig {
 		// 커스텀 필터를 ID/PW 기반으로 인증하는 기본 필터 앞에 넣어서 먼저 인증을 시도하게 한다.
 
 		httpSecurity.oauth2Login() //OAuth 2.0 기반 인증을 처리하기위해 Provider와의 연동을 지원
-			.successHandler(oAuth2LoginSuccessHandler)
 			.userInfoEndpoint() // //OAuth 2.0 Provider로부터 사용자 정보를 가져오는 엔드포인트를 지정하는 메서드
-			.userService(customOAuth2UserService); //OAuth 2.0 인증이 처리되는데 사용될 사용자 서비스를 지정하는 메서드
+			.userService(customOAuth2UserService)
+			.and()
+			.successHandler(oAuth2LoginSuccessHandler); //OAuth 2.0 인증이 처리되는데 사용될 사용자 서비스를 지정하는 메서드
 
 		return httpSecurity.build();
 	}
