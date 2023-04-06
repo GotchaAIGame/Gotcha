@@ -42,7 +42,9 @@ export default function CustomNavbar() {
   return (
     <header className="custom-nav-container" style={bgColor}>
       <Link to="/">
-        <img src={themeLogo} alt="로고" />
+        <div className="custom-nav-logo-wrapper">
+          <img src={themeLogo} alt="로고" />
+        </div>
       </Link>
       <div className="title-button-container">
         <h3 className="custom-title-wrapper">{themeTitle}</h3>
