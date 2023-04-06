@@ -69,10 +69,11 @@ function AIModal(props: AIModalProps) {
               )}
               {resultStatus === 1 && (
                 <>
-                  <h1 className="green"> 맞았습니다! </h1>
-                  <p className="green modelresult">
+                  <h1 className="green"> Gotcha! </h1>
+                  {/* <p className="green modelresult">
                     유사도 : {(similarity * 100).toFixed(2)}%
-                  </p>
+                  </p> */}
+                  <p className="green modelresult">정답입니다!</p>
                 </>
               )}
               {resultStatus === 2 && (
