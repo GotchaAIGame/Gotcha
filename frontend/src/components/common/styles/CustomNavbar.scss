@@ -1,0 +1,63 @@
+@import "@styles/Colors";
+@import "@styles/mixin";
+
+.custom-nav-container {
+  height: 150px;
+  background-image: url("../../../assets/defaultBanner.svg");
+
+  img {
+    margin-top: 10px;
+    max-width: 300px;
+    max-height: 100px;
+  }
+
+  .title-button-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .custom-title-wrapper {
+      border-radius: 20px;
+      border: solid 1px $gray-1;
+      position: relative;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 10px;
+      height: 60px;
+
+      @include desktop {
+        width: 73.5%;
+      }
+      @include mobile {
+        width: 80%;
+        // min-width: 255px;
+        font-size: 1.125rem;
+      }
+    }
+    .game-detail-button {
+      position: absolute;
+      top: -26px;
+      right: 100px;
+      background: none;
+      border: none;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+
+      @include desktop {
+        left: 80%;
+      }
+      @include mobile {
+        left: 70%;
+      }
+
+      img {
+        width: 30px;
+      }
+    }
+  }
+}
