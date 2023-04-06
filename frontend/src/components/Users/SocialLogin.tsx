@@ -14,7 +14,6 @@ export default function SocialLogin() {
   const dispatch = useDispatch();
   const [cookies, setCookie] = useCookies(["refreshToken"]);
 
-  // const snsLogin = async () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const registrationId = params.get("registrationId") || "";
@@ -43,13 +42,7 @@ export default function SocialLogin() {
       .catch((err) => {
         console.log(err);
       });
-    // };
-  }, []);
-
-  // useEffect(() => {
-  //   console.log("여기");
-  //   snsLogin();
-  // }, []);
+  }, [dispatch, navigate, setCookie]);
 
   return <Loading />;
 }
