@@ -93,7 +93,7 @@ function Modal(props: modalProps) {
         >
           {" "}
         </div>
-        <div className="modal-content" style={{ backgroundColor: bgColor }}>
+        <div className="modal-content">
           <div
             className={
               closeType
