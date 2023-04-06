@@ -68,7 +68,8 @@ export default function RankInfo({
           <Grid item xs={2} md={2}>
             {medal == null ? (
               <>
-                <hr />
+                {/* hr로 인해 modal 가로 포커스가 벗어나는지 확인이 필요함 */}
+                {/* <hr className="total-rank-cut-line" /> */}
                 <div className="no-medal-wrapper">
                   <h3 className="medal-txt">{rank}</h3>
                 </div>
