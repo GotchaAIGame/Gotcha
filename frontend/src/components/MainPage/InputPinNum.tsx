@@ -43,17 +43,18 @@ export default function InputPinNum() {
           setErrorCode(0); // 정상
         })
         .catch((err) => {
-          // alert("유효하지 않은 방입니다.");
-          console.error(err);
+          const errCode = err.response.data.code;
+          if (errCode === "R100") {
+            alert("존재하지 않는 방입니다.");
+          } else if (errCode === "R200") {
+            alert("이미 종료된 게임입니다.");
+          } else if (errCode === "R300") {
+            alert("시작전인 게임입니다.");
+          }
           setInputPin("");
           setErrorCode(1); // 유효하지 않은 방
         });
     }
-    // else {
-    //   alert("6자리의 PIN번호를 모두 입력해주세요.");
-    //   setInputPin("");
-    //   setErrorCode(2); // 6자리 미충족
-    // }
   };
 
   useEffect(() => {
@@ -73,9 +74,8 @@ export default function InputPinNum() {
         value={inputPin.toString()}
         onChange={(e) => setInputPin(parseInt(e.target.value, 10))} // useRef로 바꿀 것
         // required
-        className={errorCode === 1 || errorCode === 2 ? "invalid" : ""}
+        // className={errorCode === 1 || errorCode === 2 ? "invalid" : ""}
       />
-      {errorCode !== 0 ? <p className="invalid-msg">유효하지 않은 방입니다</p> : ""}
       {inputPin.toString().length === 6 && (
         <>
           <button
