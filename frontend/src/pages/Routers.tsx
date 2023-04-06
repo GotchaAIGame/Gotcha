@@ -48,7 +48,7 @@ export default function Routers() {
       <Route path="/modalTest/2" element={<ModalTestPage2 />} />
       <Route path="/crop" element={<ImageCropperPage />} />
 
-      <Route path="/*" element={<NotFoundPage />} />
+      {/* <Route path="/*" element={<NotFoundPage />} /> */}
     </Routes>
   );
 }
