@@ -17,12 +17,13 @@ import Progressbar from "@components/CreateGame/Progressbar";
 import Modal from "@components/common/Modal";
 import fileToBase64 from "@components/common/fileToBase64";
 import Hambugerbar from "@components/common/Hambugerbar";
+import { ReactCropperElement } from "react-cropper";
 
 interface problemInfo {
   id: number;
   name: React.RefObject<HTMLInputElement>;
   hint: React.RefObject<HTMLInputElement>;
-  image: React.RefObject<HTMLInputElement>;
+  image: React.RefObject<ReactCropperElement>;
 }
 
 export default function CreateGamePage() {
@@ -31,7 +32,7 @@ export default function CreateGamePage() {
       id: 0,
       name: React.createRef<HTMLInputElement>(),
       hint: React.createRef<HTMLInputElement>(),
-      image: React.createRef<HTMLInputElement>(),
+      image: React.createRef<ReactCropperElement>(),
     },
   ]);
 
@@ -105,19 +106,12 @@ export default function CreateGamePage() {
 
         const nameValue = name.current?.value as string;
         const hintValue = hint.current?.value as string;
-        const imageFile = image.current?.files;
-        let imageValue = "";
-
-        if (imageFile && imageFile.length > 0) {
-          const file: File = imageFile[imageFile.length - 1];
-          const result = await fileToBase64(file);
-          imageValue = result;
-
-          // console.log(typeof imageValue);
-        }
+        const imageFile = image.current?.cropper
+          .getCroppedCanvas({ maxHeight: 360, maxWidth: 360 })
+          .toDataURL() as string;
 
         if (
-          !(nameValue.length && hintValue.length && (imageValue?.length || 0))
+          !(nameValue.length && hintValue.length && (imageFile.length || 0))
         ) {
           flag = false;
         }
@@ -125,7 +119,7 @@ export default function CreateGamePage() {
         return {
           name: nameValue,
           hint: hintValue,
-          image: imageValue,
+          image: imageFile,
         };
       })
     );

@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, RefObject } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addProblem } from "@stores/game/gameSlice";
+import { ReactCropperElement } from "react-cropper";
 import GameCard from "./GameCard";
 import plusButton from "@assets/purpleplusButton.svg";
 // import UploadTest from "./UploadTest";
@@ -10,7 +11,7 @@ interface problemInfo {
   id: number;
   name: React.RefObject<HTMLInputElement>;
   hint: React.RefObject<HTMLInputElement>;
-  image: React.RefObject<HTMLInputElement>;
+  image: React.RefObject<ReactCropperElement>;
 }
 
 export default function GameCardCarousel(props: any) {
@@ -20,7 +21,7 @@ export default function GameCardCarousel(props: any) {
   const addProblemHandler = () => {
     const refObj1 = React.createRef<HTMLInputElement>();
     const refObj2 = React.createRef<HTMLInputElement>();
-    const refObj3 = React.createRef<HTMLInputElement>();
+    const refObj3 = React.createRef<ReactCropperElement>();
 
     tempProbId.current += 1;
     setGameCardRefArray([
@@ -49,6 +50,15 @@ export default function GameCardCarousel(props: any) {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={() => {
+          console.log(gameCardRefArray);
+        }}
+      >
+        {" "}
+        똥{" "}
+      </button>
       <div className="problem-text-title-wrapper">
         <h5>문제 입력</h5>
         <div className="right-text-wrapper">
