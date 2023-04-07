@@ -34,7 +34,7 @@ export default function SocialLogin() {
           setCookie("refreshToken", refreshToken);
 
           alert(`${nickname}님 환영합니다!`);
-          navigate("/mypage/edit");
+          navigate("/mypage");
         })
         .catch((err) => {
           console.log(err);
