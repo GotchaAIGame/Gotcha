@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setGame } from "@stores/game/gameSlice";
@@ -38,56 +39,49 @@ export default function InputGameInfo() {
   };
 
   return (
-    <div className="input-game-info-container">
-
+    <div className="create-game-info-container">
       {/* 기간, 정보  */}
-      <div className="game-info-inputs-container">
-        {/* 제목 입력 */}
-        <div className="duration-inputs-container">
-          <h5>게임 제목</h5>
-          <div className="right-inputs-container">
-            <input
-              className="game-title-input"
-              type="text"
-              placeholder="게임의 타이틀을 입력해주세요"
-              id="title"
-              value={gameInfo.title}
-              onChange={changeInfoHanlder}
-            />
-          </div>
-        </div>
 
-        {/* 진행 기간 */}
-        <div className="duration-inputs-container">
-          <h5>진행 기간</h5>
-          <div className="right-inputs-container">
-            <input
-              id="start"
-              type="datetime-local"
-              value={gameInfo.startTime}
-              onChange={changeInfoHanlder}
-            />
-            <p>~</p>
-            <input
-              id="end"
-              type="datetime-local"
-              value={gameInfo.endTime}
-              onChange={changeInfoHanlder}
-            />
-          </div>
-        </div>
+      <div className="create-input-commom-wrapper">
+        <label>게임 제목</label>
+        <input
+          className="create-game-title-input"
+          type="text"
+          placeholder="게임의 타이틀을 입력해주세요"
+          id="title"
+          value={gameInfo.title}
+          onChange={changeInfoHanlder}
+        />
+      </div>
 
-        {/* 퀴즈 정보 */}
-        <div className="game-inputs-container">
-          <h5>게임 정보</h5>
-          <div className="right-inputs-container">
-            <textarea
-              placeholder="게임의 정보를 입력해 주세요."
-              value={gameInfo.eventDesc}
-              onChange={changeDescriptionHanlder}
-            />
-          </div>
+      {/* 진행 기간 */}
+      <div className="create-duration-wrapper">
+        <label>진행 기간</label>
+        <div className="input-date-wrapper">
+          <input
+            id="start"
+            type="datetime-local"
+            value={gameInfo.startTime}
+            onChange={changeInfoHanlder}
+          />
+          <p>~</p>
+          <input
+            id="end"
+            type="datetime-local"
+            value={gameInfo.endTime}
+            onChange={changeInfoHanlder}
+          />
         </div>
+      </div>
+
+      {/* 퀴즈 정보 */}
+      <div className="create-input-commom-wrapper">
+        <label>게임 정보</label>
+        <textarea
+          placeholder="게임의 정보를 입력해 주세요."
+          value={gameInfo.eventDesc}
+          onChange={changeDescriptionHanlder}
+        />
       </div>
     </div>
   );
