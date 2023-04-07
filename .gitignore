@@ -1,2 +1,10 @@
-/venv
 .history
+/backend/.gradle/
+/backend/.idea
+/backend/build
+.idea
+/backend/out
+/backend/src/main/resources/application-local.yaml
+/backend/bin/main
+/backend/bin/test
+/venv

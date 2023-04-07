@@ -1,0 +1,68 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: ${GOOGLE_REDIRECT_URI}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+          kakao:
+            client-id: ${KAKAO_ID}
+            client-secret: ${KAKAO_SECRET}
+            client-name: ${KAKAO_NAME}
+            client-authentication-method: POST
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - account_email
+              - profile_image
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+notification:
+  mattermost:
+    enabled: true # mmSender를 사용할 지 여부, false면 알림이 오지 않는다
+    webhook-url: ${MM_WEBHOOK_URL} # 위의 Webhook URL을 기입
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ${BUCKET_NAME}
+    stack:
+      auto: false
+default-image: 'default.jpg'
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /api/swagger-ui.html
+  api-docs:
+    path: /api/post-docs
