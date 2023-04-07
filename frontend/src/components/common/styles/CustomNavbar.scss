@@ -1,0 +1,141 @@
+@import "@styles/Colors";
+@import "@styles/mixin";
+
+.custom-nav-container {
+  height: 150px;
+  background-image: url("../../../assets/defaultBanner.svg");
+  .custom-nav-logo-wrapper {
+    width: 310px;
+    height: 90px;
+    margin: 0 auto;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      margin-top: 20px;
+      max-width: 300px;
+      max-height: 100px;
+    }
+  }
+
+  .title-button-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .custom-title-wrapper {
+      border-radius: 20px;
+      border: solid 1px $gray-1;
+      position: relative;
+      top: 25px;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 10px;
+      height: 60px;
+
+      @include desktop {
+        width: 73.5%;
+      }
+      @include mobile {
+        width: 80%;
+        // min-width: 255px;
+        font-size: 1.125rem;
+      }
+    }
+    .game-detail-button {
+      position: absolute;
+      top: 0px;
+      // right: 110px;
+      background: none;
+      border: none;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+
+      @include desktop {
+        left: 75%;
+      }
+      @include mobile {
+        left: 70%;
+      }
+
+      img {
+        width: 40px;
+      }
+    }
+    .game-detail-button:hover {
+      scale: 1.1;
+      // transform: scale(1.1)
+      transform-origin: 100% 100%;
+    }
+  }
+
+  @import "@styles/Colors.scss";
+  @import "@styles/mixin.scss";
+
+  .black {
+    background: rgba(49, 49, 49, 0.8);
+  }
+
+  .modal-wrapper,
+  .overlay {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 500;
+    position: fixed;
+  }
+
+  .modal-content {
+    z-index: 600;
+    max-width: 40%;
+    min-width: 300px;
+    //max-width: 320px;
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    background: white;
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+    padding: 20px 30px;
+    box-shadow: 5px 5px 3px $gray-2;
+    .small-image {
+      display: flex;
+    }
+    .close {
+      position: absolute;
+      right: 15px;
+      // padding: 10px;
+    }
+    .modal-innerText {
+      // margin-top: 40px;
+      margin: 0;
+      align-items: center;
+      h5 {
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+      p {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .outside {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+  }
+}

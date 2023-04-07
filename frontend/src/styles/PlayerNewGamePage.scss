@@ -1,0 +1,52 @@
+@import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
+
+.player-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // height: calc(80vh + 55px); // 수정할 수 있으면 %로 수정할 것
+  height: 100vh; // 수정할 수 있으면 %로 수정할 것
+  background-image: url("../assets/fullBGPattern.svg");
+
+  .join-page-logo-img,
+  .rejoin-page-logo-img {
+    width: 320px;
+    height: 100px;
+    margin: 20px auto;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      margin-top: 20px;
+      max-width: 300px;
+      max-height: 100px;
+    }
+  }
+
+  .name-pw-wrapper-fadeout {
+    @include fadeOut;
+  }
+
+  .player-main-buttons {
+    margin-top: 30px;
+    .rank-btn,
+    .rejoin-btn {
+      position: relative;
+      top: -100px;
+      @include fadeInUp;
+      h5 {
+        color: white;
+        margin-bottom: 50px;
+      }
+    }
+  }
+  .enter-btn {
+    margin-top: 30px;
+  }
+}
+
+.tmptmp {
+  @include fadeInUp;
+}

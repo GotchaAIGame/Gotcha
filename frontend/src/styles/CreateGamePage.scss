@@ -1,0 +1,455 @@
+@import "@styles/Colors.scss";
+@import "@styles/mixin.scss";
+
+// margin: auto;
+.create-game-grid-container {
+  // margin: 0 auto;
+  justify-content: center;
+  position: relative;
+
+  .create-main-box-container {
+    border-radius: 30px;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    padding-top: 2%;
+    margin-bottom: 4%;
+  }
+}
+
+// 도움말버튼
+.helper-button {
+  position: fixed;
+  bottom: 40px;
+  left: 50px;
+  z-index: 20;
+  background-color: inherit;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: none;
+  img {
+    cursor: pointer;
+    width: 45px;
+  }
+  img:hover {
+    scale: 1.1;
+    transform-origin: 50% 50%;
+  }
+}
+
+// InputQuizInfo.tsx
+.create-game-info-container {
+  .create-input-commom-wrapper {
+    width: 70%;
+    margin: 20px auto;
+    position: relative;
+    display: inline-block;
+
+    label {
+      position: absolute;
+      top: -10px;
+      left: 18px;
+      padding: 0 15px;
+      background: white;
+      margin: 0;
+      min-width: 100px;
+      color: $blue-1;
+      -webkit-text-stroke: 0.5px $gray-1;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    input,
+    textarea {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      border: 0;
+      outline: none;
+      width: 100%;
+      border: 1px solid $gray-4 !important;
+      font-size: 1rem;
+      line-height: 1.45;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 12px;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      color: $gray-4;
+    }
+  }
+  .create-duration-wrapper {
+    left: 20px;
+    width: 70%;
+    margin: 20px auto;
+    position: relative;
+    display: inline-block;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    border: 0;
+    outline: none;
+    border: 1px solid $gray-4 !important;
+    border-radius: 10px;
+    padding: 20px;
+
+    label {
+      position: absolute;
+      top: -20px;
+      left: 18px;
+      padding: 0 15px;
+      background: white;
+      margin: 0;
+      min-width: 100px;
+      color: $blue-1;
+      -webkit-text-stroke: 0.5px $gray-1;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .input-date-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      input {
+        -webkit-appearance: none;
+        -webkit-border-radius: 0;
+        border: 0;
+        outline: none;
+        width: 200px;
+      }
+      p {
+        color: $blue-1;
+        -webkit-text-stroke: 0.5px $gray-1;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+      }
+    }
+  }
+}
+
+// GameCardCarousel
+
+// 문제입력부터 카드 끝까지
+.problem-cards-container {
+  padding: 0.5rem auto;
+
+  // 문제 입력 감싸는 div태그
+  .problem-text-title-wrapper {
+    width: 70%;
+    margin: 10px auto;
+    position: relative;
+    display: inline-block;
+
+    h5 {
+      position: absolute;
+      top: -10px;
+      left: 28px;
+      padding: 0 15px;
+      margin: 0;
+      min-width: 100px;
+      color: $blue-1;
+      -webkit-text-stroke: 0.5px $gray-1;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .right-text-wrapper {
+      position: absolute;
+      top: -20px;
+      left: 180px;
+      display: flex;
+      flex-wrap: wrap;
+      text-align: left;
+      p {
+        width: 99%;
+        margin-bottom: 0;
+      }
+      .problem-create-waring-text {
+        margin-top: 5px;
+        color: $green;
+      }
+    }
+  }
+}
+
+.cards-and-plusbutton-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 35px auto;
+  .add-img-button {
+    display: inline-flex;
+    align-items: center;
+    margin: auto 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    img:hover {
+      scale: 1.1;
+      transform-origin: 50% 50%;
+    }
+  }
+}
+
+// Game Card
+.game-card-outline {
+  border: 1px solid $gray-1;
+  width: 255px;
+  height: 450px;
+  margin: 5px auto;
+}
+
+.card-wrapper,
+.card-wrapper-typing {
+  display: inline-flex;
+  flex-direction: column;
+  width: 255px;
+  min-height: 405px;
+  border: 1px solid $gray-1;
+  border-radius: 15px;
+  margin: 0px;
+  justify-content: flex-start;
+
+  scale: 0.8;
+  margin-top: -10px;
+  box-shadow: 3px 3px $gray-1;
+
+  .typing {
+    border: 3px solid $gray-1;
+  }
+  .typing-header {
+    background-color: $gray-4;
+    input {
+      // position: relative;
+      background-color: inherit;
+      border: 2px solid $gray-3;
+      border-radius: 8px;
+      background-color: $gray-5;
+      text-align: center;
+      font-size: 1.1rem;
+      width: 75%;
+    }
+    ::placeholder {
+      color: $gray-2;
+    }
+    .edit-game-card-title {
+      background: none;
+      border: none;
+    }
+    img:hover {
+      scale: 1.1;
+      transform-origin: 50% 50%;
+    }
+  }
+
+  .typed-header {
+    background-color: $blue-2;
+    input {
+      background-color: transparent;
+      border: 0;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      width: 75%;
+      color: white;
+      text-shadow: -1px -1px 0 $gray-1, 1px -1px 0 $gray-1, -1px 1px 0 $gray-1,
+        1px 1px 0 $gray-1;
+    }
+    .edit-game-card-title {
+      background: none;
+      border: none;
+    }
+  }
+
+  header {
+    position: relative;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-top-color: $gray-1;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      position: absolute;
+      top: -20px;
+      left: 205px;
+      cursor: pointer;
+      background: none;
+      border: none;
+
+      img {
+        width: 100%;
+        object-fit: fill;
+      }
+    }
+  }
+  .file-input-wrapper {
+    height: 200px;
+    width: 200px;
+    margin: 20px auto;
+    border: 1px $gray-1 dashed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .file-input-label {
+      color: $gray-2;
+      cursor: pointer;
+
+      .file-input-label-plus {
+        font-size: 60px;
+        font-weight: 100;
+        margin: 0;
+      }
+      .file-input-label-text {
+        font-size: 0.875rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .upload-img-wrapper {
+    // display: flex;
+    margin: 20px auto;
+    // 미리보기 이미지
+    img {
+      display: block;
+      margin: auto;
+      max-height: 199px;
+      max-width: 199px;
+      object-fit: contain;
+    }
+  }
+
+  .hint-text-box {
+    margin: 5px 28px;
+    display: flex;
+    white-space: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    color: $gray-2;
+    border: 1px solid $gray-2;
+    width: 42px;
+    min-width: 42px;
+    height: 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    background-color: $lime;
+  }
+
+  .typing-hint-text-box {
+    margin: 5px 28px;
+    display: flex;
+    white-space: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    color: $gray-2;
+    border: 1px solid $gray-2;
+    width: 42px;
+    min-width: 42px;
+    height: 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    background-color: $gray-5;
+  }
+
+  .hint-input-wrapper {
+    input {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      border: 0;
+      outline: none;
+      border-radius: 8px;
+      border: 1px solid $gray-4 !important;
+      width: 70%;
+    }
+    input::placeholder {
+      color: $gray-4;
+    }
+  }
+}
+
+// Progressbar
+
+.progress-bar-wrapper {
+  padding: 20px 0;
+  position: relative;
+  margin: 0 auto;
+  justify-content: center;
+
+  hr {
+    width: 100%;
+
+    border-color: $blue-1;
+    z-index: 999;
+    align-self: center;
+    margin: 0 auto;
+  }
+
+  .progress-active-text {
+    color: $gray-1 !important;
+  }
+
+  .progressbar-tags-container {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+
+    .progress-bar-point-wrapper {
+      position: relative;
+      top: -8px;
+      width: 100px;
+      .progress-bar-point {
+        margin: 0 auto;
+        width: 15px;
+        height: 15px;
+        border-radius: 10px;
+        background-color: $gray-3;
+        border: 1px soild $gray-1;
+      }
+      .active-bar-point {
+        margin: 0 auto;
+        width: 15px;
+        height: 15px;
+        border-radius: 10px;
+        background-color: $blue-1;
+        border: 1px soild $gray-1;
+      }
+    }
+    span {
+      margin-top: 8px;
+      width: 100px;
+      color: $gray-3;
+    }
+  }
+}
+
+// edit game page
+
+.edit-page-buttons-container {
+  // margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  // margin: 0 auto;
+
+  Button {
+    @include mobile {
+      max-width: 140px;
+    }
+  }
+}
