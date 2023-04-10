@@ -151,11 +151,9 @@
   .game-tab-buttons-container {
     display: flex;
     padding: 0;
-    // padding-top: 1%;
-    // border-top: 1px solid $gray-2;
     @include desktop {
       border-bottom: 1px solid $gray-1;
-      margin-right: 10%;
+      margin-right: 4%;
     }
     @include mobile {
       border-bottom: 1px solid $gray-1;
@@ -194,15 +192,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  padding: 0 10%;
 }
 
 .creator-main-card-wrapper {
   display: inline-flex;
   flex-direction: column;
   position: relative;
-  width: 255px;
+  width: 245px;
   min-height: 400px;
   max-height: 410px;
   border: 1px solid $gray-1;
