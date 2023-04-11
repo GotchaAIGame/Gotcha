@@ -28,24 +28,28 @@ export default function PlayerRank() {
 
   const fromMy = location.state.fromMypage;
   useEffect(() => {
-    // 마이페이지에서 넘어올 때
-    if (fromMy === true) {
-      const api = creatorAPI.rankAll(creatorRoom);
-      api.then((res) => {
-        const users = res.data.result;
-        setUserArray(users);
-      });
-    }
+    const delay = setTimeout(() => {
+      // 마이페이지에서 넘어올 때
+      if (fromMy === true) {
+        const api = creatorAPI.rankAll(creatorRoom);
+        api.then((res) => {
+          const users = res.data.result;
+          setUserArray(users);
+        });
+      }
 
-    if (fromMy === false && playerRoom !== 0 && nickname) {
-      const api = gamePlayAPI.rank(playerRoom, nickname);
-      api.then((res) => {
-        const users = res.data.result;
-        setUserArray(users);
-      });
-    }
+      if (fromMy === false && playerRoom !== 0 && nickname) {
+        console.log(playerRoom, nickname);
+        const api = gamePlayAPI.rank(playerRoom, nickname);
+        api.then((res) => {
+          const users = res.data.result;
+          setUserArray(users);
+        });
+      }
+    }, 1000); // 1초(1000ms) 지연시간 설정
+
+    return () => clearTimeout(delay);
   }, [location.pathname, playerRoom, nickname, fromMy]);
-
   return (
     <section className="player-rank-wrapper">
       <header className="ranking-title-flag">
