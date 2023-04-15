@@ -31,4 +31,13 @@
 |김범찬|ML/FE, 게임참여 페이지 구현 및 API 관리||
 
 ## 아키텍쳐
+> **서버를 일반적인 요청을 받는 Spring 서버와 AI가 정답을 체크해주는 Python 서버로 분리**
+1) Spring 서버는 Blue/Green 무중단 배포 전략 사용
+2) Python 서버는 트래픽의 증감에 따라 유연적인 대응을 할 수 있도록 ALB, CloudWatch를 사용해 Auto-scaling 구현
+![Gotcha아키텍쳐.png](assets/Gotcha아키텍쳐.png)
 
+## 사용 예시
+
+1. 소개 영상 : [유튜브 링크](https://youtu.be/RhVHskESv_M)
+
+2. 상세 설명 : [Wiki](-/wikis/home)
