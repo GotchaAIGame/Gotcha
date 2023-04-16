@@ -40,4 +40,4 @@
 
 1. 소개 영상 : [유튜브 링크](https://youtu.be/RhVHskESv_M)
 
-2. 상세 설명 : [Wiki](-/wikis/home)
+2. 상세 설명 : [Wiki](https://github.com/GotchaAIGame/Gotcha/wiki)
