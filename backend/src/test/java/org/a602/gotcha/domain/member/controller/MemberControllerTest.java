@@ -57,7 +57,7 @@ public class MemberControllerTest {
 	@Test
 	@DisplayName("회원가입 API 테스트 성공")
 	void signupMemberApiTest() throws Exception {
-		final MemberSignupRequest request = new MemberSignupRequest(
+		final MemberSignupRequest request = MemberSignupRequest.of(
 			"minsu2",
 			"1234",
 			"ssafy",
@@ -93,7 +93,7 @@ public class MemberControllerTest {
 	@Test
 	@DisplayName("로그인 성공")
 	void loginSuccess() throws Exception {
-		final MemberLoginRequest memberLoginRequest = new MemberLoginRequest(
+		final MemberLoginRequest memberLoginRequest = MemberLoginRequest.of(
 			"minsu@naver.com",
 			"1234"
 		);

@@ -23,17 +23,13 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
-
-    public static final String ENCODE_PASSWORD = "Encode_Password";
     public static final String PROFILE_IMAGE = "https://a602gotcha.s3.ap-northeast-2.amazonaws.com/basic_profile.png";
     public static final String RAW_PASSWORD = "1234";
     private final Long memberId = 1L;
     private final String nickname = "싸피";
     private final String organization = "ssafy";
     private final String email = "minsu@naver.com";
-    private final String registrationId = "NORMAL";
     private final String accessToken = "accessToken";
-    private final String refreshToken = "refreshToken";
 
     @InjectMocks
     private MemberService memberService;
@@ -144,6 +140,7 @@ public class MemberServiceTest {
             //given
             final Long deleteMemberId = 30L;
             //when
+            String registrationId = "NORMAL";
             when(memberRepository.findById(eq(deleteMemberId))).thenReturn(Optional.of(Member.builder()
                     .id(deleteMemberId)
                     .nickname(nickname)
@@ -175,7 +172,7 @@ public class MemberServiceTest {
         @DisplayName("회원을 찾을경우 회원정보 반환")
         void findMember() {
             // given
-            MemberLoginRequest loginRequest = new MemberLoginRequest(email, RAW_PASSWORD);
+            MemberLoginRequest loginRequest = MemberLoginRequest.of(email, RAW_PASSWORD);
             //when
             when(memberRepository.findMemberByEmail(eq(email))).thenReturn(
                     Optional.of(Member.builder().id(memberId).email(email).build()));
@@ -204,6 +201,7 @@ public class MemberServiceTest {
             Member member = Member.builder().email(email).password(RAW_PASSWORD).nickname(nickname).organization(organization).build();
             //when
             when(jwtTokenProvider.createAccessToken(member)).thenReturn(accessToken);
+            String refreshToken = "refreshToken";
             when(jwtTokenProvider.createRefreshToken(accessToken, member.getEmail())).thenReturn(refreshToken);
 
             String newAccessToken = jwtTokenProvider.createAccessToken(member);
@@ -232,7 +230,7 @@ public class MemberServiceTest {
         @DisplayName("회원을 찾을경우 회원정보 반환")
         void findMember() {
             // given
-            MemberLoginRequest loginRequest = new MemberLoginRequest(email,RAW_PASSWORD);
+            MemberLoginRequest loginRequest = MemberLoginRequest.of(email, RAW_PASSWORD);
             //when
             when(memberRepository.findMemberByEmail(eq(email))).thenReturn(
                     Optional.of(Member.builder().id(memberId).email(email).build()));

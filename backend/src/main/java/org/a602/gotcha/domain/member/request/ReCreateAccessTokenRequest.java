@@ -5,17 +5,18 @@ import javax.validation.constraints.NotNull;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
-public class ReCreateAccessTokenRequest {
-	@NotNull
-	@Schema(description = "Access 토큰")
-	private String accessToken;
-	@NotNull
-	@Schema(description = "가입경로")
-	private String refreshToken;
-	@NotNull
-	@Schema(description = "이메일")
-	private String email;
+@RequiredArgsConstructor(staticName = "of")
+public final class ReCreateAccessTokenRequest {
+    @NotNull
+    @Schema(description = "Access 토큰")
+    private final String accessToken;
+    @NotNull
+    @Schema(description = "가입경로")
+    private final String refreshToken;
+    @NotNull
+    @Schema(description = "이메일")
+    private final String email;
 }
