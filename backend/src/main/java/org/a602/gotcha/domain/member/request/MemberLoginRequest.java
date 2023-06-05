@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@Builder
 @AllArgsConstructor(staticName = "of")
 public final class MemberLoginRequest {
     @NotNull
