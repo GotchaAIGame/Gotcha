@@ -8,7 +8,6 @@ import CreatorMainPage from "./CreatorMainPage";
 import EditProfilePage from "./EditProfilePage";
 import CreateGamePage from "./CreateGamePage";
 import CustomGamePage from "./CustomGamePage";
-import CreatorGameDetailPage from "./CreatorGameDetailPage";
 import PlayerNewGamePage from "./PlayerNewGamePage";
 import GamePage from "./GamePage";
 import ModalTestPage from "./ModalTestPage";
@@ -34,7 +33,6 @@ export default function Routers() {
       </Route>
       <Route path="/create/game" element={<CreateGamePage />} />
       <Route path="/custom/:gamepin" element={<CustomGamePage />} />
-      <Route path="/game/detail/:gamepin" element={<CreatorGameDetailPage />} />
       <Route path="/edit/:gamepin" element={<EditGamePage />} />
 
       {/* Player */}

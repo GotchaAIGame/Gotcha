@@ -46,13 +46,14 @@ export default function GamePage() {
       }
     });
 
-    gamePlayAPI.clear(roomId, nickname, solvedCnt, endTime);
-
-    localStorage.removeItem("curUserInfo");
-    localStorage.removeItem("solved");
-    modalHandler();
-    navigate(`/game/${roomPin.roomPin}/rank`, {
-      state: { roomId, fromMypage: false },
+    const result = gamePlayAPI.clear(roomId, nickname, solvedCnt, endTime);
+    result.then(() => {
+      localStorage.removeItem("curUserInfo");
+      localStorage.removeItem("solved");
+      modalHandler();
+      navigate(`/game/${roomPin.roomPin}/rank`, {
+        state: { roomId, fromMypage: false },
+      });
     });
   };
 

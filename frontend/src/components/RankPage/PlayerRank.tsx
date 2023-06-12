@@ -38,6 +38,7 @@ export default function PlayerRank() {
     }
 
     if (fromMy === false && playerRoom !== 0 && nickname) {
+      console.log(playerRoom, nickname);
       const api = gamePlayAPI.rank(playerRoom, nickname);
       api.then((res) => {
         const users = res.data.result;
@@ -45,7 +46,6 @@ export default function PlayerRank() {
       });
     }
   }, [location.pathname, playerRoom, nickname, fromMy]);
-
   return (
     <section className="player-rank-wrapper">
       <header className="ranking-title-flag">
