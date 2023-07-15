@@ -3,7 +3,6 @@ package org.a602.gotcha.domain.participant.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.a602.gotcha.domain.participant.entity.Participant;
 import org.a602.gotcha.domain.participant.entity.QParticipant;
-import org.a602.gotcha.domain.room.entity.QRoom;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,12 +19,9 @@ public class ParticipantQueryRepository {
     }
 
     QParticipant participant = QParticipant.participant;
-    QRoom room = QRoom.room;
 
     public List<Participant> getAllRank(Long roomId) {
         return query.selectFrom(participant)
-                .join(participant.room, room)
-                .fetchJoin()
                 .where(participant.room.id.eq(roomId),
                         participant.isFinished.isTrue())
                 .orderBy(
@@ -36,8 +32,6 @@ public class ParticipantQueryRepository {
 
     public List<Participant> getTop3Rank(Long roomId) {
         return query.selectFrom(participant)
-                .join(participant.room, room)
-                .fetchJoin()
                 .where(participant.room.id.eq(roomId),
                         participant.isFinished.isTrue())
                 .orderBy(
@@ -50,9 +44,9 @@ public class ParticipantQueryRepository {
     public long getParticipantRank(Long roomId, Duration participantDuration, Integer participantSolvedCnt) {
 
         // Count the number of participants with a lower duration in the same room
-        long rank = query.selectFrom(participant)
-                .join(participant.room, room)
-                .fetchJoin()
+        long rank = query
+                .select(participant.count())
+                .from(participant)
                 .where(
                         participant.room.id.eq(roomId),
                         participant.isFinished.isTrue(),
@@ -60,7 +54,7 @@ public class ParticipantQueryRepository {
                                 .or(participant.solvedCnt.eq(participantSolvedCnt)
                                         .and(participant.duration.lt(participantDuration)))
                 )
-                .fetch().size();
+                .fetchFirst();
 
         // Add 1 to the rank to get the participant's actual rank (since ranks start at 1)
         return rank + 1;
