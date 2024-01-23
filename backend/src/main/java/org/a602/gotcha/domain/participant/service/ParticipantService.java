@@ -15,6 +15,8 @@ import org.a602.gotcha.domain.room.entity.Room;
 import org.a602.gotcha.domain.participant.exception.ParticipantLoginFailedException;
 import org.a602.gotcha.domain.room.exception.RoomNotFoundException;
 import org.a602.gotcha.domain.room.repository.RoomRepository;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,6 +91,7 @@ public class ParticipantService {
         // Duration 계산
         Duration duration = Duration.between(participant.getStartTime(), request.getEndTime());
         participant.registerRecord(request.getSolvedCnt(), request.getEndTime(), duration, true);
+
         // 잘 업데이트 되었는지 확인
         if (participant.getIsFinished().equals(true)
                 && participant.getEndTime().equals(request.getEndTime())
@@ -98,6 +101,25 @@ public class ParticipantService {
         } else {
             throw new UpdateParticipantFailedException();
         }
+    }
+
+    @CachePut(value = "top3RankList", key = "#roomId")
+    public List<ParticipantRankListResponse> updateGameRecordToCache(Long roomId) {
+        List<Participant> top3ParticipantList = participantQueryRepository.getTop3Rank(roomId);
+        List<ParticipantRankListResponse> result = new ArrayList<>();
+
+        for (int i = 0; i < top3ParticipantList.size(); i++) {
+            Participant participant = top3ParticipantList.get(i);
+
+            result.add(ParticipantRankListResponse.builder()
+                    .grade(i + 1L)
+                    .nickname(participant.getNickname())
+                    .duration(convertDuration(participant.getDuration()))
+                    .solvedCnt(participant.getSolvedCnt())
+                    .build());
+        }
+
+        return result;
     }
 
     @Transactional
@@ -112,62 +134,40 @@ public class ParticipantService {
         }
     }
 
+    @Cacheable(value = "top3RankList", key = "#request.roomId")
     @Transactional(readOnly = true)
     public List<ParticipantRankListResponse> getRankList(RankInfoRequest request) {
         checkRoomValidation(request.getRoomId());
-        Participant participant = findParticipant(request.getRoomId(), request.getNickname());
-        // 랭킹을 3위까지 가져오기
+
         List<Participant> top3ParticipantList = participantQueryRepository.getTop3Rank(request.getRoomId());
-        // 랭킹 3위까지 돌면서 목록 만들어주고 3위 안에 유저가 있으면 바로 목록 넘기기
         List<ParticipantRankListResponse> result = new ArrayList<>();
-        boolean flag = false;
+
         for (int i = 0; i < top3ParticipantList.size(); i++) {
-            Participant curr = top3ParticipantList.get(i);
-            if (curr.getNickname().equals(request.getNickname())) {
-                flag = true;
-                result.add(ParticipantRankListResponse.builder()
-                        .grade(i + 1L)
-                        .nickname(curr.getNickname())
-                        .duration(convertDuration(curr.getDuration()))
-                        .isUser(true)
-                        .solvedCnt(curr.getSolvedCnt())
-                        .build());
-            } else {
-                result.add(ParticipantRankListResponse.builder()
-                        .grade(i + 1L)
-                        .nickname(curr.getNickname())
-                        .duration(convertDuration(curr.getDuration()))
-                        .isUser(false)
-                        .solvedCnt(curr.getSolvedCnt())
-                        .build());
-            }
-        }
-        // 3등 안에 유저가 없다면 유저 등수를 찾아 더하여 반환
-        if (!flag) {
-            Long grade = participantQueryRepository.getParticipantRank(request.getRoomId(), participant.getDuration(), participant.getSolvedCnt());
+            Participant participant = top3ParticipantList.get(i);
+
             result.add(ParticipantRankListResponse.builder()
-                    .grade(grade)
+                    .grade(i + 1L)
                     .nickname(participant.getNickname())
                     .duration(convertDuration(participant.getDuration()))
-                    .isUser(true)
                     .solvedCnt(participant.getSolvedCnt())
                     .build());
         }
+
         return result;
     }
 
     @Transactional(readOnly = true)
     public List<AllRankListResponse> getAllRankList(Long roomId) {
         checkRoomValidation(roomId);
-        List<Participant> allRankList  = participantQueryRepository.getAllRank(roomId);
+        List<Participant> allRankList = participantQueryRepository.getAllRank(roomId);
         List<AllRankListResponse> responseRank = new ArrayList<>();
-        for(int i = 1; i <= allRankList.size(); i++) {
+        for (int i = 1; i <= allRankList.size(); i++) {
             AllRankListResponse ranker = AllRankListResponse.builder()
                     .grade(i)
                     .nickname(allRankList.get(i - 1).getNickname())
                     .solvedCnt(allRankList.get(i - 1).getSolvedCnt())
                     .duration(convertDuration(allRankList.get(i - 1).getDuration()))
-                    .phoneNumber(allRankList.get(i-1).getPhoneNumber())
+                    .phoneNumber(allRankList.get(i - 1).getPhoneNumber())
                     .build();
             responseRank.add(ranker);
         }
@@ -175,8 +175,8 @@ public class ParticipantService {
     }
 
     private void checkRoomValidation(Long roomID) {
-        boolean isExist= roomRepository.existsById(roomID);
-        if(!isExist) {
+        boolean isExist = roomRepository.existsById(roomID);
+        if (!isExist) {
             throw new RoomNotFoundException();
         }
     }
@@ -184,7 +184,7 @@ public class ParticipantService {
     private void checkParticipantValidation(Long roomId, String nickname) {
 
         boolean isExist = participantRepository.existsParticipantByRoomIdAndNickname(roomId, nickname);
-        if(!isExist) {
+        if (!isExist) {
             throw new ParticipantNotFoundException();
         }
     }
@@ -203,7 +203,7 @@ public class ParticipantService {
     private boolean checkDuplicateNickname(Long roomId, String nickname) {
 
         boolean isExist = participantRepository.existsParticipantByRoomIdAndNickname(roomId, nickname);
-        if(isExist) {
+        if (isExist) {
             throw new DuplicateNicknameException();
         } else {
             return false;

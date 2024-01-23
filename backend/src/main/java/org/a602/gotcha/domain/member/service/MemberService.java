@@ -68,7 +68,7 @@ public class MemberService {
             throw new PasswordMismatchException();
         }
 
-        return new MemberLoginResponse(member, BEARER + accessToken, BEARER + refreshToken);
+        return MemberLoginResponse.from(member, BEARER + accessToken, BEARER + refreshToken);
     }
 
     @Transactional(readOnly = true)
@@ -81,7 +81,7 @@ public class MemberService {
         final String accessToken = jwtTokenProvider.createAccessToken(member);
         final String refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
 
-        return new MemberLoginResponse(member, BEARER + accessToken, BEARER + refreshToken);
+        return MemberLoginResponse.from(member, BEARER + accessToken, BEARER + refreshToken);
     }
 
     @Transactional(readOnly = true)
@@ -96,22 +96,19 @@ public class MemberService {
     public String logout(final MemberLogoutRequest memberLogoutRequest) {
         // logout유저가 새로 로그인 할 시 토큰을 새로 만들어서 로그인.
         // 기존 logout처리했던 토큰은 유효시간 지나면 자동으로 삭제됌.
-        return jwtTokenProvider.registerLogoutUser(memberLogoutRequest)
-                .orElseThrow(() -> new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage()));
+        return jwtTokenProvider.registerLogoutUser(memberLogoutRequest).orElseThrow(() -> new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage()));
     }
 
     @Transactional(readOnly = true)
     public MemberInformationResponse findMemberInformation(final Long id) {
-        final Member member = memberRepository.findById(id)
-                .orElseThrow(MemberNotFoundException::new);
+        final Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
 
-        return new MemberInformationResponse(member);
+        return MemberInformationResponse.from(member);
     }
 
     @Transactional
     public Long deleteMemberById(final Long id) {
-        final Member member = memberRepository.findById(id)
-                .orElseThrow(MemberNotFoundException::new);
+        final Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         memberRepository.deleteById(member.getId());
 
         return id;
@@ -119,8 +116,7 @@ public class MemberService {
 
     @Transactional
     public MemberUpdateResponse updateMember(final MemberUpdateRequest memberUpdateRequest) {
-        final Member member = memberRepository.findById(memberUpdateRequest.getId())
-                .orElseThrow(MemberNotFoundException::new);
+        final Member member = memberRepository.findById(memberUpdateRequest.getId()).orElseThrow(MemberNotFoundException::new);
 
         String uploadImageUrl = null;
 
@@ -133,7 +129,7 @@ public class MemberService {
 
         member.updateMember(memberUpdateRequest.toEntity(), uploadImageUrl);
 
-        return new MemberUpdateResponse(member);
+        return MemberUpdateResponse.from(member);
     }
 
 }
