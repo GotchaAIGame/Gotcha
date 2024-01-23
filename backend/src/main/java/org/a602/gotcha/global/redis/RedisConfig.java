@@ -9,23 +9,23 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
 public class RedisConfig {
-	@Value("${spring.redis.host}")
-	private String host;
+    @Value("${spring.redis.session.host}")
+    private String host;
 
-	@Value("${spring.redis.port}")
-	private int port;
+    @Value("${spring.redis.session.port}")
+    private int port;
 
-	@Bean
-	public RedisConnectionFactory redisConnectionFactory() {
-		return new LettuceConnectionFactory(host, port);
-	}
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(host, port);
+    }
 
-	@Bean
-	public StringRedisTemplate stringRedisTemplate() {
-		final StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-		stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
+    @Bean("redisTemplate")
+    public StringRedisTemplate stringRedisTemplate() {
+        final StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
 
-		return stringRedisTemplate;
-	}
+        return stringRedisTemplate;
+    }
 
 }

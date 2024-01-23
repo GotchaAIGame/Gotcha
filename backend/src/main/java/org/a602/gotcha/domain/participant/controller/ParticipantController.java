@@ -92,9 +92,9 @@ public class ParticipantController {
     @ApiResponse(responseCode = "200", description = "기록 등록 성공")
     @ApiResponse(responseCode = "404", description = "1. 해당하는 방 없음 \t\n 2. 해당하는 유저 없음")
     @PostMapping("/clear")
-    public BaseResponse<Object> registerGameRecord(@Valid @RequestBody ProblemFinishRequest request) {
+    public BaseResponse<List<ParticipantRankListResponse>> registerGameRecord(@Valid @RequestBody ProblemFinishRequest request) {
         participantService.updateGameRecord(request);
-        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+        return new BaseResponse<>(participantService.updateGameRecordToCache(request.getRoomId()));
     }
 
     @Operation(description = "휴대폰 번호 입력하기 API", summary = "휴대폰 번호 입력하기 API")
